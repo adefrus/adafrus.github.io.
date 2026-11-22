@@ -62,18 +62,18 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Figtree','Noto 
 h1,h2,h3{font-family:var(--hf,'Noto Serif Ethiopic'),'Newsreader',Georgia,serif;margin:0;line-height:1.22}
 
 /* Ethiopian woven tilet band */
-.stripe{height:12px;background:repeating-conic-gradient(from 45deg at 50% 50%,#1B7350 0 25%,#E09F1F 0 50%,#9E1B1E 0 75%,#141A29 0);background-size:12px 12px}
+.stripe{height:10px;background:repeating-conic-gradient(from 45deg at 50% 50%,#1B7350 0 25%,#E09F1F 0 50%,#9E1B1E 0 75%,#141A29 0);background-size:10px 10px}
 
-/* Header */
-header{display:flex;align-items:center;gap:10px;padding:10px 16px;margin:0;flex-wrap:wrap;background:var(--hero);color:#FFFDF9;box-shadow:0 2px 12px rgba(0,0,0,.18);position:sticky;top:0;z-index:15}
+/* Full-bleed Header */
+header{display:flex;align-items:center;gap:12px;padding:10px clamp(16px,3vw,40px);margin:0;flex-wrap:wrap;background:var(--hero);color:#FFFDF9;box-shadow:0 2px 12px rgba(0,0,0,.18);position:sticky;top:0;z-index:15}
 header .hr{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 header button,header select{color:#FFFDF9;border-color:rgba(255,255,255,.32);background:rgba(255,255,255,.08)}
 header button:hover,header select:hover{background:rgba(255,255,255,.16)}
 header option{color:#141A29;background:#fff}
 header .note{color:#F3DFDC;font-weight:600}
-#hq{flex:1 1 200px;max-width:480px;order:3;background:rgba(255,255,255,.95);color:#141A29;border:none;border-radius:999px;padding:8px 16px}
+#hq{flex:1 1 220px;max-width:560px;order:3;background:rgba(255,255,255,.95);color:#141A29;border:none;border-radius:999px;padding:8px 18px}
 #hq::placeholder{color:#666E80}
-.logo{font-family:var(--hf,'Noto Serif Ethiopic'),serif;font-weight:800;background:#FFFDF9;color:#9E1B1E!important;padding:2px 15px;border-radius:999px;font-size:1.45rem;letter-spacing:-.01em;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.logo{font-family:var(--hf,'Noto Serif Ethiopic'),serif;font-weight:800;background:#FFFDF9;color:#9E1B1E!important;padding:2px 16px;border-radius:999px;font-size:1.45rem;letter-spacing:-.01em;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 
 button{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);padding:8px 14px;border-radius:999px;transition:transform .12s,background .15s,border-color .15s}
 button:active{transform:scale(.97)}
@@ -82,52 +82,53 @@ button.gold{background:var(--gold);border-color:var(--gold);color:var(--gold-ink
 button.gold:hover{filter:brightness(1.06)}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
-main{max-width:1040px;margin:auto;padding:0 16px 60px}
+/* Full-screen responsive main container */
+main{width:100%;max-width:1440px;margin:auto;padding:0 clamp(14px,3vw,36px) 60px}
 #tabs{display:none}
 .tools{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
 input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 13px}
-#q{flex:1 1 200px}
+#q{flex:1 1 220px}
 
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}
 .chips button{padding:6px 13px;font-size:.86rem;border-color:var(--line);background:var(--surface)}
 .chips button.on{background:var(--hero);color:#fff;border-color:var(--hero);font-weight:600}
 
-/* IMDb-inspired Spotlight + Up Next Hero */
-.imdb-hero{display:grid;grid-template-columns:1.85fr 1fr;gap:14px;margin-top:16px;align-items:stretch}
-.spot{position:relative;overflow:hidden;border-radius:20px;color:#FFFDF9;background:radial-gradient(circle at 85% 15%,rgba(224,159,31,.38),transparent 50%),linear-gradient(135deg,var(--hero),var(--hero-dark) 78%);padding:24px 20px;display:grid;grid-template-columns:1fr 142px;gap:18px;align-items:center;min-height:310px;box-shadow:0 12px 28px rgba(0,0,0,.22)}
-.spot:before{content:"አ";position:absolute;right:-16px;bottom:-80px;font-family:'Noto Serif Ethiopic',serif;font-size:18rem;line-height:1;color:rgba(255,255,255,.06);pointer-events:none}
-.spot .k{display:inline-flex;align-items:center;gap:6px;letter-spacing:.14em;font-size:.73rem;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px}
-.spot h1{font-size:clamp(1.7rem,4.5vw,2.65rem);font-weight:800;color:#FFFDF9}
-.spot .sub-author{color:#F5D0C5;font-size:.95rem;margin-top:4px;font-weight:600}
-.spot p{color:#F2E4E1;max-width:44ch;font-size:.93rem;margin:10px 0 12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.spot .bk{transform:rotate(3deg);filter:drop-shadow(0 16px 24px rgba(0,0,0,.5));border:none;padding:0;background:none;border-radius:10px}
-.spot-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+/* Full-screen IMDb-inspired Spotlight + Up Next Hero */
+.imdb-hero{display:grid;grid-template-columns:2.1fr 1fr;gap:18px;margin-top:16px;align-items:stretch;min-height:clamp(340px,54vh,520px)}
+.spot{position:relative;overflow:hidden;border-radius:22px;color:#FFFDF9;background:radial-gradient(circle at 85% 15%,rgba(224,159,31,.42),transparent 52%),linear-gradient(135deg,var(--hero),var(--hero-dark) 80%);padding:clamp(22px,3.2vw,42px);display:grid;grid-template-columns:1fr clamp(135px,15vw,210px);gap:clamp(16px,2.5vw,32px);align-items:center;box-shadow:0 14px 32px rgba(0,0,0,.22)}
+.spot:before{content:"አ";position:absolute;right:-16px;bottom:-90px;font-family:'Noto Serif Ethiopic',serif;font-size:22rem;line-height:1;color:rgba(255,255,255,.06);pointer-events:none}
+.spot .k{display:inline-flex;align-items:center;gap:6px;letter-spacing:.14em;font-size:.78rem;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
+.spot h1{font-size:clamp(1.85rem,3.6vw,3.1rem);font-weight:800;color:#FFFDF9}
+.spot .sub-author{color:#F5D0C5;font-size:clamp(.95rem,1.3vw,1.15rem);margin-top:6px;font-weight:600}
+.spot p{color:#F2E4E1;max-width:56ch;font-size:clamp(.92rem,1.1vw,1.05rem);margin:12px 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.spot .bk{transform:rotate(2.5deg);filter:drop-shadow(0 18px 28px rgba(0,0,0,.55));border:none;padding:0;background:none;border-radius:12px;width:100%}
+.spot-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .spot-actions .wl-btn{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.32);font-weight:600}
 .spot-actions .wl-btn.saved{background:var(--green);border-color:var(--green)}
-.dots{display:flex;gap:7px;margin-top:14px}
-.dots button{width:28px;height:5px;padding:0;border-radius:9px;border:none;background:rgba(255,255,255,.3)}
-.dots button.on{background:var(--gold);width:48px}
+.dots{display:flex;gap:8px;margin-top:18px}
+.dots button{width:32px;height:6px;padding:0;border-radius:9px;border:none;background:rgba(255,255,255,.3)}
+.dots button.on{background:var(--gold);width:54px}
 
-/* Up Next Sidebar (IMDb style) */
-.upnext-box{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;justify-content:space-between}
-.upnext-box h3{font-size:1rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.upn-list{display:grid;gap:8px}
-.un{display:flex;gap:10px;text-align:left;border-radius:12px;border:1px solid transparent;background:var(--surface2);padding:7px;align-items:center;width:100%}
-.un.on{border-color:var(--gold);background:var(--surface)}
-.un .cover{width:42px;flex:none;padding:0;border-radius:6px;box-shadow:none}
-.un .cover *{display:none}
-.un strong{display:block;font-size:.88rem;line-height:1.25}
-.un small{display:block;color:var(--muted);font-size:.78rem}
+/* Up Next Sidebar (fills hero height cleanly on desktop) */
+.upnext-box{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.upnext-box h3{font-size:1.05rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.upn-list{display:grid;gap:10px;flex:1}
+.un{display:flex;gap:12px;text-align:left;border-radius:14px;border:1px solid transparent;background:var(--surface2);padding:8px 10px;align-items:center;width:100%}
+.un.on{border-color:var(--gold);background:var(--surface);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.un .cover{width:46px;flex:none;padding:0;border-radius:6px;box-shadow:none}
+.un .cover .cov-txt,.un .cover .badge{display:none}
+.un strong{display:block;font-size:.94rem;line-height:1.25}
+.un small{display:block;color:var(--muted);font-size:.8rem}
 
-/* Section Headers (IMDb yellow/red accent bar) */
-h2.sec{display:flex;align-items:center;gap:10px;font-size:1.35rem;margin:30px 0 14px;font-weight:800}
+/* Section Headers */
+h2.sec{display:flex;align-items:center;gap:10px;font-size:clamp(1.25rem,1.8vw,1.55rem);margin:32px 0 14px;font-weight:800}
 h2.sec:before{content:"";width:5px;height:1.2em;border-radius:4px;background:var(--gold);flex:none}
 h2.sec:after{content:"";flex:1;height:1px;background:var(--line)}
 
-/* Book Cards & IMDb-style Watchlist Ribbon */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:16px;margin-top:14px}
-.row{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;padding-bottom:10px;scrollbar-width:thin;scrollbar-color:var(--hero) transparent}
-.row .card{width:152px;flex:none}
+/* Book Cards & Shelves */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:18px;margin-top:14px}
+.row{display:flex;gap:16px;overflow-x:auto;overflow-y:hidden;padding-bottom:10px;scrollbar-width:thin;scrollbar-color:var(--hero) transparent}
+.row .card{width:168px;flex:none}
 .card{text-align:left;padding:0;border:1px solid var(--line);background:var(--surface);border-radius:14px;overflow:hidden;width:100%;transition:transform .18s,box-shadow .18s;position:relative;display:flex;flex-direction:column}
 .card:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(0,0,0,.14)}
 .cover{aspect-ratio:2/3;display:flex;flex-direction:column;justify-content:space-between;padding:12px;color:#fff;background-image:linear-gradient(155deg,rgba(255,255,255,.16),rgba(0,0,0,.38));position:relative;border-radius:10px;box-shadow:0 6px 16px rgba(0,0,0,.2);overflow:hidden}
@@ -140,34 +141,38 @@ h2.sec:after{content:"";flex:1;height:1px;background:var(--line)}
 .badge{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--gold-ink);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:999px;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.25)}
 
 /* Quick bookmark ribbon on cards */
-.rib{position:absolute;top:0;left:8px;z-index:3;background:rgba(20,26,41,.78);color:#fff;border:none;border-radius:0 0 8px 8px;padding:4px 8px;font-size:.82rem;font-weight:700;line-height:1;backdrop-filter:blur(4px)}
+.rib{position:absolute;top:0;left:8px;z-index:3;background:rgba(20,26,41,.78);color:#fff;border:none;border-radius:0 0 8px 8px;padding:4px 9px;font-size:.85rem;font-weight:700;line-height:1;backdrop-filter:blur(4px)}
 .rib.on{background:var(--green);color:#fff}
 
-.meta{padding:10px 11px;display:flex;flex-direction:column;gap:3px;flex:1}
+.meta{padding:10px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
 .meta .rline{display:flex;align-items:center;gap:4px;font-size:.82rem;font-weight:700;color:var(--ink)}
 .meta .rline .st{color:var(--gold)}
-.meta strong{display:block;font-family:'Noto Serif Ethiopic','Newsreader',serif;font-size:.94rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.meta strong{display:block;font-family:'Noto Serif Ethiopic','Newsreader',serif;font-size:.95rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .meta small{color:var(--muted);font-size:.8rem}
 .stars{color:var(--gold);letter-spacing:1px;white-space:nowrap}
 .stars i{font-style:normal;color:var(--line)}
 
 /* Top 10 IMDb-style numbered cards */
-.t10{display:flex;align-items:flex-end;flex:none;border:none;background:none;padding:0;text-align:left;width:196px;position:relative}
-.t10 .n{font-family:'Newsreader',serif;font-size:6.4rem;font-weight:800;line-height:.78;color:var(--bg);-webkit-text-stroke:2.5px var(--gold);margin-right:-16px;z-index:1;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25))}
-.t10 .cover{width:124px}
+.t10{display:flex;align-items:flex-end;flex:none;border:none;background:none;padding:0;text-align:left;width:210px;position:relative}
+.t10 .n{font-family:'Newsreader',serif;font-size:6.8rem;font-weight:800;line-height:.78;color:var(--bg);-webkit-text-stroke:2.5px var(--gold);margin-right:-16px;z-index:1;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25))}
+.t10 .cover{width:134px}
+
+/* Circular Author Portraits */
+.av{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--hero),#4A0E12);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.6rem;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--gold);position:relative;overflow:hidden}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 
 /* Dialogs & Slide-out Menu */
-dialog{border:none;border-radius:18px;padding:0;max-width:640px;width:calc(100% - 24px);background:var(--surface);color:var(--ink);max-height:92vh;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+dialog{border:none;border-radius:18px;padding:0;max-width:660px;width:calc(100% - 24px);background:var(--surface);color:var(--ink);max-height:92vh;box-shadow:0 20px 50px rgba(0,0,0,.45)}
 dialog::backdrop{background:rgba(8,12,24,.68);backdrop-filter:blur(2px)}
 .dl{padding:20px;display:grid;gap:14px}
-dialog#menu{margin:0;height:100%;max-height:100%;width:290px;max-width:82vw;border-radius:0 20px 20px 0;overflow-y:auto;border-right:1px solid var(--line)}
+dialog#menu{margin:0;height:100%;max-height:100%;width:300px;max-width:84vw;border-radius:0 20px 20px 0;overflow-y:auto;border-right:1px solid var(--line)}
 #menu .mhead{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--line)}
 #menu .mclose{width:36px;height:36px;padding:0;display:grid;place-items:center;border-radius:50%;font-size:1.1rem;font-weight:700;background:var(--surface2)}
 #menu button.mi{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:10px;border:none;padding:10px 12px;font-weight:500}
 #menu button.mi:hover,#menu button.mi.on{background:var(--surface2);color:var(--hero);font-weight:700}
 
-.top{display:flex;gap:14px}
-.top .cover{width:116px;flex:none;border-radius:8px}
+.top{display:flex;gap:16px}
+.top .cover{width:124px;flex:none;border-radius:8px}
 .rate button{border:none;padding:2px;font-size:1.9rem;color:var(--line);line-height:1}
 .rate button.on{color:var(--gold)}
 .rev{border-top:1px solid var(--line);padding-top:10px}
@@ -176,37 +181,35 @@ dialog#menu{margin:0;height:100%;max-height:100%;width:290px;max-width:82vw;bord
 .rev button{padding:3px 10px;font-size:.8rem;border-color:var(--line)}
 
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px}
-.authors{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.authors{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
 .bar{height:12px;background:var(--line);border-radius:99px;overflow:hidden}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold))}
 .note{font-size:.85rem;color:var(--muted)}
 .err{color:var(--red);font-size:.9rem;margin:0;font-weight:600}
-.ok{color:var(--green);font-size:.9rem;margin:0;font-weight:600}
 .form{display:grid;gap:8px}
 .form label{font-size:.85rem;color:var(--muted);font-weight:600}
 
-.av{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--hero),#4A0E12);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.5rem;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--gold)}
 .post{border-top:1px solid var(--line);padding:10px 0}
 .post:first-of-type{border-top:none;padding-top:0}
 .post p{margin:4px 0}
 .vbar{height:10px;background:var(--line);border-radius:99px;overflow:hidden}
 .vbar i{display:block;height:100%;background:var(--hero)}
 
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
-.tiles button{border:none;color:#fff;border-radius:16px;padding:15px 12px;text-align:left;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.12)}
-.tiles button b{display:block;font-size:1.5rem;margin-bottom:4px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px}
+.tiles button{border:none;color:#fff;border-radius:16px;padding:16px 14px;text-align:left;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.tiles button b{display:block;font-size:1.55rem;margin-bottom:4px}
 
-.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.award{border-radius:20px;padding:22px;color:#1F1400;background:linear-gradient(135deg,#F7CA65,#E09F1F);display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-top:28px;box-shadow:0 8px 22px rgba(224,159,31,.25)}
-.award h3{font-size:1.45rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.award{border-radius:20px;padding:24px;color:#1F1400;background:linear-gradient(135deg,#F7CA65,#E09F1F);display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-top:30px;box-shadow:0 8px 22px rgba(224,159,31,.25)}
+.award h3{font-size:1.5rem}
 .award p{margin:4px 0 0}
 .award button{background:#141A29;color:#fff;border-color:#141A29;font-weight:700}
 
-.mapcard{border-radius:20px;padding:22px;margin-top:18px;color:#fff;background:linear-gradient(rgba(20,26,41,.88),rgba(20,26,41,.88)),repeating-linear-gradient(0deg,#fff2 0 1px,transparent 1px 28px),repeating-linear-gradient(90deg,#fff2 0 1px,transparent 1px 28px);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.mapcard{border-radius:20px;padding:24px;margin-top:18px;color:#fff;background:linear-gradient(rgba(20,26,41,.88),rgba(20,26,41,.88)),repeating-linear-gradient(0deg,#fff2 0 1px,transparent 1px 28px),repeating-linear-gradient(90deg,#fff2 0 1px,transparent 1px 28px);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
 
 /* Bottom Navigation Bar */
 #bn{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:20;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
-#bn button{border:none;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.72rem;padding:4px 2px;border-radius:12px;color:var(--muted);font-weight:600}
+#bn button{border:none;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.74rem;padding:4px 2px;border-radius:12px;color:var(--muted);font-weight:600}
 #bn button b{font-size:1.22rem;line-height:1}
 #bn button.on{color:var(--hero);background:rgba(158,27,30,.12)}
 
@@ -222,9 +225,9 @@ footer#ft{background:var(--hero-dark);color:#E5DCE0;padding:28px 18px;text-align
 .plans,.memb{display:none}
 #bell{border-color:rgba(255,255,255,.35)}
 
-@media (max-width:780px){
-  .imdb-hero{grid-template-columns:1fr}
-  .upn-list{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+@media (max-width:860px){
+  .imdb-hero{grid-template-columns:1fr;min-height:auto}
+  .upn-list{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
   .two{grid-template-columns:1fr}
 }
 @media (max-width:540px){
@@ -327,7 +330,7 @@ p1:["የተረጋገጠ ምልክት","Verified badge","Mallattoo mirkanaa'e","�
 a1:["ያለ ማስታወቂያ","No ads","Beeksisa malee","ብዘይ መወከሲ"],a2:["የራስዎ ዝርዝሮች","Custom lists","Tarree dhuunfaa","ናይ ባዕልኹም ዝርዝር"],a3:["የንባብ ስታትስቲክስ","Reading stats","Istaatistiksii dubbisuu","ስታቲስቲክስ ንባብ"],
 claim:["የደራሲ መገለጫ ክፈት","Create author profile","Piroofaayilii barreessaa uumi","መገለጫ ደራሲ ፍጠር"],join:["ተጠባባቂ ዝርዝር ይቀላቀሉ","Join the waitlist","Tarree eegumsaa seeni","ዝርዝር ተጸበይቲ ተሓወሱ"],
 nb:["መጽሐፍ ጨምር","Add a book","Kitaaba dabali","መጽሓፍ ወስኽ"],eb:["መጽሐፍ አስተካክል","Edit book","Kitaaba gulaali","መጽሓፍ ኣሰናብድ"],
-ft:["Amharic title","English title","Author (Amharic)","Author (English)","Language","Genre","Year","Description (Amharic)","Description (English)","Cover picture"],
+ft:["Amharic title","English title","Author (Amharic)","Author (English)","Language","Genre","Year","Description (Amharic)","Description (English)","Cover picture (or paste image URL)"],
 note:["የኢትዮጵያ መጻሕፍት ማህበረሰብ — አደፍርስ።","Adafrus — Ethiopian books & reading community.","Adafrus — Hawaasa dubbisaa kitaabota Itoophiyaa.","ኣደፍርስ — ማሕበረሰብ መጻሕፍቲ ኢትዮጵያ።"],
 newb:["አዲስ","New","Haaraa","ሓድሽ"],pwn:["መለያዎ በአስተማማኝ ሁኔታ ይቀመጣል።","Accounts are stored securely in Supabase.","Akkaawuntiin kee nageenyaan olkaa'ama.","ኣካውንትኩም ብውሑስ ይዕቀብ።"]};
 
@@ -339,11 +342,24 @@ kid:["የልጆች","Children's","Ijoollee","ናይ ቆልዑ"],slf:["ራስን 
 const LN={am:"አማርኛ",om:"Afaan Oromoo",ti:"ትግርኛ",en:"English"},LK=Object.keys(LN),GK=Object.keys(GN);
 const tr=k=>T[k][li],gn=k=>GN[k][li];
 
-// Real Ethiopian Books Starter Catalog (28 books across Amharic, English, Afaan Oromoo, Tigrinya)
+// Verified Author Portraits from Wikimedia Commons (public domain / CC-licensed)
+const AUTHOR_PHOTOS={
+  "ሀዲስ ዓለማየሁ":"https://commons.wikimedia.org/wiki/Special:FilePath/Haddis_Alemayehu_in_1961.jpg?width=200",
+  "በዓሉ ግርማ":"https://commons.wikimedia.org/wiki/Special:FilePath/Baalu_Girma.jpg?width=200",
+  "ማዕዛ መንግሥቴ":"https://commons.wikimedia.org/wiki/Special:FilePath/Maaza_Mengiste_at_BookExpo_(05586)_(cropped).jpg?width=200",
+  "ቀዳማዊ ኃይለ ሥላሴ":"https://commons.wikimedia.org/wiki/Special:FilePath/Haile-selassie-ethiopian_king.webp?width=200",
+  "በዕውቀቱ ሥዩም":"https://commons.wikimedia.org/wiki/Special:FilePath/Bewketu.jpg?width=200",
+  "ዲናው መንግሥቱ":"https://commons.wikimedia.org/wiki/Special:FilePath/Dinaw_Mengestu_003.JPG?width=200",
+  "አብርሃም ቨርጌዝ":"https://commons.wikimedia.org/wiki/Special:FilePath/Dr_Abraham_Verghese_in_2023_06.jpg?width=200",
+  "ክሌመንታይን ዋማሪያ":"https://commons.wikimedia.org/wiki/Special:FilePath/Clemantine_Wamariya.jpg?width=200",
+  "ሎሬት ጸጋዬ ገብረመድኅን":"https://commons.wikimedia.org/wiki/Special:FilePath/Tsegaye_Gabre-Medhin.jpg?width=200"
+};
+
+// Expanded Ethiopian Books Starter Catalog (38 real Ethiopian books with ISBNs for cover fetching)
 const STARTER_BOOKS=[
-{id:1,t:"ፍቅር እስከ መቃብር",e:"Fiker Eske Mekaber",a:"ሀዲስ ዓለማየሁ",ae:"Haddis Alemayehu",l:"am",g:"fic",y:1958,c:"#1B7350",s:"በጎጃም የመደብ ልዩነትን የሚሻገር የበዛብህና የሰብለወንጌል የፍቅር ታሪክ።",se:"A classic love story between Bezabih and Seblewongel crossing class lines in Gojjam.",r:[0,0]},
-{id:2,t:"ኦሮማይ",e:"Oromay",a:"በዓሉ ግርማ",ae:"Be'alu Girma",l:"am",g:"pol",y:1983,c:"#8A1C32",s:"ጋዜጠኛ ጸጋዬ ኃይለማርያም በቀይ ኮከብ ዘመቻ ወቅት የሚያየው እውነትና የፖለቲካ ውጥረት።",se:"Journalist Tsegaye Hailemariam uncovers harsh truths during the Red Star campaign.",r:[0,0]},
-{id:3,t:"አደፍርስ",e:"Adefris",a:"ዳኜ ወርቁ",ae:"Dagnachew Worku",l:"am",g:"fic",y:1962,c:"#9E1B1E",s:"አንድ ወጣት ምሁር ከባህል፣ ከህብረተሰቡና ከራሱ ምርጫ ጋር የሚያደርገው ጥልቅ ትግል።",se:"A young intellectual struggles between tradition, society, and his own choices.",r:[0,0]},
+{id:1,t:"ፍቅር እስከ መቃብር",e:"Fiker Eske Mekaber",a:"ሀዲስ ዓለማየሁ",ae:"Haddis Alemayehu",l:"am",g:"fic",y:1958,c:"#1B7350",isbn:"9789994492008",s:"በጎጃም የመደብ ልዩነትን የሚሻገር የበዛብህና የሰብለወንጌል የፍቅር ታሪክ።",se:"A classic love story between Bezabih and Seblewongel crossing class lines in Gojjam.",r:[0,0]},
+{id:2,t:"ኦሮማይ",e:"Oromay",a:"በዓሉ ግርማ",ae:"Be'alu Girma",l:"am",g:"pol",y:1983,c:"#8A1C32",isbn:"9789994489022",s:"ጋዜጠኛ ጸጋዬ ኃይለማርያም በቀይ ኮከብ ዘመቻ ወቅት የሚያየው እውነትና የፖለቲካ ውጥረት።",se:"Journalist Tsegaye Hailemariam uncovers harsh truths during the Red Star campaign.",r:[0,0]},
+{id:3,t:"አደፍርስ",e:"Adefris",a:"ዳኜ ወርቁ",ae:"Dagnachew Worku",l:"am",g:"fic",y:1962,c:"#9E1B1E",isbn:"9781569021316",s:"አንድ ወጣት ምሁር ከባህል፣ ከህብረተሰቡና ከራሱ ምርጫ ጋር የሚያደርገው ጥልቅ ትግል።",se:"A young intellectual struggles between tradition, society, and his own choices.",r:[0,0]},
 {id:4,t:"The Shadow King",e:"The Shadow King",a:"ማዕዛ መንግሥቴ",ae:"Maaza Mengiste",l:"en",g:"his",y:2019,c:"#1C2742",isbn:"9780393244762",s:"በ1935 የጣሊያን ወረራ ወቅት ኢትዮጵያውያን ሴት አርበኞች ያደረጉት ተጋድሎ።",se:"Ethiopian women soldiers take up arms during Mussolini's 1935 invasion.",r:[0,0]},
 {id:5,t:"ካድማስ ባሻገር",e:"Kadmas Bashagger",a:"በዓሉ ግርማ",ae:"Be'alu Girma",l:"am",g:"rom",y:1974,c:"#B56D17",s:"በአዲስ አበባ የአበራ ወርቁ የጥበብ ምኞት፣ የፍቅርና የተስፋ መቁረጥ ታሪክ።",se:"Abera Worku's artistic ambition, love, and disillusionment in Addis Ababa.",r:[0,0]},
 {id:6,t:"ሐተታ ዘርዓ ያዕቆብ",e:"Hatata Zera Yacob",a:"ዘርዓ ያዕቆብ",ae:"Zera Yacob",l:"am",g:"phi",y:1667,c:"#2F3F6B",s:"የ17ኛው ክፍለ ዘመን ኢትዮጵያዊ ፈላስፋ በምክንያት፣ በእኩልነትና በእምነት ላይ የጻፈው ጥልቅ ፍልስፍና።",se:"A 17th-century Ethiopian philosopher's landmark treatise on reason, equality, and faith.",r:[0,0]},
@@ -361,19 +377,29 @@ const STARTER_BOOKS=[
 {id:18,t:"The Girl Who Smiled Beads",e:"The Girl Who Smiled Beads",a:"ክሌመንታይን ዋማሪያ",ae:"Clemantine Wamariya",l:"en",g:"aut",y:2018,c:"#8C4A27",isbn:"9780451495334",s:"የስደት፣ የጽናትና አዲስ ሕይወት የመገንባት እውነተኛ የሕይወት ታሪክ።",se:"A powerful memoir of displacement, resilience, and rebuilding identity.",r:[0,0]},
 {id:19,t:"Notes from the Hyena's Belly",e:"Notes from the Hyena's Belly",a:"ንጋቱ መዝገቡ",ae:"Nega Mezlekia",l:"en",g:"aut",y:2000,c:"#5C3D2E",isbn:"9780312289140",s:"በጅጅጋ ያደገ ኢትዮጵያዊ ወጣት የልጅነት ትዝታና የአብዮቱ ዘመን እውነተኛ ታሪክ።",se:"An Ethiopian boyhood in Jijiga and coming of age through war and revolution.",r:[0,0]},
 {id:20,t:"የብርሃን ፈለጎች",e:"Yebirhan Felegoch",a:"ይስማዕከ ወርቁ",ae:"Yismaeke Worku",l:"am",g:"fan",y:2010,c:"#362B59",s:"ምናባዊ ዓለምን ከኢትዮጵያዊ ጥበብና ታሪክ ጋር ያዋሐደ ተወዳጅ የዴርቶጋዳ ተከታታይ መጽሐፍ።",se:"A bestselling speculative adventure weaving Ethiopian heritage and science.",r:[0,0]},
-{id:21,t:"ዴርቶጋዳ",e:"Dertogada",a:"ይስማዕከ ወርቁ",ae:"Yismaeke Worku",l:"am",g:"sf",y:2009,c:"#1B4965",s:"በሳይንስ፣ በምስጢርና በሀገር ፍቅር የተገነባ ታዋቂ ኢትዮጵያዊ ልብ ወለድ።",se:"A blockbuster Ethiopian techno-thriller blending science, mystery, and patriotism.",r:[0,0]},
+{id:21,t:"ዴርቶጋዳ",e:"Dertogada",a:"ይስማዕከ ወርቁ",ae:"Yismaeke Worku",l:"am",g:"sf",y:2009,c:"#1B4965",isbn:"9789994484317",s:"በሳይንስ፣ በምስጢርና በሀገር ፍቅር የተገነባ ታዋቂ ኢትዮጵያዊ ልብ ወለድ።",se:"A blockbuster Ethiopian techno-thriller blending science, mystery, and patriotism.",r:[0,0]},
 {id:22,t:"ዣንቶዣራ",e:"Zhantozhara",a:"ዓለማየሁ ዋሴ እሸቴ",ae:"Alemayehu Wasse Eshete",l:"am",g:"his",y:2017,c:"#6B4423",s:"ጥንታዊ የኢትዮጵያ ታሪክና ፍልስፍናን በልብ ወለድ መልክ የሚያቀርብ መጽሐፍ።",se:"An engaging historical novel exploring ancient Ethiopian wisdom and heritage.",r:[0,0]},
-{id:23,t:"Kuusaa Walaloo Oromoo",e:"Anthology of Oromo Poetry",a:"Abbaa Gammachiis",ae:"Abba Gammachis",l:"om",g:"poe",y:2018,c:"#1E6B52",s:"የኦሮሞ ባህላዊና ዘመናዊ ግጥሞች ስብስብ።",se:"A rich collection of traditional and modern Afaan Oromoo poetry.",r:[0,0]},
-{id:24,t:"Godaannisa",e:"The Scar (Godaannisa)",a:"Dhaabaa Wayyeessaa",ae:"Dhaba Wayessa",l:"om",g:"fic",y:1992,c:"#8F2D2D",s:"በአፋን ኦሮሞ የተጻፈ ታዋቂ የፍቅርና የማህበራዊ ሕይወት ልብ ወለድ።",se:"A landmark Afaan Oromoo novel exploring love, memory, and social struggle.",r:[0,0]},
-{id:25,t:"Seenaa fi Aadaa Oromoo",e:"Oromo History and Culture",a:"ፕሮፌሰር መሐመድ ሐሰን",ae:"Mohammed Hassen",l:"om",g:"his",y:2015,c:"#2A5C43",s:"የኦሮሞን ታሪክና የገዳ ሥርዓት ጥበብ የሚያስቃኝ የታሪክ መጽሐፍ።",se:"A historical exploration of Oromo heritage and the Gadaa governance tradition.",r:[0,0]},
-{id:26,t:"ሓደ ዛንታ",e:"Hade Zanta (One Story)",a:"በየነ ሃይለ",ae:"Beyene Haile",l:"ti",g:"fic",y:2005,c:"#6E2C50",s:"በትግርኛ ሥነ-ጽሑፍ ውስጥ ከፍተኛ አድናቆት ያተረፈ ጥልቅ ልብ ወለድ።",se:"An acclaimed Tigrinya novel celebrated for its poetic voice and philosophical depth.",r:[0,0]},
-{id:27,t:"መጽሓፍ ግጥሚ ትግርኛ",e:"Tigrinya Poetry Collection",a:"ልዩ ልዩ ደረስቲ",ae:"Various Poets",l:"ti",g:"poe",y:2020,c:"#334E68",s:"የትግርኛ ባህላዊና ዘመናዊ ግጥሞች ምርጥ ስብስብ።",se:"A curated treasury of classic and contemporary Tigrinya poetry.",r:[0,0]},
-{id:28,t:"የልጆች ተረትና ምሳሌ",e:"Ethiopian Children's Folktales",a:"ልዩ ልዩ",ae:"Various",l:"am",g:"kid",y:2021,c:"#C47D1A",s:"ለልጆች ሥነ-ምግባርና ጥበብን የሚያስተምሩ ኢትዮጵያዊ ተረቶች።",se:"Beloved Ethiopian folktales teaching wisdom and kindness to young readers.",r:[0,0]}
+{id:23,t:"The Thirteenth Sun",e:"The Thirteenth Sun",a:"ዳኜ ወርቁ",ae:"Dagnachew Worku",l:"en",g:"fic",y:1973,c:"#8A3B12",isbn:"9781569021231",s:"በዝቋላ ተራራ ጉዞ ላይ የአባትና የልጅ ግጭት፣ ባህልና እምነት የሚታይበት ታዋቂ ልብ ወለድ።",se:"A father and son pilgrimage to Mount Ziquala reveals deep generational and spiritual divides.",r:[0,0]},
+{id:24,t:"ሌላ ሰው",e:"Lela Sew",a:"ዶ/ር ምሕረት ደበበ",ae:"Dr. Mihret Debebe",l:"am",g:"fic",y:2015,c:"#2B5B6C",s:"በሥነ-ልቦና፣ በቤተሰብ ሕይወትና በሰው ልጅ ማንነት ዙሪያ የሚያጠነጥን ልብ ወለድ።",se:"A psychological novel exploring identity, family bonds, and inner transformation.",r:[0,0]},
+{id:25,t:"ዝጎራ",e:"Zigora",a:"ዓለማየሁ ዋሴ እሸቴ",ae:"Alemayehu Wasse Eshete",l:"am",g:"mys",y:2016,c:"#294D3E",s:"የእመጓ ተከታይ የሆነ በታሪክና በምስጢር የተሞላ ተወዳጅ መጽሐፍ።",se:"The gripping sequel to Emegua delving deeper into Ethiopian monastic mysteries.",r:[0,0]},
+{id:26,t:"ሐዲስ",e:"Haddis",a:"በዓሉ ግርማ",ae:"Be'alu Girma",l:"am",g:"fic",y:1982,c:"#7A2E3B",s:"በገጠር ኢትዮጵያ የለውጥ ፍላጎትና የማህበራዊ ሕይወት ትግልን የሚያሳይ ልብ ወለድ።",se:"A powerful novel depicting rural transformation and social struggle in Ethiopia.",r:[0,0]},
+{id:27,t:"የቀይ ኮከብ ጥሪ",e:"The Call of the Red Star",a:"በዓሉ ግርማ",ae:"Be'alu Girma",l:"am",g:"pol",y:1979,c:"#8F1D21",s:"በአብዮቱ ዘመን የነበረውን የፖለቲካ እንቅስቃሴና የወጣቶች ሕይወት የሚተርክ መጽሐፍ።",se:"A vivid chronicle of youth, ideology, and turmoil during the Ethiopian revolution.",r:[0,0]},
+{id:28,t:"እሳት ወይ አበባ",e:"Esat Wey Abeba",a:"ሎሬት ጸጋዬ ገብረመድኅን",ae:"Tsegaye Gabre-Medhin",l:"am",g:"poe",y:1973,c:"#6E263D",s:"የሎሬት ጸጋዬ ገብረመድኅን ታዋቂ የግጥም መድብል።",se:"The celebrated poetry anthology by Ethiopia's Poet Laureate Tsegaye Gabre-Medhin.",r:[0,0]},
+{id:29,t:"ወንጀለኛው ዳኛ",e:"Wenjelenaw Dagna",a:"ሀዲስ ዓለማየሁ",ae:"Haddis Alemayehu",l:"am",g:"fic",y:1981,c:"#235946",s:"ስለ ፍትሕ፣ ሥልጣንና ሥነ-ምግባር የሚጠይቅ የሀዲስ ዓለማየሁ ጥልቅ ልብ ወለድ።",se:"Haddis Alemayehu's penetrating novel examining justice, power, and moral integrity.",r:[0,0]},
+{id:30,t:"የልምዣት",e:"Yelimzhat",a:"ሀዲስ ዓለማየሁ",ae:"Haddis Alemayehu",l:"am",g:"fic",y:1988,c:"#336B58",s:"የባህላዊ ሕይወትንና የማህበረሰብን ዕሴቶች የሚያሳይ ድንቅ ሥራ።",se:"A rich literary portrait of traditional Ethiopian life and enduring community values.",r:[0,0]},
+{id:31,t:"All Our Names",e:"All Our Names",a:"ዲናው መንግሥቱ",ae:"Dinaw Mengestu",l:"en",g:"fic",y:2014,c:"#1E3A5F",isbn:"9780385349987",s:"በምሥራቅ አፍሪካ አብዮትና በአሜሪካ መካከል ስለ ጓደኝነት፣ ስምና ማንነት የተጻፈ ልብ ወለድ።",se:"A sweeping novel of friendship, revolution, and reinvention spanning East Africa and the American Midwest.",r:[0,0]},
+{id:32,t:"How to Read the Air",e:"How to Read the Air",a:"ዲናው መንግሥቱ",ae:"Dinaw Mengestu",l:"en",g:"fic",y:2010,c:"#2E4A62",isbn:"9781594487705",s:"የኢትዮጵያውያን ስደተኛ ቤተሰብ ታሪክና የትውልድ ትዝታ።",se:"A son traces his Ethiopian parents' tumultuous journey across America to understand their past.",r:[0,0]},
+{id:33,t:"Kuusaa Walaloo Oromoo",e:"Anthology of Oromo Poetry",a:"Abbaa Gammachiis",ae:"Abba Gammachis",l:"om",g:"poe",y:2018,c:"#1E6B52",s:"የኦሮሞ ባህላዊና ዘመናዊ ግጥሞች ስብስብ።",se:"A rich collection of traditional and modern Afaan Oromoo poetry.",r:[0,0]},
+{id:34,t:"Godaannisa",e:"The Scar (Godaannisa)",a:"Dhaabaa Wayyeessaa",ae:"Dhaba Wayessa",l:"om",g:"fic",y:1992,c:"#8F2D2D",s:"በአፋን ኦሮሞ የተጻፈ ታዋቂ የፍቅርና የማህበራዊ ሕይወት ልብ ወለድ።",se:"A landmark Afaan Oromoo novel exploring love, memory, and social struggle.",r:[0,0]},
+{id:35,t:"Seenaa fi Aadaa Oromoo",e:"Oromo History and Culture",a:"ፕሮፌሰር መሐመድ ሐሰን",ae:"Mohammed Hassen",l:"om",g:"his",y:2015,c:"#2A5C43",isbn:"9780932415950",s:"የኦሮሞን ታሪክና የገዳ ሥርዓት ጥበብ የሚያስቃኝ የታሪክ መጽሐፍ።",se:"A historical exploration of Oromo heritage and the Gadaa governance tradition.",r:[0,0]},
+{id:36,t:"ሓደ ዛንታ",e:"Hade Zanta (One Story)",a:"በየነ ሃይለ",ae:"Beyene Haile",l:"ti",g:"fic",y:2005,c:"#6E2C50",s:"በትግርኛ ሥነ-ጽሑፍ ውስጥ ከፍተኛ አድናቆት ያተረፈ ጥልቅ ልብ ወለድ።",se:"An acclaimed Tigrinya novel celebrated for its poetic voice and philosophical depth.",r:[0,0]},
+{id:37,t:"መጽሓፍ ግጥሚ ትግርኛ",e:"Tigrinya Poetry Collection",a:"ልዩ ልዩ ደረስቲ",ae:"Various Poets",l:"ti",g:"poe",y:2020,c:"#334E68",s:"የትግርኛ ባህላዊና ዘመናዊ ግጥሞች ምርጥ ስብስብ።",se:"A curated treasury of classic and contemporary Tigrinya poetry.",r:[0,0]},
+{id:38,t:"የልጆች ተረትና ምሳሌ",e:"Ethiopian Children's Folktales",a:"ልዩ ልዩ",ae:"Various",l:"am",g:"kid",y:2021,c:"#C47D1A",s:"ለልጆች ሥነ-ምግባርና ጥበብን የሚያስተምሩ ኢትዮጵያዊ ተረቶች።",se:"Beloved Ethiopian folktales teaching wisdom and kindness to young readers.",r:[0,0]}
 ];
 
 const books=JSON.parse(JSON.stringify(STARTER_BOOKS));
 const revs={};books.forEach(b=>revs[b.id]=[]);
-let notes=[{k:"ntop",id:1,u:1},{k:"nnew",id:9,u:1}],user=null,tab="home",lang="",gen="",sort="top",term="",mine={},goal=12,nid=29,accts={},mode="in";
+let notes=[{k:"ntop",id:1,u:1},{k:"nnew",id:9,u:1}],user=null,tab="home",lang="",gen="",sort="top",term="",mine={},goal=12,nid=39,accts={},mode="in";
 try{user=JSON.parse(localStorage.getItem("adafrus_user")||"null");const s=localStorage.getItem("adafrus_lang");if(s&&LC.includes(s))li=LC.indexOf(s)}catch(e){}
 
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -381,15 +407,21 @@ const stars=n=>{const f=Math.round(n);return '<span class="stars">'+"★".repeat
 const avg=b=>b.r[1]?b.r[0].toFixed(1):"–";
 const bt=b=>li===0?b.t:b.e,ba=b=>li===0?b.a:b.ae,bs=b=>li===0?b.s:b.se;
 
-// Book cover with automatic Open Library fallback if ISBN exists, plus custom uploaded image support
+// Book cover with automatic Open Library fallback if ISBN exists, plus custom uploaded/pasted image support
 const cover=(b,badge)=>{
-  const olUrl=b.isbn?`https://covers.openlibrary.org/b/isbn/${b.isbn}-M.jpg?default=false`:"";
+  const olUrl=b.isbn?`https://covers.openlibrary.org/b/isbn/${b.isbn}-L.jpg?default=false`:"";
   const src=b.img||olUrl;
   return `<div class="cover" style="background-color:${b.c}">
     ${badge?`<div class="badge">${badge}</div>`:""}
     <div class="cov-txt"><b>${esc(bt(b))}</b><span>${esc(ba(b))}</span></div>
     ${src?`<img class="cov-img" src="${esc(src)}" alt="${esc(bt(b))}" loading="lazy" onerror="this.remove()">`:""}
   </div>`;
+};
+
+const authorAvatar=(a,ae)=>{
+  const name=nm(a,ae);
+  const photo=AUTHOR_PHOTOS[a]||"";
+  return `<div class="av" style="margin:auto">${esc(name.charAt(0))}${photo?`<img src="${esc(photo)}" alt="${esc(name)}" loading="lazy" onerror="this.remove()">`:""}</div>`;
 };
 
 function render(){
@@ -420,8 +452,8 @@ function render(){
   if($("#add"))$("#add").onclick=()=>editBook(null);
   $("#sur").onclick=()=>openBook(books[Math.floor(Math.random()*books.length)].id);
  }else if(tab==="authors"){
-  const au=[...new Set(books.map(b=>b.a))];
-  v.innerHTML=`<h2 class="sec">${tr("authors")}</h2><div class="authors">${au.map(a=>{const bs=books.filter(b=>b.a===a);const isVer=bs.some(b=>b.uid&&VER.includes(b.uid));return `<div class="card" style="padding:14px"><button data-a="${esc(a)}" style="border:none;text-align:left;padding:0;background:none"><h3>${esc(ba(bs[0]))} ${isVer?"✓":""}</h3><div class="note">${bs.length} ${tr("st1")}</div></button><div><button data-c="${esc(a)}" style="padding:5px 12px;margin-top:8px">${tr("ctact")}</button></div></div>`}).join("")}</div>`;
+  const au=[...new Set(books.map(b=>b.a))].filter(a=>a!=="—"&&a!=="ልዩ ልዩ"&&a!=="ልዩ ልዩ ደረስቲ");
+  v.innerHTML=`<h2 class="sec">${tr("authors")}</h2><div class="authors">${au.map(a=>{const bs=books.filter(b=>b.a===a);const isVer=bs.some(b=>b.uid&&VER.includes(b.uid));return `<div class="card" style="padding:16px;text-align:center"><button data-a="${esc(a)}" style="border:none;text-align:center;padding:0;background:none;width:100%">${authorAvatar(a,bs[0].ae)}<h3 style="margin-top:10px">${esc(ba(bs[0]))} ${isVer?"✓":""}</h3><div class="note">${bs.length} ${tr("st1")}</div></button><div><button data-c="${esc(a)}" style="padding:5px 14px;margin-top:10px">${tr("ctact")}</button></div></div>`}).join("")}</div>`;
   v.querySelectorAll("[data-a]").forEach(x=>x.onclick=()=>{term=x.dataset.a;lang=gen="";tab="books";render()});
   v.querySelectorAll("[data-c]").forEach(x=>x.onclick=()=>contactAuthor(x.dataset.c));
  }else if(tab==="list"){
@@ -473,9 +505,11 @@ function editBook(id,sub){subMode=!!sub;
  <label>${L[0]}</label><input id="f1" value="${esc(b.t)}"><label>${L[1]}</label><input id="f2" value="${esc(b.e)}">
  <label>${L[2]}</label><input id="f3" value="${esc(b.a)}"><label>${L[3]}</label><input id="f4" value="${esc(b.ae)}">
  <label>${L[4]}</label><select id="f5">${o(LK,x=>LN[x],b.l)}</select><label>${L[5]}</label><select id="f6">${o(GK,gn,b.g)}</select>
- <label>${L[6]}</label><input id="f7" type="number" value="${b.y}"><label>${L[7]}</label><textarea id="f8" rows="2">${esc(b.s)}</textarea><label>${L[8]}</label><textarea id="f9" rows="2">${esc(b.se)}</textarea><label>${L[9]}</label><input id="fi" type="file" accept="image/*"><img id="pv" alt="" src="${esc(b.img||"")}" style="max-height:150px;border-radius:6px;display:${b.img?"block":"none"}"></div>
+ <label>${L[6]}</label><input id="f7" type="number" value="${b.y}"><label>${L[7]}</label><textarea id="f8" rows="2">${esc(b.s)}</textarea><label>${L[8]}</label><textarea id="f9" rows="2">${esc(b.se)}</textarea>
+ <label>${L[9]}</label><input id="fi" type="file" accept="image/*"><input id="furl" type="url" placeholder="https://... (optional cover URL)" value="${esc(b.img&&b.img.startsWith("http")?b.img:"")}"><img id="pv" alt="" src="${esc(b.img||"")}" style="max-height:150px;border-radius:6px;display:${b.img?"block":"none"}"></div>
  <p class="err" id="fe"></p><button class="primary" id="sv">${tr("save")}</button><button id="cx">${tr("cancel")}</button>`;
  let img=b.img||"";
+ $("#furl").oninput=e=>{const u=e.target.value.trim();if(u){img=u;$("#pv").src=img;$("#pv").style.display="block"}};
  $("#fi").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,360/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);img=c.toDataURL("image/jpeg",.72);$("#pv").src=img;$("#pv").style.display="block"};im.src=r.result};r.readAsDataURL(f)};
  $("#cx").onclick=()=>nb?$("#bk").close():openBook(b.id);
  $("#sv").onclick=async()=>{const t=$("#f1").value.trim(),e=$("#f2").value.trim();if(!t&&!e){$("#fe").textContent=tr("e6");return}
@@ -583,7 +617,7 @@ async function adminView(v){
   <h2>${tr("books")} (${books.length})</h2>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
    <button class="gold" id="ab">${tr("add")}</button>
-   <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load 28 Ethiopian Books</button>
+   <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load 38 Ethiopian Books</button>
   </div>
   <input id="af" type="search" placeholder="${tr("search")}" value="${esc(adminFilter)}">
   <div id="ablist">${fBooks.map(row).join("")}</div>
@@ -600,7 +634,7 @@ async function adminView(v){
  $("#ab").onclick=()=>editBook(null);
  $("#af").oninput=e=>{adminFilter=e.target.value;const p=e.target.selectionStart;adminView(v).then(()=>{$("#af").focus();$("#af").setSelectionRange(p,p)})};
 
- // 1-tap Starter Catalog import: keeps any custom books with uploaded photos, replaces old sample placeholders with 28 real Ethiopian books
+ // 1-tap Starter Catalog import: keeps any custom books with uploaded photos, replaces old sample placeholders with 38 real Ethiopian books
  $("#imp").onclick=async()=>{
   $("#imp").disabled=true;$("#imp").textContent="⏳ Saving...";
   const custom=books.filter(b=>b.img&&!(b.e||"").toLowerCase().includes("sample")&&!(b.t||"").includes("ናሙና"));
@@ -652,7 +686,7 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
  if(m["lib/settings"]){SET=m["lib/settings"];applySet()}
  if(m["lib/verified"])VER=m["lib/verified"].ids||[];
  const me=m["data/users/local/me"];if(me){mine=me.mine||{};goal=me.goal||12}
- books.forEach(b=>{revs[b.id]=revs[b.id]||[];recalc(b)});nid=Math.max(...books.map(b=>b.id),28)+1}catch(e){}}
+ books.forEach(b=>{revs[b.id]=revs[b.id]||[];recalc(b)});nid=Math.max(...books.map(b=>b.id),38)+1}catch(e){}}
 
 function chrome(){
  $("#logo").onclick=()=>{tab="home";render();scrollTo(0,0)};
@@ -738,19 +772,18 @@ function openMenu(){
 }
 $("#menuBtn").onclick=openMenu;
 
-// Allow tapping outside ANY dialog (especially the side menu) to close it immediately
 ["menu","bk","login","nt"].forEach(id=>{
  const d=document.getElementById(id);
  if(d)d.addEventListener("click",e=>{if(e.target===d)d.close()});
 });
 
 const VIEWS={},SOLD={};
-let feed=[{i:1,u:"ሰላም",t:"ፍቅር እስከ መቃብርን ለሁለተኛ ጊዜ ጨረስኩ። ድንቅ ነው!",b:1,l:12,d:"2h"},{i:2,u:"Dawit",t:"Looking for good Oromo poetry. Any tips?",b:23,l:4,d:"5h"},{i:3,u:"Hanna",t:"Reading Hatata Zera Yacob. Short but deep.",b:6,l:7,d:"1d"}];
+let feed=[{i:1,u:"ሰላም",t:"ፍቅር እስከ መቃብርን ለሁለተኛ ጊዜ ጨረስኩ። ድንቅ ነው!",b:1,l:12,d:"2h"},{i:2,u:"Dawit",t:"Looking for good Oromo poetry. Any tips?",b:33,l:4,d:"5h"},{i:3,u:"Hanna",t:"Reading Hatata Zera Yacob. Short but deep.",b:6,l:7,d:"1d"}];
 const CR=[{id:1,n:"ናሙና ሃያሲ ፩",e:"Sample Critic 1",s:"ልብ ወለድ",se:"Fiction",rv:[{b:1,sc:9,t:"የመደብ ልዩነትን በሚያምር ቋንቋ ያሳያል።",te:"Shows class divides in beautiful language."},{b:3,sc:8,t:"ቀስ ብሎ የሚያድግ ጠንካራ ታሪክ።",te:"A slow-building, strong story."}]},{id:2,n:"ናሙና ሃያሲ ፪",e:"Sample Critic 2",s:"ታሪክና ፍልስፍና",se:"History and philosophy",rv:[{b:6,sc:9,t:"የሃሳብ ታሪካችን ዋና ምንጭ።",te:"A key source of our intellectual history."},{b:4,sc:8,t:"የተረሳን ታሪክ ያስታውሳል።",te:"Recalls a forgotten history."}]}];
 const ST=[["ናሙና መጽሐፍ መደብር ፩","Sample Bookstore 1","አዲስ አበባ","Addis Ababa","ፒያሳ","Piassa","+251 11 000 0001",9.035,38.75],["ናሙና መጽሐፍ መደብር ፪","Sample Bookstore 2","አዲስ አበባ","Addis Ababa","ቦሌ","Bole","+251 11 000 0002",8.995,38.79],["ናሙና መጽሐፍ መደብር ፫","Sample Bookstore 3","ባሕር ዳር","Bahir Dar","ማዕከል","Center","+251 58 000 0003",11.595,37.39],["ናሙና መጽሐፍ መደብር ፬","Sample Bookstore 4","ሐዋሳ","Hawassa","ማዕከል","Center","+251 46 000 0004",7.06,38.48],["ናሙና መጽሐፍ መደብር ፭","Sample Bookstore 5","መቀሌ","Mekelle","ማዕከል","Center","+251 34 000 0005",13.5,39.47]].map(a=>({n:a[0],e:a[1],c:a[2],ce:a[3],a:a[4],ae:a[5],ph:a[6],la:a[7],lo:a[8]}));
 let aw={1:48,2:35,3:22,6:40,8:30},myVote=null,isMember=false,userPos=null,cityF="";
 const nm=(x,y)=>li===0?x:y,dist=(a,b,c,d)=>{const t=x=>x*Math.PI/180,h=Math.sin(t(c-a)/2)**2+Math.cos(t(a))*Math.cos(t(c))*Math.sin(t(d-b)/2)**2;return 12742*Math.asin(Math.sqrt(h))};
-function authorStats(){const m={};books.forEach(b=>{const x=m[b.a]=m[b.a]||{a:b.a,ae:b.ae,w:0,s:0,c:0,ver:false};x.w+=b.r[1];x.s+=b.r[0]*b.r[1];x.c++;if(b.uid&&VER.includes(b.uid))x.ver=true});return Object.values(m).filter(x=>x.a!=="—"&&x.a!=="ልዩ ልዩ").map(x=>({...x,avg:x.w?x.s/x.w:0})).sort((p,q)=>q.w*q.avg-p.w*p.avg||q.c-p.c)}
+function authorStats(){const m={};books.forEach(b=>{const x=m[b.a]=m[b.a]||{a:b.a,ae:b.ae,w:0,s:0,c:0,ver:false};x.w+=b.r[1];x.s+=b.r[0]*b.r[1];x.c++;if(b.uid&&VER.includes(b.uid))x.ver=true});return Object.values(m).filter(x=>x.a!=="—"&&x.a!=="ልዩ ልዩ"&&x.a!=="ልዩ ልዩ ደረስቲ").map(x=>({...x,avg:x.w?x.s/x.w:0})).sort((p,q)=>q.w*q.avg-p.w*p.avg||q.c-p.c)}
 const postH=p=>{const b=books.find(x=>x.id===p.b);return `<div class="post"><b>${esc(p.u)}</b> <small>${p.d}</small><p>${esc(p.t)}</p>${b?`<small>📖 ${esc(bt(b))}</small> `:""}<button data-lk="${p.i}" style="padding:2px 10px">❤ ${p.l}</button></div>`};
 
 VIEWS.feed=v=>{v.innerHTML=`<h2 class="sec">${tr("feed")}</h2>${user?`<div class="panel"><textarea id="fp2" rows="2" placeholder="${tr("postph")}"></textarea><select id="fb"><option value="0">—</option>${books.map(b=>`<option value="${b.id}">${esc(bt(b))}</option>`).join("")}</select><div><button class="gold" id="fpost">${tr("post")}</button></div></div>`:`<div class="panel"><button class="primary" id="fl">${tr("login")}</button></div>`}<div class="panel" style="margin-top:14px">${feed.map(postH).join("")}</div>`;
@@ -777,7 +810,7 @@ function nav(){const it=[["home","🏠"],["books","📚"],["feed","💬"],["stor
  $("#bn").innerHTML=it.map(([k,i])=>`<button data-nv="${k}" class="${tab===k?"on":""}"><b>${i}</b>${tr(k)}</button>`).join("")+`<button id="nvm"><b>☰</b>${tr("menu")}</button>`;
  $("#bn").querySelectorAll("[data-nv]").forEach(x=>x.onclick=()=>{tab=x.dataset.nv;render();scrollTo(0,0)});$("#nvm").onclick=openMenu}
 
-// IMDb-inspired Home Page tailored for Adafrus
+// Full-screen IMDb-inspired Home Page tailored for Adafrus
 function homeView(v){
  const pub=books.filter(b=>!b.up);
  const rated=[...pub].sort((a,b)=>b.r[0]-a.r[0]||(b.y-a.y));
@@ -789,7 +822,7 @@ function homeView(v){
  const inList=!!mine[f.id];
 
  v.innerHTML=`
- <!-- IMDb-style Featured Spotlight + Up Next Queue -->
+ <!-- Full-screen Featured Spotlight + Up Next Queue -->
  <section class="imdb-hero">
   <div class="spot">
    <div>
@@ -815,19 +848,19 @@ function homeView(v){
   </div>
  </section>
 
- <!-- Top 10 on Adafrus (IMDb bold numbered shelf) -->
+ <!-- Top 10 on Adafrus -->
  <h2 class="sec">${tr("top10")}</h2>
  <div class="row">${rated.slice(0,10).map((b,i)=>`<button class="t10" data-id="${b.id}"><span class="n">${i+1}</span>${cover(b,"★ "+avg(b))}</button>`).join("")}</div>
 
- <!-- Fan Favorites & Trending -->
- ${rowH("fans",rated.slice(0,8))}
+ <!-- Fan Favorites & Reading List -->
+ ${rowH("fans",rated.slice(0,10))}
  ${user&&mylist.length?rowH("fromlist",mylist):""}
 
- <!-- Popular Authors (IMDb circular spotlight) -->
+ <!-- Popular Authors with Portraits -->
  <h2 class="sec">${tr("tauth")}</h2>
- <div class="row">${authorStats().slice(0,10).map(x=>`<button data-ta="${esc(x.a)}" style="border:none;text-align:center;width:124px;flex:none;background:none">
-  <div class="av" style="margin:auto">${esc(nm(x.a,x.ae).charAt(0))}</div>
-  <strong style="display:block;margin-top:9px;font-size:.88rem">${esc(nm(x.a,x.ae))}${x.ver?" ✓":""}</strong>
+ <div class="row">${authorStats().slice(0,12).map(x=>`<button data-ta="${esc(x.a)}" style="border:none;text-align:center;width:130px;flex:none;background:none">
+  ${authorAvatar(x.a,x.ae)}
+  <strong style="display:block;margin-top:9px;font-size:.9rem">${esc(nm(x.a,x.ae))}${x.ver?" ✓":""}</strong>
   <small class="note">${x.c} ${tr("st1")}</small>
  </button>`).join("")}</div>
 
@@ -889,7 +922,7 @@ async function loadShared(){
  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
  feed.splice(0,feed.length,...(fp.data||[]).map(p=>({i:p.id,u:p.user_name,t:p.body,b:p.book_id||0,l:p.likes,d:ago(p.created)})));
  Object.keys(aw).forEach(k=>delete aw[k]);(vt.data||[]).forEach(r=>{aw[r.book_id]=Number(r.n)});
- nid=Math.max(...books.map(b=>b.id),28)+1}
+ nid=Math.max(...books.map(b=>b.id),38)+1}
 async function afterAuth(ses){
  try{if(ses){const u=ses.user,m=u.user_metadata||{};ME={id:u.id,name:m.name||u.email};user={id:u.id,name:m.name||u.email,email:u.email,role:m.role||"reader"};
    const [a,me,mv]=await Promise.all([
