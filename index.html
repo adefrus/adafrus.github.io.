@@ -330,7 +330,7 @@ p1:["የተረጋገጠ ምልክት","Verified badge","Mallattoo mirkanaa'e","�
 a1:["ያለ ማስታወቂያ","No ads","Beeksisa malee","ብዘይ መወከሲ"],a2:["የራስዎ ዝርዝሮች","Custom lists","Tarree dhuunfaa","ናይ ባዕልኹም ዝርዝር"],a3:["የንባብ ስታትስቲክስ","Reading stats","Istaatistiksii dubbisuu","ስታቲስቲክስ ንባብ"],
 claim:["የደራሲ መገለጫ ክፈት","Create author profile","Piroofaayilii barreessaa uumi","መገለጫ ደራሲ ፍጠር"],join:["ተጠባባቂ ዝርዝር ይቀላቀሉ","Join the waitlist","Tarree eegumsaa seeni","ዝርዝር ተጸበይቲ ተሓወሱ"],
 nb:["መጽሐፍ ጨምር","Add a book","Kitaaba dabali","መጽሓፍ ወስኽ"],eb:["መጽሐፍ አስተካክል","Edit book","Kitaaba gulaali","መጽሓፍ ኣሰናብድ"],
-ft:["Amharic title","English title","Author (Amharic)","Author (English)","Language","Genre","Year","Description (Amharic)","Description (English)","Cover picture (or paste image URL)"],
+ft:["Amharic title","English title","Author (Amharic)","Author (English)","Language","Genre","Year","Description (Amharic)","Description (English)","Cover picture (search Google / Facebook / TikTok, upload, or paste)"],
 note:["የኢትዮጵያ መጻሕፍት ማህበረሰብ — አደፍርስ።","Adafrus — Ethiopian books & reading community.","Adafrus — Hawaasa dubbisaa kitaabota Itoophiyaa.","ኣደፍርስ — ማሕበረሰብ መጻሕፍቲ ኢትዮጵያ።"],
 newb:["አዲስ","New","Haaraa","ሓድሽ"],pwn:["መለያዎ በአስተማማኝ ሁኔታ ይቀመጣል።","Accounts are stored securely in Supabase.","Akkaawuntiin kee nageenyaan olkaa'ama.","ኣካውንትኩም ብውሑስ ይዕቀብ።"]};
 
@@ -345,6 +345,7 @@ const tr=k=>T[k][li],gn=k=>GN[k][li];
 // Author Portraits from Wikimedia Commons
 const AUTHOR_PHOTOS={
   "ሀዲስ ዓለማየሁ":"https://commons.wikimedia.org/wiki/Special:FilePath/Haddis_Alemayehu_in_1961.jpg?width=200",
+  "አዳም ረታ":"https://commons.wikimedia.org/wiki/Special:FilePath/Adamreta.jpg?width=200",
   "በዓሉ ግርማ":"https://commons.wikimedia.org/wiki/Special:FilePath/Baalu_Girma.jpg?width=200",
   "ማዕዛ መንግሥቴ":"https://commons.wikimedia.org/wiki/Special:FilePath/Maaza_Mengiste_at_BookExpo_(05586)_(cropped).jpg?width=200",
   "ቀዳማዊ ኃይለ ሥላሴ":"https://commons.wikimedia.org/wiki/Special:FilePath/Haile-selassie-ethiopian_king.webp?width=200",
@@ -369,7 +370,7 @@ const stars=n=>{const f=Math.round(n);return '<span class="stars">'+"★".repeat
 const avg=b=>b.r[1]?b.r[0].toFixed(1):"–";
 const bt=b=>li===0?b.t:b.e,ba=b=>li===0?b.a:b.ae,bs=b=>li===0?b.s:b.se;
 
-// Cached cover image lookup from Google Books & Open Library APIs
+// Multi-source cover image lookup (Google Books Amharic/English, Open Library Search & ISBN, English & Amharic Wikipedia)
 let COV_CACHE={};
 try{COV_CACHE=JSON.parse(localStorage.getItem("adafrus_cov_cache")||"{}")}catch(e){}
 const saveCovCache=()=>{try{localStorage.setItem("adafrus_cov_cache",JSON.stringify(COV_CACHE))}catch(e){}};
@@ -384,36 +385,51 @@ function getCoverSrc(b){
 async function lookupBookCover(b){
  const key=b.e||b.t;
  if(!key||COV_CACHE[key]!==undefined)return COV_CACHE[key]||"";
+ const saveHit=u=>{COV_CACHE[key]=u;saveCovCache();return u};
  try{
-  // Try Google Books API first (supports Amharic & English titles)
-  const q=encodeURIComponent(`${b.t} ${b.ae||""}`.trim());
-  const r1=await fetch(`https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=1`);
+  // 1. Google Books API (Amharic title + author)
+  const q1=encodeURIComponent(`${b.t} ${b.ae||""}`.trim());
+  const r1=await fetch(`https://www.googleapis.com/books/v1/volumes?q=${q1}&maxResults=2`);
   if(r1.ok){
    const d1=await r1.json();
-   const links=d1.items&&d1.items[0]&&d1.items[0].volumeInfo&&d1.items[0].volumeInfo.imageLinks;
+   const item=(d1.items||[]).find(x=>x.volumeInfo&&x.volumeInfo.imageLinks);
+   const links=item&&item.volumeInfo.imageLinks;
    const u=links&&(links.thumbnail||links.smallThumbnail);
-   if(u){
-    const clean=u.replace(/^http:/,"https://").replace("&edge=curl","");
-    COV_CACHE[key]=clean;saveCovCache();return clean;
-   }
+   if(u)return saveHit(u.replace(/^http:/,"https://").replace("&edge=curl",""));
   }
-  // Fallback to English title search on Google Books
+  // 2. Google Books API (English title + author)
   if(b.e&&b.e!==b.t){
    const q2=encodeURIComponent(`${b.e} ${b.ae||""}`.trim());
-   const r2=await fetch(`https://www.googleapis.com/books/v1/volumes?q=${q2}&maxResults=1`);
+   const r2=await fetch(`https://www.googleapis.com/books/v1/volumes?q=${q2}&maxResults=2`);
    if(r2.ok){
     const d2=await r2.json();
-    const links2=d2.items&&d2.items[0]&&d2.items[0].volumeInfo&&d2.items[0].volumeInfo.imageLinks;
+    const item2=(d2.items||[]).find(x=>x.volumeInfo&&x.volumeInfo.imageLinks);
+    const links2=item2&&item2.volumeInfo.imageLinks;
     const u2=links2&&(links2.thumbnail||links2.smallThumbnail);
-    if(u2){
-     const clean2=u2.replace(/^http:/,"https://").replace("&edge=curl","");
-     COV_CACHE[key]=clean2;saveCovCache();return clean2;
-    }
+    if(u2)return saveHit(u2.replace(/^http:/,"https://").replace("&edge=curl",""));
+   }
+  }
+  // 3. Open Library Search API by title + author
+  const q3=encodeURIComponent(`${b.e||b.t} ${b.ae||""}`.trim());
+  const r3=await fetch(`https://openlibrary.org/search.json?q=${q3}&limit=3`);
+  if(r3.ok){
+   const d3=await r3.json();
+   const doc=(d3.docs||[]).find(x=>x.cover_i);
+   if(doc&&doc.cover_i)return saveHit(`https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`);
+  }
+  // 4. English & Amharic Wikipedia Page Images
+  for(const langCode of ["en","am"]){
+   const wq=encodeURIComponent(langCode==="am"?b.t:(b.e||b.t));
+   const rw=await fetch(`https://${langCode}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${wq}&gsrlimit=2&prop=pageimages&pithumbsize=400&format=json&origin=*`);
+   if(rw.ok){
+    const dw=await rw.json();
+    const pages=dw.query&&dw.query.pages?Object.values(dw.query.pages):[];
+    const hit=pages.find(p=>p.thumbnail&&p.thumbnail.source&&!/flag|map|emblem|coat_of_arms/i.test(p.thumbnail.source));
+    if(hit)return saveHit(hit.thumbnail.source);
    }
   }
  }catch(e){}
- COV_CACHE[key]="";saveCovCache();
- return "";
+ return saveHit("");
 }
 
 // Progressively hydrate missing book covers visible on screen
@@ -538,11 +554,29 @@ function editBook(id,sub){subMode=!!sub;
  <label>${L[2]}</label><input id="f3" value="${esc(b.a)}"><label>${L[3]}</label><input id="f4" value="${esc(b.ae)}">
  <label>${L[4]}</label><select id="f5">${o(LK,x=>LN[x],b.l)}</select><label>${L[5]}</label><select id="f6">${o(GK,gn,b.g)}</select>
  <label>${L[6]}</label><input id="f7" type="number" value="${b.y}"><label>${L[7]}</label><textarea id="f8" rows="2">${esc(b.s)}</textarea><label>${L[8]}</label><textarea id="f9" rows="2">${esc(b.se)}</textarea>
- <label>${L[9]}</label><input id="fi" type="file" accept="image/*"><input id="furl" type="url" placeholder="https://... (optional cover URL)" value="${esc(b.img&&b.img.startsWith("http")?b.img:"")}"><img id="pv" alt="" src="${esc(curSrc)}" style="max-height:150px;border-radius:6px;display:${curSrc?"block":"none"}"></div>
+ <label>${L[9]}</label>
+ <div style="display:flex;gap:6px;flex-wrap:wrap">
+  <a id="sgImg" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:.82rem;font-weight:600;color:var(--ink);background:var(--surface2)">🔍 Google Images</a>
+  <a id="sFb" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:.82rem;font-weight:600;color:var(--ink);background:var(--surface2)">📘 Facebook</a>
+  <a id="sTt" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:.82rem;font-weight:600;color:var(--ink);background:var(--surface2)">🎵 TikTok</a>
+ </div>
+ <input id="fi" type="file" accept="image/*">
+ <input id="furl" type="url" placeholder="Paste image link OR press Ctrl+V to paste copied cover" value="${esc(b.img&&b.img.startsWith("http")?b.img:"")}">
+ <img id="pv" alt="" src="${esc(curSrc)}" style="max-height:160px;border-radius:8px;display:${curSrc?"block":"none"}"></div>
  <p class="err" id="fe"></p><button class="primary" id="sv">${tr("save")}</button><button id="cx">${tr("cancel")}</button>`;
  let img=b.img||"";
+ const updSearchLinks=()=>{
+  const q=encodeURIComponent(`${$("#f1").value||$("#f2").value||b.t} ${$("#f3").value||$("#f4").value||b.a} መጽሐፍ`.trim());
+  $("#sgImg").href=`https://www.google.com/search?tbm=isch&q=${q}`;
+  $("#sFb").href=`https://www.facebook.com/search/photos/?q=${q}`;
+  $("#sTt").href=`https://www.tiktok.com/search?q=${q}`;
+ };
+ updSearchLinks();
+ ["f1","f2","f3","f4"].forEach(fid=>$("#"+fid).addEventListener("input",updSearchLinks));
+ const compressBlob=file=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,360/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);img=c.toDataURL("image/jpeg",.75);$("#pv").src=img;$("#pv").style.display="block"};im.src=r.result};r.readAsDataURL(file)};
  $("#furl").oninput=e=>{const u=e.target.value.trim();img=u;if(u){$("#pv").src=img;$("#pv").style.display="block"}};
- $("#fi").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,360/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);img=c.toDataURL("image/jpeg",.72);$("#pv").src=img;$("#pv").style.display="block"};im.src=r.result};r.readAsDataURL(f)};
+ $("#bkc").onpaste=e=>{const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.type.startsWith("image/"));if(it){e.preventDefault();compressBlob(it.getAsFile())}};
+ $("#fi").onchange=e=>{const f=e.target.files[0];if(f)compressBlob(f)};
  $("#cx").onclick=()=>nb?$("#bk").close():openBook(b.id);
  $("#sv").onclick=async()=>{const t=$("#f1").value.trim(),e=$("#f2").value.trim();if(!t&&!e){$("#fe").textContent=tr("e6");return}
   Object.assign(b,{t:t||e,e:e||t,a:$("#f3").value.trim()||"—",ae:$("#f4").value.trim()||$("#f3").value.trim()||"—",l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2025,s:$("#f8").value.trim(),se:$("#f9").value.trim(),img});
@@ -605,7 +639,7 @@ function openProfile(){
 function shopView(v){const l=books.filter(b=>b.price>0);
  v.innerHTML=`<h2 class="sec">${tr("shop")}</h2><div class="grid">${l.map(b=>bcard(b,tr("fsale"))).join("")||`<p>${tr("nores")}</p>`}</div>`;bindCards(v)}
 
-// Fast, parallel Admin panel with Full Catalog Import & Auto-Cover Fetcher
+// Fast, parallel Admin panel with Full Catalog Import & Multi-Source Cover Fetcher
 async function adminView(v){
  if(!isAdmin){v.innerHTML="";return}
  let rq=[],sb=[];
@@ -651,7 +685,7 @@ async function adminView(v){
   <div style="display:flex;gap:8px;flex-wrap:wrap">
    <button class="gold" id="ab">${tr("add")}</button>
    <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load Full 89 Books Catalog</button>
-   <button id="fcov" style="border-color:var(--gold);color:var(--ink);font-weight:700">🖼️ Auto-Fetch Book Covers</button>
+   <button id="fcov" style="border-color:var(--gold);color:var(--ink);font-weight:700">🖼️ Auto-Fetch Web & Wiki Covers</button>
   </div>
   <p class="note" id="impStatus"></p>
   <input id="af" type="search" placeholder="${tr("search")}" value="${esc(adminFilter)}">
@@ -684,20 +718,20 @@ async function adminView(v){
   render();
  };
 
- // Auto-fetch cover URLs from Google Books & Open Library and save them to Supabase
+ // Auto-fetch cover URLs from Google Books, Open Library, and Wikipedia and save them to Supabase
  $("#fcov").onclick=async()=>{
   $("#fcov").disabled=true;
   let found=0;
   for(let i=0;i<books.length;i++){
    const b=books[i];
-   $("#impStatus").textContent=`Searching cover ${i+1}/${books.length}: ${bt(b)}...`;
+   $("#impStatus").textContent=`Searching web cover ${i+1}/${books.length}: ${bt(b)}...`;
    if(!b.img){
     const u=await lookupBookCover(b);
     if(u){b.img=u;found++}
    }
   }
   await saveBooks();
-  $("#impStatus").textContent=`✓ Done! Found and saved ${found} book cover pictures.`;
+  $("#impStatus").textContent=`✓ Done! Found and saved ${found} book cover pictures. Tap Edit on any remaining book to search Google Images, Facebook, or TikTok and paste its cover!`;
   $("#fcov").disabled=false;
   render();
  };
