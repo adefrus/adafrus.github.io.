@@ -83,6 +83,8 @@ h2.sec{display:flex;align-items:center;gap:10px;font-size:1.35rem;margin:30px 0 
 .card{border-radius:16px}.cover{border-radius:10px;box-shadow:0 8px 18px rgba(0,0,0,.22)}.av{box-shadow:0 0 0 3px var(--bg),0 0 0 5px #D9981E}
 @media (max-width:700px){.hero2{grid-template-columns:1fr 110px;padding:22px 16px}.two{grid-template-columns:1fr}.hero2:before{font-size:14rem}}
 .plans,.memb{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}:root[data-theme="dark"]{color-scheme:dark}
+.row{overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#B3261E transparent}
 .row{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px}.row .card{width:140px;flex:none}
 #bell{border-color:var(--line)}
 @media (max-width:560px){.hero{grid-template-columns:1fr}.botd{display:none}}
@@ -455,7 +457,7 @@ function contactAuthor(a){const b=books.find(x=>x.a===a);
 document.addEventListener("click",e=>{const a=e.target.closest("[data-ta]");if(a){term=a.dataset.ta;lang=gen="";tab="books";render();return}
  const g=e.target.closest("[data-go]");if(g){tab=g.dataset.go;render();return}
  const k=e.target.closest("[data-lk]");if(k){const p=feed.find(x=>x.i==k.dataset.lk);if(p){p.l++;if(SB&&typeof p.i==="string")SB.rpc("bump_like",{pid:p.i});render()}}});
-function nav(){const it=[["home","🏠"],["books","📚"],["feed","💬"],["stores","📍"]];
+function nav(){const it=[["home","🏠"],["books","📚"],["feed","💬"],["stores","📍"]].concat(isAdmin?[["admin","⚙️"]]:[]);
  $("#bn").innerHTML=it.map(([k,i])=>`<button data-nv="${k}" class="${tab===k?"on":""}"><b>${i}</b>${tr(k)}</button>`).join("")+`<button id="nvm"><b>☰</b>${tr("menu")}</button>`;
  $("#bn").querySelectorAll("[data-nv]").forEach(x=>x.onclick=()=>{tab=x.dataset.nv;render();scrollTo(0,0)});$("#nvm").onclick=openMenu}
 function homeView(v){
