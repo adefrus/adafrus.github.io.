@@ -7,95 +7,86 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://commons.wikimedia.org" crossorigin>
-<link rel="preconnect" href="https://www.googleapis.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;700&family=Figtree:wght@400;500;600;700&family=Noto+Serif+Ethiopic:wght@600;800&family=Noto+Sans+Ethiopic:wght@400;600;700&family=Abyssinica+SIL&family=Playfair+Display:wght@600;800&family=Lora:wght@600;700&family=Merriweather:wght@700&display=swap">
 <style>
 :root{
-  /* Refined Ethiopian Branna (Parchment), Aksumite Indigo, Burnished Gold & Highland Emerald */
-  --bg:#F7F3E8;
-  --surface:#FFFDF8;
-  --surface2:#EFE9D8;
-  --ink:#162238;
-  --muted:#5B6578;
-  --line:#DFD6C0;
-  --gold:#D4942A;
+  --bg:#F6F5F2;
+  --surface:#FFFFFF;
+  --surface2:#ECEAE4;
+  --ink:#141B2D;
+  --muted:#5C6475;
+  --line:#E2DFD7;
+  --gold:#D99B26;
   --gold-ink:#141000;
-  --green:#1E6B52;
-  --red:#A63A3A;
-  --hero:#162238;
-  --hero-mid:#223454;
-  --hero-dark:#0D1524;
+  --green:#1C6E52;
+  --red:#B83B3B;
+  --hero:#141B2D;
+  --hero-mid:#1E2942;
+  --hero-dark:#0D121F;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#0C1220;
-    --surface:#141D30;
-    --surface2:#1C2740;
-    --ink:#F2EFE6;
-    --muted:#9AA4B8;
-    --line:#283552;
-    --gold:#EBB046;
+    --bg:#0B0F19;
+    --surface:#131A2B;
+    --surface2:#1B243B;
+    --ink:#F2F3F7;
+    --muted:#98A2B8;
+    --line:#25304A;
+    --gold:#F0B43C;
     --gold-ink:#120E00;
-    --green:#3BB88B;
-    --red:#E06666;
-    --hero:#111A2E;
-    --hero-mid:#1A2845;
-    --hero-dark:#080D18;
+    --green:#38B88A;
+    --red:#E06060;
+    --hero:#101626;
+    --hero-mid:#18223A;
+    --hero-dark:#080B14;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0C1220;
-  --surface:#141D30;
-  --surface2:#1C2740;
-  --ink:#F2EFE6;
-  --muted:#9AA4B8;
-  --line:#283552;
-  --gold:#EBB046;
+  --bg:#0B0F19;
+  --surface:#131A2B;
+  --surface2:#1B243B;
+  --ink:#F2F3F7;
+  --muted:#98A2B8;
+  --line:#25304A;
+  --gold:#F0B43C;
   --gold-ink:#120E00;
-  --green:#3BB88B;
-  --red:#E06666;
-  --hero:#111A2E;
-  --hero-mid:#1A2845;
-  --hero-dark:#080D18;
+  --green:#38B88A;
+  --red:#E06060;
+  --hero:#101626;
+  --hero-mid:#18223A;
+  --hero-dark:#080B14;
   color-scheme:dark;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Figtree','Noto Sans Ethiopic',system-ui,sans-serif;line-height:1.52;padding-bottom:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Figtree','Noto Sans Ethiopic',system-ui,sans-serif;line-height:1.5;padding-bottom:84px}
 h1,h2,h3{font-family:var(--hf,'Noto Serif Ethiopic'),'Newsreader',Georgia,serif;margin:0;line-height:1.22}
 
-/* Traditional Ethiopian Tilet (ጥለት) geometric woven border */
-.tilet{height:10px;background:
-  linear-gradient(90deg,var(--gold) 0 14px,transparent 14px 18px,var(--green) 18px 32px,transparent 32px 36px,var(--red) 36px 50px,transparent 50px 54px) 0 0/54px 10px,
-  var(--hero-dark);
-  border-bottom:1px solid rgba(212,148,42,.35);
-}
-
-/* Header */
-header{display:flex;align-items:center;gap:12px;padding:10px clamp(16px,3vw,40px);margin:0;flex-wrap:wrap;background:linear-gradient(90deg,var(--hero-dark),var(--hero));color:#FFFDF8;box-shadow:0 4px 18px rgba(0,0,0,.22);position:sticky;top:0;z-index:15;border-bottom:1px solid rgba(212,148,42,.28)}
-header .hr{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-header button,header select{color:#FFFDF8;border-color:rgba(212,148,42,.42);background:rgba(255,255,255,.07)}
-header button:hover,header select:hover{background:rgba(212,148,42,.18);border-color:var(--gold)}
-header option{color:#162238;background:#FFFDF8}
-header .note{color:#E6DEC8;font-weight:600}
-#proBtn{background:rgba(212,148,42,.2);border-color:var(--gold);color:#FFE2A8;font-weight:700}
-#hq{flex:1 1 210px;max-width:520px;order:3;background:rgba(255,253,248,.96);color:#162238;border:1px solid rgba(212,148,42,.4);border-radius:999px;padding:8px 18px}
-#hq::placeholder{color:#687182}
-.logo{font-family:var(--hf,'Noto Serif Ethiopic'),serif;font-weight:800;background:linear-gradient(135deg,#FFFDF8,#F5ECD6);color:var(--hero)!important;padding:2px 16px;border-radius:999px;font-size:1.45rem;letter-spacing:-.01em;cursor:pointer;border:1.5px solid var(--gold);box-shadow:0 2px 10px rgba(0,0,0,.2)}
+/* Clean, Modern Header */
+header{display:flex;align-items:center;gap:10px;padding:10px clamp(14px,3vw,36px);margin:0;flex-wrap:wrap;background:var(--hero);color:#FFFFFF;box-shadow:0 2px 12px rgba(0,0,0,.16);position:sticky;top:0;z-index:15}
+header .hr{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+header button,header select{color:#FFFFFF;border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.07)}
+header button:hover,header select:hover{background:rgba(255,255,255,.15)}
+header option{color:#141B2D;background:#FFFFFF}
+header .note{color:#CBD5E1;font-weight:600}
+#proBtn{border-color:var(--gold);color:var(--gold);font-weight:700}
+#admTopBtn{background:var(--gold);color:var(--gold-ink);border-color:var(--gold);font-weight:700}
+#hq{flex:1 1 200px;max-width:480px;order:3;background:rgba(255,255,255,.96);color:#141B2D;border:none;border-radius:999px;padding:8px 16px}
+#hq::placeholder{color:#64748B}
+.logo{font-family:var(--hf,'Noto Serif Ethiopic'),serif;font-weight:800;background:#FFFFFF;color:#141B2D!important;padding:2px 15px;border-radius:999px;font-size:1.4rem;cursor:pointer}
 
 button{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);padding:8px 14px;border-radius:999px;transition:transform .12s,background .15s,border-color .15s}
 button:active{transform:scale(.97)}
-button.primary{background:var(--hero);color:#FFFDF8;border-color:var(--hero);font-weight:600}
+button.primary{background:var(--hero);color:#FFFFFF;border-color:var(--hero);font-weight:600}
 button.gold{background:var(--gold);border-color:var(--gold);color:var(--gold-ink);font-weight:700}
 button.gold:hover{filter:brightness(1.06)}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
-/* Full-screen container with subtle Ethiopian manuscript frame */
-main{width:100%;max-width:1440px;margin:auto;padding:0 clamp(14px,3vw,36px) 60px;position:relative}
+main{width:100%;max-width:1400px;margin:auto;padding:0 clamp(14px,3vw,32px) 60px}
 #tabs{display:none}
 .tools{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
 input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 13px}
@@ -103,90 +94,94 @@ input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);bo
 
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}
 .chips button{padding:6px 13px;font-size:.86rem;border-color:var(--line);background:var(--surface)}
-.chips button.on{background:var(--hero);color:#FFFDF8;border-color:var(--gold);font-weight:600}
+.chips button.on{background:var(--hero);color:#FFFFFF;border-color:var(--hero);font-weight:600}
 
-/* Meaningful Ethiopian Branna & Harag Ornamental Frame for Hero */
-.imdb-hero{display:grid;grid-template-columns:2.1fr 1fr;gap:18px;margin-top:16px;align-items:stretch;min-height:clamp(340px,52vh,510px)}
-.spot{position:relative;overflow:hidden;border-radius:22px;color:#FFFDF8;background:radial-gradient(circle at 82% 18%,rgba(212,148,42,.26),transparent 52%),linear-gradient(135deg,var(--hero-mid),var(--hero-dark) 85%);padding:clamp(22px,3.2vw,42px);display:grid;grid-template-columns:1fr clamp(138px,15vw,210px);gap:clamp(16px,2.5vw,32px);align-items:center;box-shadow:0 16px 36px rgba(13,21,36,.24);border:1.5px solid rgba(212,148,42,.45)}
-/* Ornamental corner frame (Harag motif) */
-.spot:after{content:"";position:absolute;inset:10px;border:1px solid rgba(212,148,42,.28);border-radius:14px;pointer-events:none}
-.spot:before{content:"❖ አ ❖";position:absolute;right:18px;bottom:10px;font-family:'Noto Serif Ethiopic',serif;font-size:3.2rem;letter-spacing:.2em;line-height:1;color:rgba(212,148,42,.18);pointer-events:none}
-.spot .k{display:inline-flex;align-items:center;gap:6px;letter-spacing:.14em;font-size:.78rem;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
-.spot h1{font-size:clamp(1.85rem,3.5vw,3rem);font-weight:800;color:#FFFDF8}
-.spot .sub-author{color:#EADBC0;font-size:clamp(.95rem,1.3vw,1.15rem);margin-top:6px;font-weight:600}
-.spot p{color:#DCE2EE;max-width:56ch;font-size:clamp(.92rem,1.1vw,1.04rem);margin:12px 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.spot .bk{transform:rotate(2deg);filter:drop-shadow(0 18px 28px rgba(0,0,0,.55));border:none;padding:0;background:none;border-radius:12px;width:100%;position:relative;z-index:2}
-.spot-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;position:relative;z-index:2}
-.spot-actions .wl-btn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(212,148,42,.45);font-weight:600}
+/* Clean Editorial Spotlight + Up Next Hero (No childish frames) */
+.imdb-hero{display:grid;grid-template-columns:2.1fr 1fr;gap:16px;margin-top:16px;align-items:stretch;min-height:clamp(320px,48vh,480px)}
+.spot{position:relative;overflow:hidden;border-radius:18px;color:#FFFFFF;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark) 88%);padding:clamp(22px,3vw,38px);display:grid;grid-template-columns:1fr clamp(132px,14vw,196px);gap:clamp(16px,2.5vw,28px);align-items:center;box-shadow:0 12px 28px rgba(13,18,31,.18)}
+.spot .k{display:inline-flex;align-items:center;gap:6px;letter-spacing:.12em;font-size:.75rem;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
+.spot h1{font-size:clamp(1.75rem,3.4vw,2.85rem);font-weight:800;color:#FFFFFF}
+.spot .sub-author{color:#CBD5E1;font-size:clamp(.95rem,1.2vw,1.1rem);margin-top:6px;font-weight:600}
+.spot p{color:#E2E8F0;max-width:54ch;font-size:clamp(.9rem,1.05vw,1.02rem);margin:12px 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.spot .bk{filter:drop-shadow(0 14px 24px rgba(0,0,0,.45));border:none;padding:0;background:none;border-radius:10px;width:100%}
+.spot-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.spot-actions .wl-btn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);font-weight:600}
 .spot-actions .wl-btn.saved{background:var(--green);border-color:var(--green)}
-.dots{display:flex;gap:8px;margin-top:18px;position:relative;z-index:2}
-.dots button{width:32px;height:6px;padding:0;border-radius:9px;border:none;background:rgba(255,255,255,.28)}
-.dots button.on{background:var(--gold);width:54px}
+.dots{display:flex;gap:8px;margin-top:16px}
+.dots button{width:30px;height:5px;padding:0;border-radius:9px;border:none;background:rgba(255,255,255,.28)}
+.dots button.on{background:var(--gold);width:50px}
 
-/* Up Next Sidebar */
-.upnext-box{background:var(--surface);border:1.5px solid var(--line);border-radius:22px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,.04)}
-.upnext-box h3{font-size:1.02rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
-.upn-list{display:grid;gap:10px;flex:1}
-.un{display:flex;gap:12px;text-align:left;border-radius:14px;border:1px solid transparent;background:var(--surface2);padding:8px 10px;align-items:center;width:100%}
-.un.on{border-color:var(--gold);background:var(--surface);box-shadow:0 4px 12px rgba(0,0,0,.06)}
-.un .cover{width:46px;flex:none;padding:0;border-radius:6px;box-shadow:none}
+.upnext-box{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.upnext-box h3{font-size:.98rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.upn-list{display:grid;gap:8px;flex:1}
+.un{display:flex;gap:12px;text-align:left;border-radius:12px;border:1px solid transparent;background:var(--surface2);padding:8px 10px;align-items:center;width:100%}
+.un.on{border-color:var(--gold);background:var(--surface)}
+.un .cover{width:44px;flex:none;padding:0;border-radius:6px;box-shadow:none}
 .un .cover .cov-txt,.un .cover .badge{display:none}
-.un strong{display:block;font-size:.94rem;line-height:1.25}
-.un small{display:block;color:var(--muted);font-size:.8rem}
+.un strong{display:block;font-size:.92rem;line-height:1.25}
+.un small{display:block;color:var(--muted);font-size:.78rem}
 
-/* Section Headers with Ethiopian Harag diamond ornament */
-h2.sec{display:flex;align-items:center;gap:10px;font-size:clamp(1.25rem,1.8vw,1.55rem);margin:32px 0 14px;font-weight:800}
-h2.sec:before{content:"❖";color:var(--gold);font-size:.95em;flex:none}
-h2.sec:after{content:"";flex:1;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--line) 40%,transparent)}
+/* Section Headers */
+h2.sec{display:flex;align-items:center;gap:10px;font-size:clamp(1.2rem,1.7vw,1.48rem);margin:30px 0 14px;font-weight:800}
+h2.sec:before{content:"";width:4px;height:1.15em;border-radius:3px;background:var(--gold);flex:none}
+h2.sec:after{content:"";flex:1;height:1px;background:var(--line)}
 
 /* Book Cards & Shelves */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:18px;margin-top:14px}
-.row{display:flex;gap:16px;overflow-x:auto;overflow-y:hidden;padding-bottom:10px;scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
-.row .card{width:168px;flex:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:16px;margin-top:14px}
+.row{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;padding-bottom:10px;scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
+.row .card{width:164px;flex:none}
 .card{text-align:left;padding:0;border:1px solid var(--line);background:var(--surface);border-radius:14px;overflow:hidden;width:100%;transition:transform .18s,box-shadow .18s;position:relative;display:flex;flex-direction:column}
-.card:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(22,34,56,.12);border-color:var(--gold)}
-.cover{aspect-ratio:2/3;display:flex;flex-direction:column;justify-content:space-between;padding:12px;color:#FFFDF8;background-image:linear-gradient(155deg,rgba(255,255,255,.16),rgba(0,0,0,.38));position:relative;border-radius:10px;box-shadow:0 6px 16px rgba(0,0,0,.2);overflow:hidden}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(20,27,45,.1)}
+.cover{aspect-ratio:2/3;display:flex;flex-direction:column;justify-content:space-between;padding:12px;color:#FFFFFF;background-image:linear-gradient(155deg,rgba(255,255,255,.14),rgba(0,0,0,.36));position:relative;border-radius:10px;box-shadow:0 6px 16px rgba(0,0,0,.18);overflow:hidden}
 .card .cover{border-radius:0;box-shadow:none}
-.cover:after{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:rgba(0,0,0,.28)}
+.cover:after{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,.25)}
 .cover img.cov-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
-.cover .cov-txt{position:relative;z-index:0;display:flex;flex-direction:column;justify-content:space-between;height:100%;border:1px solid rgba(255,255,255,.18);padding:8px;border-radius:6px}
-.cover b{font-family:'Noto Serif Ethiopic','Newsreader',serif;font-size:1.02rem;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.45)}
-.cover span{font-size:.73rem;opacity:.92}
-.badge{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--gold-ink);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:999px;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.cover .cov-txt{position:relative;z-index:0;display:flex;flex-direction:column;justify-content:space-between;height:100%;padding:4px}
+.cover b{font-family:'Noto Serif Ethiopic','Newsreader',serif;font-size:1rem;line-height:1.25}
+.cover span{font-size:.73rem;opacity:.9}
+.badge{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--gold-ink);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:999px;z-index:2}
 
-/* Quick bookmark ribbon on cards */
-.rib{position:absolute;top:0;left:8px;z-index:3;background:rgba(22,34,56,.82);color:#fff;border:none;border-radius:0 0 8px 8px;padding:4px 9px;font-size:.85rem;font-weight:700;line-height:1;backdrop-filter:blur(4px)}
+.rib{position:absolute;top:0;left:8px;z-index:3;background:rgba(20,27,45,.82);color:#fff;border:none;border-radius:0 0 8px 8px;padding:4px 9px;font-size:.85rem;font-weight:700;line-height:1}
 .rib.on{background:var(--green);color:#fff}
 
 .meta{padding:10px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
 .meta .rline{display:flex;align-items:center;gap:4px;font-size:.82rem;font-weight:700;color:var(--ink)}
 .meta .rline .st{color:var(--gold)}
-.meta strong{display:block;font-family:'Noto Serif Ethiopic','Newsreader',serif;font-size:.95rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.meta strong{display:block;font-family:'Noto Serif Ethiopic','Newsreader',serif;font-size:.94rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .meta small{color:var(--muted);font-size:.8rem}
 .stars{color:var(--gold);letter-spacing:1px;white-space:nowrap}
 .stars i{font-style:normal;color:var(--line)}
 
 /* Top 10 IMDb-style numbered cards */
-.t10{display:flex;align-items:flex-end;flex:none;border:none;background:none;padding:0;text-align:left;width:210px;position:relative}
-.t10 .n{font-family:'Newsreader',serif;font-size:6.8rem;font-weight:800;line-height:.78;color:var(--bg);-webkit-text-stroke:2.5px var(--gold);margin-right:-16px;z-index:1;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25))}
-.t10 .cover{width:134px}
+.t10{display:flex;align-items:flex-end;flex:none;border:none;background:none;padding:0;text-align:left;width:206px;position:relative}
+.t10 .n{font-family:'Newsreader',serif;font-size:6.5rem;font-weight:800;line-height:.78;color:var(--bg);-webkit-text-stroke:2px var(--gold);margin-right:-14px;z-index:1}
+.t10 .cover{width:132px}
 
-/* Circular Author Portraits */
-.av{width:78px;height:78px;border-radius:50%;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark));color:#FFFDF8;display:grid;place-items:center;font-weight:800;font-size:1.6rem;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--gold);position:relative;overflow:hidden}
+/* Author Portraits */
+.av{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark));color:#FFFFFF;display:grid;place-items:center;font-weight:800;font-size:1.55rem;box-shadow:0 0 0 3px var(--bg),0 0 0 4.5px var(--gold);position:relative;overflow:hidden}
 .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 
+/* Advertisement Slot */
+.ad-slot{background:var(--surface2);border:1px dashed var(--line);border-radius:16px;padding:16px 20px;margin:24px 0;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.ad-tag{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;display:block;margin-bottom:3px}
+
+/* Events Cards */
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:12px}
+.ev-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:8px}
+.ev-date{display:inline-block;background:var(--surface2);color:var(--gold);font-weight:700;font-size:.78rem;padding:3px 10px;border-radius:999px;width:fit-content}
+
 /* Dialogs & Slide-out Menu */
-dialog{border:1.5px solid var(--gold);border-radius:20px;padding:0;max-width:680px;width:calc(100% - 24px);background:var(--surface);color:var(--ink);max-height:92vh;box-shadow:0 24px 60px rgba(0,0,0,.48)}
-dialog::backdrop{background:rgba(10,16,30,.68);backdrop-filter:blur(2px)}
+dialog{border:1px solid var(--line);border-radius:18px;padding:0;max-width:660px;width:calc(100% - 24px);background:var(--surface);color:var(--ink);max-height:92vh;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(10,15,28,.65);backdrop-filter:blur(2px)}
 .dl{padding:20px;display:grid;gap:14px}
-dialog#menu{margin:0;height:100%;max-height:100%;width:300px;max-width:84vw;border-radius:0 20px 20px 0;overflow-y:auto;border:none;border-right:2px solid var(--gold)}
+dialog#menu{margin:0;height:100%;max-height:100%;width:290px;max-width:84vw;border-radius:0 18px 18px 0;overflow-y:auto;border:none}
 #menu .mhead{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--line)}
-#menu .mclose{width:36px;height:36px;padding:0;display:grid;place-items:center;border-radius:50%;font-size:1.1rem;font-weight:700;background:var(--surface2)}
-#menu button.mi{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:10px;border:none;padding:10px 12px;font-weight:500}
+#menu .mclose{width:34px;height:34px;padding:0;display:grid;place-items:center;border-radius:50%;font-size:1rem;font-weight:700;background:var(--surface2)}
+#menu button.mi{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:10px;border:none;padding:9px 12px;font-weight:500}
 #menu button.mi:hover,#menu button.mi.on{background:var(--surface2);color:var(--gold);font-weight:700}
 
 .top{display:flex;gap:16px}
-.top .cover{width:124px;flex:none;border-radius:8px}
+.top .cover{width:120px;flex:none;border-radius:8px}
 .rate button{border:none;padding:2px;font-size:1.9rem;color:var(--line);line-height:1}
 .rate button.on{color:var(--gold)}
 .rev{border-top:1px solid var(--line);padding-top:10px}
@@ -194,8 +189,8 @@ dialog#menu{margin:0;height:100%;max-height:100%;width:300px;max-width:84vw;bord
 .rev small{color:var(--muted)}
 .rev button{padding:3px 10px;font-size:.8rem;border-color:var(--line)}
 
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:12px}
-.authors{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px}
+.authors{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
 .bar{height:12px;background:var(--line);border-radius:99px;overflow:hidden}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold))}
 .note{font-size:.85rem;color:var(--muted)}
@@ -210,44 +205,46 @@ dialog#menu{margin:0;height:100%;max-height:100%;width:300px;max-width:84vw;bord
 .vbar i{display:block;height:100%;background:var(--green)}
 
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px}
-.tiles button{border:1px solid rgba(255,255,255,.15);color:#FFFDF8;border-radius:16px;padding:16px 14px;text-align:left;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.12)}
-.tiles button b{display:block;font-size:1.55rem;margin-bottom:4px}
+.tiles button{border:none;color:#FFFFFF;border-radius:14px;padding:15px 14px;text-align:left;font-weight:700}
+.tiles button b{display:block;font-size:1.45rem;margin-bottom:4px}
 
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.award{border-radius:20px;padding:24px;color:#141000;background:linear-gradient(135deg,#F5CA6E,#D4942A);display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-top:30px;box-shadow:0 8px 22px rgba(212,148,42,.25);border:1.5px solid #B57A19}
-.award h3{font-size:1.5rem}
+.award{border-radius:18px;padding:22px;color:#141000;background:linear-gradient(135deg,#F7D070,#D99B26);display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-top:28px}
+.award h3{font-size:1.45rem}
 .award p{margin:4px 0 0}
-.award button{background:#162238;color:#FFFDF8;border-color:#162238;font-weight:700}
+.award button{background:#141B2D;color:#FFFFFF;border-color:#141B2D;font-weight:700}
 
-.mapcard{border-radius:20px;padding:24px;margin-top:18px;color:#FFFDF8;background:linear-gradient(135deg,rgba(22,34,56,.92),rgba(30,107,82,.88)),repeating-linear-gradient(0deg,#fff2 0 1px,transparent 1px 28px),repeating-linear-gradient(90deg,#fff2 0 1px,transparent 1px 28px);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;border:1px solid rgba(212,148,42,.4)}
+.prem-ban{border-radius:18px;padding:22px;color:#FFFFFF;background:linear-gradient(135deg,#1C6E52,#114232);display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.plan{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--surface)}
+.plan.pro{border:2px solid var(--gold)}
+.plan ul{padding-left:18px;margin:10px 0;color:var(--muted)}
 
-/* Author Profile Banner */
-.auth-banner{border-radius:16px;padding:22px 18px;color:#FFFDF8;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark));background-size:cover;background-position:center;position:relative;overflow:hidden;border:1.5px solid var(--gold);text-align:center}
-.auth-banner:before{content:"";position:absolute;inset:0;background:rgba(13,21,36,.58)}
+.mapcard{border-radius:18px;padding:22px;margin-top:18px;color:#FFFFFF;background:linear-gradient(135deg,#1E2942,#141B2D);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+
+.auth-banner{border-radius:14px;padding:22px 18px;color:#FFFFFF;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark));background-size:cover;background-position:center;position:relative;overflow:hidden;text-align:center}
+.auth-banner:before{content:"";position:absolute;inset:0;background:rgba(13,18,31,.58)}
 .auth-banner>*{position:relative;z-index:1}
 
-/* Chat bubble styling */
 .chat-box{max-height:240px;overflow-y:auto;display:grid;gap:8px;padding:10px;background:var(--surface2);border-radius:12px;border:1px solid var(--line)}
 .msg-b{padding:8px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:.9rem}
-.msg-b.me{background:var(--hero);color:#FFFDF8;border-color:var(--hero);margin-left:20px}
+.msg-b.me{background:var(--hero);color:#FFFFFF;border-color:var(--hero);margin-left:20px}
 
-/* Bottom Navigation Bar */
-#bn{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;background:var(--surface);border-top:1.5px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:20;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
-#bn button{border:none;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.74rem;padding:4px 2px;border-radius:12px;color:var(--muted);font-weight:600}
-#bn button b{font-size:1.22rem;line-height:1}
-#bn button.on{color:var(--hero);background:rgba(212,148,42,.18);font-weight:700}
+#bn{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-around;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:20;box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+#bn button{border:none;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.73rem;padding:4px 2px;border-radius:12px;color:var(--muted);font-weight:600}
+#bn button b{font-size:1.2rem;line-height:1}
+#bn button.on{color:var(--hero);background:rgba(217,155,38,.18);font-weight:700}
 
-footer#ft{background:var(--hero-dark);color:#E5DEC8;padding:28px 18px;text-align:center;margin-top:36px;border-top:2px solid var(--gold)}
+footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align:center;margin-top:36px}
 .fl{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0 16px}
-.fl button{border:none;color:#E5DEC8;padding:4px 10px}
+.fl button{border:none;color:#CBD5E1;padding:4px 10px}
 
 .pill-tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.75rem;font-weight:700}
-.pill-ok{background:rgba(30,107,82,.16);color:var(--green)}
-.pill-wait{background:rgba(212,148,42,.22);color:var(--gold)}
-.pill-no{background:rgba(166,58,58,.16);color:var(--red)}
+.pill-ok{background:rgba(28,110,82,.15);color:var(--green)}
+.pill-wait{background:rgba(217,155,38,.2);color:var(--gold)}
+.pill-no{background:rgba(184,59,59,.15);color:var(--red)}
 
-.plans,.memb{display:none}
-#bell{border-color:rgba(212,148,42,.42)}
+#bell{border-color:rgba(255,255,255,.24)}
 
 @media (max-width:860px){
   .imdb-hero{grid-template-columns:1fr;min-height:auto}
@@ -255,19 +252,18 @@ footer#ft{background:var(--hero-dark);color:#E5DEC8;padding:28px 18px;text-align
   .two{grid-template-columns:1fr}
 }
 @media (max-width:540px){
-  .spot{grid-template-columns:1fr 106px;padding:18px 15px;min-height:250px}
-  .spot:before{font-size:1.6rem}
+  .spot{grid-template-columns:1fr 104px;padding:18px 15px;min-height:240px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<div class="tilet"></div>
 <header>
   <button id="menuBtn" aria-label="Menu">☰</button>
   <div class="logo" id="logo"></div>
   <input id="hq" type="search">
   <div class="hr">
+    <button id="admTopBtn" style="display:none">⚙️ Admin</button>
     <button id="proBtn"></button>
     <button id="listBtn"></button>
     <select id="lg" aria-label="Language">
@@ -287,7 +283,6 @@ footer#ft{background:var(--hero-dark);color:#E5DEC8;padding:28px 18px;text-align
   <div id="view"></div>
   <p class="note" id="foot"></p>
 </main>
-<div class="tilet"></div>
 <footer id="ft"></footer>
 <nav id="bn"></nav>
 <dialog id="login"><div class="dl" id="lgc"></div></dialog>
@@ -299,38 +294,29 @@ footer#ft{background:var(--hero-dark);color:#E5DEC8;padding:28px 18px;text-align
 const LC=["am","en","om","ti"];let li=0;
 // UI text: [Amharic, English, Afaan Oromoo, Tigrinya]
 const T={
-feed:["ማህበረሰብ","Feed","Marsariitii","መጋበሲ"],critics:["ሃያሲያን","Critics","Hayyuuwwan","ሓያስያን"],stores:["መጻሕፍት ቤቶች","Bookstores","Suuqa kitaabaa","ድኳናት መጻሕፍቲ"],awards:["የዓመቱ መጽሐፍ","Book of the Year","Kitaaba waggaa","መጽሓፍ ዓመት"],member:["አባልነት","Membership","Miseensummaa","ኣባልነት"],
+feed:["ማህበረሰብ","Feed","Marsariitii","መጋበሲ"],critics:["ሃያሲያን","Critics","Hayyuuwwan","ሓያስያን"],stores:["መጻሕፍት ቤቶች","Bookstores","Suuqa kitaabaa","ድኳናት መጻሕፍቲ"],awards:["የዓመቱ መጽሐፍ","Book of the Year","Kitaaba waggaa","መጽሓፍ ዓመት"],events:["ዝግጅቶች","Events","Qophiiwwan","መደባት"],
 post:["አጋራ","Post","Maxxansi","ኣቐምጥ"],postph:["ምን እያነበቡ ነው? ወይም የሚወዱትን ግጥም ያጋሩ...","What are you reading? Share a thought or favorite poem...","Maal dubbisaa jirta?","እንታይ ትንብቡ ኣለኹም?"],ctact:["ደራሲውን ያነጋግሩ / ውይይት","Chat with author","Barreessaa quunnami","ንደራሲ ርኸብ"],msgph:["መልእክትዎን ይጻፉ...","Write your message...","Ergaa kee barreessi...","መልእኽትኹም ጸሓፉ..."],send:["ላክ","Send","Ergi","ለኣኽ"],sent:["መልእክትዎ ተልኳል።","Message sent.","Ergameera.","ተላኢኹ።"],
 near:["ቅርብ መጻሕፍት ቤት ፈልግ","Find bookstores near me","Suuqa kitaabaa naannoo koo","ቀረባ ድኳን መጻሕፍቲ"],locfail:["አካባቢዎን ማግኘት አልተቻለም።","Could not get your location.","Bakki kee hin argamne.","ቦታኹም ኣይተረኽበን።"],km:["ኪ.ሜ","km","km","ኪ.ሜ"],allc:["ሁሉም ከተማ","All cities","Magaalaa hundaa","ኩሉ ከተማ"],
 vote:["ድምጽ ስጥ","Vote","Sagalee kenni","ድምጺ ሃብ"],voted:["ድምጽዎን ሰጥተዋል ✓","You voted ✓","Sagalee kenniteetta ✓","ድምጽኹም ሂብኩም ✓"],awtx:["የ2026 የዓመቱን መጽሐፍ ይምረጡ። አንድ አባል አንድ ድምጽ።","Pick the 2026 Book of the Year. One member, one vote.","Kitaaba waggaa 2026 filadhu. Miseensa tokkoof sagalee tokko.","መጽሓፍ ዓመት 2026 ምረጹ። ሓደ ኣባል ሓደ ድምጺ።"],
-m2:["የደጋፊ ምልክት","Supporter badge","Mallattoo deeggaraa","ምልክት ደጋፊ"],m3:["አዲስ ነገር ቀድመው ያያሉ","Early access to new features","Haaraa dursee argachuu","ሓድሽ ቅድሚ ካልኦት ምርካብ"],m4:["ኢትዮጵያዊ ደራሲያንን ይደግፋሉ","You support Ethiopian writers","Barreessitoota Itoophiyaa deeggartu","ንኢትዮጵያዊ ደረስቲ ትድግፉ"],
-mprice:["100 ብር በ3 ወር","100 birr every 3 months","Birrii 100 ji'a 3 tokkoof","100 ብር ኣብ 3 ወርሒ"],joinm:["አባል ሁን","Become a member","Miseensa ta'i","ኣባል ኩን"],mnote:["በፈቃድ የሚደረግ ነው።","Voluntary.","Fedhii.","ፍቓደኛ እዩ።"],ismem:["አባል ነዎት ✓","You are a member ✓","Miseensa ta'eera ✓","ኣባል ኢኹም ✓"],
-best:["ብዙ የተሸጡ","Best selling","Kan baay'ee gurgurame","ብዙሕ ዝተሸጠ"],tauth:["ተወዳጅ ደራሲያን እና ገጣሚያን","Authors & Poets","Barreessitootaa fi Waloo","ደረስትን ገጠምትን"],fromcomm:["ከማህበረሰቡ","From the community","Hawaasa irraa","ካብ ማሕበረሰብ"],cpicks:["የሃያሲያን ምርጫ","Critics' picks","Filannoo hayyootaa","ምርጫ ሓያስያን"],
+tauth:["ተወዳጅ ደራሲያን እና ገጣሚያን","Authors & Poets","Barreessitootaa fi Waloo","ደረስትን ገጠምትን"],fromcomm:["ከማህበረሰቡ","From the community","Hawaasa irraa","ካብ ማሕበረሰብ"],cpicks:["የሃያሲያን ምርጫ","Critics' picks","Filannoo hayyootaa","ምርጫ ሓያስያን"],
 menu:["ምናሌ","Menu","Baafata","ሜኑ"],share:["አጋራ","Share","Qoodi","ኣካፍል"],theme:["ብርሃን / ጨለማ","Light / dark","Ifa / dukkana","ብርሃን / ጸልማት"],
-home:["ዋና ገጽ","Home","Mana","ቀዳማይ ገጽ"],studio:["ደራሲ ነኝ (ስቱዲዮ)","I'm an author","Barreessaa dha","ደራሲ እየ"],upnext:["ቀጣይ","Up next","Itti aanu","ዝቕጽል"],trend:["አንባቢዎች የሚያወሩላቸው","Trending with readers","Dubbistootaan kan beekamu","ኣብ ኣንበብቲ ዝተፈልጡ"],
-picks:["ለእርስዎ የተመረጡ","Featured today","Filannoo har'aa","ምርጫ ሎሚ"],fromlist:["ከዝርዝርዎ","From your reading list","Tarree keessaniin","ካብ ዝርዝርኩም"],top10:["በአደፍርስ ምርጥ 10","Top 10 on Adafrus","Kudhan olaanoo Adafrus","ናይ ኣደፍርስ 10 ልዑላት"],
-fans:["የአንባቢ ምርጦች","Fan favorites","Kan dubbistootni jaallatan","ፍቱዋት ኣንበብቲ"],popint:["በዘርፍ ያስሱ","Browse by genre","Gosaan sakatta'i","ብዓይነት ድሕስሱ"],shopr:["ለግዢ የሚገኙ","Available to buy","Bituuf kan jiran","ንምዕዳግ ዘለዉ"],
-explore:["በቋንቋ ያስሱ","Explore by language","Afaaniin sakatta'i","ብቋንቋ ድሕስሱ"],topnews:["ዜና","Top news","Oduu","ዜና"],recent:["በቅርቡ ያዩት","Recently viewed","Kan dhiyeenya ilaalte","ሕጂ ዝረኣኹም"],
+home:["ዋና ገጽ","Home","Mana","ቀዳማይ ገጽ"],studio:["ደራሲ ነኝ","I'm an author","Barreessaa dha","ደራሲ እየ"],upnext:["ቀጣይ","Up next","Itti aanu","ዝቕጽል"],
+fromlist:["ከዝርዝርዎ","From your reading list","Tarree keessaniin","ካብ ዝርዝርኩም"],top10:["በአደፍርስ ምርጥ 10","Top 10 on Adafrus","Kudhan olaanoo Adafrus","ናይ ኣደፍርስ 10 ልዑላት"],
+fans:["የአንባቢ ምርጦች","Fan favorites","Kan dubbistootni jaallatan","ፍቱዋት ኣንበብቲ"],popint:["በዘርፍ ያስሱ","Browse by genre","Gosaan sakatta'i","ብዓይነት ድሕስሱ"],
+explore:["በቋንቋ ያስሱ","Explore by language","Afaaniin sakatta'i","ብቋንቋ ድሕስሱ"],recent:["በቅርቡ ያዩት","Recently viewed","Kan dhiyeenya ilaalte","ሕጂ ዝረኣኹም"],
 followus:["በማህበራዊ ሚዲያ ይከተሉን","Follow Adafrus on social media","Maxxansa hawaasaa irratti nu hordofi","ኣብ ማሕበራዊ ሚድያ ተኸተሉና"],getapp:["የአደፍርስ መተግበሪያ ያግኙ","Get the Adafrus app","Appii Adafrus argadhu","መተግበሪ ኣደፍርስ ረኽቡ"],
 help:["እገዛ","Help","Gargaarsa","ሓገዝ"],siteidx:["የድር ጣቢያ ማውጫ","Site index","Tarreeffama saayitii","ማውጫ"],license:["ፍቃድ","License Adafrus data","Hayyama","ፍቓድ"],press:["የፕሬስ ክፍል","Press room","Kutaa pireesii","ክፍሊ ፕረስ"],adv:["ማስታወቂያ","Advertising","Beeksisa","መወከሲ"],jobs:["ሥራዎች","Jobs","Hojii","ስራሕ"],
 terms:["የአጠቃቀም ደንቦች","Conditions of use","Haala itti fayyadama","ኩነታት ኣጠቓቕማ"],privacy:["የግላዊነት ፖሊሲ","Privacy policy","Imaammata dhuunfaa","ፖሊሲ ብሕትውና"],adchoice:["የማስታወቂያ ግላዊነት ምርጫዎ","Your ads privacy choices","Filannoo dhuunfaa beeksisaa","ምርጫ ብሕትውና መወከሲ"],soonmsg:["ይህ ገጽ በቅርቡ ይመጣል።","This page is coming soon.","Fuulli kun dhiyeenyatti dhufa.","እዚ ገጽ ኣብ ቀረባ ይመጽእ።"],
 reqv:["ማረጋገጫ ጠይቅ","Request verification","Mirkaneessuu gaafadhu","ምርግጋጽ ሕተት"],vpend:["መለያዎ ገና አልተረጋገጠም። ማረጋገጫ ይጠይቁ፤ አስተዳዳሪው ሲያረጋግጥልዎ መጻሕፍትዎን መጫንና ስምዎን ማስተዋወቅ ይችላሉ።","Your account is not verified yet. Request verification; once the admin confirms, you'll get a Verified ✓ badge and can upload your books.","Akkaawuntiin kee hin mirkanoofne. Mirkaneessuu gaafadhu.","ኣካውንትኩም ገና ኣይተረጋገጸን። ምርግጋጽ ሕተቱ።"],
 vdone:["መለያዎ ተረጋግጧል ✓። መጻሕፍትዎን ይጫኑ፣ ጽሑፎችዎን ያስተዋውቁ!","Your account is verified ✓. Upload your books and promote your writings!","Akkaawuntiin kee mirkanaa'eera ✓. Kitaabota kee ergi.","ኣካውንትኩም ተረጋጊጹ ✓። መጻሕፍትኩም ኣእትዉ።"],verify:["አረጋግጥ","Verify","Mirkaneessi","ኣረጋግጽ"],revoke:["አንሳ","Revoke","Haqi","ኣልግስ"],apprv:["ፍቀድ","Approve","Hayyami","ፍቐድ"],rejct:["ውድቅ","Reject","Didi","ንፈግ"],
 subs:["የተላኩ መጻሕፍት","Book submissions","Kitaabota ergaman","ዝተለኣኩ መጻሕፍቲ"],reqs:["የደራሲ ማረጋገጫ ጥያቄዎች","Author verification requests","Gaaffii mirkaneessaa","ሕቶ ምርግጋጽ ደረስቲ"],subok:["መጽሐፍዎ ለአስተዳዳሪ ተልኳል።","Your book was sent to the admin for approval.","Kitaabni kee bulchaaf ergameera.","መጽሓፍኩም ንኣመሓዳሪ ተላኢኹ።"],
-shop:["መደብር","Shop","Suuqa","ድኳን"],admin:["አስተዳዳሪ","Admin","Bulchaa","ኣመሓዳሪ"],buy:["ግዛ","Buy","Bita","ግዛእ"],price:["ዋጋ","Price","Gatii","ዋጋ"],etb:["ብር","ETB","Birrii","ብር"],fsale:["ለሽያጭ","For sale","Gurguramaa","ንሽያጥ"],
-checkout:["ክፍያ","Checkout","Kaffaltii","ክፍሊት"],qty:["ብዛት","Quantity","Baay'ina","ብዝሒ"],phone:["ስልክ","Phone","Bilbila","ስልኪ"],addr:["የማድረሻ አድራሻ","Delivery address","Teessoo geessaa","ኣድራሻ"],pay:["የመክፈያ መንገድ","Payment method","Mala kaffaltii","መንገዲ ክፍሊት"],
-paynote:["ሙከራ: እውነተኛ ክፍያ ገና አይወሰድም።","Demo: no real payment is taken yet.","Demo: kaffaltiin dhugaa hin fudhatamu.","ሙከራ: ሓቀኛ ክፍሊት ገና ኣይወሰድን።"],placeord:["ትዕዛዝ አስገባ","Place order","Ajaja galchi","ትእዛዝ ኣእትው"],
-ordok:["ትዕዛዝዎ ተቀብለናል። በቅርቡ እናገኝዎታለን።","Order received. We will contact you soon.","Ajajni fudhatameera. Dhiyeenyatti si quunnamna.","ትእዛዝኩም ተቐቢልና። ኣብ ቀረባ ክንረኽበኩም።"],
-orders:["ትዕዛዞች","Orders","Ajajoota","ትእዛዛት"],settings:["ቅንብሮች","Site settings","Qindaa'ina","ቅጥዕታት"],sitename:["የድር ጣቢያ ስም","Site name","Maqaa saayitii","ስም ሳይት"],font:["የርዕስ ፊደል","Heading font","Fonta mata-duree","ፊደል ኣርእስቲ"],color:["ዋና ቀለም","Accent color","Halluu","ሕብሪ"],
-del:["ሰርዝ","Delete","Haqi","ሰርዝ"],paid:["ተከፍሏል","Mark paid","Kafalame","ተኸፊሉ"],shipped:["ተልኳል","Mark shipped","Ergame","ተላኢኹ"],pend:["በመጠባበቅ","Pending","Eegaa jira","ይጽበ"],
+admin:["አስተዳዳሪ","Admin","Bulchaa","ኣመሓዳሪ"],settings:["ቅንብሮች","Site settings","Qindaa'ina","ቅጥዕታት"],sitename:["የድር ጣቢያ ስም","Site name","Maqaa saayitii","ስም ሳይት"],font:["የርዕስ ፊደል","Heading font","Fonta mata-duree","ፊደል ኣርእስቲ"],color:["ዋና ቀለም","Accent color","Halluu","ሕብሪ"],
+del:["ሰርዝ","Delete","Haqi","ሰርዝ"],pend:["በመጠባበቅ","Pending","Eegaa jira","ይጽበ"],
 notif:["ማሳወቂያዎች","Notifications","Beeksisa","ሓበሬታታት"],nempty:["ምንም አዲስ ነገር የለም።","Nothing new yet.","Homaatu haaraan hin jiru.","ሓድሽ የለን።"],
-nnew:["አዲስ መጽሐፍ ተጨምሯል፦","New book added:","Kitaabni haaraan dabalame:","ሓድሽ መጽሓፍ ተወሲኹ፦"],nup:["በቅርብ ይመጣል፦","Coming soon:","Dhiyeenyatti:","ኣብ ቀረባ ይመጽእ፦"],ntop:["ከፍተኛ ደረጃ የተሰጠው፦","Top rated:","Sadarkaa olaanaa:","ልዑል ደረጃ ዘለዎ፦"],
-tops:["ከፍተኛ ደረጃ የተሰጣቸው መጻሕፍት","Top rated books","Kitaabota sadarkaa olaanaa","ልዑል ደረጃ ዘለዎም መጻሕፍቲ"],news:["አዲስ የወጡ መጻሕፍት","New releases","Kitaabota haaraa","ሓደስቲ ዝወጹ"],soon:["በቅርብ የሚወጡ","Coming soon","Dhiyeenyatti","ኣብ ቀረባ ዝወጹ"],nsub:["ስለ አዳዲስ መጻሕፍት አሳውቀኝ","Notify me about new books","Waa'ee kitaabota haaraa na beeksisi","ብዛዕባ ሓደስቲ መጻሕፍቲ ኣፍልጡኒ"],
+nnew:["አዲስ መጽሐፍ ተጨምሯል፦","New book added:","Kitaabni haaraan dabalame:","ሓድሽ መጽሓፍ ተወሲኹ፦"],soon:["በቅርብ የሚወጡ","Coming soon","Dhiyeenyatti","ኣብ ቀረባ ዝወጹ"],nsub:["ስለ አዳዲስ መጻሕፍት አሳውቀኝ","Notify me about new books","Waa'ee kitaabota haaraa na beeksisi","ብዛዕባ ሓደስቲ መጻሕፍቲ ኣፍልጡኒ"],
 logo:["አደፍርስ","Adafrus","Adafrus","ኣደፍርስ"],
-h1:["ኢትዮጵያ ታነባለች","Ethiopia Reads","Itoophiyaan Dubbistti","ኢትዮጵያ ትነብብ"],
-hp:["መጻሕፍትን ይመዝኑ፣ ግምገማ ይጻፉ፣ የንባብ ዝርዝርዎን ይያዙ።","Rate books, write reviews, and keep your reading list.","Kitaabota madaalaa, yaada barreessaa, tarreeffama dubbisuu keessan qabadhaa.","መጻሕፍቲ ዓቐኑ፣ ርእይቶ ጸሓፉ፣ ዝርዝር ንባብኩም ሓዙ።"],
 books:["መጻሕፍት","Books","Kitaabota","መጻሕፍቲ"],authors:["ደራሲያን","Authors","Barreessitoota","ደረስቲ"],list:["የኔ ዝርዝር","My list","Tarree koo","ዝርዝረይ"],premium:["ፕሪሚየም","Premium","Premium","ፕሪሚየም"],
-st1:["መጻሕፍት","books","kitaabota","መጻሕፍቲ"],st2:["ግምገማዎች","reviews","yaadota","ርእይቶታት"],st3:["ቋንቋዎች","languages","afaanota","ቋንቋታት"],
+st1:["መጻሕፍት","books","kitaabota","መጻሕፍቲ"],
 login:["ግባ","Log in","Seeni","እተው"],logout:["ውጣ","Log out","Ba'i","ውጻእ"],signup:["ተመዝገብ","Sign up","Galmaa'i","ተመዝገብ"],
 search:["ርዕስ ወይም ደራሲ ፈልግ","Search title or author","Mata-duree ykn barreessaa barbaadi","ኣርእስቲ ወይ ደራሲ ድለይ"],
 allg:["ሁሉም ዘርፍ","All genres","Gosa hundaa","ኩሉ ዓይነት"],alll:["ሁሉም ቋንቋ","All languages","Afaan hundaa","ኩሉ ቋንቋ"],
@@ -345,16 +331,15 @@ email:["ኢሜይል","Email","Imeelii","ኢሜይል"],pw:["የይለፍ ቃል
 reader:["አንባቢ ነኝ","I am a reader","Dubbisaa dha","ኣንባቢ እየ"],author:["ደራሲ ነኝ","I am an author","Barreessaa dha","ደራሲ እየ"],
 haveacc:["መለያ አለዎት? ይግቡ","Have an account? Log in","Akkaawuntii qabduu? Seeni","ኣካውንት ኣለኩም? እተዉ"],noacc:["መለያ የለዎትም? ይመዝገቡ","New here? Sign up","Haaraa? Galmaa'i","ሓድሽ? ተመዝገቡ"],
 e1:["ትክክለኛ ኢሜይል ያስገቡ።","Enter a valid email.","Imeelii sirrii galchi.","ቅኑዕ ኢሜይል ኣእትው።"],e2:["የይለፍ ቃል ቢያንስ 6 ቁምፊ መሆን አለበት።","Password must be at least 6 characters.","Jechi icciitii yoo xiqqaate 6 qabaachuu qaba.","ቃል ምስጢር እንተወሓደ 6 ክኸውን ኣለዎ።"],
-e3:["ስምዎን ያስገቡ።","Enter your name.","Maqaa kee galchi.","ስምኩም ኣእትዉ።"],e4:["ኢሜይል ወይም የይለፍ ቃል ልክ አይደለም። መለያ ከሌለዎት ይመዝገቡ።","Wrong email or password. No account? Sign up.","Imeelii ykn jecha icciitii dogoggora. Akkaawuntii hin qabduu? Galmaa'i.","ኢሜይል ወይ ቃል ምስጢር ጌጋ። ኣካውንት የብልኩምን? ተመዝገቡ።"],e5:["መጀመሪያ ኮከብ ይምረጡ።","Choose a star rating first.","Dursa urjii filadhu.","ቀዳሞ ኮኾብ ምረጹ።"],e6:["ርዕስ ያስገቡ።","Enter a title.","Mata-duree galchi.","ኣርእስቲ ኣእትዉ።"],
+e3:["ስምዎን ያስገቡ።","Enter your name.","Maqaa kee galchi.","ስምኩም ኣእትዉ።"],e4:["ኢሜይል ወይም የይለፍ ቃል ልክ አይደለም።","Wrong email or password.","Imeelii ykn jecha icciitii dogoggora.","ኢሜይል ወይ ቃል ምስጢር ጌጋ።"],e5:["መጀመሪያ ኮከብ ይምረጡ።","Choose a star rating first.","Dursa urjii filadhu.","ቀዳሞ ኮኾብ ምረጹ።"],e6:["ርዕስ ያስገቡ።","Enter a title.","Mata-duree galchi.","ኣርእስቲ ኣእትዉ።"],
 botd:["የዛሬ ምርጥ","Featured today","Filannoo har'aa","ምርጫ ሎሚ"],
 goal:["የዓመቱ ግብ","Yearly reading goal","Kaayyoo waggaa","ዓመታዊ ዕላማ"],goalq:["ስንት መጽሐፍ ለማንበብ አስበዋል?","How many books this year?","Kitaabota meeqa waggaa kana?","ኣብ ዓመት ክንደይ መጽሓፍ?"],done:["ያነበብኩት","Books read","Kitaabota dubbifame","ዝንበበ"],
 loginfirst:["ይህን ለማድረግ ይግቡ።","Log in to do this.","Kana gochuuf seeni.","እዚ ንምግባር እተዉ።"],emptyl:["ባዶ ነው። መጽሐፍ ከፍተው ሁኔታውን ይምረጡ።","Empty. Open a book and pick a status.","Duwwaa dha. Kitaaba banuun haala filadhu.","ባዶ እዩ። መጽሓፍ ፈትሑ ኩነታት ምረጹ።"],
-forauth:["ለደራሲያን","For authors","Barreessitootaaf","ንደረስቲ"],authtx:["የደራሲ ገጽዎን ይክፈቱ፣ መጻሕፍትዎን ይጨምሩ፣ አንባቢዎች እንዴት እንደሚመዝኗቸው ይመልከቱ።","Claim your author page, add your books, and see how readers rate them.","Fuula barreessaa kee banii kitaabota kee dabali, madaallii dubbistootaa ilaali.","ገጽ ደራሲኹም ክፈቱ፣ መጻሕፍትኩም ወስኹ፣ ኣንበብቲ ከመይ ከም ዝዓቆኑ ርኣዩ።"],
-free:["ነፃ","Free","Bilisaa","ነጻ"],pro:["ደራሲ ፕሮ","Author Pro","Barreessaa Pro","ደራሲ ፕሮ"],
+authtx:["የደራሲ ገጽዎን ይክፈቱ፣ መጻሕፍትዎን ይጨምሩ፣ አንባቢዎች እንዴት እንደሚመዝኗቸው ይመልከቱ።","Claim your author page, add your books, and see how readers rate them.","Fuula barreessaa kee banii kitaabota kee dabali, madaallii dubbistootaa ilaali.","ገጽ ደራሲኹም ክፈቱ፣ መጻሕፍትኩም ወስኹ፣ ኣንበብቲ ከመይ ከም ዝዓቆኑ ርኣዩ።"],
+free:["ነፃ","Free","Bilisaa","ነጻ"],
 f1:["ደረጃ እና ግምገማ","Ratings and reviews","Madaallii fi yaada","ደረጃን ርእይቶን"],f2:["የንባብ ዝርዝር","Reading list","Tarree dubbisuu","ዝርዝር ንባብ"],f3:["ማስታወቂያ አለው","Contains ads","Beeksisa qaba","መወከሲ ኣለዎ"],
-p1:["የተረጋገጠ ምልክት","Verified badge","Mallattoo mirkanaa'e","ዝተረጋገጸ ምልክት"],p2:["ልዩ ቦታ","Featured placement","Bakka addaa","ፍሉይ ቦታ"],p3:["የአንባቢ ግንዛቤ","Reader insights","Hubannoo dubbistootaa","ርድኢት ኣንበብቲ"],
-a1:["ያለ ማስታወቂያ","No ads","Beeksisa malee","ብዘይ መወከሲ"],a2:["የራስዎ ዝርዝሮች","Custom lists","Tarree dhuunfaa","ናይ ባዕልኹም ዝርዝር"],a3:["የንባብ ስታትስቲክስ","Reading stats","Istaatistiksii dubbisuu","ስታቲስቲክስ ንባብ"],
-claim:["የደራሲ መገለጫ ክፈት","Create author profile","Piroofaayilii barreessaa uumi","መገለጫ ደራሲ ፍጠር"],join:["ተጠባባቂ ዝርዝር ይቀላቀሉ","Join the waitlist","Tarree eegumsaa seeni","ዝርዝር ተጸበይቲ ተሓወሱ"],
+a1:["ያለ ማስታወቂያ (Ad-Free)","Ad-free experience","Beeksisa malee","ብዘይ መወከሲ"],a2:["ብርቅዬና ጥንታዊ መጻሕፍትን ያንብቡ","Access Rare & Archival Books","Kitaabota durii argadhu","ብርቂ መጻሕፍቲ ረኽቡ"],a3:["የፕሪሚየም ደጋፊ ምልክት ⭐","Premium Supporter Badge ⭐","Mallattoo deeggaraa ⭐","ምልክት ፕሪሚየም ⭐"],
+join:["ፕሪሚየም ይሁኑ (100 ብር / 3 ወር)","Upgrade to Premium (100 ETB / 3 mo)","Premium seeni (100 ETB)","ፕሪሚየም እተዉ (100 ብር)"],
 nb:["መጽሐፍ ጨምር","Add a book","Kitaaba dabali","መጽሓፍ ወስኽ"],eb:["መጽሐፍ አስተካክል","Edit book","Kitaaba gulaali","መጽሓፍ ኣሰናብድ"],
 ft:["Amharic title","English title","Author (Amharic)","Author (English)","Language","Genre","Year","Description (Amharic)","Description (English)","Cover picture (Ethio Book Review, Google, Facebook, TikTok, upload, or paste)"],
 note:["የኢትዮጵያ መጻሕፍትና ሥነ-ግጥም ማህበረሰብ — አደፍርስ።","Adafrus — Ethiopian books, poetry & reading community.","Adafrus — Hawaasa dubbisaa kitaabota Itoophiyaa.","ኣደፍርስ — ማሕበረሰብ መጻሕፍቲ ኢትዮጵያ።"],
@@ -366,23 +351,18 @@ aut:["የሕይወት ታሪክ","Autobiography","Seenaa jireenyaa","ናይ ር�
 sf:["ሳይንሳዊ ልብ ወለድ","Science fiction","Saayinsii-fiksiinii","ሳይንሳዊ ልብ ወለድ"],rom:["የፍቅር","Romance","Jaalala","ፍቕሪ"],mys:["ምስጢራዊ ወንጀል","Mystery","Dhoksaa","ምስጢር"],fai:["ሃይማኖት","Faith","Amantii","እምነት"],
 kid:["የልጆች","Children's","Ijoollee","ናይ ቆልዑ"],slf:["ራስን ማሻሻል","Self-help","Of-fooyyessuu","ርእሰ ምምሕያሽ"],biz:["ንግድ","Business","Daldala","ንግዲ"],sci:["ሳይንስ","Science","Saayinsii","ሳይንስ"],fol:["ባህልና ተረት","Folklore","Duudhaa fi oduu","ባህሊን ጽውጽዋዕን"],hum:["ቀልድ","Humor","Qoosaa","ቀልዲ"]};
 const LN={am:"አማርኛ",om:"Afaan Oromoo",ti:"ትግርኛ",en:"English"},LK=Object.keys(LN),GK=Object.keys(GN);
-const tr=k=>T[k][li],gn=k=>GN[k][li];
+const tr=k=>(T[k]&&T[k][li])||k,gn=k=>(GN[k]&&GN[k][li])||k;
 
-// Author Portraits from Wikimedia Commons + Admin Custom Overrides
-const DEFAULT_AUTHOR_PHOTOS={
-  "ዓለማየሁ ገላጋይ":"https://commons.wikimedia.org/wiki/Special:FilePath/Alemayehu_Gelagay.jpg?width=240",
+// ONLY strictly verified Wikimedia Commons portraits (no wrong auto-guessed photos!)
+const VERIFIED_AUTHOR_PHOTOS={
   "ሀዲስ ዓለማየሁ":"https://commons.wikimedia.org/wiki/Special:FilePath/Haddis_Alemayehu_in_1961.jpg?width=240",
   "አዳም ረታ":"https://commons.wikimedia.org/wiki/Special:FilePath/Adamreta.jpg?width=240",
   "በዓሉ ግርማ":"https://commons.wikimedia.org/wiki/Special:FilePath/Baalu_Girma.jpg?width=240",
   "ሎሬት ጸጋዬ ገብረመድኅን":"https://commons.wikimedia.org/wiki/Special:FilePath/Tsegaye_Gabre-Medhin.jpg?width=240",
-  "ዶ/ር ከበደ ሚካኤል":"https://commons.wikimedia.org/wiki/Special:FilePath/Dr_Kebede_Mikael.jpg?width=240",
   "ማዕዛ መንግሥቴ":"https://commons.wikimedia.org/wiki/Special:FilePath/Maaza_Mengiste_at_BookExpo_(05586)_(cropped).jpg?width=240",
   "ቢለኔ ሥዩም":"https://commons.wikimedia.org/wiki/Special:FilePath/Billene_Seyoum.jpg?width=240",
   "የሞድሽ በቀለ":"https://commons.wikimedia.org/wiki/Special:FilePath/Yemodish_Bekele_1.jpg?width=240",
-  "ቀዳማዊ ኃይለ ሥላሴ":"https://commons.wikimedia.org/wiki/Special:FilePath/Haile-selassie-ethiopian_king.webp?width=240",
   "በዕውቀቱ ሥዩም":"https://commons.wikimedia.org/wiki/Special:FilePath/Bewketu.jpg?width=240",
-  "ዲናው መንግሥቱ":"https://commons.wikimedia.org/wiki/Special:FilePath/Dinaw_Mengestu_003.JPG?width=240",
-  "አብርሃም ቨርጌዝ":"https://commons.wikimedia.org/wiki/Special:FilePath/Dr_Abraham_Verghese_in_2023_06.jpg?width=240",
   "ካህሊል ጂብራን":"https://commons.wikimedia.org/wiki/Special:FilePath/Kahlil_Gibran_1913.jpg?width=240",
   "አልቤር ካሙ":"https://commons.wikimedia.org/wiki/Special:FilePath/Albert_Camus,_gagnant_de_prix_Nobel,_portrait_en_buste,_pos%C3%A9_au_bureau,_faisant_face_%C3%A0_gauche,_cigarette_de_tabagisme.jpg?width=240",
   "ፊዮዶር ዶስቶየቭስኪ":"https://commons.wikimedia.org/wiki/Special:FilePath/Vasily_Perov_-_%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%A4.%D0%9C.%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_-_Google_Art_Project.jpg?width=240",
@@ -391,7 +371,6 @@ const DEFAULT_AUTHOR_PHOTOS={
 };
 let AUTH_META={}; // { [canonicalName]: { img, bg, bgImg, bio, ver } }
 
-// Normalize duplicate author names (e.g., Alemayehu Gelagay / አለማየሁ ገላጋይ -> ዓለማየሁ ገላጋይ)
 function normAuthor(raw){
  const s=String(raw||"").trim();
  if(!s)return "—";
@@ -407,27 +386,137 @@ function normAuthor(raw){
  return s;
 }
 
-const STARTER_BOOKS=[{"t":"አጥቢያ","e":"Atbiya","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2007,"c":"#1E4D3B","s":"የዓለማየሁ ገላጋይ የመጀመሪያ ተወዳጅ ልብ ወለድ።","se":"Alemayehu Gelagay's acclaimed debut novel exploring urban life and human resilience.","id":1,"r":[0,0]},{"t":"ስብሐት ገብረእግዚአብሔር ሕይወትና ክህሎት","e":"Sibhat Gebre-Egziabher: Life and Craft","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"aut","y":2008,"c":"#5C3A21","s":"ስለ ታዋቂው ደራሲ ስብሐት ገብረእግዚአብሔር ሕይወትና የአጻጻፍ ጥበብ የተጻፈ መጽሐፍ።","se":"An intimate literary biography examining the life and craft of Sibhat Gebre-Egziabher.","id":2,"r":[0,0]},{"t":"ቅበላ","e":"Kibela","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2010,"c":"#1B5E4B","s":"በማህበራዊ ሕይወትና በሰው ልጅ ውስጣዊ ትግል ላይ የሚያጠነጥን ልብ ወለድ።","se":"A compelling Amharic novel probing social dynamics and inner human struggle.","id":3,"r":[0,0]},{"t":"ኩርቢት","e":"Kurbit","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2012,"c":"#7C4A1E","s":"በተገለሉ ሰዎች ሕይወትና እውነት ላይ የሚያተኩር ልብ ወለድ።","se":"A poignant story giving voice to marginalized lives in contemporary Ethiopia.","id":4,"r":[0,0]},{"t":"የፍልስፍና አፅናፍ","e":"Yefilsifina Atsnaf","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"phi","y":2012,"c":"#243B5E","s":"ታላላቅ የፍልስፍና ሃሳቦችን ወደ አማርኛ የሚያቀርብ የትርጉም ሥራ።","se":"Amharic translation of Mortimer J. Adler's Great Ideas from the Great Books.","id":5,"r":[0,0]},{"t":"ኢህአዴግን እከስሳለሁ","e":"I Accuse EPRDF","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"pol","y":2012,"c":"#5E2430","s":"ፖለቲካዊና ማህበራዊ ሂሶችን የያዘ መጽሐፍ።","se":"A bold collection of political essays and social critiques.","id":6,"r":[0,0]},{"t":"መልክአ ስብሐት","e":"Melka Sibhat","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"aut","y":2013,"c":"#4A3525","s":"27 ጸሐፊያን፣ ገጣሚያንና ሰዓሊያን ስለ ስብሐት የጻፉበት በዓለማየሁ ገላጋይ የተሰናዳ መጽሐፍ።","se":"A tribute anthology edited by Alemayehu Gelagay featuring 27 Ethiopian writers and artists.","id":7,"r":[0,0]},{"t":"የብርሃን ፈለጎች (ዓለማየሁ ገላጋይ)","e":"Yebirhan Felegoch (Gelagay)","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2013,"c":"#1E4D6B","s":"የዓለማየሁ ገላጋይ ጥልቅ የሥነ-ጽሑፍ ሥራ።","se":"A thought-provoking literary work by Alemayehu Gelagay.","id":8,"r":[0,0]},{"t":"ወሪሳ (የውድቀት ፈለጎች)","e":"Werisa (Tracks of Fall)","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2015,"c":"#6B2D2D","s":"በከተማ ሕይወት፣ በሞራልና በውድቀት ዙሪያ የሚያጠነጥን ታዋቂ ልብ ወለድ።","se":"One of Alemayehu Gelagay's best-known novels exploring moral reckoning and urban society.","id":9,"r":[0,0]},{"t":"በፍቅር ሥም","e":"Befikir Sim (In the Name of Love)","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"rom","y":2017,"c":"#7A334B","s":"በፍቅር ሥም የሚፈጸሙ ውሳኔዎችንና የሰው ልጅን ስሜት የሚተነትን ልብ ወለድ።","se":"A nuanced novel examining devotion, sacrifice, and choices made in the name of love.","id":10,"r":[0,0]},{"t":"መለያየት ሞት ነው","e":"Meleyayet Mot New","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2018,"c":"#2F284D","s":"ስለ መለያየት፣ ትዝታና የሰው ልጅ ግንኙነት የሚተርክ ልብ ወለድ።","se":"A moving novel about separation, memory, and enduring human bonds.","id":11,"r":[0,0]},{"t":"ውልብታ","e":"Wulibta","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2019,"c":"#1B4F43","s":"የሕይወት ቅጽበቶችንና ጥልቅ ምልከታዎችን የሚያሳይ መጽሐፍ።","se":"A literary work capturing fleeting moments and deep reflections on Ethiopian life.","id":12,"r":[0,0]},{"t":"ታለ በዕውነት ሥም","e":"Tale Be'Ewnet Sim","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2019,"c":"#5A3E24","s":"እውነትንና ማህበራዊ ፍትሕን የሚፈትሽ ልብ ወለድ።","se":"A compelling narrative questioning truth and social justice.","id":13,"r":[0,0]},{"t":"ሐሰተኛው በእምነት ሥም","e":"Hasetegnaw Be'Emnet Sim","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2020,"c":"#3E222B","s":"በእምነት ሥም የሚደረግን ግብዝነትና እውነተኛ መንፈሳዊነት የሚያነጻጽር መጽሐፍ።","se":"A sharp literary critique contrasting hypocrisy and genuine faith.","id":14,"r":[0,0]},{"t":"የተጠላው እንዳልተጠላ","e":"Yetetelaw Endaltetela","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2022,"c":"#1E324A","s":"የተገለሉና የተጠሉ ሰዎችን ታሪክ በርኅራኄ የሚያቀርብ ልብ ወለድ።","se":"An empathetic novel centering on the outcast and misunderstood.","id":15,"r":[0,0]},{"t":"ቤባንያ (ዕውነት ሐሰት)","e":"Bebanya (Truth & Falsehood)","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2023,"c":"#244A59","s":"በእውነትና በሐሰት መካከል ያለውን ቀጭን መስመር የሚመረምር መጽሐፍ።","se":"An intricate novel exploring the thin boundary between truth and deception.","id":16,"r":[0,0]},{"t":"ማዕበል ጠሪ ወፍ","e":"Maebel Teri Wef","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2024,"c":"#1C5248","s":"ለውጥንና ማዕበልን የሚቀድም ድምፅን የሚተርክ ልብ ወለድ።","se":"A dramatic novel symbolizing voices that herald coming storms and social change.","id":17,"r":[0,0]},{"t":"ዝይን: ፍቅር እውነት እምነት","e":"Ziyin: Love, Truth, Faith","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"phi","y":2025,"c":"#755918","s":"ፍቅርን፣ እውነትንና እምነትን የሚያስተሳስር ጥልቅ መጽሐፍ።","se":"A philosophical work weaving together love, truth, and faith.","id":18,"r":[0,0]},{"t":"ፈሪሳ","e":"Ferisa","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2026,"c":"#162238","s":"የዓለማየሁ ገላጋይ አዲስ ልብ ወለድ።","se":"Alemayehu Gelagay's latest novel examining society and human character.","id":19,"r":[0,0]},{"t":"እሳት ወይ አበባ","e":"Esat Wey Abeba (Fire or Flower)","a":"ሎሬት ጸጋዬ ገብረመድኅን","ae":"Tsegaye Gabre-Medhin","l":"am","g":"poe","y":1973,"c":"#5E2638","s":"የሎሬት ጸጋዬ ገብረመድኅን ታዋቂ የግጥም መድብል።","se":"The celebrated poetry anthology by Ethiopia's Poet Laureate Tsegaye Gabre-Medhin.","id":20,"r":[0,0]},{"t":"ቴዎድሮስ","e":"Tewodros (Play)","a":"ሎሬት ጸጋዬ ገብረመድኅን","ae":"Tsegaye Gabre-Medhin","l":"am","g":"his","y":1962,"c":"#2A3A59","s":"ስለ ዐፄ ቴዎድሮስ ራዕይና ታሪክ የተጻፈ ታዋቂ ተውኔት።","se":"Tsegaye Gabre-Medhin's iconic historical play on Emperor Tewodros II.","id":21,"r":[0,0]},{"t":"የከርሞ ሰው","e":"Yekermo Sew","a":"ሎሬት ጸጋዬ ገብረመድኅን","ae":"Tsegaye Gabre-Medhin","l":"am","g":"fic","y":1966,"c":"#3D4E3C","s":"የሎሬት ጸጋዬ ገብረመድኅን ድንቅ የቲያትር ሥራ።","se":"A landmark drama examining society and human values.","id":22,"r":[0,0]},{"t":"መንገድ ስንገባ","e":"Menged Singeba (Collected Poems)","a":"ገብረ ክርስቶስ ደስታ","ae":"Gebre Kristos Desta","l":"am","g":"poe","y":1968,"c":"#6E3B26","s":"የታዋቂው ሠዓሊና ገጣሚ ገብረ ክርስቶስ ደስታ ዘመናዊ ግጥሞች ስብስብ።","se":"Modernist Amharic poetry by renowned Ethiopian painter and poet Gebre Kristos Desta.","id":23,"r":[0,0]},{"t":"ፍቅር እዚህ ቦታ ፈገግ ብሎ ነበር","e":"Love Smiled Here","a":"ኤፍሬም ስዩም","ae":"Ephrem Seyoum","l":"am","g":"poe","y":2012,"c":"#244A59","s":"የገጣሚ ኤፍሬም ስዩም ተወዳጅ የግጥም መድብል።","se":"Beloved contemporary Amharic poetry collection by Ephrem Seyoum.","id":24,"r":[0,0]},{"t":"የይሁዳ ድልድይ","e":"The Bridge of Judah","a":"ኤፍሬም ስዩም","ae":"Ephrem Seyoum","l":"am","g":"poe","y":2018,"c":"#3D2B4D","s":"ጥልቅ ፍልስፍናዊና ሥነ-ግጥማዊ ሥራዎችን የያዘ የኤፍሬም ስዩም መጽሐፍ።","se":"A lyrical and philosophical poetry collection by Ephrem Seyoum.","id":25,"r":[0,0]},{"t":"ሶልያና","e":"Soliana","a":"ኤፍሬም ስዩም","ae":"Ephrem Seyoum","l":"am","g":"poe","y":2015,"c":"#1E5245","s":"የኤፍሬም ስዩም ታዋቂ የግጥም ሥራ።","se":"Poetic meditations on love, memory, and Addis Ababa.","id":26,"r":[0,0]},{"t":"አይገርምም ደህና ነን","e":"Ayigermim Dehna Nen","a":"ኤልያስ ሽታሁን","ae":"Elias Shitahun","l":"am","g":"poe","y":2021,"c":"#5C3A21","s":"የገጣሚ ኤልያስ ሽታሁን ተወዳጅ የግጥምና ወግ መጽሐፍ።","se":"Acclaimed contemporary poetry and reflections by Elias Shitahun.","id":27,"r":[0,0]},{"t":"የግጥም ቅርስ","e":"Selected Poems & Heritage","a":"አያሌው ብሩ","ae":"Ayalew Birru","l":"am","g":"poe","y":1995,"c":"#4A3E28","s":"የባህላዊና ሀገራዊ ግጥሞች ስብስብ።","se":"Traditional and patriotic Ethiopian verse heritage.","id":28,"r":[0,0]},{"t":"የግጥም ጉባኤ","e":"Yegitim Gubae (Poetry Assembly)","a":"መንግሥቱ ለማ","ae":"Mengistu Lemma","l":"am","g":"poe","y":1962,"c":"#1E4D3B","s":"የባለቅኔ መንግሥቱ ለማ ታዋቂ የግጥም መጽሐፍ።","se":"Classic Amharic poetry collection by playwright and poet Mengistu Lemma.","id":29,"r":[0,0]},{"t":"ጠልፎ በኪሴ","e":"Telfo Bekise (Marriage by Abduction)","a":"መንግሥቱ ለማ","ae":"Mengistu Lemma","l":"am","g":"hum","y":1968,"c":"#7C4A1E","s":"በኢትዮጵያ ቲያትር ታሪክ ታዋቂ የሆነ አስቂኝና አስተማሪ ተውኔት።","se":"Mengistu Lemma's celebrated social comedy play.","id":30,"r":[0,0]},{"t":"ብርሃነ ሕሊና","e":"Birhane Hilina (Light of Conscience)","a":"ዶ/ር ከበደ ሚካኤል","ae":"Dr. Kebede Michael","l":"am","g":"poe","y":1948,"c":"#243B5E","s":"የታላቁ ደራሲና ገጣሚ ዶ/ር ከበደ ሚካኤል የግጥምና የጥበብ መጽሐፍ።","se":"Foundational poetry and moral philosophy by Dr. Kebede Michael.","id":31,"r":[0,0]},{"t":"የቅኔ ውበት","e":"Yekine Wibet (Beauty of Qene)","a":"ዶ/ር ከበደ ሚካኤል","ae":"Dr. Kebede Michael","l":"am","g":"poe","y":1955,"c":"#5E2430","s":"ስለ ኢትዮጵያዊ ቅኔና ግጥም ጥበብ የተጻፈ ድንቅ ሥራ።","se":"A classic celebration of Ethiopian poetic tradition and Qene.","id":32,"r":[0,0]},{"t":"የልቤ መጽሐፍ","e":"Yelebe Metshaf (Book of My Heart)","a":"ስንዱ ገብሩ","ae":"Senedu Gebru","l":"am","g":"poe","y":1949,"c":"#6E2C46","s":"የኢትዮጵያ የመጀመሪያዋ ሴት ደራሲና ፓርላማ አባል ወ/ሮ ስንዱ ገብሩ የግጥምና የተውኔት መጽሐፍ።","se":"Historic poetry and drama collection by Senedu Gebru, Ethiopia's pioneering woman writer.","id":33,"r":[0,0]},{"t":"ቆንጆዎቹ","e":"Konjowochu (The Beauties)","a":"ፀሐይ መላኩ","ae":"Tsehay Melaku","l":"am","g":"fic","y":2000,"c":"#7A334B","s":"የታዋቂዋ ደራሲ ፀሐይ መላኩ ተወዳጅ ልብ ወለድ።","se":"A beloved novel by pioneering Ethiopian novelist Tsehay Melaku.","id":34,"r":[0,0]},{"t":"አንጉአች","e":"Anguach","a":"ፀሐይ መላኩ","ae":"Tsehay Melaku","l":"am","g":"fic","y":1992,"c":"#5C2E46","s":"ስለ ሴቶች ሕይወት፣ ጽናትና ፍትሕ የሚተርክ የፀሐይ መላኩ ታዋቂ ልብ ወለድ።","se":"Tsehay Melaku's acclaimed novel exploring women's lives and social justice.","id":35,"r":[0,0]},{"t":"የልብ ቃል","e":"Yelib Kal (Word of the Heart)","a":"የሞድሽ በቀለ","ae":"Yemodish Bekele","l":"am","g":"fic","y":2010,"c":"#1E5245","s":"የደራሲና ጋዜጠኛ የሞድሽ በቀለ የአጫጭር ልብ ወለዶችና ወጎች መጽሐፍ።","se":"Stories and essays by veteran Ethiopian writer and journalist Yemodish Bekele.","id":36,"r":[0,0]},{"t":"የእንባ ቀለም","e":"Ye'Enba Kelem (Color of Tears)","a":"ዓለምፀሐይ ወዳጆ","ae":"Alemtsehay Wedajo","l":"am","g":"poe","y":2008,"c":"#4A2840","s":"የታዋቂዋ የጥበብ ሰውና ገጣሚ ዓለምፀሐይ ወዳጆ የግጥም መድብል።","se":"Lyrical poetry by celebrated Ethiopian poet, playwright, and actress Alemtsehay Wedajo.","id":37,"r":[0,0]},{"t":"ሀገሬ (የተመረጡ ግጥሞች)","e":"Hagere (Selected Poems)","a":"ሜሮን ጌትነት","ae":"Meron Getnet","l":"am","g":"poe","y":2018,"c":"#244A59","s":"የገጣሚና አርቲስት ሜሮን ጌትነት ተወዳጅ ግጥሞች ስብስብ።","se":"Powerful contemporary poems on love, identity, and homeland by Meron Getnet.","id":38,"r":[0,0]},{"t":"እኔና እሱ","e":"Enena Esu (Me and Him)","a":"ሕይወት እምሻው","ae":"Hiwot Emishaw","l":"am","g":"fic","y":2019,"c":"#7C4A1E","s":"የደራሲ ሕይወት እምሻው ተወዳጅ ልብ ወለድ።","se":"A widely read contemporary Amharic novel by Hiwot Emishaw.","id":39,"r":[0,0]},{"t":"Earthy Tones","e":"Earthy Tones","a":"ቢለኔ ሥዩም","ae":"Billene Seyoum","l":"en","g":"poe","y":2014,"c":"#3D4E3C","s":"በቢለኔ ሥዩም የተጻፉ ግጥሞችና ወጎች።","se":"Poems and reflections on womanhood, heritage, and transformation by Billene Seyoum.","id":40,"r":[0,0]},{"t":"The Shadow King","e":"The Shadow King","a":"ማዕዛ መንግሥቴ","ae":"Maaza Mengiste","l":"en","g":"his","y":2019,"c":"#162238","isbn":"9780393244762","s":"በ1935 የጣሊያን ወረራ ወቅት ኢትዮጵያውያን ሴት አርበኞች ያደረጉት ተጋድሎ።","se":"Ethiopian women soldiers take up arms during Mussolini's 1935 invasion.","id":41,"r":[0,0]},{"t":"Beneath the Lion's Gaze","e":"Beneath the Lion's Gaze","a":"ማዕዛ መንግሥቴ","ae":"Maaza Mengiste","l":"en","g":"his","y":2010,"c":"#4A1E24","isbn":"9780393338805","s":"በ1974ቱ አብዮት ወቅት በአዲስ አበባ የሚኖር አንድ ቤተሰብ የገጠመው ፈተናና ፍቅር።","se":"A family in Addis Ababa navigates love, loyalty, and survival during the 1974 revolution.","id":42,"r":[0,0]},{"t":"ማህሌት","e":"Mahlet","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":1989,"c":"#1B7350","s":"የአዳም ረታ ታዋቂ የአጫጭር ልብ ወለዶች ስብስብ።","se":"Adam Reta's groundbreaking collection of short stories.","id":43,"r":[0,0]},{"t":"ግራጫ ቃጭሎች","e":"Gracha Qachiloch","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2005,"c":"#3B4859","s":"በኢትዮጵያ ዘመናዊ ሥነ-ጽሑፍ ውስጥ ልዩ ቦታ ያለው ታላቅ ልብ ወለድ።","se":"A modern Ethiopian literary masterpiece blending memory, myth, and magical realism.","id":44,"r":[0,0]},{"t":"አለንጋና ምስር","e":"Alengana Misir","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2009,"c":"#7C4A1E","s":"የአዳም ረታ ልዩ የአተራረክ ስልት የሚታይበት የአጫጭር ታሪኮች መጽሐፍ።","se":"A celebrated short-story collection showcasing Adam Reta's distinctive narrative craft.","id":45,"r":[0,0]},{"t":"እቴሜቴ ሎሚ ሽታ","e":"Etemete Lomi Shita","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2009,"c":"#9C6615","s":"እርስ በርስ የተሳሰሩ ውብ ታሪኮችን የያዘ መጽሐፍ።","se":"Interlinked novellas rich with poetic imagery and Ethiopian cultural memory.","id":46,"r":[0,0]},{"t":"ከሰማይ የወረደ ፍርፍር","e":"Kesemay Yewerede Firfir","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2010,"c":"#244A59","s":"በአዲስ አበባ ሕይወትና ፍልስፍና ላይ የተመሠረተ ተወዳጅ ልብ ወለድ።","se":"An inventive, deeply human novel set in Addis Ababa.","id":47,"r":[0,0]},{"t":"የስንብት ቀለማት","e":"Yesinibit Qelemat","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2013,"c":"#5E2638","s":"ስለ ፍቅር፣ ኪነ-ጥበብና ስንብት የሚተርክ ልብ ወለድ።","se":"A lyrical novel about love, art, and farewells.","id":48,"r":[0,0]},{"t":"አፍ","e":"Af","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2017,"c":"#5C3A21","s":"የቋንቋንና የታሪክን ኃይል የሚመረምር የአዳም ረታ ሥራ።","se":"An experimental literary work exploring voice, storytelling, and memory.","id":49,"r":[0,0]},{"t":"መረቅ","e":"Mereq","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2019,"c":"#244A3D","s":"የተመረጡ አጫጭር ታሪኮች ስብስብ።","se":"A rich anthology of short stories by Adam Reta.","id":50,"r":[0,0]},{"t":"ኦሮማይ","e":"Oromay","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"pol","y":1983,"c":"#5E2430","isbn":"9789994489022","s":"ጋዜጠኛ ጸጋዬ ኃይለማርያም በቀይ ኮከብ ዘመቻ ወቅት የሚያየው እውነትና የፖለቲካ ውጥረት።","se":"Journalist Tsegaye Hailemariam uncovers harsh truths during the Red Star campaign.","id":51,"r":[0,0]},{"t":"ካድማስ ባሻገር","e":"Kadmas Bashagger","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"rom","y":1974,"c":"#9C6615","s":"በአዲስ አበባ የአበራ ወርቁ የጥበብ ምኞት፣ የፍቅርና የተስፋ መቁረጥ ታሪክ።","se":"Abera Worku's artistic ambition, love, and disillusionment in Addis Ababa.","id":52,"r":[0,0]},{"t":"ሐዲስ","e":"Haddis","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"fic","y":1982,"c":"#6B2D3B","s":"በገጠር ኢትዮጵያ የለውጥ ፍላጎትና የማህበራዊ ሕይወት ትግልን የሚያሳይ ልብ ወለድ።","se":"A powerful novel depicting rural transformation and social struggle in Ethiopia.","id":53,"r":[0,0]},{"t":"የቀይ ኮከብ ጥሪ","e":"The Call of the Red Star","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"pol","y":1979,"c":"#7A2428","s":"በአብዮቱ ዘመን የነበረውን የፖለቲካ እንቅስቃሴና የወጣቶች ሕይወት የሚተርክ መጽሐፍ።","se":"A vivid chronicle of youth, ideology, and turmoil during the Ethiopian revolution.","id":54,"r":[0,0]},{"t":"ደራሲው","e":"Derasiw (The Author)","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"fic","y":1980,"c":"#243B5E","s":"ስለ አንድ ደራሲ የፈጠራ ሕይወት፣ ፍቅርና ፈተና የሚተርክ ልብ ወለድ።","se":"A compelling novel following an Ethiopian writer's creative struggles and personal life.","id":55,"r":[0,0]},{"t":"የሕሊና ደወል","e":"Yehilina Dewel (Bell of Conscience)","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"fic","y":1974,"c":"#3D4E3C","s":"ስለ ሕሊና፣ ፍትሕና ማህበራዊ ኃላፊነት የሚጠይቅ ልብ ወለድ።","se":"An early novel by Be'alu Girma examining conscience and social responsibility.","id":56,"r":[0,0]},{"t":"ፍቅር እስከ መቃብር","e":"Fiker Eske Mekaber","a":"ሀዲስ ዓለማየሁ","ae":"Haddis Alemayehu","l":"am","g":"fic","y":1966,"c":"#1B7350","isbn":"9789994492008","s":"በጎጃም የመደብ ልዩነትን የሚሻገር የበዛብህና የሰብለወንጌል የፍቅር ታሪክ።","se":"Ethiopia's most celebrated novel: Bezabih and Seblewongel's love across feudal class lines.","id":57,"r":[0,0]},{"t":"ወንጀለኛው ዳኛ","e":"Wenjelenaw Dagna","a":"ሀዲስ ዓለማየሁ","ae":"Haddis Alemayehu","l":"am","g":"fic","y":1981,"c":"#1E4D3B","s":"ስለ ፍትሕ፣ ሥልጣንና ሥነ-ምግባር የሚጠይቅ የሀዲስ ዓለማየሁ ጥልቅ ልብ ወለድ።","se":"Haddis Alemayehu's penetrating novel examining justice, power, and moral integrity.","id":58,"r":[0,0]},{"t":"የልምዣት","e":"Yelimzhat","a":"ሀዲስ ዓለማየሁ","ae":"Haddis Alemayehu","l":"am","g":"fic","y":1988,"c":"#2A5948","s":"የባህላዊ ሕይወትንና የማህበረሰብን ዕሴቶች የሚያሳይ ድንቅ ሥራ።","se":"A rich literary portrait of traditional Ethiopian life and enduring community values.","id":59,"r":[0,0]},{"t":"ተረት ተረት የመሠረት","e":"Teret Teret Yemeseret","a":"ሀዲስ ዓለማየሁ","ae":"Haddis Alemayehu","l":"am","g":"fol","y":1956,"c":"#755918","s":"ኢትዮጵያዊ ተረቶችንና ምሳሌዎችን የያዘ ታዋቂ መጽሐፍ።","se":"A classic collection of Ethiopian parables and moral tales.","id":60,"r":[0,0]},{"t":"እመጓ","e":"Emegua","a":"ዓለማየሁ ዋሴ እሸቴ","ae":"Alemayehu Wasse Eshete","l":"am","g":"mys","y":2015,"c":"#1B4F43","s":"በኢትዮጵያ ገዳማትና ጥንታዊ ታሪክ ውስጥ የተሰወሩ ምስጢራትን የሚያስቃኝ ልብ አንጠልጣይ መጽሐፍ።","se":"A captivating journey uncovering ancient mysteries hidden within Ethiopia's historic monasteries.","id":61,"r":[0,0]},{"t":"ዝጎራ","e":"Zigora","a":"ዓለማየሁ ዋሴ እሸቴ","ae":"Alemayehu Wasse Eshete","l":"am","g":"mys","y":2016,"c":"#244A3D","s":"የእመጓ ተከታይ የሆነ በታሪክና በምስጢር የተሞላ ተወዳጅ መጽሐፍ።","se":"The gripping sequel to Emegua delving deeper into Ethiopian monastic mysteries.","id":62,"r":[0,0]},{"t":"ዣንቶዣራ","e":"Zhantozhara","a":"ዓለማየሁ ዋሴ እሸቴ","ae":"Alemayehu Wasse Eshete","l":"am","g":"his","y":2017,"c":"#5A3E24","s":"ጥንታዊ የኢትዮጵያ ታሪክና ፍልስፍናን በልብ ወለድ መልክ የሚያቀርብ መጽሐፍ።","se":"An engaging historical novel exploring ancient Ethiopian wisdom and heritage.","id":63,"r":[0,0]},{"t":"ሰበዝ","e":"Sebez","a":"ዓለማየሁ ዋሴ እሸቴ","ae":"Alemayehu Wasse Eshete","l":"am","g":"phi","y":2019,"c":"#244A59","s":"ጥበብን፣ ታሪክንና መንፈሳዊ ፍልስፍናን የሚዳስስ ተወዳጅ መጽሐፍ።","se":"A reflective work weaving Ethiopian philosophy, history, and spiritual insight.","id":64,"r":[0,0]},{"t":"ትኩሳት","e":"Tikusat","a":"ስብሐት ገብረእግዚአብሔር","ae":"Sibhat Gebre-Egziabher","l":"am","g":"fic","y":1997,"c":"#6B2D2D","s":"በአዲስ አበባ ጎዳናዎችና ቡና ቤቶች ውስጥ የሚመላለሱ ገጸ-ባሕርያት እውነተኛ የሕይወት ሥዕል።","se":"An unfiltered, vivid portrait of life and bohemian characters in Addis Ababa.","id":65,"r":[0,0]},{"t":"ሌቱም አይነጋልኝ","e":"Letum Aynegalign","a":"ስብሐት ገብረእግዚአብሔር","ae":"Sibhat Gebre-Egziabher","l":"am","g":"fic","y":2000,"c":"#3E222B","s":"በአዲስ አበባ የምሽት ሕይወትና የሰው ልጅ እውነተኛ ባሕርይ ላይ የተጻፈ ታዋቂ ልብ ወለድ።","se":"Sibhat's celebrated, candid novel set in the nightlife of 1960s Addis Ababa.","id":66,"r":[0,0]},{"t":"እነሆ ጀግና","e":"Eneho Jegna","a":"ስብሐት ገብረእግዚአብሔር","ae":"Sibhat Gebre-Egziabher","l":"am","g":"his","y":2002,"c":"#7C4A1E","s":"ስለ ጀግንነትና ታሪካዊ ገድሎች የተጻፈ መጽሐፍ።","se":"Stories and reflections on Ethiopian heroism and historical figures.","id":67,"r":[0,0]},{"t":"እግረ መንገድ","e":"Egre Menged","a":"ስብሐት ገብረእግዚአብሔር","ae":"Sibhat Gebre-Egziabher","l":"am","g":"hum","y":2003,"c":"#9C6615","s":"የስብሐት ልዩ ወጎችና ጨዋታዎች ስብስብ።","se":"Witty essays and candid observations on everyday life in Ethiopia.","id":68,"r":[0,0]},{"t":"አደፍርስ","e":"Adefris","a":"ዳኜ ወርቁ","ae":"Dagnachew Worku","l":"am","g":"fic","y":1970,"c":"#162238","isbn":"9781569021316","s":"አንድ ወጣት ምሁር ከባህል፣ ከህብረተሰቡና ከራሱ ምርጫ ጋር የሚያደርገው ጥልቅ ትግል።","se":"A young intellectual struggles between tradition, society, and his own choices.","id":69,"r":[0,0]},{"t":"The Thirteenth Sun","e":"The Thirteenth Sun","a":"ዳኜ ወርቁ","ae":"Dagnachew Worku","l":"en","g":"fic","y":1973,"c":"#7C4A1E","isbn":"9781569021231","s":"በዝቋላ ተራራ ጉዞ ላይ የአባትና የልጅ ግጭት፣ ባህልና እምነት የሚታይበት ታዋቂ ልብ ወለድ።","se":"A father and son pilgrimage to Mount Ziquala reveals deep generational and spiritual divides.","id":70,"r":[0,0]},{"t":"ሰመመን","e":"Sememen","a":"ሲሳይ ንጉሡ","ae":"Sisay Nigusu","l":"am","g":"rom","y":1992,"c":"#7A334B","s":"በዩኒቨርሲቲ ሕይወት፣ በፍቅርና በሕይወት ውሳኔዎች ዙሪያ የሚያጠነጥን ተወዳጅ ልብ ወለድ።","se":"A beloved novel centered on university life, young romance, and life-shaping choices.","id":71,"r":[0,0]},{"t":"ጉዞ","e":"Guzo (Journey)","a":"ሲሳይ ንጉሡ","ae":"Sisay Nigusu","l":"am","g":"fic","y":1988,"c":"#1E324A","s":"የሲሳይ ንጉሡ የመጀመሪያ ተወዳጅ ልብ ወለድ።","se":"Sisay Nigusu's acclaimed debut novel.","id":72,"r":[0,0]},{"t":"አልወለድም","e":"Alweledim (I Will Not Be Born)","a":"አቤ ጉበኛ","ae":"Abe Gubegna","l":"am","g":"pol","y":1963,"c":"#3D4E3C","s":"ገና ሳይወለድ በዓለም ላይ ያለውን ግፍ በማየት አልወለድም የሚል ሕፃን የሚተርክ ምሳሌያዊ መጽሐፍ።","se":"An allegorical classic about an unborn child who refuses to enter an unjust world.","id":73,"r":[0,0]},{"t":"የሮም አወዳደቅ","e":"The Fall of Rome","a":"አቤ ጉበኛ","ae":"Abe Gubegna","l":"am","g":"his","y":1960,"c":"#5E2430","s":"ስለ ሥልጣን፣ ብልጽግናና ውድቀት የሚያስተምር ታሪካዊ ተውኔት።","se":"Abe Gubegna's famous historical drama mirroring power and social inequality.","id":74,"r":[0,0]},{"t":"አለመኖር","e":"Alemenor (Non-Existence)","a":"ዶ/ር ዳዊት ወንድማገኝ","ae":"Dr. Dawit Wondimagegn","l":"am","g":"phi","y":2018,"c":"#162238","s":"ሕልውናን፣ ሥነ-ልቦናንና የሰውን ልጅ ማንነት በጥልቀት የሚመረምር ተወዳጅ መጽሐፍ።","se":"A profound philosophical and psychological novel exploring existence and human consciousness.","id":75,"r":[0,0]},{"t":"አለማወቅ","e":"Alemawek (Unknowing)","a":"ዶ/ር ዳዊት ወንድማገኝ","ae":"Dr. Dawit Wondimagegn","l":"am","g":"phi","y":2022,"c":"#244A59","s":"ስለ እውቀት፣ ዕብሪትና የሰው ልጅ ውስንነት የሚጠይቅ ጥልቅ ሥራ።","se":"A thought-provoking exploration of knowledge, humility, and the limits of human understanding.","id":76,"r":[0,0]},{"t":"የተቆለፈበት ቁልፍ","e":"Yetekolefebet Kulf","a":"ዶ/ር ምሕረት ደበበ","ae":"Dr. Mihret Debebe","l":"am","g":"slf","y":2012,"c":"#244A59","s":"የሰውን ልጅ አእምሮ፣ ሥነ-ልቦናና ራስን የማወቅ ጉዞ የሚዳስስ ታዋቂ መጽሐፍ።","se":"A widely read exploration of human psychology, mindset, and self-discovery.","id":77,"r":[0,0]},{"t":"ሌላ ሰው","e":"Lela Sew","a":"ዶ/ር ምሕረት ደበበ","ae":"Dr. Mihret Debebe","l":"am","g":"fic","y":2015,"c":"#1C5248","s":"በሥነ-ልቦና፣ በቤተሰብ ሕይወትና በሰው ልጅ ማንነት ዙሪያ የሚያጠነጥን ልብ ወለድ።","se":"A psychological novel exploring identity, family bonds, and inner transformation.","id":78,"r":[0,0]},{"t":"ዴርቶጋዳ","e":"Dertogada","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"sf","y":2009,"c":"#1B4965","isbn":"9789994484317","s":"በሳይንስ፣ በምስጢርና በሀገር ፍቅር የተገነባ ታዋቂ ኢትዮጵያዊ ልብ ወለድ።","se":"A blockbuster Ethiopian techno-thriller blending science, mystery, and patriotism.","id":79,"r":[0,0]},{"t":"ራማቶሓራ","e":"Ramatohara","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"fan","y":2010,"c":"#2F284D","s":"የዴርቶጋዳ ተከታይ የሆነ አስደናቂ ልብ ወለድ።","se":"The thrilling continuation of the Dertogada adventure saga.","id":80,"r":[0,0]},{"t":"ተልሚድ","e":"Telmid","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"sf","y":2011,"c":"#1E324A","s":"በጥበብና በሳይንስ ፍለጋ ላይ የሚያጠነጥን መጽሐፍ።","se":"The third installment in Yismaeke Worku's speculative fiction series.","id":81,"r":[0,0]},{"t":"ክቡር ድንጋይ","e":"Kibur Dingay","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"hum","y":2013,"c":"#7C4A1E","s":"ማህበራዊና ፖለቲካዊ ጉዳዮችን በምጸት የሚተነትን ልብ ወለድ።","se":"A sharp satirical novel offering pointed commentary on Ethiopian society.","id":82,"r":[0,0]},{"t":"ሀገር ያጣ ሞት","e":"Hager Yata Mot","a":"ሄኖክ በቀለ ለማ","ae":"Henok Bekele Lemma","l":"am","g":"fic","y":2015,"c":"#5C3A21","s":"ስለ ስደት፣ ናፍቆትና የሰው ልጅ ሥነ-ልቦና የሚተርክ ልብ ወለድ።","se":"A moving novel exploring exile, belonging, and psychological resilience.","id":83,"r":[0,0]},{"t":"ምናልባት አንድ ቀን","e":"Minalbat And Qen (Maybe One Day)","a":"ሄኖክ በቀለ ለማ","ae":"Henok Bekele Lemma","l":"am","g":"fic","y":2026,"c":"#1B7350","s":"የሄኖክ በቀለ ለማ አዲስ ልብ ወለድ።","se":"Henok Bekele Lemma's 2026 novel about hope and second chances.","id":84,"r":[0,0]},{"t":"ፀሐይ ከጨለማዬ ምን አለሽ","e":"Tsehay Kechelemaye Minalesh","a":"እሱባለው አበራ ንጉሤ","ae":"Esubalew Abera Nigussie","l":"am","g":"fic","y":2016,"c":"#9C6615","s":"በተስፋ፣ በፍቅርና በሕይወት ፈተናዎች ዙሪያ የተጻፈ ልብ ወለድ።","se":"A heartfelt novel about hope, love, and overcoming darkness.","id":85,"r":[0,0]},{"t":"ትዝታሽን ለእኔ ትዝታዬን ለአንቺ","e":"Tizitashin Le'Ene Tizitayen Le'Anchi","a":"እሱባለው አበራ ንጉሤ","ae":"Esubalew Abera Nigussie","l":"am","g":"rom","y":2018,"c":"#7A334B","s":"ስለ ትዝታና እውነተኛ ፍቅር የሚተርክ ልብ ወለድ።","se":"A romantic novel centered on shared memories and devotion.","id":86,"r":[0,0]},{"t":"ነቢዩ","e":"The Prophet","a":"ካህሊል ጂብራን","ae":"Kahlil Gibran","l":"am","g":"phi","y":1923,"c":"#755918","isbn":"9780394404288","s":"ስለ ፍቅር፣ ሥራ፣ ሕይወትና ሞት ጥልቅ ጥበብን የሚያካፍል ዓለም አቀፍ ድንቅ መጽሐፍ።","se":"Kahlil Gibran's timeless poetic essays on love, work, sorrow, and the human spirit.","id":87,"r":[0,0]},{"t":"እንግዳው","e":"The Stranger (L'Étranger)","a":"አልቤር ካሙ","ae":"Albert Camus","l":"am","g":"phi","y":1942,"c":"#162238","isbn":"9780679720201","s":"የአልቤር ካሙ ታዋቂ የፍልስፍና ልብ ወለድ።","se":"Albert Camus's classic existential novel exploring absurdity and human alienation.","id":88,"r":[0,0]},{"t":"ወንጀልና ቅጣት","e":"Crime and Punishment","a":"ፊዮዶር ዶስቶየቭስኪ","ae":"Fyodor Dostoevsky","l":"am","g":"fic","y":1866,"c":"#3E222B","isbn":"9780140449136","s":"ስለ ሕሊና ጸጸት፣ ፍትሕና መዳን የሚተርክ ታላቅ የዓለም ሥነ-ጽሑፍ ሥራ።","se":"Dostoevsky's psychological masterpiece on guilt, morality, and redemption.","id":89,"r":[0,0]},{"t":"ወንድማማቾች ካራማዞቭ","e":"The Brothers Karamazov","a":"ፊዮዶር ዶስቶየቭስኪ","ae":"Fyodor Dostoevsky","l":"am","g":"phi","y":1880,"c":"#243B5E","isbn":"9780374528379","s":"ስለ እምነት፣ ጥርጣሬና ነፃ ፈቃድ የሚጠይቅ ታላቅ ልብ ወለድ።","se":"A monumental philosophical novel wrestling with faith, doubt, and free will.","id":90,"r":[0,0]},{"t":"ሕማማት","e":"Himamat (The Passion)","a":"ዲያቆን ሄኖክ ኃይሌ","ae":"Deacon Henok Haile","l":"am","g":"fai","y":2021,"c":"#5E2430","s":"ስለ ሰሙነ ሕማማትና የጌታችን መከራ መንፈሳዊ ትርጉም የሚያብራራ ተወዳጅ መጽሐፍ።","se":"A deeply moving spiritual meditation on Holy Week and the Passion of Christ.","id":91,"r":[0,0]},{"t":"ኢትዮጵያዊው ጃንደረባ","e":"The Ethiopian Eunuch","a":"ዲያቆን ሄኖክ ኃይሌ","ae":"Deacon Henok Haile","l":"am","g":"fai","y":2023,"c":"#1B4F43","s":"በሐዋርያት ሥራ ስለተጠቀሰው ኢትዮጵያዊ ጃንደረባ ታሪክና መንፈሳዊ ትምህርት የሚተነትን መጽሐፍ።","se":"A rich theological and historical reflection on the Ethiopian Eunuch in the Book of Acts.","id":92,"r":[0,0]},{"t":"አራቱ ኃያላን","e":"Aratu Hayalan (The Four Powers)","a":"ዲያቆን ዳንኤል ክብረት","ae":"Deacon Daniel Kibret","l":"am","g":"his","y":2016,"c":"#162238","s":"የጥንታዊት ኢትዮጵያን ታሪክና ሥልጣኔ የሚተርክ ተወዳጅ መጽሐፍ።","se":"A popular historical narrative exploring ancient Ethiopian civilization and power.","id":93,"r":[0,0]},{"t":"የእውቀት ገበታ","e":"Ye'Ewket Gebeta","a":"ዲያቆን ዳንኤል ክብረት","ae":"Deacon Daniel Kibret","l":"am","g":"his","y":2014,"c":"#244A59","s":"የተለያዩ ታሪካዊና ባህላዊ ወጎችን የያዘ መጽሐፍ።","se":"A rich collection of historical, cultural, and educational essays.","id":94,"r":[0,0]},{"t":"ሦስተኛው ኪዳን","e":"Sostegnaw Kidan (The Third Covenant)","a":"ደሞዝ ጎሹሜ","ae":"Demoz Goshime","l":"am","g":"fai","y":2014,"c":"#244A59","s":"ጥልቅ መንፈሳዊ ሃሳቦችንና ምሳሌዎችን የሚያብራራ መጽሐፍ።","se":"A contemplative spiritual work exploring covenant, faith, and biblical symbolism.","id":95,"r":[0,0]},{"t":"አዲሲቱ ኢየሩሳሌም","e":"Adisitu Eyerusalem (The New Jerusalem)","a":"ደሞዝ ጎሹሜ","ae":"Demoz Goshime","l":"am","g":"fai","y":2017,"c":"#1C5248","s":"ስለ መንፈሳዊ ዕረፍትና ተስፋ የሚተነትን የደሞዝ ጎሹሜ መጽሐፍ።","se":"A spiritual reflection on ultimate peace, hope, and the New Jerusalem.","id":96,"r":[0,0]},{"t":"ማዕበል (የአብዮት ዋዜማ)","e":"Maebel (The Flood Trilogy)","a":"ብርሃኑ ዘሪሁን","ae":"Berhanu Zerihun","l":"am","g":"his","y":1980,"c":"#7A2428","s":"የ1966ቱን አብዮት ዋዜማና ማህበራዊ ለውጥ የሚተርክ ታዋቂ ባለ ሦስት ቅጽ ልብ ወለድ።","se":"Berhanu Zerihun's landmark revolutionary trilogy depicting Ethiopian society on the eve of 1974.","id":97,"r":[0,0]},{"t":"የቴዎድሮስ ዕንባ","e":"YeTewodros Enba (Tewodros's Tears)","a":"ብርሃኑ ዘሪሁን","ae":"Berhanu Zerihun","l":"am","g":"his","y":1966,"c":"#5A3E24","s":"ስለ ዐፄ ቴዎድሮስ ሕይወትና ራዕይ የተጻፈ ታዋቂ ታሪካዊ ልብ ወለድ።","se":"A celebrated historical novel portraying Emperor Tewodros II's vision and tragedy.","id":98,"r":[0,0]},{"t":"የታንጉት ምሥጢር","e":"YeTangut Mistir (Tangut's Secret)","a":"ብርሃኑ ዘሪሁን","ae":"Berhanu Zerihun","l":"am","g":"his","y":1987,"c":"#6B2D3B","s":"የብርሃኑ ዘሪሁን የመጨረሻ ታዋቂ ታሪካዊ ልብ ወለድ።","se":"Berhanu Zerihun's final historical novel set in 19th-century Ethiopia.","id":99,"r":[0,0]},{"t":"ከአሜን ባሻገር","e":"Ke'Amen Bashager","a":"በዕውቀቱ ሥዩም","ae":"Bewketu Seyoum","l":"am","g":"hum","y":2016,"c":"#9C6615","s":"ታሪክን፣ ባህልንና ማህበራዊ ጉዳዮችን በሳቅና በጥልቅ ምልከታ የሚተነትኑ ወጎች።","se":"Witty, sharp essays blending humor with deep reflections on Ethiopian history and society.","id":100,"r":[0,0]},{"t":"Kuusaa Walaloo Oromoo","e":"Anthology of Oromo Poetry","a":"Abbaa Gammachiis","ae":"Abba Gammachis","l":"om","g":"poe","y":2018,"c":"#1E6B52","s":"የኦሮሞ ባህላዊና ዘመናዊ ግጥሞች ስብስብ።","se":"A rich collection of traditional and modern Afaan Oromoo poetry.","id":101,"r":[0,0]},{"t":"Godaannisa","e":"The Scar (Godaannisa)","a":"Dhaabaa Wayyeessaa","ae":"Dhaba Wayessa","l":"om","g":"fic","y":1992,"c":"#6B2D2D","s":"በአፋን ኦሮሞ የተጻፈ ታዋቂ የፍቅርና የማህበራዊ ሕይወት ልብ ወለድ።","se":"A landmark Afaan Oromoo novel exploring love, memory, and social struggle.","id":102,"r":[0,0]},{"t":"ሓደ ዛንታ","e":"Hade Zanta (One Story)","a":"በየነ ሃይለ","ae":"Beyene Haile","l":"ti","g":"fic","y":2005,"c":"#5E2638","s":"በትግርኛ ሥነ-ጽሑፍ ውስጥ ከፍተኛ አድናቆት ያተረፈ ጥልቅ ልብ ወለድ።","se":"An acclaimed Tigrinya novel celebrated for its poetic voice and philosophical depth.","id":103,"r":[0,0]}];
+const STARTER_BOOKS=[
+{"t":"አጥቢያ","e":"Atbiya","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2007,"c":"#1E293B","s":"የዓለማየሁ ገላጋይ የመጀመሪያ ተወዳጅ ልብ ወለድ።","se":"Alemayehu Gelagay's acclaimed debut novel exploring urban life and human resilience.","id":1,"r":[0,0]},
+{"t":"ስብሐት ገብረእግዚአብሔር ሕይወትና ክህሎት","e":"Sibhat Gebre-Egziabher: Life and Craft","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"aut","y":2008,"c":"#334155","s":"ስለ ታዋቂው ደራሲ ስብሐት ገብረእግዚአብሔር ሕይወትና የአጻጻፍ ጥበብ የተጻፈ መጽሐፍ።","se":"An intimate literary biography examining the life and craft of Sibhat Gebre-Egziabher.","id":2,"r":[0,0]},
+{"t":"ቅበላ","e":"Kibela","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2010,"c":"#1F4E46","s":"በማህበራዊ ሕይወትና በሰው ልጅ ውስጣዊ ትግል ላይ የሚያጠነጥን ልብ ወለድ።","se":"A compelling Amharic novel probing social dynamics and inner human struggle.","id":3,"r":[0,0]},
+{"t":"ኩርቢት","e":"Kurbit","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2012,"c":"#4A3728","s":"በተገለሉ ሰዎች ሕይወትና እውነት ላይ የሚያተኩር ልብ ወለድ።","se":"A poignant story giving voice to marginalized lives in contemporary Ethiopia.","id":4,"r":[0,0]},
+{"t":"የፍልስፍና አፅናፍ","e":"Yefilsifina Atsnaf","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"phi","y":2012,"c":"#243B5E","s":"ታላላቅ የፍልስፍና ሃሳቦችን ወደ አማርኛ የሚያቀርብ የትርጉም ሥራ።","se":"Amharic translation of Mortimer J. Adler's Great Ideas from the Great Books.","id":5,"r":[0,0]},
+{"t":"ኢህአዴግን እከስሳለሁ","e":"I Accuse EPRDF","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"pol","y":2012,"c":"#4C2630","s":"ፖለቲካዊና ማህበራዊ ሂሶችን የያዘ መጽሐፍ።","se":"A bold collection of political essays and social critiques.","id":6,"r":[0,0]},
+{"t":"መልክአ ስብሐት","e":"Melka Sibhat","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"aut","y":2013,"c":"#3F332B","s":"27 ጸሐፊያን፣ ገጣሚያንና ሰዓሊያን ስለ ስብሐት የጻፉበት በዓለማየሁ ገላጋይ የተሰናዳ መጽሐፍ።","se":"A tribute anthology edited by Alemayehu Gelagay featuring 27 Ethiopian writers and artists.","id":7,"r":[0,0]},
+{"t":"የብርሃን ፈለጎች (ዓለማየሁ ገላጋይ)","e":"Yebirhan Felegoch (Gelagay)","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2013,"c":"#1E4D6B","s":"የዓለማየሁ ገላጋይ ጥልቅ የሥነ-ጽሑፍ ሥራ።","se":"A thought-provoking literary work by Alemayehu Gelagay.","id":8,"r":[0,0]},
+{"t":"ወሪሳ (የውድቀት ፈለጎች)","e":"Werisa (Tracks of Fall)","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2015,"c":"#4A2525","s":"በከተማ ሕይወት፣ በሞራልና በውድቀት ዙሪያ የሚያጠነጥን ታዋቂ ልብ ወለድ።","se":"One of Alemayehu Gelagay's best-known novels exploring moral reckoning and urban society.","id":9,"r":[0,0]},
+{"t":"በፍቅር ሥም","e":"Befikir Sim (In the Name of Love)","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"rom","y":2017,"c":"#582C3E","s":"በፍቅር ሥም የሚፈጸሙ ውሳኔዎችንና የሰው ልጅን ስሜት የሚተነትን ልብ ወለድ።","se":"A nuanced novel examining devotion, sacrifice, and choices made in the name of love.","id":10,"r":[0,0]},
+{"t":"መለያየት ሞት ነው","e":"Meleyayet Mot New","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2018,"c":"#2F284D","s":"ስለ መለያየት፣ ትዝታና የሰው ልጅ ግንኙነት የሚተርክ ልብ ወለድ።","se":"A moving novel about separation, memory, and enduring human bonds.","id":11,"r":[0,0]},
+{"t":"ውልብታ","e":"Wulibta","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2019,"c":"#1B4F43","s":"የሕይወት ቅጽበቶችንና ጥልቅ ምልከታዎችን የሚያሳይ መጽሐፍ።","se":"A literary work capturing fleeting moments and deep reflections on Ethiopian life.","id":12,"r":[0,0]},
+{"t":"ታለ በዕውነት ሥም","e":"Tale Be'Ewnet Sim","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2019,"c":"#4E3A28","s":"እውነትንና ማህበራዊ ፍትሕን የሚፈትሽ ልብ ወለድ።","se":"A compelling narrative questioning truth and social justice.","id":13,"r":[0,0]},
+{"t":"ሐሰተኛው በእምነት ሥም","e":"Hasetegnaw Be'Emnet Sim","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2020,"c":"#3E222B","s":"በእምነት ሥም የሚደረግን ግብዝነትና እውነተኛ መንፈሳዊነት የሚያነጻጽር መጽሐፍ።","se":"A sharp literary critique contrasting hypocrisy and genuine faith.","id":14,"r":[0,0]},
+{"t":"የተጠላው እንዳልተጠላ","e":"Yetetelaw Endaltetela","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2022,"c":"#1E324A","s":"የተገለሉና የተጠሉ ሰዎችን ታሪክ በርኅራኄ የሚያቀርብ ልብ ወለድ።","se":"An empathetic novel centering on the outcast and misunderstood.","id":15,"r":[0,0]},
+{"t":"ቤባንያ (ዕውነት ሐሰት)","e":"Bebanya (Truth & Falsehood)","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2023,"c":"#244A59","s":"በእውነትና በሐሰት መካከል ያለውን ቀጭን መስመር የሚመረምር መጽሐፍ።","se":"An intricate novel exploring the thin boundary between truth and deception.","id":16,"r":[0,0]},
+{"t":"ማዕበል ጠሪ ወፍ","e":"Maebel Teri Wef","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2024,"c":"#1C5248","s":"ለውጥንና ማዕበልን የሚቀድም ድምፅን የሚተርክ ልብ ወለድ።","se":"A dramatic novel symbolizing voices that herald coming storms and social change.","id":17,"r":[0,0]},
+{"t":"ዝይን: ፍቅር እውነት እምነት","e":"Ziyin: Love, Truth, Faith","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"phi","y":2025,"c":"#5E491E","s":"ፍቅርን፣ እውነትንና እምነትን የሚያስተሳስር ጥልቅ መጽሐፍ።","se":"A philosophical work weaving together love, truth, and faith.","id":18,"r":[0,0]},
+{"t":"ፈሪሳ","e":"Ferisa","a":"ዓለማየሁ ገላጋይ","ae":"Alemayehu Gelagay","l":"am","g":"fic","y":2026,"c":"#141B2D","s":"የዓለማየሁ ገላጋይ አዲስ ልብ ወለድ።","se":"Alemayehu Gelagay's latest novel examining society and human character.","id":19,"r":[0,0]},
+{"t":"እሳት ወይ አበባ","e":"Esat Wey Abeba (Fire or Flower)","a":"ሎሬት ጸጋዬ ገብረመድኅን","ae":"Tsegaye Gabre-Medhin","l":"am","g":"poe","y":1973,"c":"#4A2535","s":"የሎሬት ጸጋዬ ገብረመድኅን ታዋቂ የግጥም መድብል።","se":"The celebrated poetry anthology by Ethiopia's Poet Laureate Tsegaye Gabre-Medhin.","id":20,"r":[0,0]},
+{"t":"ቴዎድሮስ","e":"Tewodros (Play)","a":"ሎሬት ጸጋዬ ገብረመድኅን","ae":"Tsegaye Gabre-Medhin","l":"am","g":"his","y":1962,"c":"#2A3A59","s":"ስለ ዐፄ ቴዎድሮስ ራዕይና ታሪክ የተጻፈ ታዋቂ ተውኔት።","se":"Tsegaye Gabre-Medhin's iconic historical play on Emperor Tewodros II.","id":21,"r":[0,0]},
+{"t":"የከርሞ ሰው","e":"Yekermo Sew","a":"ሎሬት ጸጋዬ ገብረመድኅን","ae":"Tsegaye Gabre-Medhin","l":"am","g":"fic","y":1966,"c":"#364536","s":"የሎሬት ጸጋዬ ገብረመድኅን ድንቅ የቲያትር ሥራ።","se":"A landmark drama examining society and human values.","id":22,"r":[0,0]},
+{"t":"መንገድ ስንገባ","e":"Menged Singeba (Collected Poems)","a":"ገብረ ክርስቶስ ደስታ","ae":"Gebre Kristos Desta","l":"am","g":"poe","y":1968,"c":"#5A3524","rare":1,"s":"የታዋቂው ሠዓሊና ገጣሚ ገብረ ክርስቶስ ደስታ ዘመናዊ ግጥሞች ስብስብ።","se":"Rare modernist Amharic poetry collection by renowned Ethiopian painter and poet Gebre Kristos Desta.","id":23,"r":[0,0]},
+{"t":"ፍቅር እዚህ ቦታ ፈገግ ብሎ ነበር","e":"Love Smiled Here","a":"ኤፍሬም ስዩም","ae":"Ephrem Seyoum","l":"am","g":"poe","y":2012,"c":"#244A59","s":"የገጣሚ ኤፍሬም ስዩም ተወዳጅ የግጥም መድብል።","se":"Beloved contemporary Amharic poetry collection by Ephrem Seyoum.","id":24,"r":[0,0]},
+{"t":"የይሁዳ ድልድይ","e":"The Bridge of Judah","a":"ኤፍሬም ስዩም","ae":"Ephrem Seyoum","l":"am","g":"poe","y":2018,"c":"#3D2B4D","s":"ጥልቅ ፍልስፍናዊና ሥነ-ግጥማዊ ሥራዎችን የያዘ የኤፍሬም ስዩም መጽሐፍ።","se":"A lyrical and philosophical poetry collection by Ephrem Seyoum.","id":25,"r":[0,0]},
+{"t":"ሶልያና","e":"Soliana","a":"ኤፍሬም ስዩም","ae":"Ephrem Seyoum","l":"am","g":"poe","y":2015,"c":"#1E5245","s":"የኤፍሬም ስዩም ታዋቂ የግጥም ሥራ።","se":"Poetic meditations on love, memory, and Addis Ababa.","id":26,"r":[0,0]},
+{"t":"አይገርምም ደህና ነን","e":"Ayigermim Dehna Nen","a":"ኤልያስ ሽታሁን","ae":"Elias Shitahun","l":"am","g":"poe","y":2021,"c":"#4A3728","s":"የገጣሚ ኤልያስ ሽታሁን ተወዳጅ የግጥምና ወግ መጽሐፍ።","se":"Acclaimed contemporary poetry and reflections by Elias Shitahun.","id":27,"r":[0,0]},
+{"t":"የግጥም ቅርስ","e":"Selected Poems & Heritage","a":"አያሌው ብሩ","ae":"Ayalew Birru","l":"am","g":"poe","y":1995,"c":"#4A3E28","s":"የባህላዊና ሀገራዊ ግጥሞች ስብስብ።","se":"Traditional and patriotic Ethiopian verse heritage.","id":28,"r":[0,0]},
+{"t":"የግጥም ጉባኤ","e":"Yegitim Gubae (Poetry Assembly)","a":"መንግሥቱ ለማ","ae":"Mengistu Lemma","l":"am","g":"poe","y":1962,"c":"#1F4E46","s":"የባለቅኔ መንግሥቱ ለማ ታዋቂ የግጥም መጽሐፍ።","se":"Classic Amharic poetry collection by playwright and poet Mengistu Lemma.","id":29,"r":[0,0]},
+{"t":"ጠልፎ በኪሴ","e":"Telfo Bekise (Marriage by Abduction)","a":"መንግሥቱ ለማ","ae":"Mengistu Lemma","l":"am","g":"hum","y":1968,"c":"#5E491E","s":"በኢትዮጵያ ቲያትር ታሪክ ታዋቂ የሆነ አስቂኝና አስተማሪ ተውኔት።","se":"Mengistu Lemma's celebrated social comedy play.","id":30,"r":[0,0]},
+{"t":"ብርሃነ ሕሊና","e":"Birhane Hilina (Light of Conscience)","a":"ዶ/ር ከበደ ሚካኤል","ae":"Dr. Kebede Michael","l":"am","g":"poe","y":1948,"c":"#243B5E","rare":1,"s":"የታላቁ ደራሲና ገጣሚ ዶ/ር ከበደ ሚካኤል የግጥምና የጥበብ መጽሐፍ።","se":"Rare foundational poetry and moral philosophy by Dr. Kebede Michael.","id":31,"r":[0,0]},
+{"t":"የቅኔ ውበት","e":"Yekine Wibet (Beauty of Qene)","a":"ዶ/ር ከበደ ሚካኤል","ae":"Dr. Kebede Michael","l":"am","g":"poe","y":1955,"c":"#4C2630","s":"ስለ ኢትዮጵያዊ ቅኔና ግጥም ጥበብ የተጻፈ ድንቅ ሥራ።","se":"A classic celebration of Ethiopian poetic tradition and Qene.","id":32,"r":[0,0]},
+{"t":"የልቤ መጽሐፍ","e":"Yelebe Metshaf (Book of My Heart)","a":"ስንዱ ገብሩ","ae":"Senedu Gebru","l":"am","g":"poe","y":1949,"c":"#582C3E","rare":1,"s":"የኢትዮጵያ የመጀመሪያዋ ሴት ደራሲና ፓርላማ አባል ወ/ሮ ስንዱ ገብሩ የግጥምና የተውኔት መጽሐፍ።","se":"Rare historic 1949 poetry and drama collection by Senedu Gebru, Ethiopia's pioneering woman writer.","id":33,"r":[0,0]},
+{"t":"ቆንጆዎቹ","e":"Konjowochu (The Beauties)","a":"ፀሐይ መላኩ","ae":"Tsehay Melaku","l":"am","g":"fic","y":2000,"c":"#4A2535","s":"የታዋቂዋ ደራሲ ፀሐይ መላኩ ተወዳጅ ልብ ወለድ።","se":"A beloved novel by pioneering Ethiopian novelist Tsehay Melaku.","id":34,"r":[0,0]},
+{"t":"አንጉአች","e":"Anguach","a":"ፀሐይ መላኩ","ae":"Tsehay Melaku","l":"am","g":"fic","y":1992,"c":"#4C2630","s":"ስለ ሴቶች ሕይወት፣ ጽናትና ፍትሕ የሚተርክ የፀሐይ መላኩ ታዋቂ ልብ ወለድ።","se":"Tsehay Melaku's acclaimed novel exploring women's lives and social justice.","id":35,"r":[0,0]},
+{"t":"የልብ ቃል","e":"Yelib Kal (Word of the Heart)","a":"የሞድሽ በቀለ","ae":"Yemodish Bekele","l":"am","g":"fic","y":2010,"c":"#1E5245","s":"የደራሲና ጋዜጠኛ የሞድሽ በቀለ የአጫጭር ልብ ወለዶችና ወጎች መጽሐፍ።","se":"Stories and essays by veteran Ethiopian writer and journalist Yemodish Bekele.","id":36,"r":[0,0]},
+{"t":"የእንባ ቀለም","e":"Ye'Enba Kelem (Color of Tears)","a":"ዓለምፀሐይ ወዳጆ","ae":"Alemtsehay Wedajo","l":"am","g":"poe","y":2008,"c":"#3D2B4D","s":"የታዋቂዋ የጥበብ ሰውና ገጣሚ ዓለምፀሐይ ወዳጆ የግጥም መድብል።","se":"Lyrical poetry by celebrated Ethiopian poet, playwright, and actress Alemtsehay Wedajo.","id":37,"r":[0,0]},
+{"t":"ሀገሬ (የተመረጡ ግጥሞች)","e":"Hagere (Selected Poems)","a":"ሜሮን ጌትነት","ae":"Meron Getnet","l":"am","g":"poe","y":2018,"c":"#244A59","s":"የገጣሚና አርቲስት ሜሮን ጌትነት ተወዳጅ ግጥሞች ስብስብ።","se":"Powerful contemporary poems on love, identity, and homeland by Meron Getnet.","id":38,"r":[0,0]},
+{"t":"እኔና እሱ","e":"Enena Esu (Me and Him)","a":"ሕይወት እምሻው","ae":"Hiwot Emishaw","l":"am","g":"fic","y":2019,"c":"#4A3728","s":"የደራሲ ሕይወት እምሻው ተወዳጅ ልብ ወለድ።","se":"A widely read contemporary Amharic novel by Hiwot Emishaw.","id":39,"r":[0,0]},
+{"t":"Earthy Tones","e":"Earthy Tones","a":"ቢለኔ ሥዩም","ae":"Billene Seyoum","l":"en","g":"poe","y":2014,"c":"#364536","s":"በቢለኔ ሥዩም የተጻፉ ግጥሞችና ወጎች።","se":"Poems and reflections on womanhood, heritage, and transformation by Billene Seyoum.","id":40,"r":[0,0]},
+{"t":"The Shadow King","e":"The Shadow King","a":"ማዕዛ መንግሥቴ","ae":"Maaza Mengiste","l":"en","g":"his","y":2019,"c":"#141B2D","isbn":"9780393244762","s":"በ1935 የጣሊያን ወረራ ወቅት ኢትዮጵያውያን ሴት አርበኞች ያደረጉት ተጋድሎ።","se":"Ethiopian women soldiers take up arms during Mussolini's 1935 invasion.","id":41,"r":[0,0]},
+{"t":"Beneath the Lion's Gaze","e":"Beneath the Lion's Gaze","a":"ማዕዛ መንግሥቴ","ae":"Maaza Mengiste","l":"en","g":"his","y":2010,"c":"#4A2525","isbn":"9780393338805","s":"በ1974ቱ አብዮት ወቅት በአዲስ አበባ የሚኖር አንድ ቤተሰብ የገጠመው ፈተናና ፍቅር።","se":"A family in Addis Ababa navigates love, loyalty, and survival during the 1974 revolution.","id":42,"r":[0,0]},
+{"t":"ማህሌት","e":"Mahlet","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":1989,"c":"#1F4E46","s":"የአዳም ረታ ታዋቂ የአጫጭር ልብ ወለዶች ስብስብ።","se":"Adam Reta's groundbreaking collection of short stories.","id":43,"r":[0,0]},
+{"t":"ግራጫ ቃጭሎች","e":"Gracha Qachiloch","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2005,"c":"#334155","s":"በኢትዮጵያ ዘመናዊ ሥነ-ጽሑፍ ውስጥ ልዩ ቦታ ያለው ታላቅ ልብ ወለድ።","se":"A modern Ethiopian literary masterpiece blending memory, myth, and magical realism.","id":44,"r":[0,0]},
+{"t":"አለንጋና ምስር","e":"Alengana Misir","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2009,"c":"#4A3728","s":"የአዳም ረታ ልዩ የአተራረክ ስልት የሚታይበት የአጫጭር ታሪኮች መጽሐፍ።","se":"A celebrated short-story collection showcasing Adam Reta's distinctive narrative craft.","id":45,"r":[0,0]},
+{"t":"እቴሜቴ ሎሚ ሽታ","e":"Etemete Lomi Shita","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2009,"c":"#5E491E","s":"እርስ በርስ የተሳሰሩ ውብ ታሪኮችን የያዘ መጽሐፍ።","se":"Interlinked novellas rich with poetic imagery and Ethiopian cultural memory.","id":46,"r":[0,0]},
+{"t":"ከሰማይ የወረደ ፍርፍር","e":"Kesemay Yewerede Firfir","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2010,"c":"#244A59","s":"በአዲስ አበባ ሕይወትና ፍልስፍና ላይ የተመሠረተ ተወዳጅ ልብ ወለድ።","se":"An inventive, deeply human novel set in Addis Ababa.","id":47,"r":[0,0]},
+{"t":"የስንብት ቀለማት","e":"Yesinibit Qelemat","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2013,"c":"#4A2535","s":"ስለ ፍቅር፣ ኪነ-ጥበብና ስንብት የሚተርክ ልብ ወለድ።","se":"A lyrical novel about love, art, and farewells.","id":48,"r":[0,0]},
+{"t":"አፍ","e":"Af","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2017,"c":"#4E3A28","s":"የቋንቋንና የታሪክን ኃይል የሚመረምር የአዳም ረታ ሥራ።","se":"An experimental literary work exploring voice, storytelling, and memory.","id":49,"r":[0,0]},
+{"t":"መረቅ","e":"Mereq","a":"አዳም ረታ","ae":"Adam Reta","l":"am","g":"fic","y":2019,"c":"#1E5245","s":"የተመረጡ አጫጭር ታሪኮች ስብስብ።","se":"A rich anthology of short stories by Adam Reta.","id":50,"r":[0,0]},
+{"t":"ኦሮማይ","e":"Oromay","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"pol","y":1983,"c":"#4C2630","isbn":"9789994489022","s":"ጋዜጠኛ ጸጋዬ ኃይለማርያም በቀይ ኮከብ ዘመቻ ወቅት የሚያየው እውነትና የፖለቲካ ውጥረት።","se":"Journalist Tsegaye Hailemariam uncovers harsh truths during the Red Star campaign.","id":51,"r":[0,0]},
+{"t":"ካድማስ ባሻገር","e":"Kadmas Bashagger","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"rom","y":1974,"c":"#5E491E","s":"በአዲስ አበባ የአበራ ወርቁ የጥበብ ምኞት፣ የፍቅርና የተስፋ መቁረጥ ታሪክ።","se":"Abera Worku's artistic ambition, love, and disillusionment in Addis Ababa.","id":52,"r":[0,0]},
+{"t":"ሐዲስ","e":"Haddis","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"fic","y":1982,"c":"#4A2525","s":"በገጠር ኢትዮጵያ የለውጥ ፍላጎትና የማህበራዊ ሕይወት ትግልን የሚያሳይ ልብ ወለድ።","se":"A powerful novel depicting rural transformation and social struggle in Ethiopia.","id":53,"r":[0,0]},
+{"t":"የቀይ ኮከብ ጥሪ","e":"The Call of the Red Star","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"pol","y":1979,"c":"#4C2630","s":"በአብዮቱ ዘመን የነበረውን የፖለቲካ እንቅስቃሴና የወጣቶች ሕይወት የሚተርክ መጽሐፍ።","se":"A vivid chronicle of youth, ideology, and turmoil during the Ethiopian revolution.","id":54,"r":[0,0]},
+{"t":"ደራሲው","e":"Derasiw (The Author)","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"fic","y":1980,"c":"#243B5E","s":"ስለ አንድ ደራሲ የፈጠራ ሕይወት፣ ፍቅርና ፈተና የሚተርክ ልብ ወለድ።","se":"A compelling novel following an Ethiopian writer's creative struggles and personal life.","id":55,"r":[0,0]},
+{"t":"የሕሊና ደወል","e":"Yehilina Dewel (Bell of Conscience)","a":"በዓሉ ግርማ","ae":"Be'alu Girma","l":"am","g":"fic","y":1974,"c":"#364536","s":"ስለ ሕሊና፣ ፍትሕና ማህበራዊ ኃላፊነት የሚጠይቅ ልብ ወለድ።","se":"An early novel by Be'alu Girma examining conscience and social responsibility.","id":56,"r":[0,0]},
+{"t":"ፍቅር እስከ መቃብር","e":"Fiker Eske Mekaber","a":"ሀዲስ ዓለማየሁ","ae":"Haddis Alemayehu","l":"am","g":"fic","y":1966,"c":"#1F4E46","isbn":"9789994492008","s":"በጎጃም የመደብ ልዩነትን የሚሻገር የበዛብህና የሰብለወንጌል የፍቅር ታሪክ።","se":"Ethiopia's most celebrated novel: Bezabih and Seblewongel's love across feudal class lines.","id":57,"r":[0,0]},
+{"t":"ወንጀለኛው ዳኛ","e":"Wenjelenaw Dagna","a":"ሀዲስ ዓለማየሁ","ae":"Haddis Alemayehu","l":"am","g":"fic","y":1981,"c":"#1E4D3B","s":"ስለ ፍትሕ፣ ሥልጣንና ሥነ-ምግባር የሚጠይቅ የሀዲስ ዓለማየሁ ጥልቅ ልብ ወለድ።","se":"Haddis Alemayehu's penetrating novel examining justice, power, and moral integrity.","id":58,"r":[0,0]},
+{"t":"የልምዣት","e":"Yelimzhat","a":"ሀዲስ ዓለማየሁ","ae":"Haddis Alemayehu","l":"am","g":"fic","y":1988,"c":"#2A5948","s":"የባህላዊ ሕይወትንና የማህበረሰብን ዕሴቶች የሚያሳይ ድንቅ ሥራ።","se":"A rich literary portrait of traditional Ethiopian life and enduring community values.","id":59,"r":[0,0]},
+{"t":"ተረት ተረት የመሠረት","e":"Teret Teret Yemeseret","a":"ሀዲስ ዓለማየሁ","ae":"Haddis Alemayehu","l":"am","g":"fol","y":1956,"c":"#5E491E","s":"ኢትዮጵያዊ ተረቶችንና ምሳሌዎችን የያዘ ታዋቂ መጽሐፍ።","se":"A classic collection of Ethiopian parables and moral tales.","id":60,"r":[0,0]},
+{"t":"እመጓ","e":"Emegua","a":"ዓለማየሁ ዋሴ እሸቴ","ae":"Alemayehu Wasse Eshete","l":"am","g":"mys","y":2015,"c":"#1B4F43","s":"በኢትዮጵያ ገዳማትና ጥንታዊ ታሪክ ውስጥ የተሰወሩ ምስጢራትን የሚያስቃኝ ልብ አንጠልጣይ መጽሐፍ።","se":"A captivating journey uncovering ancient mysteries hidden within Ethiopia's historic monasteries.","id":61,"r":[0,0]},
+{"t":"ዝጎራ","e":"Zigora","a":"ዓለማየሁ ዋሴ እሸቴ","ae":"Alemayehu Wasse Eshete","l":"am","g":"mys","y":2016,"c":"#244A3D","s":"የእመጓ ተከታይ የሆነ በታሪክና በምስጢር የተሞላ ተወዳጅ መጽሐፍ።","se":"The gripping sequel to Emegua delving deeper into Ethiopian monastic mysteries.","id":62,"r":[0,0]},
+{"t":"ዣንቶዣራ","e":"Zhantozhara","a":"ዓለማየሁ ዋሴ እሸቴ","ae":"Alemayehu Wasse Eshete","l":"am","g":"his","y":2017,"c":"#4E3A28","s":"ጥንታዊ የኢትዮጵያ ታሪክና ፍልስፍናን በልብ ወለድ መልክ የሚያቀርብ መጽሐፍ።","se":"An engaging historical novel exploring ancient Ethiopian wisdom and heritage.","id":63,"r":[0,0]},
+{"t":"ሰበዝ","e":"Sebez","a":"ዓለማየሁ ዋሴ እሸቴ","ae":"Alemayehu Wasse Eshete","l":"am","g":"phi","y":2019,"c":"#244A59","s":"ጥበብን፣ ታሪክንና መንፈሳዊ ፍልስፍናን የሚዳስስ ተወዳጅ መጽሐፍ።","se":"A reflective work weaving Ethiopian philosophy, history, and spiritual insight.","id":64,"r":[0,0]},
+{"t":"ትኩሳት","e":"Tikusat","a":"ስብሐት ገብረእግዚአብሔር","ae":"Sibhat Gebre-Egziabher","l":"am","g":"fic","y":1997,"c":"#4A2525","s":"በአዲስ አበባ ጎዳናዎችና ቡና ቤቶች ውስጥ የሚመላለሱ ገጸ-ባሕርያት እውነተኛ የሕይወት ሥዕል።","se":"An unfiltered, vivid portrait of life and bohemian characters in Addis Ababa.","id":65,"r":[0,0]},
+{"t":"ሌቱም አይነጋልኝ","e":"Letum Aynegalign","a":"ስብሐት ገብረእግዚአብሔር","ae":"Sibhat Gebre-Egziabher","l":"am","g":"fic","y":2000,"c":"#3E222B","s":"በአዲስ አበባ የምሽት ሕይወትና የሰው ልጅ እውነተኛ ባሕርይ ላይ የተጻፈ ታዋቂ ልብ ወለድ።","se":"Sibhat's celebrated, candid novel set in the nightlife of 1960s Addis Ababa.","id":66,"r":[0,0]},
+{"t":"እነሆ ጀግና","e":"Eneho Jegna","a":"ስብሐት ገብረእግዚአብሔር","ae":"Sibhat Gebre-Egziabher","l":"am","g":"his","y":2002,"c":"#4A3728","s":"ስለ ጀግንነትና ታሪካዊ ገድሎች የተጻፈ መጽሐፍ።","se":"Stories and reflections on Ethiopian heroism and historical figures.","id":67,"r":[0,0]},
+{"t":"እግረ መንገድ","e":"Egre Menged","a":"ስብሐት ገብረእግዚአብሔር","ae":"Sibhat Gebre-Egziabher","l":"am","g":"hum","y":2003,"c":"#5E491E","s":"የስብሐት ልዩ ወጎችና ጨዋታዎች ስብስብ።","se":"Witty essays and candid observations on everyday life in Ethiopia.","id":68,"r":[0,0]},
+{"t":"አደፍርስ","e":"Adefris","a":"ዳኜ ወርቁ","ae":"Dagnachew Worku","l":"am","g":"fic","y":1970,"c":"#141B2D","isbn":"9781569021316","s":"አንድ ወጣት ምሁር ከባህል፣ ከህብረተሰቡና ከራሱ ምርጫ ጋር የሚያደርገው ጥልቅ ትግል።","se":"A young intellectual struggles between tradition, society, and his own choices.","id":69,"r":[0,0]},
+{"t":"The Thirteenth Sun","e":"The Thirteenth Sun","a":"ዳኜ ወርቁ","ae":"Dagnachew Worku","l":"en","g":"fic","y":1973,"c":"#4A3728","isbn":"9781569021231","s":"በዝቋላ ተራራ ጉዞ ላይ የአባትና የልጅ ግጭት፣ ባህልና እምነት የሚታይበት ታዋቂ ልብ ወለድ።","se":"A father and son pilgrimage to Mount Ziquala reveals deep generational and spiritual divides.","id":70,"r":[0,0]},
+{"t":"ሰመመን","e":"Sememen","a":"ሲሳይ ንጉሡ","ae":"Sisay Nigusu","l":"am","g":"rom","y":1992,"c":"#582C3E","s":"በዩኒቨርሲቲ ሕይወት፣ በፍቅርና በሕይወት ውሳኔዎች ዙሪያ የሚያጠነጥን ተወዳጅ ልብ ወለድ።","se":"A beloved novel centered on university life, young romance, and life-shaping choices.","id":71,"r":[0,0]},
+{"t":"ጉዞ","e":"Guzo (Journey)","a":"ሲሳይ ንጉሡ","ae":"Sisay Nigusu","l":"am","g":"fic","y":1988,"c":"#1E324A","s":"የሲሳይ ንጉሡ የመጀመሪያ ተወዳጅ ልብ ወለድ።","se":"Sisay Nigusu's acclaimed debut novel.","id":72,"r":[0,0]},
+{"t":"አልወለድም","e":"Alweledim (I Will Not Be Born)","a":"አቤ ጉበኛ","ae":"Abe Gubegna","l":"am","g":"pol","y":1963,"c":"#364536","s":"ገና ሳይወለድ በዓለም ላይ ያለውን ግፍ በማየት አልወለድም የሚል ሕፃን የሚተርክ ምሳሌያዊ መጽሐፍ።","se":"An allegorical classic about an unborn child who refuses to enter an unjust world.","id":73,"r":[0,0]},
+{"t":"የሮም አወዳደቅ","e":"The Fall of Rome","a":"አቤ ጉበኛ","ae":"Abe Gubegna","l":"am","g":"his","y":1960,"c":"#4C2630","s":"ስለ ሥልጣን፣ ብልጽግናና ውድቀት የሚያስተምር ታሪካዊ ተውኔት።","se":"Abe Gubegna's famous historical drama mirroring power and social inequality.","id":74,"r":[0,0]},
+{"t":"አለመኖር","e":"Alemenor (Non-Existence)","a":"ዶ/ር ዳዊት ወንድማገኝ","ae":"Dr. Dawit Wondimagegn","l":"am","g":"phi","y":2018,"c":"#141B2D","s":"ሕልውናን፣ ሥነ-ልቦናንና የሰውን ልጅ ማንነት በጥልቀት የሚመረምር ተወዳጅ መጽሐፍ።","se":"A profound philosophical and psychological novel exploring existence and human consciousness.","id":75,"r":[0,0]},
+{"t":"አለማወቅ","e":"Alemawek (Unknowing)","a":"ዶ/ር ዳዊት ወንድማገኝ","ae":"Dr. Dawit Wondimagegn","l":"am","g":"phi","y":2022,"c":"#244A59","s":"ስለ እውቀት፣ ዕብሪትና የሰው ልጅ ውስንነት የሚጠይቅ ጥልቅ ሥራ።","se":"A thought-provoking exploration of knowledge, humility, and the limits of human understanding.","id":76,"r":[0,0]},
+{"t":"የተቆለፈበት ቁልፍ","e":"Yetekolefebet Kulf","a":"ዶ/ር ምሕረት ደበበ","ae":"Dr. Mihret Debebe","l":"am","g":"slf","y":2012,"c":"#244A59","s":"የሰውን ልጅ አእምሮ፣ ሥነ-ልቦናና ራስን የማወቅ ጉዞ የሚዳስስ ታዋቂ መጽሐፍ።","se":"A widely read exploration of human psychology, mindset, and self-discovery.","id":77,"r":[0,0]},
+{"t":"ሌላ ሰው","e":"Lela Sew","a":"ዶ/ር ምሕረት ደበበ","ae":"Dr. Mihret Debebe","l":"am","g":"fic","y":2015,"c":"#1C5248","s":"በሥነ-ልቦና፣ በቤተሰብ ሕይወትና በሰው ልጅ ማንነት ዙሪያ የሚያጠነጥን ልብ ወለድ።","se":"A psychological novel exploring identity, family bonds, and inner transformation.","id":78,"r":[0,0]},
+{"t":"ዴርቶጋዳ","e":"Dertogada","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"sf","y":2009,"c":"#1B4965","isbn":"9789994484317","s":"በሳይንስ፣ በምስጢርና በሀገር ፍቅር የተገነባ ታዋቂ ኢትዮጵያዊ ልብ ወለድ።","se":"A blockbuster Ethiopian techno-thriller blending science, mystery, and patriotism.","id":79,"r":[0,0]},
+{"t":"ራማቶሓራ","e":"Ramatohara","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"fan","y":2010,"c":"#2F284D","s":"የዴርቶጋዳ ተከታይ የሆነ አስደናቂ ልብ ወለድ።","se":"The thrilling continuation of the Dertogada adventure saga.","id":80,"r":[0,0]},
+{"t":"ተልሚድ","e":"Telmid","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"sf","y":2011,"c":"#1E324A","s":"በጥበብና በሳይንስ ፍለጋ ላይ የሚያጠነጥን መጽሐፍ።","se":"The third installment in Yismaeke Worku's speculative fiction series.","id":81,"r":[0,0]},
+{"t":"ክቡር ድንጋይ","e":"Kibur Dingay","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"hum","y":2013,"c":"#4A3728","s":"ማህበራዊና ፖለቲካዊ ጉዳዮችን በምጸት የሚተነትን ልብ ወለድ።","se":"A sharp satirical novel offering pointed commentary on Ethiopian society.","id":82,"r":[0,0]},
+{"t":"ሀገር ያጣ ሞት","e":"Hager Yata Mot","a":"ሄኖክ በቀለ ለማ","ae":"Henok Bekele Lemma","l":"am","g":"fic","y":2015,"c":"#4E3A28","s":"ስለ ስደት፣ ናፍቆትና የሰው ልጅ ሥነ-ልቦና የሚተርክ ልብ ወለድ።","se":"A moving novel exploring exile, belonging, and psychological resilience.","id":83,"r":[0,0]},
+{"t":"ምናልባት አንድ ቀን","e":"Minalbat And Qen (Maybe One Day)","a":"ሄኖክ በቀለ ለማ","ae":"Henok Bekele Lemma","l":"am","g":"fic","y":2026,"c":"#1F4E46","s":"የሄኖክ በቀለ ለማ አዲስ ልብ ወለድ።","se":"Henok Bekele Lemma's 2026 novel about hope and second chances.","id":84,"r":[0,0]},
+{"t":"ፀሐይ ከጨለማዬ ምን አለሽ","e":"Tsehay Kechelemaye Minalesh","a":"እሱባለው አበራ ንጉሤ","ae":"Esubalew Abera Nigussie","l":"am","g":"fic","y":2016,"c":"#5E491E","s":"በተስፋ፣ በፍቅርና በሕይወት ፈተናዎች ዙሪያ የተጻፈ ልብ ወለድ።","se":"A heartfelt novel about hope, love, and overcoming darkness.","id":85,"r":[0,0]},
+{"t":"ትዝታሽን ለእኔ ትዝታዬን ለአንቺ","e":"Tizitashin Le'Ene Tizitayen Le'Anchi","a":"እሱባለው አበራ ንጉሤ","ae":"Esubalew Abera Nigussie","l":"am","g":"rom","y":2018,"c":"#582C3E","s":"ስለ ትዝታና እውነተኛ ፍቅር የሚተርክ ልብ ወለድ።","se":"A romantic novel centered on shared memories and devotion.","id":86,"r":[0,0]},
+{"t":"ነቢዩ","e":"The Prophet","a":"ካህሊል ጂብራን","ae":"Kahlil Gibran","l":"am","g":"phi","y":1923,"c":"#5E491E","isbn":"9780394404288","s":"ስለ ፍቅር፣ ሥራ፣ ሕይወትና ሞት ጥልቅ ጥበብን የሚያካፍል ዓለም አቀፍ ድንቅ መጽሐፍ።","se":"Kahlil Gibran's timeless poetic essays on love, work, sorrow, and the human spirit.","id":87,"r":[0,0]},
+{"t":"እንግዳው","e":"The Stranger (L'Étranger)","a":"አልቤር ካሙ","ae":"Albert Camus","l":"am","g":"phi","y":1942,"c":"#141B2D","isbn":"9780679720201","s":"የአልቤር ካሙ ታዋቂ የፍልስፍና ልብ ወለድ።","se":"Albert Camus's classic existential novel exploring absurdity and human alienation.","id":88,"r":[0,0]},
+{"t":"ወንጀልና ቅጣት","e":"Crime and Punishment","a":"ፊዮዶር ዶስቶየቭስኪ","ae":"Fyodor Dostoevsky","l":"am","g":"fic","y":1866,"c":"#3E222B","isbn":"9780140449136","s":"ስለ ሕሊና ጸጸት፣ ፍትሕና መዳን የሚተርክ ታላቅ የዓለም ሥነ-ጽሑፍ ሥራ።","se":"Dostoevsky's psychological masterpiece on guilt, morality, and redemption.","id":89,"r":[0,0]},
+{"t":"ወንድማማቾች ካራማዞቭ","e":"The Brothers Karamazov","a":"ፊዮዶር ዶስቶየቭስኪ","ae":"Fyodor Dostoevsky","l":"am","g":"phi","y":1880,"c":"#243B5E","isbn":"9780374528379","s":"ስለ እምነት፣ ጥርጣሬና ነፃ ፈቃድ የሚጠይቅ ታላቅ ልብ ወለድ።","se":"A monumental philosophical novel wrestling with faith, doubt, and free will.","id":90,"r":[0,0]},
+{"t":"ሐተታ ዘርዓ ያዕቆብ","e":"Hatata Zera Yacob","a":"ዘርዓ ያዕቆብ","ae":"Zera Yacob","l":"am","g":"phi","y":1667,"c":"#243B5E","rare":1,"s":"የ17ኛው ክፍለ ዘመን ኢትዮጵያዊ ፈላስፋ በምክንያት፣ በእኩልነትና በእምነት ላይ የጻፈው ጥልቅ ፍልስፍና።","se":"Rare 17th-century Ethiopian philosophical treatise on reason, equality, and faith.","id":91,"r":[0,0]},
+{"t":"ክብረ ነገሥት","e":"Kebra Nagast","a":"ልዩ ልዩ","ae":"Various","l":"am","g":"fai","y":1321,"c":"#5E491E","isbn":"9781569021149","rare":1,"s":"የንግሥተ ሳባ፣ የንጉሥ ሰሎሞንና የታቦተ ጽዮን ወደ ኢትዮጵያ መምጣት የሚተርክ ጥንታዊ መጽሐፍ።","se":"Rare ancient Ethiopian epic chronicling Queen Makeda of Sheba, King Solomon, and the Ark of the Covenant.","id":92,"r":[0,0]},
+{"t":"ሕማማት","e":"Himamat (The Passion)","a":"ዲያቆን ሄኖክ ኃይሌ","ae":"Deacon Henok Haile","l":"am","g":"fai","y":2021,"c":"#4C2630","s":"ስለ ሰሙነ ሕማማትና የጌታችን መከራ መንፈሳዊ ትርጉም የሚያብራራ ተወዳጅ መጽሐፍ።","se":"A deeply moving spiritual meditation on Holy Week and the Passion of Christ.","id":93,"r":[0,0]},
+{"t":"ኢትዮጵያዊው ጃንደረባ","e":"The Ethiopian Eunuch","a":"ዲያቆን ሄኖክ ኃይሌ","ae":"Deacon Henok Haile","l":"am","g":"fai","y":2023,"c":"#1B4F43","s":"በሐዋርያት ሥራ ስለተጠቀሰው ኢትዮጵያዊ ጃንደረባ ታሪክና መንፈሳዊ ትምህርት የሚተነትን መጽሐፍ።","se":"A rich theological and historical reflection on the Ethiopian Eunuch in the Book of Acts.","id":94,"r":[0,0]},
+{"t":"አራቱ ኃያላን","e":"Aratu Hayalan (The Four Powers)","a":"ዲያቆን ዳንኤል ክብረት","ae":"Deacon Daniel Kibret","l":"am","g":"his","y":2016,"c":"#141B2D","s":"የጥንታዊት ኢትዮጵያን ታሪክና ሥልጣኔ የሚተርክ ተወዳጅ መጽሐፍ።","se":"A popular historical narrative exploring ancient Ethiopian civilization and power.","id":95,"r":[0,0]},
+{"t":"የእውቀት ገበታ","e":"Ye'Ewket Gebeta","a":"ዲያቆን ዳንኤል ክብረት","ae":"Deacon Daniel Kibret","l":"am","g":"his","y":2014,"c":"#244A59","s":"የተለያዩ ታሪካዊና ባህላዊ ወጎችን የያዘ መጽሐፍ።","se":"A rich collection of historical, cultural, and educational essays.","id":96,"r":[0,0]},
+{"t":"ሦስተኛው ኪዳን","e":"Sostegnaw Kidan (The Third Covenant)","a":"ደሞዝ ጎሹሜ","ae":"Demoz Goshime","l":"am","g":"fai","y":2014,"c":"#244A59","s":"ጥልቅ መንፈሳዊ ሃሳቦችንና ምሳሌዎችን የሚያብራራ መጽሐፍ።","se":"A contemplative spiritual work exploring covenant, faith, and biblical symbolism.","id":97,"r":[0,0]},
+{"t":"አዲሲቱ ኢየሩሳሌም","e":"Adisitu Eyerusalem (The New Jerusalem)","a":"ደሞዝ ጎሹሜ","ae":"Demoz Goshime","l":"am","g":"fai","y":2017,"c":"#1C5248","s":"ስለ መንፈሳዊ ዕረፍትና ተስፋ የሚተነትን የደሞዝ ጎሹሜ መጽሐፍ።","se":"A spiritual reflection on ultimate peace, hope, and the New Jerusalem.","id":98,"r":[0,0]},
+{"t":"ማዕበል (የአብዮት ዋዜማ)","e":"Maebel (The Flood Trilogy)","a":"ብርሃኑ ዘሪሁን","ae":"Berhanu Zerihun","l":"am","g":"his","y":1980,"c":"#4A2525","s":"የ1966ቱን አብዮት ዋዜማና ማህበራዊ ለውጥ የሚተርክ ታዋቂ ባለ ሦስት ቅጽ ልብ ወለድ።","se":"Berhanu Zerihun's landmark revolutionary trilogy depicting Ethiopian society on the eve of 1974.","id":99,"r":[0,0]},
+{"t":"የቴዎድሮስ ዕንባ","e":"YeTewodros Enba (Tewodros's Tears)","a":"ብርሃኑ ዘሪሁን","ae":"Berhanu Zerihun","l":"am","g":"his","y":1966,"c":"#4E3A28","s":"ስለ ዐፄ ቴዎድሮስ ሕይወትና ራዕይ የተጻፈ ታዋቂ ታሪካዊ ልብ ወለድ።","se":"A celebrated historical novel portraying Emperor Tewodros II's vision and tragedy.","id":100,"r":[0,0]},
+{"t":"የታንጉት ምሥጢር","e":"YeTangut Mistir (Tangut's Secret)","a":"ብርሃኑ ዘሪሁን","ae":"Berhanu Zerihun","l":"am","g":"his","y":1987,"c":"#4A2535","s":"የብርሃኑ ዘሪሁን የመጨረሻ ታዋቂ ታሪካዊ ልብ ወለድ።","se":"Berhanu Zerihun's final historical novel set in 19th-century Ethiopia.","id":101,"r":[0,0]},
+{"t":"ከአሜን ባሻገር","e":"Ke'Amen Bashager","a":"በዕውቀቱ ሥዩም","ae":"Bewketu Seyoum","l":"am","g":"hum","y":2016,"c":"#5E491E","s":"ታሪክን፣ ባህልንና ማህበራዊ ጉዳዮችን በሳቅና በጥልቅ ምልከታ የሚተነትኑ ወጎች።","se":"Witty, sharp essays blending humor with deep reflections on Ethiopian history and society.","id":102,"r":[0,0]},
+{"t":"Kuusaa Walaloo Oromoo","e":"Anthology of Oromo Poetry","a":"Abbaa Gammachiis","ae":"Abba Gammachis","l":"om","g":"poe","y":2018,"c":"#1E6B52","s":"የኦሮሞ ባህላዊና ዘመናዊ ግጥሞች ስብስብ።","se":"A rich collection of traditional and modern Afaan Oromoo poetry.","id":103,"r":[0,0]},
+{"t":"Godaannisa","e":"The Scar (Godaannisa)","a":"Dhaabaa Wayyeessaa","ae":"Dhaba Wayessa","l":"om","g":"fic","y":1992,"c":"#4A2525","s":"በአፋን ኦሮሞ የተጻፈ ታዋቂ የፍቅርና የማህበራዊ ሕይወት ልብ ወለድ።","se":"A landmark Afaan Oromoo novel exploring love, memory, and social struggle.","id":104,"r":[0,0]},
+{"t":"ሓደ ዛንታ","e":"Hade Zanta (One Story)","a":"በየነ ሃይለ","ae":"Beyene Haile","l":"ti","g":"fic","y":2005,"c":"#4A2535","s":"በትግርኛ ሥነ-ጽሑፍ ውስጥ ከፍተኛ አድናቆት ያተረፈ ጥልቅ ልብ ወለድ።","se":"An acclaimed Tigrinya novel celebrated for its poetic voice and philosophical depth.","id":105,"r":[0,0]}
+];
 const books=JSON.parse(JSON.stringify(STARTER_BOOKS));
 const revs={};books.forEach(b=>revs[b.id]=[]);
 let notes=[{k:"ntop",id:1,u:1},{k:"nnew",id:20,u:1}],user=null,tab="home",lang="",gen="",sort="top",term="",mine={},goal=12,nid=books.length+1,accts={},mode="in";
+let isPremium=false,AD_CFG={enabled:true,title:"Advertise on Adafrus — አደፍርስ",body:"Reach thousands of Ethiopian readers, authors, and book lovers.",cta:"Contact Us",url:""};
+let EVENTS=[
+ {id:1,type:"exhibition",t:"የአዲስ አበባ የመጻሕፍት ዐውደ ርዕይ 2026",e:"Addis Ababa Book Exhibition 2026",d:"Dec 12–15, 2026 · 9:00 AM",loc:"Addis Ababa Exhibition Center (Meskel Square)",org:"Ethiopian Publishers Association",likes:42},
+ {id:2,type:"launch",t:"አዲስ የግጥም መድብል ምረቃ",e:"Contemporary Amharic Poetry Anthology Launch",d:"Dec 20, 2026 · 5:30 PM",loc:"National Theater Hall, Addis Ababa",org:"Adafrus Literary Circle",likes:31},
+ {id:3,type:"signing",t:"የደራሲያን የፊርማ ሥነ-ሥርዓት እና ውይይት",e:"Authors Book Signing & Reader Meetup",d:"Jan 04, 2027 · 3:00 PM",loc:"Jafer Books, Bole, Addis Ababa",org:"Jafer Books & Adafrus",likes:27}
+];
+
 try{user=JSON.parse(localStorage.getItem("adafrus_user")||"null");const s=localStorage.getItem("adafrus_lang");if(s&&LC.includes(s))li=LC.indexOf(s)}catch(e){}
 
-const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const stars=n=>{const f=Math.round(n);return '<span class="stars">'+"★".repeat(f)+"<i>"+"★".repeat(5-f)+"</i></span>"};
-const avg=b=>b.r[1]?b.r[0].toFixed(1):"–";
-const bt=b=>li===0?b.t:b.e,ba=b=>li===0?normAuthor(b.a):b.ae,bs=b=>li===0?b.s:b.se;
+const $=s=>document.querySelector(s),esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const stars=n=>{const f=Math.round(n||0);return '<span class="stars">'+"★".repeat(f)+"<i>"+"★".repeat(5-f)+"</i></span>"};
+const avg=b=>(b&&b.r&&b.r[1])?Number(b.r[0]).toFixed(1):"–";
+const bt=b=>li===0?(b.t||b.e):(b.e||b.t),ba=b=>li===0?normAuthor(b.a):(b.ae||normAuthor(b.a)),bs=b=>li===0?(b.s||b.se):(b.se||b.s);
 
-// Fast Cover Cache & Parallel Lookup (Google Books Amharic/English, Open Library, Wikipedia)
-let COV_CACHE={},AUTH_CACHE={};
-try{
- COV_CACHE=JSON.parse(localStorage.getItem("adafrus_cov_cache")||"{}");
- AUTH_CACHE=JSON.parse(localStorage.getItem("adafrus_auth_cache")||"{}");
-}catch(e){}
+// Cover Image Lookup (Google Books & Open Library)
+let COV_CACHE={};
+try{COV_CACHE=JSON.parse(localStorage.getItem("adafrus_cov_cache")||"{}")}catch(e){}
 const saveCovCache=()=>{try{localStorage.setItem("adafrus_cov_cache",JSON.stringify(COV_CACHE))}catch(e){}};
-const saveAuthCache=()=>{try{localStorage.setItem("adafrus_auth_cache",JSON.stringify(AUTH_CACHE))}catch(e){}};
 
 function getCoverSrc(b){
+ if(!b)return "";
  if(b.img)return b.img;
  if(COV_CACHE[b.e])return COV_CACHE[b.e];
  if(b.isbn)return `https://covers.openlibrary.org/b/isbn/${b.isbn}-L.jpg?default=false`;
@@ -457,45 +546,16 @@ async function lookupBookCover(b){
    const doc=(d3.docs||[]).find(x=>x.cover_i);
    if(doc&&doc.cover_i)return saveHit(`https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`);
   }
-  for(const lc of ["en","am"]){
-   const wq=encodeURIComponent(lc==="am"?b.t:(b.e||b.t));
-   const rw=await fetch(`https://${lc}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${wq}&gsrlimit=2&prop=pageimages&pithumbsize=400&format=json&origin=*`);
-   if(rw.ok){
-    const dw=await rw.json();
-    const pages=dw.query&&dw.query.pages?Object.values(dw.query.pages):[];
-    const hit=pages.find(p=>p.thumbnail&&p.thumbnail.source&&!/flag|map|emblem|coat_of_arms/i.test(p.thumbnail.source));
-    if(hit)return saveHit(hit.thumbnail.source);
-   }
-  }
  }catch(e){}
  return saveHit("");
 }
 
-async function lookupAuthorPhoto(canon,ae){
- if(AUTH_CACHE[canon]!==undefined)return AUTH_CACHE[canon]||"";
- const saveA=u=>{AUTH_CACHE[canon]=u;saveAuthCache();return u};
- try{
-  for(const [lc,q] of [["en",ae],["am",canon]]){
-   if(!q)continue;
-   const rw=await fetch(`https://${lc}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(q)}&gsrlimit=2&prop=pageimages&pithumbsize=300&format=json&origin=*`);
-   if(rw.ok){
-    const dw=await rw.json();
-    const pages=dw.query&&dw.query.pages?Object.values(dw.query.pages):[];
-    const hit=pages.find(p=>p.thumbnail&&p.thumbnail.source&&!/flag|map|emblem|coat_of_arms/i.test(p.thumbnail.source));
-    if(hit)return saveA(hit.thumbnail.source);
-   }
-  }
- }catch(e){}
- return saveA("");
-}
-
-// Fast parallel hydration for visible covers & author portraits
 let hydrating=false;
 async function hydrateVisibleCovers(){
  if(hydrating)return;
  hydrating=true;
  try{
-  const missing=books.filter(b=>!getCoverSrc(b)&&COV_CACHE[b.e||b.t]===undefined).slice(0,16);
+  const missing=books.filter(b=>!getCoverSrc(b)&&COV_CACHE[b.e||b.t]===undefined).slice(0,12);
   await Promise.allSettled(missing.map(async b=>{
    const url=await lookupBookCover(b);
    if(url){
@@ -509,30 +569,14 @@ async function hydrateVisibleCovers(){
     });
    }
   }));
-  // Hydrate missing author avatars in parallel
-  const stats=authorStats().slice(0,20);
-  await Promise.allSettled(stats.map(async x=>{
-   const meta=AUTH_META[x.a]||{};
-   if(meta.img||DEFAULT_AUTHOR_PHOTOS[x.a]||AUTH_CACHE[x.a]!==undefined)return;
-   const u=await lookupAuthorPhoto(x.a,x.ae);
-   if(u){
-    document.querySelectorAll(`[data-av="${CSS.escape(x.a)}"]`).forEach(el=>{
-     if(!el.querySelector("img")){
-      const img=document.createElement("img");
-      img.src=u;img.alt=nm(x.a,x.ae);img.decoding="async";
-      img.onerror=()=>img.remove();
-      el.appendChild(img);
-     }
-    });
-   }
-  }));
  }finally{hydrating=false}
 }
 
 const cover=(b,badge,eager=false)=>{
   const src=getCoverSrc(b);
-  return `<div class="cover" data-cov-id="${b.id}" style="background-color:${b.c}">
-    ${badge?`<div class="badge">${badge}</div>`:""}
+  const rb=b.rare?`<div class="badge" style="top:${badge?"30px":"8px"};background:#141B2D;color:#F0B43C">👑 Rare</div>`:"";
+  return `<div class="cover" data-cov-id="${b.id}" style="background-color:${b.c||"#1E293B"}">
+    ${badge?`<div class="badge">${badge}</div>`:""}${rb}
     <div class="cov-txt"><b>${esc(bt(b))}</b><span>${esc(ba(b))}</span></div>
     ${src?`<img class="cov-img" src="${esc(src)}" alt="${esc(bt(b))}" ${eager?'fetchpriority="high"':'loading="lazy"'} decoding="async" onerror="this.remove()">`:""}
   </div>`;
@@ -540,7 +584,7 @@ const cover=(b,badge,eager=false)=>{
 
 const getAuthorPhoto=a=>{
  const canon=normAuthor(a);
- return (AUTH_META[canon]&&AUTH_META[canon].img)||DEFAULT_AUTHOR_PHOTOS[canon]||AUTH_CACHE[canon]||"";
+ return (AUTH_META[canon]&&AUTH_META[canon].img)||VERIFIED_AUTHOR_PHOTOS[canon]||"";
 };
 
 const isAuthorVerified=a=>{
@@ -549,65 +593,89 @@ const isAuthorVerified=a=>{
  return books.some(b=>normAuthor(b.a)===canon&&b.uid&&VER.includes(b.uid));
 };
 
-const authorAvatar=(a,ae,size=78)=>{
+const authorAvatar=(a,ae,size=76)=>{
   const canon=normAuthor(a);
   const name=nm(canon,ae);
   const photo=getAuthorPhoto(canon);
-  return `<div class="av" data-av="${esc(canon)}" style="margin:auto;width:${size}px;height:${size}px">${esc(name.charAt(0))}${photo?`<img src="${esc(photo)}" alt="${esc(name)}" loading="lazy" decoding="async" onerror="this.remove()">`:""}</div>`;
+  return `<div class="av" style="margin:auto;width:${size}px;height:${size}px">${esc(name.charAt(0))}${photo?`<img src="${esc(photo)}" alt="${esc(name)}" loading="lazy" decoding="async" onerror="this.remove()">`:""}</div>`;
 };
 
+// Ad Banner Component (automatically hidden if user has Premium!)
+function adBanner(){
+ if(isPremium||!AD_CFG.enabled)return "";
+ return `<div class="ad-slot">
+  <div>
+   <span class="ad-tag">Sponsored · ${tr("adv")}</span>
+   <b>${esc(AD_CFG.title)}</b>
+   <div class="note">${esc(AD_CFG.body)}</div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+   ${AD_CFG.url?`<a href="${esc(AD_CFG.url)}" target="_blank" rel="noopener" style="text-decoration:none;padding:7px 14px;border-radius:999px;background:var(--hero);color:#fff;font-weight:600;font-size:.85rem">${esc(AD_CFG.cta||"Learn more")}</a>`:""}
+   <button data-go="premium" style="font-size:.8rem;padding:6px 12px">Remove ads (Premium)</button>
+  </div>
+ </div>`;
+}
+
 function render(){
- document.documentElement.lang=LC[li];$("#lg").value=LC[li];document.title=tr("logo");
- $("#logo").textContent=SET.name||tr("logo");chrome();nav();dbg();$("#foot").textContent=tr("note");
- $("#loginBtn").textContent=user?tr("edit"):tr("login");
- {const c=notes.filter(n=>n.u).length;$("#bell").textContent="🔔"+(c?" "+c:"")}
- $("#who").textContent=user?(user.name+(user.role==="author"&&VER.includes(user.id)?" ✓":"")):"";
- $("#tabs").innerHTML=tabsL().map(k=>`<button data-t="${k}" class="${k===tab?"on":""}">${tr(k)}</button>`).join("");
- const v=$("#view");
- if(tab==="home"){homeView(v);hydrateVisibleCovers();return}
- if(VIEWS[tab]){VIEWS[tab](v);return}
- if(tab==="studio"){studioView(v);return}
- if(tab==="shop"){shopView(v);return}
- if(tab==="admin"){adminView(v);return}
- if(tab==="books"){
-  let list=books.filter(b=>(!lang||b.l===lang)&&(!gen||b.g===gen)&&(b.t+b.e+b.a+b.ae+normAuthor(b.a)).toLowerCase().includes(term.toLowerCase()));
-  list.sort(sort==="top"?(a,b)=>b.r[0]-a.r[0]||(b.y-a.y):sort==="new"?(a,b)=>b.y-a.y:(a,b)=>bt(a).localeCompare(bt(b),LC[li]));
-  v.innerHTML=`<div class="tools"><input id="q" type="search" placeholder="${tr("search")}" value="${esc(term)}" aria-label="${tr("search")}"><select id="so"><option value="top" ${sort=="top"?"selected":""}>${tr("top")}</option><option value="new" ${sort=="new"?"selected":""}>${tr("newest")}</option><option value="az" ${sort=="az"?"selected":""}>${tr("az")}</option></select>${isAdmin?`<button class="gold" id="add">${tr("add")}</button>`:""}<button id="sur">${tr("surprise")}</button></div>
-  <div class="chips"><button data-l="" class="${!lang?"on":""}">${tr("alll")}</button>${LK.map(k=>`<button data-l="${k}" class="${lang===k?"on":""}">${LN[k]}</button>`).join("")}</div>
-  <div class="chips"><button data-g="" class="${!gen?"on":""}">${tr("allg")}</button>${GK.map(k=>`<button data-g="${k}" class="${gen===k?"on":""}">${gn(k)}</button>`).join("")}</div>
-  <div class="grid">${list.map((b,i)=>bcard(b,b.up?tr("soon"):sort==="top"&&i===0&&b.r[1]?"★ #1":b.y>=2023?tr("newb"):"")).join("")||`<p>${tr("nores")}</p>`}</div>`;
-  $("#q").oninput=e=>{term=e.target.value;const p=e.target.selectionStart;render();$("#q").focus();$("#q").setSelectionRange(p,p)};
-  $("#so").onchange=e=>{sort=e.target.value;render()};
-  v.querySelectorAll("[data-l]").forEach(x=>x.onclick=()=>{lang=x.dataset.l;render()});
-  v.querySelectorAll("[data-g]").forEach(x=>x.onclick=()=>{gen=x.dataset.g;render()});
-  bindCards(v);
-  if($("#add"))$("#add").onclick=()=>editBook(null);
-  $("#sur").onclick=()=>openBook(books[Math.floor(Math.random()*books.length)].id);
-  hydrateVisibleCovers();
- }else if(tab==="authors"){
-  const au=authorStats();
-  v.innerHTML=`<h2 class="sec">${tr("tauth")} (${au.length})</h2>
-  <div class="authors">${au.map(x=>{const isVer=isAuthorVerified(x.a);return `<div class="card" style="padding:16px;text-align:center">
-   <button data-a="${esc(x.a)}" style="border:none;text-align:center;padding:0;background:none;width:100%">
-    ${authorAvatar(x.a,x.ae)}
-    <h3 style="margin-top:10px">${esc(nm(x.a,x.ae))} ${isVer?'<span style="color:var(--green)">✓</span>':""}</h3>
-    <div class="note">${x.c} ${tr("st1")}</div>
-   </button>
-   <div style="display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap">
-    <button data-a="${esc(x.a)}" class="gold" style="padding:5px 12px;font-size:.82rem">👤 Profile</button>
-    <button data-c="${esc(x.a)}" style="padding:5px 12px;font-size:.82rem">💬 Chat</button>
-   </div>
-  </div>`}).join("")}</div>`;
-  v.querySelectorAll("[data-a]").forEach(x=>x.onclick=()=>openAuthor(x.dataset.a));
-  v.querySelectorAll("[data-c]").forEach(x=>x.onclick=()=>openAuthor(x.dataset.c,true));
-  hydrateVisibleCovers();
- }else if(tab==="list"){
-  if(!user){v.innerHTML=`<div class="panel"><h2>${tr("list")}</h2><p>${tr("loginfirst")}</p><button class="primary" id="ll">${tr("login")}</button></div>`;$("#ll").onclick=()=>openLogin("in");return}
-  const ids=Object.keys(mine),read=ids.filter(i=>mine[i]==="s2").length,pct=Math.min(100,Math.round(read/goal*100));
-  v.innerHTML=`<div class="panel"><h2>${tr("goal")}</h2><div class="bar"><i style="width:${pct}%"></i></div><p class="note">${tr("done")}: <b>${read}</b> / ${goal}</p><div class="tools"><input id="gl" type="number" min="1" value="${goal}" aria-label="${tr("goalq")}" style="width:90px"><span class="note" style="align-self:center">${tr("goalq")}</span></div></div>
-  <div class="panel" style="margin-top:14px"><h2>${tr("list")}</h2>${ids.length?ids.map(i=>{const b=books.find(x=>x.id==i);return b?`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><button data-id="${b.id}" style="border:none;padding:0;text-align:left;font-weight:700">${esc(bt(b))}</button><span class="pill-tag pill-ok">${tr(mine[i])}</span></div>`:""}).join(""):`<p>${tr("emptyl")}</p>`}</div>`;
-  v.querySelectorAll("[data-id]").forEach(x=>x.onclick=()=>openBook(+x.dataset.id));
-  $("#gl").onchange=e=>{goal=Math.max(1,+e.target.value||1);saveMe();render()};
+ try{
+  document.documentElement.lang=LC[li];$("#lg").value=LC[li];document.title=tr("logo");
+  $("#logo").textContent=SET.name||tr("logo");chrome();nav();dbg();$("#foot").textContent=tr("note");
+  $("#loginBtn").textContent=user?tr("edit"):tr("login");
+  const admBtn=$("#admTopBtn");if(admBtn){admBtn.style.display=isAdmin?"inline-block":"none";admBtn.onclick=()=>{tab="admin";render()}}
+  {const c=notes.filter(n=>n.u).length;$("#bell").textContent="🔔"+(c?" "+c:"")}
+  $("#who").textContent=user?(user.name+(isPremium?" ⭐":"")+(user.role==="author"&&VER.includes(user.id)?" ✓":"")):"";
+  $("#tabs").innerHTML=tabsL().map(k=>`<button data-t="${k}" class="${k===tab?"on":""}">${tr(k)}</button>`).join("");
+  const v=$("#view");
+  if(tab==="home"){homeView(v);hydrateVisibleCovers();return}
+  if(VIEWS[tab]){VIEWS[tab](v);return}
+  if(tab==="studio"){studioView(v);return}
+  if(tab==="events"){eventsView(v);return}
+  if(tab==="premium"){premiumView(v);return}
+  if(tab==="admin"){adminView(v);return}
+  if(tab==="books"){
+   let list=books.filter(b=>(!lang||b.l===lang)&&(!gen||b.g===gen)&&(b.t+b.e+b.a+b.ae+normAuthor(b.a)).toLowerCase().includes(term.toLowerCase()));
+   list.sort(sort==="top"?(a,b)=>(b.r[0]||0)-(a.r[0]||0)||(b.y-a.y):sort==="new"?(a,b)=>b.y-a.y:(a,b)=>bt(a).localeCompare(bt(b),LC[li]));
+   v.innerHTML=`<div class="tools"><input id="q" type="search" placeholder="${tr("search")}" value="${esc(term)}" aria-label="${tr("search")}"><select id="so"><option value="top" ${sort=="top"?"selected":""}>${tr("top")}</option><option value="new" ${sort=="new"?"selected":""}>${tr("newest")}</option><option value="az" ${sort=="az"?"selected":""}>${tr("az")}</option></select>${isAdmin?`<button class="gold" id="add">${tr("add")}</button>`:""}<button id="sur">${tr("surprise")}</button></div>
+   <div class="chips"><button data-l="" class="${!lang?"on":""}">${tr("alll")}</button>${LK.map(k=>`<button data-l="${k}" class="${lang===k?"on":""}">${LN[k]}</button>`).join("")}</div>
+   <div class="chips"><button data-g="" class="${!gen?"on":""}">${tr("allg")}</button>${GK.map(k=>`<button data-g="${k}" class="${gen===k?"on":""}">${gn(k)}</button>`).join("")}</div>
+   ${adBanner()}
+   <div class="grid">${list.map((b,i)=>bcard(b,b.up?tr("soon"):sort==="top"&&i===0&&b.r[1]?"★ #1":b.y>=2023?tr("newb"):"")).join("")||`<p>${tr("nores")}</p>`}</div>`;
+   $("#q").oninput=e=>{term=e.target.value;const p=e.target.selectionStart;render();$("#q").focus();$("#q").setSelectionRange(p,p)};
+   $("#so").onchange=e=>{sort=e.target.value;render()};
+   v.querySelectorAll("[data-l]").forEach(x=>x.onclick=()=>{lang=x.dataset.l;render()});
+   v.querySelectorAll("[data-g]").forEach(x=>x.onclick=()=>{gen=x.dataset.g;render()});
+   bindCards(v);
+   if($("#add"))$("#add").onclick=()=>editBook(null);
+   $("#sur").onclick=()=>openBook(books[Math.floor(Math.random()*books.length)].id);
+   hydrateVisibleCovers();
+  }else if(tab==="authors"){
+   const au=authorStats();
+   v.innerHTML=`<h2 class="sec">${tr("tauth")} (${au.length})</h2>
+   <div class="authors">${au.map(x=>{const isVer=isAuthorVerified(x.a);return `<div class="card" style="padding:16px;text-align:center">
+    <button data-a="${esc(x.a)}" style="border:none;text-align:center;padding:0;background:none;width:100%">
+     ${authorAvatar(x.a,x.ae)}
+     <h3 style="margin-top:10px">${esc(nm(x.a,x.ae))} ${isVer?'<span style="color:var(--green)">✓</span>':""}</h3>
+     <div class="note">${x.c} ${tr("st1")}</div>
+    </button>
+    <div style="display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap">
+     <button data-a="${esc(x.a)}" class="gold" style="padding:5px 12px;font-size:.82rem">👤 Profile</button>
+     <button data-c="${esc(x.a)}" style="padding:5px 12px;font-size:.82rem">💬 Chat</button>
+    </div>
+   </div>`}).join("")}</div>`;
+   v.querySelectorAll("[data-a]").forEach(x=>x.onclick=()=>openAuthor(x.dataset.a));
+   v.querySelectorAll("[data-c]").forEach(x=>x.onclick=()=>openAuthor(x.dataset.c,true));
+   hydrateVisibleCovers();
+  }else if(tab==="list"){
+   if(!user){v.innerHTML=`<div class="panel"><h2>${tr("list")}</h2><p>${tr("loginfirst")}</p><button class="primary" id="ll">${tr("login")}</button></div>`;$("#ll").onclick=()=>openLogin("in");return}
+   const ids=Object.keys(mine),read=ids.filter(i=>mine[i]==="s2").length,pct=Math.min(100,Math.round(read/goal*100));
+   v.innerHTML=`<div class="panel"><h2>${tr("goal")}</h2><div class="bar"><i style="width:${pct}%"></i></div><p class="note">${tr("done")}: <b>${read}</b> / ${goal}</p><div class="tools"><input id="gl" type="number" min="1" value="${goal}" aria-label="${tr("goalq")}" style="width:90px"><span class="note" style="align-self:center">${tr("goalq")}</span></div></div>
+   <div class="panel" style="margin-top:14px"><h2>${tr("list")}</h2>${ids.length?ids.map(i=>{const b=books.find(x=>x.id==i);return b?`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><button data-id="${b.id}" style="border:none;padding:0;text-align:left;font-weight:700">${esc(bt(b))}</button><span class="pill-tag pill-ok">${tr(mine[i])}</span></div>`:""}).join(""):`<p>${tr("emptyl")}</p>`}</div>`;
+   v.querySelectorAll("[data-id]").forEach(x=>x.onclick=()=>openBook(+x.dataset.id));
+   $("#gl").onchange=e=>{goal=Math.max(1,+e.target.value||1);saveMe();render()};
+  }
+ }catch(err){
+  window.lastErr=String(err&&err.message||err);
+  dbg();
  }
 }
 
@@ -644,7 +712,7 @@ function drawLogin(){const up=mode==="up";
 }
 
 function editBook(id,sub){subMode=!!sub;
- const nb=id===null,b=nb?{t:"",e:"",a:user&&user.role==="author"?user.name:"",ae:"",l:"am",g:"fic",y:2026,c:"#162238",s:"",se:"",r:[0,0]}:books.find(x=>x.id===id);
+ const nb=id===null,b=nb?{t:"",e:"",a:user&&user.role==="author"?user.name:"",ae:"",l:"am",g:"fic",y:2026,c:"#141B2D",s:"",se:"",r:[0,0],rare:0}:books.find(x=>x.id===id);
  const o=(arr,f,c)=>arr.map(x=>`<option value="${x}" ${x===c?"selected":""}>${f(x)}</option>`).join(""),L=T.ft;
  const curSrc=getCoverSrc(b);
  $("#bkc").innerHTML=`<h2>${nb?tr("nb"):tr("eb")}</h2><div class="form">
@@ -652,6 +720,7 @@ function editBook(id,sub){subMode=!!sub;
  <label>${L[2]}</label><input id="f3" value="${esc(b.a)}"><label>${L[3]}</label><input id="f4" value="${esc(b.ae)}">
  <label>${L[4]}</label><select id="f5">${o(LK,x=>LN[x],b.l)}</select><label>${L[5]}</label><select id="f6">${o(GK,gn,b.g)}</select>
  <label>${L[6]}</label><input id="f7" type="number" value="${b.y}"><label>${L[7]}</label><textarea id="f8" rows="2">${esc(b.s)}</textarea><label>${L[8]}</label><textarea id="f9" rows="2">${esc(b.se)}</textarea>
+ ${isAdmin?`<label><input type="checkbox" id="frare" ${b.rare?"checked":""}> 👑 Rare / Premium Book (Requires Premium Subscription)</label>`:""}
  <label>${L[9]}</label>
  <div style="display:flex;gap:6px;flex-wrap:wrap">
   <a id="sEbr" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 11px;border-radius:999px;border:1px solid var(--gold);font-size:.82rem;font-weight:700;color:var(--ink);background:var(--surface2)">📚 Ethio Book Review</a>
@@ -683,14 +752,13 @@ function editBook(id,sub){subMode=!!sub;
  $("#cx").onclick=()=>nb?$("#bk").close():openBook(b.id);
  $("#sv").onclick=async()=>{const t=$("#f1").value.trim(),e=$("#f2").value.trim();if(!t&&!e){$("#fe").textContent=tr("e6");return}
   const canonA=normAuthor($("#f3").value.trim()||"—");
-  Object.assign(b,{t:t||e,e:e||t,a:canonA,ae:$("#f4").value.trim()||canonA,l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2026,s:$("#f8").value.trim(),se:$("#f9").value.trim(),img});
+  Object.assign(b,{t:t||e,e:e||t,a:canonA,ae:$("#f4").value.trim()||canonA,l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2026,s:$("#f8").value.trim(),se:$("#f9").value.trim(),img,rare:isAdmin&&$("#frare")?($("#frare").checked?1:0):(b.rare||0)});
   if(subMode&&nb){await submit(b);return}
   if(nb){b.id=nid++;books.unshift(b);revs[b.id]=[];notes.unshift({k:"nnew",id:b.id,u:1})}
   await saveBooks();render();nb?$("#bk").close():openBook(b.id)};
  if(!$("#bk").open)$("#bk").showModal();
 }
 
-// Author Profile Modal with custom banner background, portrait, Verified badge, books & live Chat section
 function openAuthor(rawName,focusChat=false){
  const canon=normAuthor(rawName);
  const aBooks=books.filter(b=>normAuthor(b.a)===canon);
@@ -702,9 +770,9 @@ function openAuthor(rawName,focusChat=false){
  $("#bkc").innerHTML=`
   <div class="auth-banner" style="${bannerStyle}">
    ${authorAvatar(canon,ae,86)}
-   <h2 style="margin-top:10px;color:#FFFDF8">${esc(nm(canon,ae))} ${isVer?'<span style="color:var(--gold)">✓</span>':""}</h2>
-   <div style="font-size:.85rem;color:#EADBC0;margin-top:4px">${aBooks.length} ${tr("st1")} ${isVer?"· Verified Author ✓":""}</div>
-   ${meta.bio?`<p style="margin:8px auto 0;max-width:48ch;font-size:.9rem;color:#F2EFE6">${esc(meta.bio)}</p>`:""}
+   <h2 style="margin-top:10px;color:#FFFFFF">${esc(nm(canon,ae))} ${isVer?'<span style="color:var(--gold)">✓</span>':""}</h2>
+   <div style="font-size:.85rem;color:#CBD5E1;margin-top:4px">${aBooks.length} ${tr("st1")} ${isVer?"· Verified Author ✓":""}</div>
+   ${meta.bio?`<p style="margin:8px auto 0;max-width:48ch;font-size:.9rem;color:#F2F3F7">${esc(meta.bio)}</p>`:""}
    ${isAdmin?`<button id="edAuthBtn" class="gold" style="margin-top:10px;padding:4px 14px;font-size:.82rem">⚙️ Edit Author Picture & Background</button>`:""}
   </div>
 
@@ -752,7 +820,6 @@ function openAuthor(rawName,focusChat=false){
  if(focusChat&&$("#cm"))$("#cm").focus();
 }
 
-// Admin Editor for Author Portrait, Custom Banner Background, Bio, and Verified ✓ Badge
 function editAuthorMeta(canon,ae){
  const m=AUTH_META[canon]||{};
  const curImg=getAuthorPhoto(canon);
@@ -767,7 +834,7 @@ function editAuthorMeta(canon,ae){
   <input id="afi" type="file" accept="image/*">
   <input id="afurl" type="url" placeholder="https://... portrait URL" value="${esc(curImg)}">
   <img id="apv" src="${esc(curImg)}" style="width:74px;height:74px;border-radius:50%;object-fit:cover;display:${curImg?"block":"none"}">
-  <label>Profile Background Color</label><input id="abg" type="color" value="${esc(m.bg||"#162238")}">
+  <label>Profile Background Color</label><input id="abg" type="color" value="${esc(m.bg||"#141B2D")}">
   <label>Profile Background Cover Image (Optional Upload or URL)</label>
   <input id="abgfi" type="file" accept="image/*">
   <input id="abgurl" type="url" placeholder="https://... background image URL" value="${esc(m.bgImg||"")}">
@@ -789,7 +856,6 @@ function editAuthorMeta(canon,ae){
  };
 }
 
-// Reader-to-Reader & Reader-to-Author Direct Chat Modal
 function openChat(targetUid,targetName){
  if(!user)return openLogin("in");
  $("#bkc").innerHTML=`<h2>💬 Chat with ${esc(targetName)}</h2>
@@ -825,7 +891,6 @@ function openChat(targetUid,targetName){
  if(!$("#bk").open)$("#bk").showModal();
 }
 
-// Inbox Modal (for Authors & Readers to read and reply to messages)
 async function openInbox(){
  if(!user)return openLogin("in");
  $("#ntc").innerHTML=`<h2>💬 Messages & Inbox</h2><div id="inbList" style="display:grid;gap:8px"><span class="note">Loading...</span></div><button id="nc">${tr("close")}</button>`;
@@ -853,9 +918,10 @@ function openBook(id){
  const canonA=normAuthor(b.a);
  const rv=revs[id]||(revs[id]=[]);let pick=0;viewed=[id,...viewed.filter(x=>x!==id)].slice(0,8);
  const need=()=>{$("#bk").close();openLogin("in")};
+ const locked=b.rare&&!isPremium&&!isAdmin;
  const draw=()=>{
   $("#bkc").innerHTML=`<div class="top">${cover(b)}<div><h2>${esc(bt(b))}</h2><p class="note"><button id="openAuthFromBk" style="border:none;padding:0;font-weight:700;color:var(--gold)">${esc(ba(b))}${isAuthorVerified(canonA)?" ✓":""}</button><br>${LN[b.l]} · ${gn(b.g)} · ${b.y}</p><div>${stars(b.r[0])} <b>${avg(b)}</b> <small>(${b.r[1]})</small></div>${isAdmin?`<button id="ed" style="margin-top:8px;padding:4px 12px">${tr("edit")}</button>`:""}<button id="sh" style="margin-top:8px;padding:4px 12px">🔗 ${tr("share")}</button></div></div>
-  <p>${esc(bs(b))}</p>
+  ${locked?`<div class="panel" style="border-color:var(--gold);background:var(--surface2)"><b>👑 Rare & Archival Edition</b><p class="note" style="margin:0">This rare Ethiopian literary work is available exclusively to Adafrus Premium members.</p><div><button class="gold" id="goPrem">⭐ ${tr("join")}</button></div></div>`:`<p>${esc(bs(b))}</p>`}
   <div><b>${tr("addl")}</b><div class="chips">${["s0","s1","s2"].map(x=>`<button data-s="${x}" class="${mine[id]===x?"on":""}">${tr(x)}</button>`).join("")}</div></div>
   <div><b>${tr("rate")}</b><div class="rate">${[1,2,3,4,5].map(n=>`<button data-n="${n}" class="${n<=pick?"on":""}" aria-label="${n}">★</button>`).join("")}</div>
   <textarea id="rt" rows="3" placeholder="${tr("ph")}" style="width:100%"></textarea><p class="err" id="re"></p><button class="primary" id="sub">${tr("post")}</button></div>
@@ -863,6 +929,7 @@ function openBook(id){
   <button id="cl">${tr("close")}</button>`;
   $("#cl").onclick=()=>$("#bk").close();
   $("#openAuthFromBk").onclick=()=>openAuthor(canonA);
+  if($("#goPrem"))$("#goPrem").onclick=()=>{$("#bk").close();tab="premium";render()};
   if($("#ed"))$("#ed").onclick=()=>editBook(id);
   $("#sh").onclick=()=>{try{navigator.share?navigator.share({title:bt(b),url:location.href}):navigator.clipboard.writeText(location.href)}catch(e){}};
   document.querySelectorAll("[data-chat-n]").forEach(x=>x.onclick=()=>openChat(x.dataset.chatU,x.dataset.chatN));
@@ -885,26 +952,122 @@ function openNotes(){notes.forEach(n=>n.u=0);saveMe();render();
  document.querySelectorAll("#ntc [data-n]").forEach(x=>x.onclick=()=>{$("#nt").close();openBook(+x.dataset.n)});$("#nc").onclick=()=>$("#nt").close();$("#nt").showModal()}
 $("#bell").onclick=openNotes;
 
-let DB=null,USER=null,ME=null,ASSETS=null,isAdmin=false,SET={},orders=[],adminFilter="",reqSent=false;
-const tabsL=()=>["home","books","feed","critics","authors","stores","awards","list"].concat(user&&user.role==="author"?["studio"]:[]).concat(isAdmin?["admin"]:[]);
+let DB=null,USER=null,ME=null,ASSETS=null,isAdmin=false,SET={},adminFilter="",reqSent=false,evFilter="";
+const tabsL=()=>["home","books","events","feed","authors","critics","stores","awards","premium","list"].concat(user&&user.role==="author"?["studio"]:[]).concat(isAdmin?["admin"]:[]);
 const FONTS=["Noto Serif Ethiopic","Abyssinica SIL","Playfair Display","Lora","Merriweather","Figtree"];
 function applySet(){const r=document.documentElement.style;if(SET.font)r.setProperty("--hf","'"+SET.font+"'");if(SET.accent)r.setProperty("--gold",SET.accent)}
-function recalc(b){const rv=(revs[b.id]||[]).filter(r=>r.real),r0=b.r0||(b.r0=[0,0]),n=rv.length,t=rv.reduce((a,r)=>a+r.n,0);b.r=[r0[1]+n?(r0[0]*r0[1]+t)/(r0[1]+n):0,r0[1]+n]}
+function recalc(b){if(!b)return;const rv=(revs[b.id]||[]).filter(r=>r.real),r0=b.r0||(b.r0=[0,0]),n=rv.length,t=rv.reduce((a,r)=>a+r.n,0);b.r=[r0[1]+n?(r0[0]*r0[1]+t)/(r0[1]+n):0,r0[1]+n]}
 const W=(path,data)=>{if(DB)return DB.doc(path).set(data).catch(e=>{window.lastErr=String(e&&e.message||e)});try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m[path]=data;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(e){}return Promise.resolve()};
 async function saveBooks(){if(isAdmin){await W("lib/books",{list:JSON.parse(JSON.stringify(books))});await W("lib/notes",{list:notes.map(n=>({k:n.k,id:n.id}))})}}
 function saveRev(id){if(SB){const r=revs[id][0];if(r&&!r.id&&r.real)SB.from("reviews").insert({book_id:id,user_name:r.u,stars:r.n,body:r.x}).select().single().then(x=>{if(x.data)r.id=x.data.id});return}W("reviews/"+id,{list:revs[id]})}
-function saveMe(){if(user&&user.id)W("data/users/"+user.id+"/me",{name:user.name,email:user.email||"",role:user.role,mine,goal,seen:notes.filter(n=>!n.u).map(n=>n.k+n.id)})}
+function saveMe(){if(user&&user.id)W("data/users/"+user.id+"/me",{name:user.name,email:user.email||"",role:user.role,mine,goal,isPremium,seen:notes.filter(n=>!n.u).map(n=>n.k+n.id)})}
 
 function openProfile(){
  $("#lgc").innerHTML=`<h2>${tr("edit")}</h2><input id="nm" value="${esc(user?user.name:ME?ME.name:"")}" placeholder="${tr("name")}"><select id="role"><option value="reader" ${user&&user.role==="reader"?"selected":""}>${tr("reader")}</option><option value="author" ${user&&user.role==="author"?"selected":""}>${tr("author")}</option></select><p class="err" id="lerr"></p><button class="primary" id="go">${tr("save")}</button><button id="lc">${tr("cancel")}</button>${user?`<button id="lo">${tr("logout")}</button>`:""}`;
  $("#lc").onclick=()=>$("#login").close();
  $("#go").onclick=()=>{const n=$("#nm").value.trim();if(!n){$("#lerr").textContent=tr("e3");return}user={id:ME.id,name:n,role:$("#role").value};if(SB)SB.auth.updateUser({data:{name:n,role:user.role}});saveMe();$("#login").close();render()};
- if($("#lo"))$("#lo").onclick=()=>{if(SB)SB.auth.signOut();user=null;isAdmin=false;mine={};myVote=null;$("#login").close();render()};$("#login").showModal()}
+ if($("#lo"))$("#lo").onclick=()=>{if(SB)SB.auth.signOut();user=null;isAdmin=false;isPremium=false;mine={};myVote=null;$("#login").close();render()};$("#login").showModal()}
 
-function shopView(v){const l=books.filter(b=>b.price>0);
- v.innerHTML=`<h2 class="sec">${tr("shop")}</h2><div class="grid">${l.map(b=>bcard(b,tr("fsale"))).join("")||`<p>${tr("nores")}</p>`}</div>`;bindCards(v)}
+// Events View: Book Exhibitions, Book Launches, Book Signings
+const evTypeLabel=tp=>({exhibition:"🏛️ Exhibition",launch:"🚀 Book Launch",signing:"✒️ Book Signing"}[tp]||"📅 Event");
+function eventsView(v){
+ const list=EVENTS.filter(ev=>!evFilter||ev.type===evFilter);
+ v.innerHTML=`
+ <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:16px">
+  <h2 class="sec" style="margin:0;flex:1">${tr("events")} (${list.length})</h2>
+  ${isAdmin?`<button class="gold" id="addEvBtn">+ Add Event</button>`:""}
+ </div>
+ <div class="chips">
+  <button data-evf="" class="${!evFilter?"on":""}">All Events</button>
+  <button data-evf="exhibition" class="${evFilter==="exhibition"?"on":""}">🏛️ Book Exhibitions</button>
+  <button data-evf="launch" class="${evFilter==="launch"?"on":""}">🚀 Book Launches</button>
+  <button data-evf="signing" class="${evFilter==="signing"?"on":""}">✒️ Book Signings</button>
+ </div>
+ <div class="ev-grid">
+  ${list.map(ev=>`<div class="ev-card">
+   <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">
+    <span class="ev-date">${evTypeLabel(ev.type)} · ${esc(ev.d)}</span>
+    ${isAdmin?`<button data-delev="${ev.id}" style="padding:2px 8px;font-size:.75rem;color:var(--red);border-color:var(--red)">✕</button>`:""}
+   </div>
+   <h3>${esc(li===0?ev.t:ev.e)}</h3>
+   <div class="note">📍 ${esc(ev.loc)}</div>
+   <div class="note">Host: <b>${esc(ev.org)}</b></div>
+   <div><button data-rsvp="${ev.id}" class="gold" style="padding:5px 14px;font-size:.82rem">🎟️ Interested (${ev.likes||0})</button></div>
+  </div>`).join("")||`<p class="note">${tr("nores")}</p>`}
+ </div>`;
 
-// Fast, parallel Admin panel with Full Catalog Import, Author Verification, Author Profile Editor & Cover Fetcher
+ v.querySelectorAll("[data-evf]").forEach(b=>b.onclick=()=>{evFilter=b.dataset.evf;render()});
+ v.querySelectorAll("[data-rsvp]").forEach(b=>b.onclick=async()=>{
+  const ev=EVENTS.find(x=>x.id==b.dataset.rsvp);
+  if(ev){ev.likes=(ev.likes||0)+1;render();if(isAdmin)await W("lib/events",{list:EVENTS})}
+ });
+ v.querySelectorAll("[data-delev]").forEach(b=>b.onclick=async()=>{
+  const idx=EVENTS.findIndex(x=>x.id==b.dataset.delev);
+  if(idx>-1){EVENTS.splice(idx,1);await W("lib/events",{list:EVENTS});render()}
+ });
+ if($("#addEvBtn"))$("#addEvBtn").onclick=()=>editEventModal();
+}
+
+function editEventModal(){
+ $("#bkc").innerHTML=`<h2>📅 Add Book Event</h2>
+ <div class="form">
+  <label>Event Type</label>
+  <select id="evType">
+   <option value="exhibition">🏛️ Book Exhibition (የመጻሕፍት ዐውደ ርዕይ)</option>
+   <option value="launch">🚀 Book Launch (የመጽሐፍ ምረቃ)</option>
+   <option value="signing">✒️ Book Signing (የፊርማ ሥነ-ሥርዓት)</option>
+  </select>
+  <label>Event Title (Amharic)</label><input id="evT" placeholder="ለምሳሌ፡ የአዲስ አበባ የመጻሕፍት ዐውደ ርዕይ">
+  <label>Event Title (English)</label><input id="evE" placeholder="e.g. Addis Ababa Book Exhibition">
+  <label>Date & Time</label><input id="evD" placeholder="e.g. Dec 25, 2026 · 4:00 PM">
+  <label>Venue & City</label><input id="evL" placeholder="e.g. Skylight Hotel / Exhibition Center, Addis Ababa">
+  <label>Organizer / Author</label><input id="evO" placeholder="e.g. Adafrus & Author Name">
+ </div>
+ <button class="primary" id="evSv">${tr("save")}</button><button id="evCx">${tr("cancel")}</button>`;
+ $("#evCx").onclick=()=>$("#bk").close();
+ $("#evSv").onclick=async()=>{
+  const t=$("#evT").value.trim(),e=$("#evE").value.trim();if(!t&&!e)return;
+  EVENTS.unshift({id:Date.now(),type:$("#evType").value,t:t||e,e:e||t,d:$("#evD").value.trim()||"TBA",loc:$("#evL").value.trim()||"Addis Ababa",org:$("#evO").value.trim()||"Adafrus",likes:1});
+  await W("lib/events",{list:EVENTS});
+  $("#bk").close();render();
+ };
+ if(!$("#bk").open)$("#bk").showModal();
+}
+
+// Premium Subscription View (Ad-Free + Rare Books + Supporter Badge)
+function premiumView(v){
+ const rareBooks=books.filter(b=>b.rare);
+ v.innerHTML=`
+ <div class="panel">
+  <h2>⭐ Adafrus ${tr("premium")}</h2>
+  <p class="note">Support Ethiopian literature while unlocking an ad-free experience and rare archival books.</p>
+  <div class="plans">
+   <div class="plan">
+    <h3>${tr("free")}</h3>
+    <ul><li>${tr("f1")}</li><li>${tr("f2")}</li><li>${tr("f3")}</li></ul>
+   </div>
+   <div class="plan pro">
+    <h3>⭐ ${tr("premium")} — 100 ETB / 3 Months</h3>
+    <ul><li>${tr("a1")}</li><li>${tr("a2")}</li><li>${tr("a3")}</li></ul>
+    ${isPremium?`<span class="pill-tag pill-ok">Active Premium Member ⭐</span>`:`
+    <div class="form" style="margin-top:10px">
+     <select id="pmPay"><option>Telebirr</option><option>CBE Birr</option><option>Chapa</option></select>
+     <button class="gold" id="subPremBtn">${tr("join")}</button>
+    </div>`}
+   </div>
+  </div>
+ </div>
+ ${rowH("books",rareBooks)}`;
+ bindCards(v);
+ if($("#subPremBtn"))$("#subPremBtn").onclick=()=>{
+  if(!user)return openLogin("in");
+  isPremium=true;
+  saveMe();
+  render();
+ };
+}
+
+// Admin Panel (Restored & Enhanced: Author Verification, Submissions, Author Profiles, Events, Ads, Books & Settings)
 async function adminView(v){
  if(!isAdmin){v.innerHTML="";return}
  let rq=[],sb=[];
@@ -921,7 +1084,7 @@ async function adminView(v){
  const fBooks=books.filter(b=>!adminFilter||(b.t+b.e+b.a+b.ae).toLowerCase().includes(adminFilter.toLowerCase()));
  const allAuthors=authorStats();
  const row=b=>`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:6px 0;border-top:1px solid var(--line)">
-  <b style="flex:1 1 200px">${esc(bt(b))} <small class="note">(${esc(ba(b))})</small></b>
+  <b style="flex:1 1 200px">${esc(bt(b))} ${b.rare?"👑":""} <small class="note">(${esc(ba(b))})</small></b>
   <button data-e="${b.id}" style="padding:4px 12px">${tr("edit")}</button>
   <button data-d="${b.id}" style="padding:4px 12px;color:var(--red);border-color:var(--red)">${tr("del")}</button>
  </div>`;
@@ -947,18 +1110,37 @@ async function adminView(v){
  </div>
 
  <div class="panel" style="margin-top:14px">
-  <h2>👤 ${tr("tauth")} (${allAuthors.length}) — Edit Picture, Background & Verified Badge</h2>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;max-height:220px;overflow-y:auto">
+  <h2>👤 ${tr("tauth")} (${allAuthors.length}) — Edit Portrait, Background & Verified Badge</h2>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;max-height:200px;overflow-y:auto">
    ${allAuthors.map(x=>`<button data-eda="${esc(x.a)}" data-edae="${esc(x.ae)}" style="padding:5px 12px;font-size:.82rem;background:var(--surface2)">${esc(nm(x.a,x.ae))} ${isAuthorVerified(x.a)?"✓":""} ✏️</button>`).join("")}
   </div>
+ </div>
+
+ <div class="panel" style="margin-top:14px">
+  <h2>📅 ${tr("events")} (${EVENTS.length})</h2>
+  <div><button class="gold" id="admAddEv">+ Add Book Exhibition / Launch / Signing</button></div>
+  ${EVENTS.map(ev=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)">
+   <div><b>${esc(ev.t)}</b> <small class="note">(${esc(ev.d)})</small></div>
+   <button data-del-ev="${ev.id}" style="padding:3px 10px;color:var(--red);border-color:var(--red)">${tr("del")}</button>
+  </div>`).join("")}
+ </div>
+
+ <div class="panel" style="margin-top:14px">
+  <h2>📢 Advertisement Banner Settings</h2>
+  <label><input type="checkbox" id="adOn" ${AD_CFG.enabled?"checked":""}> Show Advertisements to Free Users (Hidden for Premium)</label>
+  <label>Ad Headline</label><input id="adT" value="${esc(AD_CFG.title||"")}">
+  <label>Ad Description</label><input id="adB" value="${esc(AD_CFG.body||"")}">
+  <label>Button Text & Link URL</label>
+  <div style="display:flex;gap:8px"><input id="adCta" value="${esc(AD_CFG.cta||"")}" style="width:140px"><input id="adUrl" value="${esc(AD_CFG.url||"")}" placeholder="https://..." style="flex:1"></div>
+  <div><button class="primary" id="svAd">Save Ad</button></div>
  </div>
 
  <div class="panel" style="margin-top:14px">
   <h2>${tr("books")} (${books.length})</h2>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
    <button class="gold" id="ab">${tr("add")}</button>
-   <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load Full 103 Books & Poets Catalog</button>
-   <button id="fcov" style="border-color:var(--gold);color:var(--ink);font-weight:700">🖼️ Auto-Fetch Web & Wiki Covers</button>
+   <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load Full 105 Books & Poets Catalog</button>
+   <button id="fcov" style="border-color:var(--gold);color:var(--ink);font-weight:700">🖼️ Auto-Fetch Web Covers</button>
   </div>
   <p class="note" id="impStatus"></p>
   <input id="af" type="search" placeholder="${tr("search")}" value="${esc(adminFilter)}">
@@ -969,15 +1151,24 @@ async function adminView(v){
   <h2>${tr("settings")}</h2>
   <label>${tr("sitename")}</label><input id="sn" value="${esc(SET.name||"")}" placeholder="${tr("logo")}">
   <label>${tr("font")}</label><select id="sf">${FONTS.map(f=>`<option ${SET.font===f?"selected":""}>${f}</option>`).join("")}</select>
-  <label>${tr("color")}</label><input id="sc" type="color" value="${SET.accent||"#D4942A"}">
+  <label>${tr("color")}</label><input id="sc" type="color" value="${SET.accent||"#D99B26"}">
   <div><button class="primary" id="ss">${tr("save")}</button></div>
  </div>`;
 
  $("#ab").onclick=()=>editBook(null);
+ $("#admAddEv").onclick=()=>editEventModal();
  $("#af").oninput=e=>{adminFilter=e.target.value;const p=e.target.selectionStart;adminView(v).then(()=>{$("#af").focus();$("#af").setSelectionRange(p,p)})};
  v.querySelectorAll("[data-eda]").forEach(b=>b.onclick=()=>editAuthorMeta(b.dataset.eda,b.dataset.edae));
+ v.querySelectorAll("[data-del-ev]").forEach(b=>b.onclick=async()=>{
+  const idx=EVENTS.findIndex(x=>x.id==b.dataset.delEv);
+  if(idx>-1){EVENTS.splice(idx,1);await W("lib/events",{list:EVENTS});render()}
+ });
+ $("#svAd").onclick=async()=>{
+  AD_CFG={enabled:$("#adOn").checked,title:$("#adT").value.trim(),body:$("#adB").value.trim(),cta:$("#adCta").value.trim(),url:$("#adUrl").value.trim()};
+  await W("lib/ads",AD_CFG);
+  render();
+ };
 
- // 1-tap Full Catalog import: normalizes author names (merging duplicate Alemayehu Gelagay), preserves custom uploaded covers, and loads all 103 books
  $("#imp").onclick=async()=>{
   $("#imp").disabled=true;$("#imp").textContent="⏳ Loading...";
   const custom=books.filter(b=>b.img&&!(b.e||"").toLowerCase().includes("sample")&&!(b.t||"").includes("ናሙና")).map(b=>({...b,a:normAuthor(b.a)}));
@@ -1008,7 +1199,7 @@ async function adminView(v){
    }));
   }
   await saveBooks();
-  $("#impStatus").textContent=`✓ Done! Found and saved ${found} book cover pictures. Tap Edit on any book to search Ethio Book Review, Google Images, Facebook, or TikTok and paste its cover!`;
+  $("#impStatus").textContent=`✓ Done! Found and saved ${found} book covers. Tap Edit on any book to search Ethio Book Review, Google Images, Facebook, or TikTok and paste its cover!`;
   $("#fcov").disabled=false;
   render();
  };
@@ -1044,23 +1235,24 @@ async function adminView(v){
 
 let VER=[],subMode=false,fi=0,viewed=[];
 function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");
- if(m["lib/books"])books.splice(0,books.length,...m["lib/books"].list.map(b=>({...b,a:normAuthor(b.a)})));
- if(m["lib/notes"])notes.splice(0,notes.length,...m["lib/notes"].list.map(n=>({...n,u:0})));
+ if(m["lib/books"]&&Array.isArray(m["lib/books"].list))books.splice(0,books.length,...m["lib/books"].list.map(b=>({...b,a:normAuthor(b.a)})));
+ if(m["lib/notes"]&&Array.isArray(m["lib/notes"].list))notes.splice(0,notes.length,...m["lib/notes"].list.map(n=>({...n,u:0})));
  Object.keys(m).forEach(k=>{if(k.startsWith("reviews/"))revs[k.slice(8)]=m[k].list});
  if(m["lib/settings"]){SET=m["lib/settings"];applySet()}
  if(m["lib/verified"])VER=m["lib/verified"].ids||[];
  if(m["lib/authors"])AUTH_META=m["lib/authors"];
- const me=m["data/users/local/me"];if(me){mine=me.mine||{};goal=me.goal||12}
- books.forEach(b=>{revs[b.id]=revs[b.id]||[];recalc(b)});nid=Math.max(...books.map(b=>b.id),103)+1}catch(e){}}
+ if(m["lib/events"]&&Array.isArray(m["lib/events"].list))EVENTS.splice(0,EVENTS.length,...m["lib/events"].list);
+ if(m["lib/ads"])AD_CFG={...AD_CFG,...m["lib/ads"]};
+ const me=m["data/users/local/me"];if(me){mine=me.mine||{};goal=me.goal||12;isPremium=!!me.isPremium}
+ books.forEach(b=>{revs[b.id]=revs[b.id]||[];recalc(b)});nid=Math.max(...books.map(b=>b.id),105)+1}catch(e){}}
 
 function chrome(){
  $("#logo").onclick=()=>{tab="home";render();scrollTo(0,0)};
  $("#proBtn").textContent="✍️ "+tr("studio");$("#listBtn").textContent=tr("list");$("#hq").placeholder=tr("search");
- const L=["help","siteidx","studio","license","press","adv","jobs","terms","privacy","adchoice"];
+ const L=["help","siteidx","studio","events","premium","terms","privacy","adchoice"];
  $("#ft").innerHTML=`<b>${tr("followus")}</b><div class="fl">${["Facebook","Instagram","X","YouTube","Telegram"].map(x=>`<button data-i="${x}">${x}</button>`).join("")}</div><b>${tr("getapp")}</b><div class="fl"><button data-i="Google Play">Google Play</button><button data-i="App Store">App Store</button></div><div class="fl">${L.map(k=>`<button data-i="${k}">${tr(k)}</button>`).join("")}</div><div style="font-size:.85rem">© Adafrus — አደፍርስ</div>`;
- $("#ft").querySelectorAll("[data-i]").forEach(x=>x.onclick=()=>{$("#bkc").innerHTML=`<h2>${esc(x.textContent)}</h2><p>${tr("soonmsg")}</p><button id="cl">${tr("close")}</button>`;$("#cl").onclick=()=>$("#bk").close();if(!$("#bk").open)$("#bk").showModal()})}
+ $("#ft").querySelectorAll("[data-i]").forEach(x=>x.onclick=()=>{const k=x.dataset.i;if(["studio","events","premium"].includes(k)){tab=k;render();scrollTo(0,0);return}$("#bkc").innerHTML=`<h2>${esc(x.textContent)}</h2><p>${tr("soonmsg")}</p><button id="cl">${tr("close")}</button>`;$("#cl").onclick=()=>$("#bk").close();if(!$("#bk").open)$("#bk").showModal()})}
 
-// Book card with IMDb-style rating line & one-tap "+ List" ribbon
 const bcard=(b,bd)=>{
  const inList=!!mine[b.id];
  const canonA=normAuthor(b.a);
@@ -1076,7 +1268,6 @@ const bcard=(b,bd)=>{
 };
 const rowH=(k,a,rk)=>a.length?`<h2 class="sec">${tr(k)}</h2><div class="row">${a.map((b,i)=>bcard(b,rk?"#"+(i+1):b.up?tr("soon"):"")).join("")}</div>`:"";
 
-// "I'm an author" Studio: Verification request, Verified ✓ badge, self-promotion bio, and Book Upload
 async function studioView(v){
  if(!user){v.innerHTML=`<div class="panel"><h2>✍️ ${tr("studio")}</h2><p>${tr("authtx")}</p><button class="gold" id="stLg">${tr("signup")}</button></div>`;$("#stLg").onclick=()=>openLogin("up");return}
  const canon=normAuthor(user.name);
@@ -1135,7 +1326,6 @@ $("#proBtn").onclick=()=>{tab="studio";render()};
 $("#listBtn").onclick=()=>{tab="list";render()};
 $("#hq").onkeydown=e=>{if(e.key==="Enter"){term=e.target.value;lang=gen="";tab="books";render()}};
 
-// Slide-out Menu: closes on backdrop tap outside drawer, X button, or Close button
 function openMenu(){
  $("#mc").innerHTML=`
   <div class="mhead"><b style="font-size:1.15rem">${tr("menu")}</b><button class="mclose" id="mxTop" aria-label="${tr("close")}">✕</button></div>
@@ -1161,23 +1351,23 @@ $("#menuBtn").onclick=openMenu;
 
 const VIEWS={},SOLD={};
 let feed=[
- {i:1,u:"ሰላም",uid:"",t:"ፍቅር እስከ መቃብርን ለሁለተኛ ጊዜ ጨረስኩ። ድንቅ ነው!",b:49,l:12,d:"2h",c:[{u:"Dawit",x:"በጣም! ሰብለወንጌልና በዛብህ የማይረሱ ገጸ-ባሕርያት ናቸው።"}]},
+ {i:1,u:"ሰላም",uid:"",t:"ፍቅር እስከ መቃብርን ለሁለተኛ ጊዜ ጨረስኩ። ድንቅ ነው!",b:57,l:12,d:"2h",c:[{u:"Dawit",x:"በጣም! ሰብለወንጌልና በዛብህ የማይረሱ ገጸ-ባሕርያት ናቸው።"}]},
  {i:2,u:"Dawit",uid:"",t:"ወሪሳን እና አጥቢያን አንብቤ ጨረስኩ — ዓለማየሁ ገላጋይ ድንቅ ነው!",b:9,l:8,d:"5h",c:[]},
  {i:3,u:"Hanna",uid:"",t:"«እሳት ወይ አበባ» በሎሬት ጸጋዬ ገብረመድኅን እና «ፍቅር እዚህ ቦታ ፈገግ ብሎ ነበር» በኤፍሬም ስዩም የማይጠገቡ የግጥም መጻሕፍት ናቸው!",b:20,l:15,d:"1d",c:[]}
 ];
-const CR=[{id:1,n:"ናሙና ሃያሲ ፩",e:"Sample Critic 1",s:"ልብ ወለድ",se:"Fiction",rv:[{b:49,sc:9,t:"የመደብ ልዩነትን በሚያምር ቋንቋ ያሳያል።",te:"Shows class divides in beautiful language."},{b:42,sc:9,t:"በኢትዮጵያ ዘመናዊ ሥነ-ጽሑፍ አዲስ ምዕራፍ የከፈተ ሥራ።",te:"A landmark work opening a new chapter in modern Ethiopian literature."}]},{id:2,n:"ናሙና ሃያሲ ፪",e:"Sample Critic 2",s:"ግጥምና ፍልስፍና",se:"Poetry and philosophy",rv:[{b:20,sc:10,t:"የኢትዮጵያ ሥነ-ግጥም ቁንጮ።",te:"The pinnacle of Ethiopian poetry."},{b:9,sc:9,t:"የከተማ ሕይወትንና ማህበራዊ እውነትን በጥልቀት ይመረምራል።",te:"Deeply examines urban life and social truth."}]}];
+const CR=[{id:1,n:"ናሙና ሃያሲ ፩",e:"Sample Critic 1",s:"ልብ ወለድ",se:"Fiction",rv:[{b:57,sc:9,t:"የመደብ ልዩነትን በሚያምር ቋንቋ ያሳያል።",te:"Shows class divides in beautiful language."},{b:44,sc:9,t:"በኢትዮጵያ ዘመናዊ ሥነ-ጽሑፍ አዲስ ምዕራፍ የከፈተ ሥራ።",te:"A landmark work opening a new chapter in modern Ethiopian literature."}]},{id:2,n:"ናሙና ሃያሲ ፪",e:"Sample Critic 2",s:"ግጥምና ፍልስፍና",se:"Poetry and philosophy",rv:[{b:20,sc:10,t:"የኢትዮጵያ ሥነ-ግጥም ቁንጮ።",te:"The pinnacle of Ethiopian poetry."},{b:9,sc:9,t:"የከተማ ሕይወትንና ማህበራዊ እውነትን በጥልቀት ይመረምራል።",te:"Deeply examines urban life and social truth."}]}];
 const ST=[["ናሙና መጽሐፍ መደብር ፩","Sample Bookstore 1","አዲስ አበባ","Addis Ababa","ፒያሳ","Piassa","+251 11 000 0001",9.035,38.75],["ናሙና መጽሐፍ መደብር ፪","Sample Bookstore 2","አዲስ አበባ","Addis Ababa","ቦሌ","Bole","+251 11 000 0002",8.995,38.79],["ናሙና መጽሐፍ መደብር ፫","Sample Bookstore 3","ባሕር ዳር","Bahir Dar","ማዕከል","Center","+251 58 000 0003",11.595,37.39],["ናሙና መጽሐፍ መደብር ፬","Sample Bookstore 4","ሐዋሳ","Hawassa","ማዕከል","Center","+251 46 000 0004",7.06,38.48],["ናሙና መጽሐፍ መደብር ፭","Sample Bookstore 5","መቀሌ","Mekelle","ማዕከል","Center","+251 34 000 0005",13.5,39.47]].map(a=>({n:a[0],e:a[1],c:a[2],ce:a[3],a:a[4],ae:a[5],ph:a[6],la:a[7],lo:a[8]}));
-let aw={1:48,20:42,42:35,49:50,65:30},myVote=null,isMember=false,userPos=null,cityF="";
+let aw={1:48,20:42,44:35,57:50,65:30},myVote=null,userPos=null,cityF="";
 const nm=(x,y)=>li===0?x:y,dist=(a,b,c,d)=>{const t=x=>x*Math.PI/180,h=Math.sin(t(c-a)/2)**2+Math.cos(t(a))*Math.cos(t(c))*Math.sin(t(d-b)/2)**2;return 12742*Math.asin(Math.sqrt(h))};
 
-// Unified Author Stats (merges duplicate author spellings into a single profile)
 function authorStats(){
  const m={};
  books.forEach(b=>{
+  if(!b)return;
   const canon=normAuthor(b.a);
   if(canon==="—"||canon==="ልዩ ልዩ"||canon==="ልዩ ልዩ ደረስቲ")return;
   const x=m[canon]=m[canon]||{a:canon,ae:b.ae||canon,w:0,s:0,c:0,ver:false};
-  x.w+=b.r[1];x.s+=b.r[0]*b.r[1];x.c++;
+  x.w+=(b.r&&b.r[1])||0;x.s+=((b.r&&b.r[0])||0)*((b.r&&b.r[1])||0);x.c++;
   if(isAuthorVerified(canon))x.ver=true;
  });
  return Object.values(m).map(x=>({...x,avg:x.w?x.s/x.w:0})).sort((p,q)=>q.c-p.c||q.w*q.avg-p.w*p.avg);
@@ -1230,32 +1420,30 @@ document.addEventListener("click",e=>{
  const k=e.target.closest("[data-lk]");if(k){const p=feed.find(x=>x.i==k.dataset.lk);if(p){p.l++;if(SB&&typeof p.i==="string")SB.rpc("bump_like",{pid:p.i});render()}}
 });
 
-function nav(){const it=[["home","🏠"],["books","📚"],["feed","💬"],["authors","✍️"]].concat(isAdmin?[["admin","⚙️"]]:[]);
+function nav(){const it=[["home","🏠"],["books","📚"],["events","📅"],["authors","✍️"]].concat(isAdmin?[["admin","⚙️"]]:[]);
  $("#bn").innerHTML=it.map(([k,i])=>`<button data-nv="${k}" class="${tab===k?"on":""}"><b>${i}</b>${tr(k)}</button>`).join("")+`<button id="nvm"><b>☰</b>${tr("menu")}</button>`;
  $("#bn").querySelectorAll("[data-nv]").forEach(x=>x.onclick=()=>{tab=x.dataset.nv;render();scrollTo(0,0)});$("#nvm").onclick=openMenu}
 
-// Full-screen IMDb-inspired Home Page tailored for Adafrus
 function homeView(v){
- const pub=books.filter(b=>!b.up);
- const rated=[...pub].sort((a,b)=>b.r[0]-a.r[0]||(b.y-a.y));
+ const pub=books.filter(b=>b&&!b.up);
+ const rated=[...pub].sort((a,b)=>((b.r&&b.r[0])||0)-((a.r&&a.r[0])||0)||((b.y||0)-(a.y||0)));
  const poems=pub.filter(b=>b.g==="poe");
  const feat=rated.slice(0,4),f=feat[fi%feat.length]||books[0];
  const mylist=Object.keys(mine).map(i=>books.find(x=>x.id==i)).filter(Boolean);
  const rv=viewed.map(i=>books.find(x=>x.id===i)).filter(Boolean);
- const COL=["#162238","#1E6B52","#7C4A1E","#244A59","#4A2840","#3D4E3C","#5E2638"],EM={fic:"📖",his:"🏛️",poe:"🪶",pol:"🗳️",aut:"🖋️",phi:"🧠",tec:"💻",fan:"🐉",sf:"🚀",rom:"💞",mys:"🔍",fai:"🕊️",kid:"🧸",slf:"🌱",biz:"💼",sci:"🔬",fol:"🏺",hum:"😄"};
+ const COL=["#141B2D","#1C6E52","#4A3728","#244A59","#4A2535","#364536","#3D2B4D"],EM={fic:"📖",his:"🏛️",poe:"🪶",pol:"🗳️",aut:"🖋️",phi:"🧠",tec:"💻",fan:"🐉",sf:"🚀",rom:"💞",mys:"🔍",fai:"🕊️",kid:"🧸",slf:"🌱",biz:"💼",sci:"🔬",fol:"🏺",hum:"😄"};
  const crit=CR.flatMap(c=>c.rv.map(r=>({c,r}))).slice(0,3);
- const inList=!!mine[f.id];
+ const inList=f?!!mine[f.id]:false;
 
  v.innerHTML=`
- <!-- Full-screen Featured Spotlight + Up Next Queue -->
- <section class="imdb-hero">
+ ${f?`<section class="imdb-hero">
   <div class="spot">
    <div>
-    <div class="k">❖ ${tr("botd")} · ${LN[f.l]}</div>
+    <div class="k">★ ${tr("botd")} · ${LN[f.l]||f.l}</div>
     <h1>${esc(bt(f))}</h1>
-    <div class="sub-author">${esc(ba(f))} · ${f.y}</div>
+    <div class="sub-author">${esc(ba(f))} · ${f.y||""}</div>
     <p>${esc(bs(f))}</p>
-    <div>${stars(f.r[0])} <b>${avg(f)}</b> <small style="opacity:.8">(${f.r[1]})</small></div>
+    <div>${stars(f.r&&f.r[0])} <b>${avg(f)}</b> <small style="opacity:.8">(${(f.r&&f.r[1])||0})</small></div>
     <div class="spot-actions">
      <button class="gold" data-id="${f.id}">${tr("revs")} →</button>
      <button class="wl-btn ${inList?"saved":""}" data-wl="${f.id}">${inList?"✓ "+tr("list"):"+ "+tr("addl")}</button>
@@ -1271,41 +1459,54 @@ function homeView(v){
     ${feat.map((b,i)=>`<button data-f="${i}" class="un ${i===fi%feat.length?"on":""}">${cover(b,"",true)}<div><strong>${esc(bt(b))}</strong><small>${esc(ba(b))}</small><small style="color:var(--gold)">★ ${avg(b)}</small></div></button>`).join("")}
    </div>
   </div>
- </section>
+ </section>`:""}
 
- <!-- Top 10 on Adafrus -->
  <h2 class="sec">${tr("top10")}</h2>
  <div class="row">${rated.slice(0,10).map((b,i)=>`<button class="t10" data-id="${b.id}"><span class="n">${i+1}</span>${cover(b,"★ "+avg(b),i<5)}</button>`).join("")}</div>
 
- <!-- Ethiopian Poetry & Verse Shelf -->
- ${rowH("poe",poems)}
+ ${adBanner()}
 
- <!-- Fan Favorites & Reading List -->
+ ${rowH("poe",poems)}
  ${rowH("fans",rated.slice(0,12))}
  ${user&&mylist.length?rowH("fromlist",mylist):""}
 
- <!-- Popular Authors & Poets with Portraits -->
  <h2 class="sec">${tr("tauth")}</h2>
- <div class="row">${authorStats().slice(0,26).map(x=>`<button data-ta="${esc(x.a)}" style="border:none;text-align:center;width:132px;flex:none;background:none">
+ <div class="row">${authorStats().slice(0,26).map(x=>`<button data-ta="${esc(x.a)}" style="border:none;text-align:center;width:130px;flex:none;background:none">
   ${authorAvatar(x.a,x.ae)}
   <strong style="display:block;margin-top:9px;font-size:.9rem">${esc(nm(x.a,x.ae))}${x.ver?' <span style="color:var(--green)">✓</span>':""}</strong>
   <small class="note">${x.c} ${tr("st1")}</small>
  </button>`).join("")}</div>
 
- <!-- Book of the Year 2026 Banner -->
+ <!-- Upcoming Book Events Shelf -->
+ <h2 class="sec">📅 ${tr("events")}</h2>
+ <div class="ev-grid">
+  ${EVENTS.slice(0,3).map(ev=>`<div class="ev-card">
+   <span class="ev-date">${evTypeLabel(ev.type)} · ${esc(ev.d)}</span>
+   <h3>${esc(li===0?ev.t:ev.e)}</h3>
+   <div class="note">📍 ${esc(ev.loc)}</div>
+   <div><button data-go="events" style="padding:4px 12px;font-size:.82rem">Details & RSVP →</button></div>
+  </div>`).join("")}
+ </div>
+
+ <!-- Premium Subscription Banner (Ad-Free + Rare Books) -->
+ ${isPremium?"":`<div class="prem-ban">
+  <div>
+   <h3>⭐ Adafrus ${tr("premium")}</h3>
+   <p style="margin:4px 0 0;color:#D1FAE5">Ad-free reading + exclusive access to Rare & Archival Ethiopian books (100 ETB / 3 months).</p>
+  </div>
+  <button class="gold" data-go="premium">${tr("join")}</button>
+ </div>`}
+
  <div class="award"><div><h3>🏆 ${tr("awards")} 2026</h3><p>${tr("awtx")}</p></div><button data-go="awards">${tr("vote")}</button></div>
 
- <!-- Community Feed & Critics' Picks -->
  <h2 class="sec">${tr("fromcomm")}</h2>
  <div class="two">
   <div class="panel"><h3>${tr("feed")}</h3>${feed.slice(0,2).map(postH).join("")}<div><button data-go="feed">${tr("feed")} →</button></div></div>
   <div class="panel"><h3>${tr("cpicks")}</h3>${crit.map(({c,r})=>{const b=books.find(x=>x.id===r.b);return b?`<div class="post"><b>${esc(bt(b))}</b> <span class="stars">${r.sc}/10</span><p>${esc(nm(r.t,r.te))}</p><small>${esc(nm(c.n,c.e))} ✓</small></div>`:""}).join("")}<div><button data-go="critics">${tr("critics")} →</button></div></div>
  </div>
 
- <!-- Bookstores Banner -->
  <div class="mapcard"><div><h3>📍 ${tr("stores")}</h3></div><button class="gold" data-go="stores">${tr("near")}</button></div>
 
- <!-- Browse by Genre & Language -->
  <h2 class="sec">${tr("popint")}</h2>
  <div class="tiles">${GK.map((k,i)=>`<button data-g="${k}" style="background:${COL[i%COL.length]}"><b>${EM[k]}</b>${gn(k)}</button>`).join("")}</div>
 
@@ -1332,27 +1533,31 @@ async function sbAuth(up,em,pw,n,role){
  $("#login").close();await afterAuth(r.data.session)}
 async function loadShared(){
  const g=async p=>{const r=await DB.doc(p).get();return r.exists?r.data():null};
- const [b,n,st,v,au,rv,fp,vt]=await Promise.all([
+ const [b,n,st,v,au,ev,ad,rv,fp,vt]=await Promise.all([
   g("lib/books"),
   g("lib/notes"),
   g("lib/settings"),
   g("lib/verified"),
   g("lib/authors"),
+  g("lib/events"),
+  g("lib/ads"),
   SB.from("reviews").select("*").order("created",{ascending:false}),
   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
   SB.rpc("vote_totals",{y:2026})
  ]);
- if(b&&b.list&&b.list.length)books.splice(0,books.length,...b.list.map(x=>({...x,a:normAuthor(x.a)})));else if(isAdmin)saveBooks();
- if(n&&n.list)notes.splice(0,notes.length,...n.list.map(x=>({...x,u:0})));
+ if(b&&Array.isArray(b.list)&&b.list.length)books.splice(0,books.length,...b.list.filter(Boolean).map(x=>({...x,a:normAuthor(x.a),r:x.r||[0,0]})));else if(isAdmin)saveBooks();
+ if(n&&Array.isArray(n.list))notes.splice(0,notes.length,...n.list.map(x=>({...x,u:0})));
  if(st){SET=st;applySet()}
  VER=v?v.ids||[]:[];
  AUTH_META=au||{};
+ if(ev&&Array.isArray(ev.list)&&ev.list.length)EVENTS.splice(0,EVENTS.length,...ev.list);
+ if(ad)AD_CFG={...AD_CFG,...ad};
  Object.keys(revs).forEach(k=>delete revs[k]);
  (rv.data||[]).forEach(r=>{(revs[r.book_id]=revs[r.book_id]||[]).push({id:r.id,u:r.user_name,n:r.stars,x:r.body,h:r.helpful,real:1,uid:r.user_id})});
  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
  feed.splice(0,feed.length,...(fp.data||[]).map(p=>({i:p.id,u:p.user_name,uid:p.user_id,t:p.body,b:p.book_id||0,l:p.likes,d:ago(p.created),c:[]})));
  Object.keys(aw).forEach(k=>delete aw[k]);(vt.data||[]).forEach(r=>{aw[r.book_id]=Number(r.n)});
- nid=Math.max(...books.map(b=>b.id),103)+1}
+ nid=Math.max(...books.map(b=>b.id||0),105)+1}
 async function afterAuth(ses){
  try{if(ses){const u=ses.user,m=u.user_metadata||{};ME={id:u.id,name:m.name||u.email};user={id:u.id,name:m.name||u.email,email:u.email,role:m.role||"reader"};
    const [a,me,mv]=await Promise.all([
@@ -1361,19 +1566,19 @@ async function afterAuth(ses){
     SB.from("votes").select("book_id").eq("year",2026).maybeSingle()
    ]);
    isAdmin=!!a.data;if(a.error)window.lastErr="admins: "+a.error.message;
-   if(me.exists){const d=me.data();mine=d.mine||{};goal=d.goal||12}
+   if(me.exists){const d=me.data();mine=d.mine||{};goal=d.goal||12;isPremium=!!d.isPremium}
    myVote=mv.data?mv.data.book_id:null}
-  else{user=null;ME=null;isAdmin=false;mine={};myVote=null}
+  else{user=null;ME=null;isAdmin=false;isPremium=false;mine={};myVote=null}
   await loadShared()}catch(e){window.lastErr=String(e&&e.message||e)}
  render()}
 async function init(){
- books.forEach(b=>{b.r0=b.r0||[...b.r]});
+ books.forEach(b=>{b.r0=b.r0||[...(b.r||[0,0])]});
  if(!SB){loadLocal();isAdmin=location.hash==="#owner";render();return}
  DB=mkDB();const r=await SB.auth.getSession();await afterAuth(r.data.session)}
 VIEWS.awards=v=>{const nom=books.filter(b=>!b.up&&(SB||aw[b.id]!==undefined)),c=b=>aw[b.id]||0,tot=nom.reduce((a,b)=>a+c(b),0)||1;
  v.innerHTML=`<h2 class="sec">${tr("awards")} 2026</h2><p>${tr("awtx")}</p>${nom.map(b=>`<div class="panel" style="margin-top:10px;display:flex;gap:12px;align-items:center"><div style="width:60px;flex:none">${cover(b)}</div><div style="flex:1"><b>${esc(bt(b))}</b><div class="note">${esc(ba(b))}</div>${myVote?`<div class="vbar"><i style="width:${Math.round(c(b)/tot*100)}%"></i></div><small>${Math.round(c(b)/tot*100)}%</small>`:""}</div>${myVote?(myVote===b.id?"✓":""):`<button class="gold" data-vt="${b.id}">${tr("vote")}</button>`}</div>`).join("")}${myVote?`<p>${tr("voted")}</p>`:""}`;
  v.querySelectorAll("[data-vt]").forEach(x=>x.onclick=async()=>{if(!user)return openLogin("in");const id=+x.dataset.vt;if(SB){const r=await SB.from("votes").insert({year:2026,book_id:id});if(r.error)return}myVote=id;aw[id]=(aw[id]||0)+1;render()})};
-function dbg(){if(location.hash!=="#debug")return;let d=$("#dbg");if(!d){d=document.createElement("div");d.id="dbg";d.style.cssText="position:fixed;top:0;left:0;right:0;background:#000;color:#0f0;font:12px monospace;padding:6px;z-index:99;white-space:pre-wrap";document.body.appendChild(d)}d.textContent="SB:"+!!SB+" | user:"+(user?user.email:"none")+" | admin:"+isAdmin+" | books:"+books.length+" | err:"+(window.lastErr||"none")}
+function dbg(){if(location.hash!=="#debug")return;let d=$("#dbg");if(!d){d=document.createElement("div");d.id="dbg";d.style.cssText="position:fixed;top:0;left:0;right:0;background:#000;color:#0f0;font:12px monospace;padding:6px;z-index:99;white-space:pre-wrap";document.body.appendChild(d)}d.textContent="SB:"+!!SB+" | user:"+(user?user.email:"none")+" | admin:"+isAdmin+" | prem:"+isPremium+" | books:"+books.length+" | err:"+(window.lastErr||"none")}
 render();init();
 </script>
 </body>
