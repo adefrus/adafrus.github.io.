@@ -209,7 +209,7 @@ function promo(){return"";
  return row("tops",rated,1)+row("news",books.filter(b=>!b.up&&b.y>=2024),0)+row("soon",books.filter(b=>b.up),0)+`<h2 class="sec">${tr("books")}</h2>`}
 function render(){
  document.documentElement.lang=LC[li];$("#lg").value=LC[li];document.title=tr("logo");
- $("#logo").textContent=SET.name||tr("logo");chrome();nav();$("#h1").textContent=tr("h1");$("#hp").textContent=tr("hp");$("#foot").textContent=tr("note");
+ $("#logo").textContent=SET.name||tr("logo");chrome();nav();dbg();$("#h1").textContent=tr("h1");$("#hp").textContent=tr("hp");$("#foot").textContent=tr("note");
  $("#loginBtn").textContent=user?tr("edit"):tr("login");{const c=notes.filter(n=>n.u).length;$("#bell").textContent="🔔"+(c?" "+c:"")}$("#who").textContent=user?user.name:"";
  const nr=Object.values(revs).reduce((a,r)=>a+r.length,0)+books.reduce((a,b)=>a+b.r[1],0);
  $("#stats").innerHTML=[[books.length,"st1"],[nr,"st2"],[LK.length,"st3"]].map(([n,k])=>`<div><b>${n}</b><span>${tr(k)}</span></div>`).join("");
@@ -505,11 +505,11 @@ async function loadShared(){
  nid=Math.max(...books.map(b=>b.id),14)+1}
 async function afterAuth(ses){
  try{if(ses){const u=ses.user,m=u.user_metadata||{};ME={id:u.id,name:m.name||u.email};user={id:u.id,name:m.name||u.email,email:u.email,role:m.role||"reader"};
-   const a=await SB.from("admins").select("user_id").eq("user_id",u.id).maybeSingle();isAdmin=!!a.data;
+   const a=await SB.from("admins").select("user_id").eq("user_id",u.id).maybeSingle();isAdmin=!!a.data;if(a.error)window.lastErr="admins: "+a.error.message;
    const me=await DB.doc("data/users/"+u.id+"/me").get();if(me.exists){const d=me.data();mine=d.mine||{};goal=d.goal||12}
    const mv=await SB.from("votes").select("book_id").eq("year",2026).maybeSingle();myVote=mv.data?mv.data.book_id:null}
   else{user=null;ME=null;isAdmin=false;mine={};myVote=null}
-  await loadShared()}catch(e){}
+  await loadShared()}catch(e){window.lastErr=String(e&&e.message||e)}
  render()}
 async function init(){
  books.forEach(b=>{b.r0=b.r0||[...b.r]});
@@ -518,6 +518,7 @@ async function init(){
 VIEWS.awards=v=>{const nom=books.filter(b=>!b.up&&(SB||aw[b.id]!==undefined)),c=b=>aw[b.id]||0,tot=nom.reduce((a,b)=>a+c(b),0)||1;
  v.innerHTML=`<h2 class="sec">${tr("awards")} 2026</h2><p>${tr("awtx")}</p>${nom.map(b=>`<div class="panel" style="margin-top:10px;display:flex;gap:12px;align-items:center"><div style="width:60px;flex:none">${cover(b)}</div><div style="flex:1"><b>${esc(bt(b))}</b><div class="note">${esc(ba(b))}</div>${myVote?`<div class="vbar"><i style="width:${Math.round(c(b)/tot*100)}%"></i></div><small>${Math.round(c(b)/tot*100)}%</small>`:""}</div>${myVote?(myVote===b.id?"✓":""):`<button class="gold" data-vt="${b.id}">${tr("vote")}</button>`}</div>`).join("")}${myVote?`<p>${tr("voted")}</p>`:""}`;
  v.querySelectorAll("[data-vt]").forEach(x=>x.onclick=async()=>{if(!user)return openLogin("in");const id=+x.dataset.vt;if(SB){const r=await SB.from("votes").insert({year:2026,book_id:id});if(r.error)return}myVote=id;aw[id]=(aw[id]||0)+1;render()})};
+function dbg(){if(location.hash!=="#debug")return;let d=$("#dbg");if(!d){d=document.createElement("div");d.id="dbg";d.style.cssText="position:fixed;top:0;left:0;right:0;background:#000;color:#0f0;font:12px monospace;padding:6px;z-index:99;white-space:pre-wrap";document.body.appendChild(d)}d.textContent="SB:"+!!SB+" | user:"+(user?user.email:"none")+" | admin:"+isAdmin+" | books:"+books.length+" | err:"+(window.lastErr||"none")}
 render();init();
 </script>
 </body>
