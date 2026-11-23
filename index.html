@@ -543,6 +543,7 @@ const books=JSON.parse(JSON.stringify(STARTER_BOOKS));
 const revs={};books.forEach(b=>revs[b.id]=[]);
 let notes=[{k:"ntop",id:1,u:1},{k:"nnew",id:20,u:1}],user=null,tab="home",lang="",gen="",sort="top",term="",mine={},goal=12,nid=books.length+1,accts={},mode="in";
 let isPremium=false,isMember=false,AD_CFG={enabled:true,title:"Advertise on Adefris — አደፍርስ",body:"Reach thousands of Ethiopian readers, authors, and book lovers.",cta:"Contact Us",url:""};
+let BEGINNER_IDS=[1,43,57,69,77,87,119];
 let EVENTS=[
  {id:1,type:"exhibition",t:"የአዲስ አበባ የመጻሕፍት ዐውደ ርዕይ 2026",e:"Addis Ababa Book Exhibition 2026",d:"Dec 12–15, 2026 · 9:00 AM",loc:"Addis Ababa Exhibition Center (Meskel Square)",org:"Ethiopian Publishers Association",likes:42},
  {id:2,type:"launch",t:"አዲስ የግጥም መድብል ምረቃ",e:"Contemporary Amharic Poetry Anthology Launch",d:"Dec 20, 2026 · 5:30 PM",loc:"National Theater Hall, Addis Ababa",org:"Adefris Literary Circle",likes:31},
@@ -676,7 +677,7 @@ function render(){
   document.documentElement.lang=LC[li];$("#lg").value=LC[li];document.title=tr("logo");
   $("#logo").textContent=SET.name||tr("logo");chrome();nav();dbg();$("#foot").innerHTML=`${esc(tr("note"))} <span style="display:inline-block;margin-left:8px;padding:2px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:.76rem;font-weight:700;color:var(--gold)">🧪 Public Beta / Test Build</span>`;
   $("#loginBtn").textContent=user?"✏️":tr("login");$("#loginBtn").title=user?tr("edit"):tr("login");
-  const admBtn=$("#admTopBtn");if(admBtn){admBtn.style.display=isAdmin?"inline-block":"none";admBtn.onclick=()=>{tab="admin";render()}}
+  const admBtn=$("#admTopBtn");if(admBtn){admBtn.style.display=canEditContent()?"inline-block":"none";admBtn.onclick=()=>{tab="admin";render()}}
   {const c=notes.filter(n=>n.u).length;$("#bell").textContent="🔔"+(c?" "+c:"")}
   $("#who").textContent=user?(user.name+(isStaff?" 🛠️":"")+(isPremium?" ⭐":"")+(user.role==="author"&&VER.includes(user.id)?" ✓":"")):"";
   $("#tabs").innerHTML=tabsL().map(k=>`<button data-t="${k}" class="${k===tab?"on":""}">${tr(k)}</button>`).join("");
@@ -1404,7 +1405,7 @@ function memberView(v){
 
 // Admin Panel (Restored & Enhanced: Author Verification, Submissions, Author Profiles, Events, Ads, Books & Settings)
 async function adminView(v){
- if(!isAdmin){v.innerHTML="";return}
+ if(!canEditContent()){v.innerHTML="";return}
  let rq=[],sb=[];
  if(DB){
   try{
@@ -1498,6 +1499,20 @@ async function adminView(v){
  </div>
 
  <div class="panel" style="margin-top:14px">
+  <h2>🌱 ከዚህ ጀምር — ለጀማሪዎች (Start Here — Beginners Shelf)</h2>
+  <p class="note" style="margin:0">ለጀማሪ አንባቢያን የሚመከሩ መጻሕፍትን ይጨምሩ ወይም ያስወግዱ (${BEGINNER_IDS.length} selected)።</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+   <select id="begBookSel" style="flex:1;min-width:200px">
+    ${books.map(b=>`<option value="${b.id}">${esc(bt(b))} — ${esc(ba(b))}</option>`).join("")}
+   </select>
+   <button class="gold" id="addBegBtn">+ Add to Start Here</button>
+  </div>
+  <div id="begList" style="display:flex;gap:8px;flex-wrap:wrap">
+   ${BEGINNER_IDS.map(id=>{const b=books.find(x=>x.id===id);return b?`<span class="pill-tag pill-ok" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px">${esc(bt(b))} <button data-rm-beg="${id}" style="border:none;background:none;color:var(--red);padding:0 2px;font-weight:800;cursor:pointer">✕</button></span>`:""}).join("")||`<span class="note">No beginner books selected yet.</span>`}
+  </div>
+ </div>
+
+ <div class="panel" style="margin-top:14px">
   <h2>📅 ${tr("events")} (${EVENTS.length})</h2>
   <div><button class="gold" id="admAddEv">+ Add Book Exhibition / Launch / Signing</button></div>
   ${EVENTS.map(ev=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)">
@@ -1587,6 +1602,16 @@ async function adminView(v){
   render();
  });
  $("#ab").onclick=()=>editBook(null);
+ $("#addBegBtn").onclick=async()=>{
+  const id=+$("#begBookSel").value;
+  if(id&&!BEGINNER_IDS.includes(id)){BEGINNER_IDS.push(id);await W("lib/beginners",{ids:BEGINNER_IDS});render()}
+ };
+ v.querySelectorAll("[data-rm-beg]").forEach(b=>b.onclick=async()=>{
+  const id=+b.dataset.rmBeg;
+  BEGINNER_IDS=BEGINNER_IDS.filter(x=>x!==id);
+  await W("lib/beginners",{ids:BEGINNER_IDS});
+  render();
+ });
  $("#admAddEv").onclick=()=>editEventModal();
  $("#admAddCr").onclick=()=>editCriticModal(null);
  $("#admAddSt").onclick=()=>editStoreModal(null);
@@ -1696,7 +1721,8 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
  if(m["lib/ads"])AD_CFG={...AD_CFG,...m["lib/ads"]};
  if(m["lib/critics"]&&Array.isArray(m["lib/critics"].list))CR.splice(0,CR.length,...m["lib/critics"].list);
  if(m["lib/stores"]&&Array.isArray(m["lib/stores"].list))ST.splice(0,ST.length,...m["lib/stores"].list);
- if(m["lib/team"]&&Array.isArray(m["lib/team"].list)){TEAM.splice(0,TEAM.length,...m["lib/team"].list);isStaff=!!(user&&TEAM.some(m=>{
+ if(m["lib/beginners"]&&Array.isArray(m["lib/beginners"].ids)){BEGINNER_IDS.splice(0,BEGINNER_IDS.length,...m["lib/beginners"].ids)}
+ if(m["lib/team"]&&Array.isArray(m["lib/team"].list)){TEAM.splice(0,TEAM.length,...m["lib/team"].list);isStaff=!!(user&&TEAM.some(m=>
   const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
   const uEm=String(user.email||"").trim().toLowerCase();
   const uNm=String(user.name||"").trim().toLowerCase().replace(/^@/,"");
@@ -1904,7 +1930,7 @@ document.addEventListener("click",async e=>{
  const k=e.target.closest("[data-lk]");if(k){const p=feed.find(x=>x.i==k.dataset.lk);if(p){p.l++;if(SB&&typeof p.i==="string")SB.rpc("bump_like",{pid:p.i});render()}}
 });
 
-function nav(){const it=[["home","🏠"],["books","📚"],["events","📅"],["authors","✍️"]].concat(isAdmin?[["admin","⚙️"]]:[]);
+function nav(){const it=[["home","🏠"],["books","📚"],["events","📅"],["authors","✍️"]].concat(canEditContent()?[["admin","⚙️"]]:[]);
  $("#bn").innerHTML=it.map(([k,i])=>`<button data-nv="${k}" class="${tab===k?"on":""}"><b>${i}</b>${tr(k)}</button>`).join("")+`<button id="nvm"><b>☰</b>${tr("menu")}</button>`;
  $("#bn").querySelectorAll("[data-nv]").forEach(x=>x.onclick=()=>{tab=x.dataset.nv;render();scrollTo(0,0)});$("#nvm").onclick=openMenu}
 
@@ -1972,7 +1998,7 @@ function homeView(v){
  ${SET.hidePoe?"":rowH("poe",poems)}
 
  <h2 class="sec">${li===0?"ከዚህ ጀምር — ለጀማሪዎች (Start Here)":"Start Here — For Beginners"}</h2>
- <div class="row">${pub.filter(b=>["kid","slf","fol"].includes(b.g)||[1,43,57,69,77,87].includes(b.id)).slice(0,12).map(b=>bcard(b)).join("")}</div>
+ <div class="row">${(BEGINNER_IDS.length?BEGINNER_IDS.map(id=>pub.find(x=>x.id===id)).filter(Boolean):pub.filter(b=>["kid","slf","fol"].includes(b.g))).slice(0,16).map(b=>bcard(b)).join("")}</div>
 
  <h2 class="sec">${li===0?"ዓለም አቀፍ ሥነ-ጽሑፍ — ከኢትዮጵያ ውጭ (World Literature)":"World Literature (Outside Ethiopia)"}</h2>
  <div class="row">${pub.filter(b=>["ካህሊል ጂብራን","አልቤር ካሙ","ፊዮዶር ዶስቶየቭስኪ","ጆርጅ ኦርዌል","ፓውሎ ኮኤልዮ","ቺንዋ አቼቤ","ሃርፐር ሊ","ማርከስ አውሬሊየስ"].includes(normAuthor(b.a))).map(b=>bcard(b)).join("")}</div>
@@ -2044,7 +2070,7 @@ async function sbAuth(up,em,pw,n,role){
  $("#login").close();await afterAuth(r.data.session)}
 async function loadShared(){
  const g=async p=>{const r=await DB.doc(p).get();return r.exists?r.data():null};
- const [b,n,st,v,au,ev,ad,crData,stData,tmData,rv,fp,vt]=await Promise.all([
+ const [b,n,st,v,au,ev,ad,crData,stData,tmData,bgData,rv,fp,vt]=await Promise.all([
   g("lib/books"),
   g("lib/notes"),
   g("lib/settings"),
@@ -2055,6 +2081,7 @@ async function loadShared(){
   g("lib/critics"),
   g("lib/stores"),
   g("lib/team"),
+  g("lib/beginners"),
   SB.from("reviews").select("*").order("created",{ascending:false}),
   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
   SB.rpc("vote_totals",{y:2026})
@@ -2068,7 +2095,8 @@ async function loadShared(){
  if(ad)AD_CFG={...AD_CFG,...ad};
  if(crData&&Array.isArray(crData.list))CR.splice(0,CR.length,...crData.list);
  if(stData&&Array.isArray(stData.list))ST.splice(0,ST.length,...stData.list);
- if(tmData&&Array.isArray(tmData.list)){TEAM.splice(0,TEAM.length,...tmData.list);isStaff=!!(user&&TEAM.some(m=>{
+ if(bgData&&Array.isArray(bgData.ids)){BEGINNER_IDS.splice(0,BEGINNER_IDS.length,...bgData.ids)}
+ if(tmData&&Array.isArray(tmData.list)){TEAM.splice(0,TEAM.length,...tmData.list);isStaff=!!(user&&TEAM.some(m=>
   const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
   const uEm=String(user.email||"").trim().toLowerCase();
   const uNm=String(user.name||"").trim().toLowerCase().replace(/^@/,"");
