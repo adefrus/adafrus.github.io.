@@ -68,8 +68,14 @@ h1,h2,h3{font-family:var(--hf,'Noto Serif Ethiopic'),'Newsreader',Georgia,serif;
 
 /* Clean, Uncrowded Header with Dark/Light Toggle & Right-Aligned Utilities */
 header{display:flex;align-items:center;gap:8px;padding:8px clamp(12px,2.5vw,32px);margin:0;flex-wrap:wrap;background:var(--hero);color:#FFFFFF;box-shadow:0 2px 12px rgba(0,0,0,.16);position:sticky;top:0;z-index:15}
-header .hr{margin-left:auto;display:flex;gap:6px;align-items:center}
-header button,header select{color:#FFFFFF;border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);padding:6px 11px;font-size:.84rem}
+header .hr{margin-left:auto;display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:flex-end;max-width:100%}
+header button,header select{color:#FFFFFF;border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);padding:5px 9px;font-size:.8rem;white-space:nowrap}
+@media (max-width:480px){
+  header{padding:7px 10px;gap:6px}
+  .logo{font-size:1.12rem;padding:2px 11px}
+  header .note{max-width:64px;font-size:.75rem}
+  #inboxBtn{display:none}
+}
 header button:hover,header select:hover{background:rgba(255,255,255,.16)}
 header option{color:#141B2D;background:#FFFFFF}
 header .note{color:#CBD5E1;font-weight:600;font-size:.82rem;max-width:95px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -104,7 +110,7 @@ input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);bo
 /* Clean Editorial Spotlight + Up Next Hero (No childish frames) */
 .imdb-hero{display:grid;grid-template-columns:2.1fr 1fr;gap:16px;margin-top:16px;align-items:stretch;min-height:clamp(320px,48vh,480px)}
 .spot{position:relative;overflow:hidden;border-radius:18px;color:#FFFFFF;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark) 88%);padding:clamp(22px,3vw,38px);display:grid;grid-template-columns:1fr clamp(132px,14vw,196px);gap:clamp(16px,2.5vw,28px);align-items:center;box-shadow:0 12px 28px rgba(13,18,31,.18)}
-.spot>.spot-art-bg{position:absolute;inset:-24px;background-size:cover;background-position:center top;filter:blur(26px) saturate(1.25) brightness(.75);transform:scale(1.12);opacity:.48;pointer-events:none;z-index:0}
+.spot>.spot-art-bg{position:absolute;inset:-32px;width:calc(100% + 64px);height:calc(100% + 64px);object-fit:cover;object-position:center top;filter:blur(28px) saturate(1.45) contrast(1.08) brightness(.82);transform:scale(1.18);opacity:.62;pointer-events:none;z-index:0}
 .spot>.spot-art-veil{position:absolute;inset:0;background:linear-gradient(115deg,rgba(13,18,31,.82) 0%,rgba(20,27,45,.65) 55%,rgba(13,18,31,.76) 100%);pointer-events:none;z-index:0}
 .spot>div,.spot>button{position:relative;z-index:1}
 .spot .k{display:inline-flex;align-items:center;gap:6px;letter-spacing:.12em;font-size:.75rem;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
@@ -163,7 +169,7 @@ h2.sec:after{content:"";flex:1;height:1px;background:var(--line)}
 /* Top 10 Editorial Cards: Crisp Top-Right Rank Badge (Zero Clipping) */
 .t10{display:flex;flex-direction:column;flex:none;border:1px solid var(--line);background:var(--surface);padding:0;text-align:left;width:166px;border-radius:14px;overflow:hidden;position:relative;transition:transform .18s,box-shadow .18s}
 .t10:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(20,27,45,.12)}
-.t10 .n{position:absolute;top:8px;right:8px;z-index:3;min-width:34px;height:30px;padding:0 9px;border-radius:999px;background:linear-gradient(135deg,#F5C451,#C88A16);color:#141000;font-family:'Figtree',sans-serif;font-size:.9rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.35);border:1.5px solid #FFFDF8}
+.t10 .n{position:absolute;top:8px;left:8px;z-index:3;min-width:36px;height:30px;padding:0 10px;border-radius:999px;background:linear-gradient(135deg,#F7CA54,#B87C10);color:#141000;font-family:'Figtree',sans-serif;font-size:.92rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.35);border:1.5px solid #FFFDF8}
 .t10 .cover{width:100%;border-radius:0;box-shadow:none}
 
 /* Author Portraits */
@@ -510,7 +516,28 @@ const STARTER_BOOKS=[
 {"t":"ከአሜን ባሻገር","e":"Ke'Amen Bashager","a":"በዕውቀቱ ሥዩም","ae":"Bewketu Seyoum","l":"am","g":"hum","y":2016,"c":"#5E491E","s":"ታሪክን፣ ባህልንና ማህበራዊ ጉዳዮችን በሳቅና በጥልቅ ምልከታ የሚተነትኑ ወጎች።","se":"Witty, sharp essays blending humor with deep reflections on Ethiopian history and society.","id":102,"r":[0,0]},
 {"t":"Kuusaa Walaloo Oromoo","e":"Anthology of Oromo Poetry","a":"Abbaa Gammachiis","ae":"Abba Gammachis","l":"om","g":"poe","y":2018,"c":"#1E6B52","s":"የኦሮሞ ባህላዊና ዘመናዊ ግጥሞች ስብስብ።","se":"A rich collection of traditional and modern Afaan Oromoo poetry.","id":103,"r":[0,0]},
 {"t":"Godaannisa","e":"The Scar (Godaannisa)","a":"Dhaabaa Wayyeessaa","ae":"Dhaba Wayessa","l":"om","g":"fic","y":1992,"c":"#4A2525","s":"በአፋን ኦሮሞ የተጻፈ ታዋቂ የፍቅርና የማህበራዊ ሕይወት ልብ ወለድ።","se":"A landmark Afaan Oromoo novel exploring love, memory, and social struggle.","id":104,"r":[0,0]},
-{"t":"ሓደ ዛንታ","e":"Hade Zanta (One Story)","a":"በየነ ሃይለ","ae":"Beyene Haile","l":"ti","g":"fic","y":2005,"c":"#4A2535","s":"በትግርኛ ሥነ-ጽሑፍ ውስጥ ከፍተኛ አድናቆት ያተረፈ ጥልቅ ልብ ወለድ።","se":"An acclaimed Tigrinya novel celebrated for its poetic voice and philosophical depth.","id":105,"r":[0,0]}
+{"t":"ሓደ ዛንታ","e":"Hade Zanta (One Story)","a":"በየነ ሃይለ","ae":"Beyene Haile","l":"ti","g":"fic","y":2005,"c":"#4A2535","s":"በትግርኛ ሥነ-ጽሑፍ ውስጥ ከፍተኛ አድናቆት ያተረፈ ጥልቅ ልብ ወለድ።","se":"An acclaimed Tigrinya novel celebrated for its poetic voice and philosophical depth.","id":105,"r":[0,0]},
+{"t":"ስደተኛዋ","e":"Sidetegnawa (The Migrant)","a":"ሕይወት እምሻው","ae":"Hiwot Emishaw","l":"am","g":"fic","y":2012,"c":"#3B2F4A","s":"የስደትንና የማንነትን ፈተና በጥልቀት የሚመረምር የሕይወት እምሻው ልብ ወለድ።","se":"A moving novel by Hiwot Emishaw exploring migration and identity.","id":106,"r":[0,0]},
+{"t":"የተሰወረች ሕይወት","e":"Yetesewerech Hiwot","a":"ሕይወት እምሻው","ae":"Hiwot Emishaw","l":"am","g":"fic","y":2014,"c":"#1E4D3B","s":"በማህበራዊ ሕይወት ውስጥ የተደበቁ እውነቶችን የሚያሳይ ልብ ወለድ።","se":"A story uncovering hidden lives and quiet resilience.","id":107,"r":[0,0]},
+{"t":"ነፃነት በእጆቼ","e":"Netsanet Be'Ejjoche","a":"ሕይወት እምሻው","ae":"Hiwot Emishaw","l":"am","g":"aut","y":2016,"c":"#5A3E24","s":"ስለ ራስን መቻልና የሕይወት ምርጫዎች የተጻፈ መጽሐፍ።","se":"Reflections on personal agency and life choices.","id":108,"r":[0,0]},
+{"t":"የፍቅር መንገድ","e":"Yefikir Menged","a":"ሕይወት እምሻው","ae":"Hiwot Emishaw","l":"am","g":"rom","y":2017,"c":"#6E2C46","s":"በፍቅርና በትዝታ ዙሪያ የሚያጠነጥን ልብ ወለድ።","se":"A lyrical novel centered on love and memory.","id":109,"r":[0,0]},
+{"t":"የዘመን ምልክት","e":"Yezemen Milk","a":"ሕይወት እምሻው","ae":"Hiwot Emishaw","l":"am","g":"fic","y":2021,"c":"#243B5E","s":"የዘመናችንን ማህበራዊ ለውጦች የሚተርክ ልብ ወለድ።","se":"A contemporary narrative reflecting changing times.","id":110,"r":[0,0]},
+{"t":"የእንባ ጠብታ","e":"Ye'Enba Tebta","a":"ሕይወት እምሻው","ae":"Hiwot Emishaw","l":"am","g":"fic","y":2023,"c":"#4A2535","s":"የሰው ልጅን ስሜትና ጽናት የሚያሳይ ልብ ወለድ።","se":"A story of emotional depth and endurance.","id":111,"r":[0,0]},
+{"t":"ሰይጣን በውጭ ሀገር","e":"Seytan Be'Wuch Hager","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"mys","y":2012,"c":"#2A1E36","s":"በምስጢርና በክትትል የተሞላ የይስማዕከ ወርቁ ልብ ወለድ።","se":"A suspenseful mystery thriller by Yismaeke Worku.","id":112,"r":[0,0]},
+{"t":"መርከቡ","e":"Merkebu (The Ark)","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"sf","y":2014,"c":"#1B4965","s":"በሳይንሳዊ ልብ ወለድና በምስጢር የታጀበ መጽሐፍ።","se":"Speculative fiction and adventure by Yismaeke Worku.","id":113,"r":[0,0]},
+{"t":"የጥበብ መንገድ","e":"Yetibeb Menged","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"phi","y":2017,"c":"#1E4D3B","s":"ስለ ጥበብ፣ ፍልስፍናና ማህበራዊ ሕይወት የተጻፈ መጽሐፍ።","se":"Philosophical reflections on art and society.","id":114,"r":[0,0]},
+{"t":"አስማት","e":"Asmat","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"mys","y":2019,"c":"#4A2525","s":"ምስጢራዊ ክስተቶችንና የሰው ልጅን ጥንካሬ የሚያሳይ ልብ ወለድ።","se":"A gripping mystery novel by Yismaeke Worku.","id":115,"r":[0,0]},
+{"t":"የድል ቀን","e":"Yedil Qen","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"his","y":2021,"c":"#5E491E","s":"ታሪካዊ ክስተቶችንና የጀግንነት መንፈስን የሚያንጸባርቅ መጽሐፍ።","se":"A historical narrative of courage and triumph.","id":116,"r":[0,0]},
+{"t":"የዘላለም ብርሃን","e":"Yezelalem Birhan","a":"ደሞዝ ጎሹሜ","ae":"Demoz Goshime","l":"am","g":"fai","y":2019,"c":"#243B5E","s":"ስለ ተስፋ፣ እምነትና መንፈሳዊ ዕረፍት የተጻፈ የደሞዝ ጎሹሜ መጽሐፍ።","se":"Spiritual reflections on hope and faith by Demoz Goshime.","id":117,"r":[0,0]},
+{"t":"ዲጂታል ኢትዮጵያ እና ቴክኖሎጂ","e":"Digital Ethiopia & Modern Tech","a":"ሰላማዊት ካሳ","ae":"Selamawit Kassa","l":"am","g":"tec","y":2024,"c":"#1B4965","s":"የቴክኖሎጂ፣ የዲጂታል ሥራና የወደፊት ዕድሎች መግቢያ።","se":"An accessible guide to technology, digital skills, and innovation.","id":118,"r":[0,0]},
+{"t":"ተረት ለሕፃናት (የባህል ታሪኮች)","e":"Folktales for Young Readers","a":"ወ/ሮ ስንዱ ገብሩ","ae":"Senedu Gebru","l":"am","g":"kid","y":1965,"c":"#1C6E52","s":"ለወጣቶችና ለልጆች የሚሆኑ አስተማሪ ኢትዮጵያዊ ታሪኮች።","se":"Wholesome traditional stories suited for young readers and beginners.","id":119,"r":[0,0]},
+{"t":"የንግድ ጥበብና አመራር","e":"Principles of Business & Enterprise","a":"አበበ ታደሰ","ae":"Abebe Tadesse","l":"am","g":"biz","y":2020,"c":"#334155","s":"ስለ ንግድ ዕቅድ፣ ሥራ ፈጠራና ኢኮኖሚያዊ ዕድገት የሚያስተምር መጽሐፍ።","se":"Practical guide to entrepreneurship, management, and business growth.","id":120,"r":[0,0]},
+{"t":"የሳይንስ ዓለም መግቢያ","e":"Introduction to Science & Discovery","a":"ዶ/ር ኪዳነ ማርያም","ae":"Dr. Kidane Mariam","l":"am","g":"sci","y":2018,"c":"#1E4D6B","s":"የተፈጥሮ ሳይንስንና ምርምርን በቀላል ቋንቋ የሚያስተዋውቅ መጽሐፍ።","se":"Clear introduction to scientific inquiry and natural phenomena.","id":121,"r":[0,0]},
+{"t":"1984 (Nineteen Eighty-Four)","e":"1984","a":"ጆርጅ ኦርዌል","ae":"George Orwell","l":"en","g":"sf","y":1949,"c":"#141B2D","isbn":"9780451524935","s":"በዓለም ታዋቂ የሆነ የፖለቲካና ሳይንሳዊ ልብ ወለድ ክላሲክ።","se":"George Orwell's landmark dystopian classic outside Ethiopian literature.","id":122,"r":[0,0]},
+{"t":"The Alchemist","e":"The Alchemist","a":"ፓውሎ ኮኤልዮ","ae":"Paulo Coelho","l":"en","g":"fic","y":1988,"c":"#7C4A1E","isbn":"9780062315007","s":"ስለ ሕልም ፍለጋና የውስጥ ጥበብ የሚተርክ ዓለም አቀፍ ተወዳጅ ልብ ወለድ።","se":"Paulo Coelho's widely read fable about following one's personal legend.","id":123,"r":[0,0]},
+{"t":"Things Fall Apart","e":"Things Fall Apart","a":"ቺንዋ አቼቤ","ae":"Chinua Achebe","l":"en","g":"his","y":1958,"c":"#4A2525","isbn":"9780385474542","s":"በአፍሪካ ሥነ-ጽሑፍ ታሪክ ታላቅ ስፍራ ያለው ታሪካዊ ልብ ወለድ።","se":"Chinua Achebe's classic African novel exploring cultural transition and history.","id":124,"r":[0,0]},
+{"t":"To Kill a Mockingbird","e":"To Kill a Mockingbird","a":"ሃርፐር ሊ","ae":"Harper Lee","l":"en","g":"fic","y":1960,"c":"#243B5E","isbn":"9780061120084","s":"ስለ ፍትሕ፣ የሰብአዊነትና የሕይወት ትምህርት የሚተርክ ዓለም አቀፍ ልብ ወለድ።","se":"Harper Lee's classic novel of justice, empathy, and growing up.","id":125,"r":[0,0]},
+{"t":"Meditations","e":"Meditations","a":"ማርከስ አውሬሊየስ","ae":"Marcus Aurelius","l":"en","g":"phi","y":180,"c":"#3F332B","isbn":"9780812968255","s":"የስቶይክ ፍልስፍናን፣ ራስን መግዛትንና የተረጋጋ ሕይወትን የሚያስተምር ጥንታዊ ሥራ።","se":"Marcus Aurelius's timeless Roman stoic reflections on self-discipline and virtue.","id":126,"r":[0,0]}
 ];
 const books=JSON.parse(JSON.stringify(STARTER_BOOKS));
 const revs={};books.forEach(b=>revs[b.id]=[]);
@@ -1038,19 +1065,13 @@ $("#bell").onclick=openNotes;
 let DB=null,USER=null,ME=null,ASSETS=null,isAdmin=false,SET={},adminFilter="",reqSent=false,evFilter="";
 const tabsL=()=>["home","books","events","feed","authors","critics","stores","awards","premium","member","list"].concat(user&&user.role==="author"?["studio"]:[]).concat(isAdmin?["admin"]:[]);
 const FONTS=["Noto Serif Ethiopic","Abyssinica SIL","Playfair Display","Lora","Merriweather","Figtree"];
-function applySet(){
- const r=document.documentElement.style;
- if(SET.font)r.setProperty("--hf","'"+SET.font+"'");
- if(SET.accent)r.setProperty("--gold",SET.accent);
- if(SET.heroBg){r.setProperty("--hero",SET.heroBg);r.setProperty("--hero-mid",SET.heroBg)}
- if(SET.pageBg)r.setProperty("--bg",SET.pageBg);
- if(SET.cardBg)r.setProperty("--surface",SET.cardBg);
-}
+function isDarkNow(){const dm=document.documentElement.dataset.theme;return dm==="dark"||(!dm&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)}
+function applySet(){const r=document.documentElement.style;if(SET.font)r.setProperty("--hf","'"+SET.font+"'");const pal=SET.palettes&&SET.palettes[isDarkNow()?"dark":"light"];if(pal){if(pal.gold)r.setProperty("--gold",pal.gold);if(pal.hero){r.setProperty("--hero",pal.hero);r.setProperty("--hero-mid",pal.hero)}if(pal.bg)r.setProperty("--bg",pal.bg);if(pal.surface)r.setProperty("--surface",pal.surface);return}if(SET.accent)r.setProperty("--gold",SET.accent);if(SET.heroBg){r.setProperty("--hero",SET.heroBg);r.setProperty("--hero-mid",SET.heroBg)}if(SET.pageBg)r.setProperty("--bg",SET.pageBg);if(SET.cardBg)r.setProperty("--surface",SET.cardBg)}
 function recalc(b){if(!b)return;const rv=(revs[b.id]||[]).filter(r=>r.real),r0=b.r0||(b.r0=[0,0]),n=rv.length,t=rv.reduce((a,r)=>a+r.n,0);b.r=[r0[1]+n?(r0[0]*r0[1]+t)/(r0[1]+n):0,r0[1]+n]}
 const W=(path,data)=>{if(DB)return DB.doc(path).set(data).catch(e=>{window.lastErr=String(e&&e.message||e)});try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m[path]=data;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(e){}return Promise.resolve()};
 async function saveBooks(){if(isAdmin){await W("lib/books",{list:JSON.parse(JSON.stringify(books))});await W("lib/notes",{list:notes.map(n=>({k:n.k,id:n.id}))})}}
 function saveRev(id){if(SB){const r=revs[id][0];if(r&&!r.id&&r.real)SB.from("reviews").insert({book_id:id,user_name:r.u,stars:r.n,body:r.x}).select().single().then(x=>{if(x.data)r.id=x.data.id});return}W("reviews/"+id,{list:revs[id]})}
-function saveMe(){if(user&&user.id)W("data/users/"+user.id+"/me",{name:user.name,email:user.email||"",role:user.role,mine,goal,isPremium,seen:notes.filter(n=>!n.u).map(n=>n.k+n.id)})}
+function saveMe(){if(user&&user.id)W("data/users/"+user.id+"/me",{name:user.name,email:user.email||"",role:user.role,mine,goal,isPremium,isMember,charityPlan,seen:notes.filter(n=>!n.u).map(n=>n.k+n.id)})}
 
 function openProfile(){
  $("#lgc").innerHTML=`<h2>${tr("edit")}</h2><input id="nm" value="${esc(user?user.name:ME?ME.name:"")}" placeholder="${tr("name")}"><select id="role"><option value="reader" ${user&&user.role==="reader"?"selected":""}>${tr("reader")}</option><option value="author" ${user&&user.role==="author"?"selected":""}>${tr("author")}</option></select><p class="err" id="lerr"></p><button class="primary" id="go">${tr("save")}</button><button id="lc">${tr("cancel")}</button>${user?`<button id="lo">${tr("logout")}</button>`:""}`;
@@ -1383,9 +1404,10 @@ async function adminView(v){
   <h2>${tr("books")} (${books.length})</h2>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
    <button class="gold" id="ab">${tr("add")}</button>
-   <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load Full 105 Books & Poets Catalog</button>
+   <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load Full Catalog</button>
    <button id="fcov" style="border-color:var(--gold);color:var(--ink);font-weight:700">🖼️ Auto-Fetch Web Covers</button>
    <button id="fastCovBtn" style="border-color:var(--hero);color:var(--hero);font-weight:700">⚡ Fast Bulk Cover Manager</button>
+   <button id="expJsonBtn" style="border-color:var(--green);color:var(--ink);font-weight:600">💾 Backup Catalog JSON</button>
   </div>
   <p class="note" id="impStatus"></p>
   <input id="af" type="search" placeholder="${tr("search")}" value="${esc(adminFilter)}">
@@ -1393,25 +1415,39 @@ async function adminView(v){
  </div>
 
  <div class="panel" style="margin-top:14px">
-  <h2>⚙️ ${tr("settings")} (Site Design, Colors, Fonts & Social Links)</h2>
+  <h2>${tr("settings")} (Light &amp; Dark Mode Colors, Fonts &amp; Layout)</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
    <div><label>${tr("sitename")}</label><input id="sn" style="width:100%" value="${esc(SET.name||"")}" placeholder="${tr("logo")}"></div>
    <div><label>${tr("font")}</label><select id="sf" style="width:100%">${FONTS.map(f=>`<option ${SET.font===f?"selected":""}>${f}</option>`).join("")}</select></div>
-   <div><label>${tr("color")} (Gold Accent)</label><input id="sc" type="color" style="width:100%;height:40px" value="${SET.accent||"#D99B26"}"></div>
-   <div><label>Header & Hero Color</label><input id="shero" type="color" style="width:100%;height:40px" value="${SET.heroBg||"#141B2D"}"></div>
-   <div><label>Page Background Color</label><input id="spage" type="color" style="width:100%;height:40px" value="${SET.pageBg||"#F6F5F2"}"></div>
-   <div><label>Card Surface Color</label><input id="scard" type="color" style="width:100%;height:40px" value="${SET.cardBg||"#FFFFFF"}"></div>
   </div>
-  <h3 style="margin-top:8px;font-size:1rem">Home Page Sections Visibility</h3>
+  <h3 style="margin-top:8px;font-size:1rem">Light Mode Colors</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+   <div><label>Light Page BG</label><input id="l_bg" type="color" style="width:100%;height:38px" value="${esc((SET.palettes&&SET.palettes.light&&SET.palettes.light.bg)||SET.pageBg||"#F6F5F2")}"></div>
+   <div><label>Light Card BG</label><input id="l_sf" type="color" style="width:100%;height:38px" value="${esc((SET.palettes&&SET.palettes.light&&SET.palettes.light.surface)||SET.cardBg||"#FFFFFF")}"></div>
+   <div><label>Light Header BG</label><input id="l_hr" type="color" style="width:100%;height:38px" value="${esc((SET.palettes&&SET.palettes.light&&SET.palettes.light.hero)||SET.heroBg||"#141B2D")}"></div>
+   <div><label>Light Accent</label><input id="l_gd" type="color" style="width:100%;height:38px" value="${esc((SET.palettes&&SET.palettes.light&&SET.palettes.light.gold)||SET.accent||"#D99B26")}"></div>
+  </div>
+  <h3 style="margin-top:8px;font-size:1rem">Dark Mode Colors</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+   <div><label>Dark Page BG</label><input id="d_bg" type="color" style="width:100%;height:38px" value="${esc((SET.palettes&&SET.palettes.dark&&SET.palettes.dark.bg)||"#0B0F19")}"></div>
+   <div><label>Dark Card BG</label><input id="d_sf" type="color" style="width:100%;height:38px" value="${esc((SET.palettes&&SET.palettes.dark&&SET.palettes.dark.surface)||"#131A2B")}"></div>
+   <div><label>Dark Header BG</label><input id="d_hr" type="color" style="width:100%;height:38px" value="${esc((SET.palettes&&SET.palettes.dark&&SET.palettes.dark.hero)||"#101626")}"></div>
+   <div><label>Dark Accent</label><input id="d_gd" type="color" style="width:100%;height:38px" value="${esc((SET.palettes&&SET.palettes.dark&&SET.palettes.dark.gold)||"#F0B43C")}"></div>
+  </div>
+  <h3 style="margin-top:8px;font-size:1rem">Home Sections</h3>
   <div style="display:flex;gap:14px;flex-wrap:wrap">
-   <label><input type="checkbox" id="sShowTop10" ${SET.hideTop10?"":"checked"}> Show Top 10</label>
-   <label><input type="checkbox" id="sShowPoe" ${SET.hidePoe?"":"checked"}> Show Poetry Shelf</label>
-   <label><input type="checkbox" id="sShowEv" ${SET.hideEv?"":"checked"}> Show Events Shelf</label>
-   <label><input type="checkbox" id="sShowPrem" ${SET.hidePrem?"":"checked"}> Show Premium Banner</label>
+   <label><input type="checkbox" id="sShowTop10" ${SET.hideTop10?"":"checked"}> Top 10</label>
+   <label><input type="checkbox" id="sShowPoe" ${SET.hidePoe?"":"checked"}> Poetry</label>
+   <label><input type="checkbox" id="sShowEv" ${SET.hideEv?"":"checked"}> Events</label>
+   <label><input type="checkbox" id="sShowPrem" ${SET.hidePrem?"":"checked"}> Premium Banner</label>
   </div>
   <h3 style="margin-top:8px;font-size:1rem">Social Media Links</h3>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px">
-   ${["Facebook","Instagram","X","YouTube","Telegram"].map(s=>`<input id="soc_${s}" placeholder="${s} URL (https://...)" value="${esc((SET.socials&&SET.socials[s])||"")}">`).join("")}
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px">
+   <input id="soc_Facebook" placeholder="Facebook URL" value="${esc((SET.socials&&SET.socials.Facebook)||"")}">
+   <input id="soc_Instagram" placeholder="Instagram URL" value="${esc((SET.socials&&SET.socials.Instagram)||"")}">
+   <input id="soc_X" placeholder="X URL" value="${esc((SET.socials&&SET.socials.X)||"")}">
+   <input id="soc_YouTube" placeholder="YouTube URL" value="${esc((SET.socials&&SET.socials.YouTube)||"")}">
+   <input id="soc_Telegram" placeholder="Telegram URL" value="${esc((SET.socials&&SET.socials.Telegram)||"")}">
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
    <button class="primary" id="ss">${tr("save")}</button>
@@ -1498,11 +1534,25 @@ async function adminView(v){
   if(idx>-1){books.splice(idx,1);render();await saveBooks()}
  });
  $("#fastCovBtn").onclick=()=>openFastCoverManager();
+ $("#expJsonBtn").onclick=()=>{
+  const blob=new Blob([JSON.stringify({books,events:EVENTS,critics:CR,stores:ST,settings:SET,authors:AUTH_META},null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="adefris-backup.json";a.click();
+ };
  $("#resetSet").onclick=async()=>{
   SET={};document.documentElement.removeAttribute("style");await W("lib/settings",SET);render();
  };
+ $("#resetSet").onclick=async()=>{SET={};document.documentElement.removeAttribute("style");await W("lib/settings",SET);render()};
  $("#ss").onclick=async()=>{
   const socials={};
+  ["Facebook","Instagram","X","YouTube","Telegram"].forEach(s=>{const val=$("#soc_"+s).value.trim();if(val)socials[s]=val});
+  const palettes={
+   light:{bg:$("#l_bg").value,surface:$("#l_sf").value,hero:$("#l_hr").value,gold:$("#l_gd").value},
+   dark:{bg:$("#d_bg").value,surface:$("#d_sf").value,hero:$("#d_hr").value,gold:$("#d_gd").value}
+  };
+  const curP=isDarkNow()?palettes.dark:palettes.light;
+  SET={name:$("#sn").value.trim(),font:$("#sf").value,accent:curP.gold,heroBg:curP.hero,pageBg:curP.bg,cardBg:curP.surface,palettes,hideTop10:!$("#sShowTop10").checked,hidePoe:!$("#sShowPoe").checked,hideEv:!$("#sShowEv").checked,hidePrem:!$("#sShowPrem").checked,socials};
+  applySet();render();await W("lib/settings",SET);
+ };
   ["Facebook","Instagram","X","YouTube","Telegram"].forEach(s=>{const val=$("#soc_"+s).value.trim();if(val)socials[s]=val});
   SET={
    name:$("#sn").value.trim(),
@@ -1533,8 +1583,8 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
  if(m["lib/ads"])AD_CFG={...AD_CFG,...m["lib/ads"]};
  if(m["lib/critics"]&&Array.isArray(m["lib/critics"].list))CR.splice(0,CR.length,...m["lib/critics"].list);
  if(m["lib/stores"]&&Array.isArray(m["lib/stores"].list))ST.splice(0,ST.length,...m["lib/stores"].list);
- const me=m["data/users/local/me"];if(me){mine=me.mine||{};goal=me.goal||12;isPremium=!!me.isPremium}
- books.forEach(b=>{revs[b.id]=revs[b.id]||[];recalc(b)});nid=Math.max(...books.map(b=>b.id),105)+1}catch(e){}}
+ const me=m["data/users/local/me"];if(me){mine=me.mine||{};goal=me.goal||12;isPremium=!!me.isPremium;isMember=!!me.isMember;if(me.charityPlan)charityPlan=me.charityPlan}
+ books.forEach(b=>{revs[b.id]=revs[b.id]||[];recalc(b)});nid=Math.max(...books.map(b=>b.id),140)+1}catch(e){}}
 
 function chrome(){
  $("#logo").onclick=()=>{tab="home";render();scrollTo(0,0)};
@@ -1649,12 +1699,12 @@ function openMenu(){
  m.querySelectorAll("[data-t]").forEach(x=>x.onclick=()=>{tab=x.dataset.t;c();render()});
  m.querySelectorAll("[data-g]").forEach(x=>x.onclick=()=>{gen=x.dataset.g;lang="";term="";tab="books";c();render()});
  m.querySelectorAll("[data-l]").forEach(x=>x.onclick=()=>{lang=x.dataset.l;gen="";term="";tab="books";c();render()});
- $("#th").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
+ $("#th").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark";applySet();};
  $("#mx").onclick=c;$("#mxTop").onclick=c;
  $("#menu").showModal();
 }
 $("#menuBtn").onclick=openMenu;
-$("#themeTopBtn").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
+$("#themeTopBtn").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark";applySet();};
 
 ["menu","bk","login","nt"].forEach(id=>{
  const d=document.getElementById(id);
@@ -1752,7 +1802,7 @@ function homeView(v){
  v.innerHTML=`
  ${f?`<section class="imdb-hero">
   <div class="spot">
-   ${(getAuthorPhoto(f.a)||getCoverSrc(f))?`<div class="spot-art-bg" style="background-image:url(${esc(getAuthorPhoto(f.a)||getCoverSrc(f))})"></div>`:""}
+   ${(getAuthorPhoto(f.a)||getCoverSrc(f))?`<img class="spot-art-bg" src="${esc(getAuthorPhoto(f.a)||getCoverSrc(f))}" alt="" aria-hidden="true" onerror="this.remove()">`:""}
    <div class="spot-art-veil"></div>
    <div>
     <div class="k">★ ${tr("botd")} · ${LN[f.l]||f.l}</div>
@@ -1788,11 +1838,34 @@ function homeView(v){
   ${LK.map(k=>`<button data-l="${k}" style="padding:5px 11px;font-size:.8rem;white-space:nowrap;background:var(--surface2)">${LN[k]}</button>`).join("")}
  </div>
 
+ <div style="display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none;align-items:center">
+  <button data-go="books" class="gold" style="padding:6px 14px;font-size:.84rem;white-space:nowrap">📚 ${tr("books")}</button>
+  <button data-go="authors" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">✍️ ${tr("authors")}</button>
+  <button data-go="events" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">📅 ${tr("events")}</button>
+  <button data-go="critics" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">🎙️ ${tr("critics")}</button>
+  <button data-go="stores" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">📍 ${tr("stores")}</button>
+  <button data-go="feed" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">💬 ${tr("feed")}</button>
+  ${LK.map(k=>`<button data-l="${k}" style="padding:5px 11px;font-size:.8rem;white-space:nowrap;background:var(--surface2)">${LN[k]}</button>`).join("")}
+ </div>
+ <div class="chips" style="margin-top:6px">
+  ${GK.map(k=>`<button data-g="${k}" style="padding:5px 11px;font-size:.8rem">${gn(k)}</button>`).join("")}
+ </div>
+
  ${SET.hideTop10?"":`<h2 class="sec">${tr("top10")}</h2>
  <div class="row">${rated.slice(0,10).map((b,i)=>`<button class="t10" data-id="${b.id}"><span class="n">#${i+1}</span>${cover(b,"",i<5)}<div class="meta"><div class="rline"><span class="st">★</span> ${avg(b)}</div><strong>${esc(bt(b))}</strong><small>${esc(ba(b))}</small></div></button>`).join("")}</div>`}
 
- ${rowH("fans",rated.slice(0,12))}
+ <h2 class="sec">${li===0?"ብዙ የተሸጡ (Best Selling)":"Best Selling"}</h2>
+ <div class="row">${[...pub].sort((a,b)=>(b.r[1]||0)-(a.r[1]||0)||(b.y||0)-(a.y||0)).slice(0,12).map(b=>bcard(b)).join("")}</div>
+
  ${SET.hidePoe?"":rowH("poe",poems)}
+
+ <h2 class="sec">${li===0?"ከዚህ ጀምር — ለጀማሪዎች (Start Here)":"Start Here — For Beginners"}</h2>
+ <div class="row">${pub.filter(b=>["kid","slf","fol"].includes(b.g)||[1,43,57,69,77,87].includes(b.id)).slice(0,12).map(b=>bcard(b)).join("")}</div>
+
+ <h2 class="sec">${li===0?"ዓለም አቀፍ ሥነ-ጽሑፍ — ከኢትዮጵያ ውጭ (World Literature)":"World Literature (Outside Ethiopia)"}</h2>
+ <div class="row">${pub.filter(b=>["ካህሊል ጂብራን","አልቤር ካሙ","ፊዮዶር ዶስቶየቭስኪ","ጆርጅ ኦርዌል","ፓውሎ ኮኤልዮ","ቺንዋ አቼቤ","ሃርፐር ሊ","ማርከስ አውሬሊየስ"].includes(normAuthor(b.a))).map(b=>bcard(b)).join("")}</div>
+
+ ${rowH("fans",rated.slice(0,12))}
  ${user&&mylist.length?rowH("fromlist",mylist):""}
 
  ${adBanner()}
@@ -1834,8 +1907,7 @@ function homeView(v){
 
  <div class="mapcard"><div><h3>📍 ${tr("stores")}</h3></div><button class="gold" data-go="stores">${tr("near")}</button></div>
 
- <h2 class="sec">${tr("popint")}</h2>
- <div class="tiles">${GK.map((k,i)=>`<button data-g="${k}" style="background:${COL[i%COL.length]}"><b>${EM[k]}</b>${gn(k)}</button>`).join("")}</div>
+
 
  <h2 class="sec">${tr("explore")}</h2>
  <div class="chips">${LK.map(k=>`<button data-l="${k}">${LN[k]}</button>`).join("")}</div>
@@ -1888,7 +1960,7 @@ async function loadShared(){
  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
  feed.splice(0,feed.length,...(fp.data||[]).map(p=>({i:p.id,u:p.user_name,uid:p.user_id,t:p.body,b:p.book_id||0,l:p.likes,d:ago(p.created),c:[]})));
  Object.keys(aw).forEach(k=>delete aw[k]);(vt.data||[]).forEach(r=>{aw[r.book_id]=Number(r.n)});
- nid=Math.max(...books.map(b=>b.id||0),105)+1}
+ nid=Math.max(...books.map(b=>b.id||0),140)+1}
 async function afterAuth(ses){
  try{if(ses){const u=ses.user,m=u.user_metadata||{};ME={id:u.id,name:m.name||u.email};user={id:u.id,name:m.name||u.email,email:u.email,role:m.role||"reader"};
    const [a,me,mv]=await Promise.all([
@@ -1897,7 +1969,7 @@ async function afterAuth(ses){
     SB.from("votes").select("book_id").eq("year",2026).maybeSingle()
    ]);
    isAdmin=!!a.data;if(a.error)window.lastErr="admins: "+a.error.message;
-   if(me.exists){const d=me.data();mine=d.mine||{};goal=d.goal||12;isPremium=!!d.isPremium}
+   if(me.exists){const d=me.data();mine=d.mine||{};goal=d.goal||12;isPremium=!!d.isPremium;isMember=!!d.isMember;if(d.charityPlan)charityPlan=d.charityPlan}
    myVote=mv.data?mv.data.book_id:null}
   else{user=null;ME=null;isAdmin=false;isPremium=false;mine={};myVote=null}
   await loadShared()}catch(e){window.lastErr=String(e&&e.message||e)}
