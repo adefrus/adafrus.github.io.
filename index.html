@@ -1553,22 +1553,7 @@ async function adminView(v){
   SET={name:$("#sn").value.trim(),font:$("#sf").value,accent:curP.gold,heroBg:curP.hero,pageBg:curP.bg,cardBg:curP.surface,palettes,hideTop10:!$("#sShowTop10").checked,hidePoe:!$("#sShowPoe").checked,hideEv:!$("#sShowEv").checked,hidePrem:!$("#sShowPrem").checked,socials};
   applySet();render();await W("lib/settings",SET);
  };
-  ["Facebook","Instagram","X","YouTube","Telegram"].forEach(s=>{const val=$("#soc_"+s).value.trim();if(val)socials[s]=val});
-  SET={
-   name:$("#sn").value.trim(),
-   font:$("#sf").value,
-   accent:$("#sc").value,
-   heroBg:$("#shero").value,
-   pageBg:$("#spage").value,
-   cardBg:$("#scard").value,
-   hideTop10:!$("#sShowTop10").checked,
-   hidePoe:!$("#sShowPoe").checked,
-   hideEv:!$("#sShowEv").checked,
-   hidePrem:!$("#sShowPrem").checked,
-   socials
-  };
-  applySet();render();await W("lib/settings",SET);
- };
+
 }
 
 let VER=[],subMode=false,fi=0,viewed=[];
@@ -1828,15 +1813,7 @@ function homeView(v){
  </section>`:""}
 
  <!-- Compact Quick-Browse Strip right near the top -->
- <div style="display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none;align-items:center">
-  <button data-go="books" class="gold" style="padding:6px 14px;font-size:.84rem;white-space:nowrap">📚 ${tr("books")}</button>
-  <button data-go="authors" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">✍️ ${tr("authors")}</button>
-  <button data-go="events" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">📅 ${tr("events")}</button>
-  <button data-go="critics" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">🎙️ ${tr("critics")}</button>
-  <button data-go="stores" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">📍 ${tr("stores")}</button>
-  <button data-go="feed" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">💬 ${tr("feed")}</button>
-  ${LK.map(k=>`<button data-l="${k}" style="padding:5px 11px;font-size:.8rem;white-space:nowrap;background:var(--surface2)">${LN[k]}</button>`).join("")}
- </div>
+
 
  <div style="display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none;align-items:center">
   <button data-go="books" class="gold" style="padding:6px 14px;font-size:.84rem;white-space:nowrap">📚 ${tr("books")}</button>
