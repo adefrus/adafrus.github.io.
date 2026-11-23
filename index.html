@@ -66,6 +66,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Figtree','Noto Sans Ethiopic',system-ui,sans-serif;line-height:1.5;padding-bottom:84px}
 h1,h2,h3{font-family:var(--hf,'Noto Serif Ethiopic'),'Newsreader',Georgia,serif;margin:0;line-height:1.22}
 
+/* Clean, Modern Header */
 header{display:flex;align-items:center;gap:10px;padding:10px clamp(14px,3vw,36px);margin:0;flex-wrap:wrap;background:var(--hero);color:#FFFFFF;box-shadow:0 2px 12px rgba(0,0,0,.16);position:sticky;top:0;z-index:15}
 header .hr{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 header button,header select{color:#FFFFFF;border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.07)}
@@ -95,8 +96,12 @@ input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);bo
 .chips button{padding:6px 13px;font-size:.86rem;border-color:var(--line);background:var(--surface)}
 .chips button.on{background:var(--hero);color:#FFFFFF;border-color:var(--hero);font-weight:600}
 
+/* Clean Editorial Spotlight + Up Next Hero (No childish frames) */
 .imdb-hero{display:grid;grid-template-columns:2.1fr 1fr;gap:16px;margin-top:16px;align-items:stretch;min-height:clamp(320px,48vh,480px)}
 .spot{position:relative;overflow:hidden;border-radius:18px;color:#FFFFFF;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark) 88%);padding:clamp(22px,3vw,38px);display:grid;grid-template-columns:1fr clamp(132px,14vw,196px);gap:clamp(16px,2.5vw,28px);align-items:center;box-shadow:0 12px 28px rgba(13,18,31,.18)}
+.spot>.spot-art-bg{position:absolute;inset:-24px;background-size:cover;background-position:center top;filter:blur(26px) saturate(1.25) brightness(.75);transform:scale(1.12);opacity:.48;pointer-events:none;z-index:0}
+.spot>.spot-art-veil{position:absolute;inset:0;background:linear-gradient(115deg,rgba(13,18,31,.82) 0%,rgba(20,27,45,.65) 55%,rgba(13,18,31,.76) 100%);pointer-events:none;z-index:0}
+.spot>div,.spot>button{position:relative;z-index:1}
 .spot .k{display:inline-flex;align-items:center;gap:6px;letter-spacing:.12em;font-size:.75rem;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
 .spot h1{font-size:clamp(1.75rem,3.4vw,2.85rem);font-weight:800;color:#FFFFFF}
 .spot .sub-author{color:#CBD5E1;font-size:clamp(.95rem,1.2vw,1.1rem);margin-top:6px;font-weight:600}
@@ -119,10 +124,12 @@ input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);bo
 .un strong{display:block;font-size:.92rem;line-height:1.25}
 .un small{display:block;color:var(--muted);font-size:.78rem}
 
+/* Section Headers */
 h2.sec{display:flex;align-items:center;gap:10px;font-size:clamp(1.2rem,1.7vw,1.48rem);margin:30px 0 14px;font-weight:800}
 h2.sec:before{content:"";width:4px;height:1.15em;border-radius:3px;background:var(--gold);flex:none}
 h2.sec:after{content:"";flex:1;height:1px;background:var(--line)}
 
+/* Book Cards & Shelves */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:16px;margin-top:14px}
 .row{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;padding-bottom:10px;scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
 .row .card{width:164px;flex:none}
@@ -148,20 +155,25 @@ h2.sec:after{content:"";flex:1;height:1px;background:var(--line)}
 .stars{color:var(--gold);letter-spacing:1px;white-space:nowrap}
 .stars i{font-style:normal;color:var(--line)}
 
+/* Top 10 IMDb-style numbered cards */
 .t10{display:flex;align-items:flex-end;flex:none;border:none;background:none;padding:0;text-align:left;width:206px;position:relative}
 .t10 .n{font-family:'Newsreader',serif;font-size:6.5rem;font-weight:800;line-height:.78;color:var(--bg);-webkit-text-stroke:2px var(--gold);margin-right:-14px;z-index:1}
 .t10 .cover{width:132px}
 
+/* Author Portraits */
 .av{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark));color:#FFFFFF;display:grid;place-items:center;font-weight:800;font-size:1.55rem;box-shadow:0 0 0 3px var(--bg),0 0 0 4.5px var(--gold);position:relative;overflow:hidden}
 .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 
+/* Advertisement Slot */
 .ad-slot{background:var(--surface2);border:1px dashed var(--line);border-radius:16px;padding:16px 20px;margin:24px 0;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
 .ad-tag{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;display:block;margin-bottom:3px}
 
+/* Events Cards */
 .ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:12px}
 .ev-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:8px}
 .ev-date{display:inline-block;background:var(--surface2);color:var(--gold);font-weight:700;font-size:.78rem;padding:3px 10px;border-radius:999px;width:fit-content}
 
+/* Dialogs & Slide-out Menu */
 dialog{border:1px solid var(--line);border-radius:18px;padding:0;max-width:660px;width:calc(100% - 24px);background:var(--surface);color:var(--ink);max-height:92vh;box-shadow:0 20px 50px rgba(0,0,0,.4)}
 dialog::backdrop{background:rgba(10,15,28,.65);backdrop-filter:blur(2px)}
 .dl{padding:20px;display:grid;gap:14px}
@@ -283,6 +295,7 @@ footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align
 
 <script>
 const LC=["am","en","om","ti"];let li=0;
+// UI text: [Amharic, English, Afaan Oromoo, Tigrinya]
 const T={
 feed:["ማህበረሰብ","Feed","Marsariitii","መጋበሲ"],critics:["ሃያሲያን","Critics","Hayyuuwwan","ሓያስያን"],stores:["መጻሕፍት ቤቶች","Bookstores","Suuqa kitaabaa","ድኳናት መጻሕፍቲ"],awards:["የዓመቱ መጽሐፍ","Book of the Year","Kitaaba waggaa","መጽሓፍ ዓመት"],events:["ዝግጅቶች","Events","Qophiiwwan","መደባት"],
 post:["አጋራ","Post","Maxxansi","ኣቐምጥ"],postph:["ምን እያነበቡ ነው? ወይም የሚወዱትን ግጥም ያጋሩ...","What are you reading? Share a thought or favorite poem...","Maal dubbisaa jirta?","እንታይ ትንብቡ ኣለኹም?"],ctact:["ደራሲውን ያነጋግሩ / ውይይት","Chat with author","Barreessaa quunnami","ንደራሲ ርኸብ"],msgph:["መልእክትዎን ይጻፉ...","Write your message...","Ergaa kee barreessi...","መልእኽትኹም ጸሓፉ..."],send:["ላክ","Send","Ergi","ለኣኽ"],sent:["መልእክትዎ ተልኳል።","Message sent.","Ergameera.","ተላኢኹ።"],
@@ -291,7 +304,7 @@ vote:["ድምጽ ስጥ","Vote","Sagalee kenni","ድምጺ ሃብ"],voted:["ድ�
 tauth:["ተወዳጅ ደራሲያን እና ገጣሚያን","Authors & Poets","Barreessitootaa fi Waloo","ደረስትን ገጠምትን"],fromcomm:["ከማህበረሰቡ","From the community","Hawaasa irraa","ካብ ማሕበረሰብ"],cpicks:["የሃያሲያን ምርጫ","Critics' picks","Filannoo hayyootaa","ምርጫ ሓያስያን"],
 menu:["ምናሌ","Menu","Baafata","ሜኑ"],share:["አጋራ","Share","Qoodi","ኣካፍል"],theme:["ብርሃን / ጨለማ","Light / dark","Ifa / dukkana","ብርሃን / ጸልማት"],
 home:["ዋና ገጽ","Home","Mana","ቀዳማይ ገጽ"],studio:["ደራሲ ነኝ","I'm an author","Barreessaa dha","ደራሲ እየ"],upnext:["ቀጣይ","Up next","Itti aanu","ዝቕጽል"],
-fromlist:["ከዝርዝርዎ","From your reading list","Tarree keessaniin","ካብ ዝርዝርኩም"],top10:["በአደፍርስ ምርጥ 10","Top 10 on Adafrus","Kudhan olaanoo Adafrus","ናይ ኣደፍርስ 10 ልዑላት"],
+fromlist:["ከዝርዝርዎ","From your reading list","Tarree keessaniin","ካብ ዝርዝርኩም"],top10:["በአደፍርስ ምርጥ 10","Top 10 on Adefris","Kudhan olaanoo Adefris","ናይ ኣደፍርስ 10 ልዑላት"],
 fans:["የአንባቢ ምርጦች","Fan favorites","Kan dubbistootni jaallatan","ፍቱዋት ኣንበብቲ"],popint:["በዘርፍ ያስሱ","Browse by genre","Gosaan sakatta'i","ብዓይነት ድሕስሱ"],
 explore:["በቋንቋ ያስሱ","Explore by language","Afaaniin sakatta'i","ብቋንቋ ድሕስሱ"],recent:["በቅርቡ ያዩት","Recently viewed","Kan dhiyeenya ilaalte","ሕጂ ዝረኣኹም"],
 followus:["በማህበራዊ ሚዲያ ይከተሉን","Follow Adafrus on social media","Maxxansa hawaasaa irratti nu hordofi","ኣብ ማሕበራዊ ሚድያ ተኸተሉና"],getapp:["የአደፍርስ መተግበሪያ ያግኙ","Get the Adafrus app","Appii Adafrus argadhu","መተግበሪ ኣደፍርስ ረኽቡ"],
@@ -335,6 +348,7 @@ ft:["Amharic title","English title","Author (Amharic)","Author (English)","Langu
 note:["የኢትዮጵያ መጻሕፍትና ሥነ-ግጥም ማህበረሰብ — አደፍርስ።","Adafrus — Ethiopian books, poetry & reading community.","Adafrus — Hawaasa dubbisaa kitaabota Itoophiyaa.","ኣደፍርስ — ማሕበረሰብ መጻሕፍቲ ኢትዮጵያ።"],
 newb:["አዲስ","New","Haaraa","ሓድሽ"],pwn:["መለያዎ በአስተማማኝ ሁኔታ ይቀመጣል።","Accounts are stored securely in Supabase.","Akkaawuntiin kee nageenyaan olkaa'ama.","ኣካውንትኩም ብውሑስ ይዕቀብ።"]};
 
+// Genres [am,en,om,ti]
 const GN={fic:["ልብ ወለድ","Fiction","Seenaa uumamaa","ልብ ወለድ"],his:["ታሪክ","History","Seenaa","ታሪኽ"],poe:["ግጥም","Poetry","Walaloo","ግጥሚ"],pol:["ፖለቲካ","Politics","Siyaasa","ፖለቲካ"],
 aut:["የሕይወት ታሪክ","Autobiography","Seenaa jireenyaa","ናይ ርእሰ ሂወት ታሪኽ"],phi:["ፍልስፍና","Philosophy","Falaasama","ፍልስፍና"],tec:["ቴክኖሎጂ","Technology","Teekinooloojii","ቴክኖሎጂ"],fan:["ምናባዊ ታሪክ","Fantasy","Fantaasii","ፋንታዚ"],
 sf:["ሳይንሳዊ ልብ ወለድ","Science fiction","Saayinsii-fiksiinii","ሳይንሳዊ ልብ ወለድ"],rom:["የፍቅር","Romance","Jaalala","ፍቕሪ"],mys:["ምስጢራዊ ወንጀል","Mystery","Dhoksaa","ምስጢር"],fai:["ሃይማኖት","Faith","Amantii","እምነት"],
@@ -342,6 +356,7 @@ kid:["የልጆች","Children's","Ijoollee","ናይ ቆልዑ"],slf:["ራስን 
 const LN={am:"አማርኛ",om:"Afaan Oromoo",ti:"ትግርኛ",en:"English"},LK=Object.keys(LN),GK=Object.keys(GN);
 const tr=k=>(T[k]&&T[k][li])||k,gn=k=>(GN[k]&&GN[k][li])||k;
 
+// ONLY strictly verified Wikimedia Commons portraits (no wrong auto-guessed photos!)
 const VERIFIED_AUTHOR_PHOTOS={
   "ሀዲስ ዓለማየሁ":"https://commons.wikimedia.org/wiki/Special:FilePath/Haddis_Alemayehu_in_1961.jpg?width=240",
   "አዳም ረታ":"https://commons.wikimedia.org/wiki/Special:FilePath/Adamreta.jpg?width=240",
@@ -357,7 +372,7 @@ const VERIFIED_AUTHOR_PHOTOS={
   "ዲያቆን ዳንኤል ክብረት":"https://commons.wikimedia.org/wiki/Special:FilePath/Daniel_Kibret.jpg?width=240",
   "ብርሃኑ ዘሪሁን":"https://commons.wikimedia.org/wiki/Special:FilePath/Berhanu_Zerihun.jpg?width=240"
 };
-let AUTH_META={};
+let AUTH_META={}; // { [canonicalName]: { img, bg, bgImg, bio, ver } }
 
 function normAuthor(raw){
  const s=String(raw||"").trim();
@@ -479,7 +494,7 @@ const STARTER_BOOKS=[
 {"t":"ከአሜን ባሻገር","e":"Ke'Amen Bashager","a":"በዕውቀቱ ሥዩም","ae":"Bewketu Seyoum","l":"am","g":"hum","y":2016,"c":"#5E491E","s":"ታሪክን፣ ባህልንና ማህበራዊ ጉዳዮችን በሳቅና በጥልቅ ምልከታ የሚተነትኑ ወጎች።","se":"Witty, sharp essays blending humor with deep reflections on Ethiopian history and society.","id":102,"r":[0,0]},
 {"t":"Kuusaa Walaloo Oromoo","e":"Anthology of Oromo Poetry","a":"Abbaa Gammachiis","ae":"Abba Gammachis","l":"om","g":"poe","y":2018,"c":"#1E6B52","s":"የኦሮሞ ባህላዊና ዘመናዊ ግጥሞች ስብስብ።","se":"A rich collection of traditional and modern Afaan Oromoo poetry.","id":103,"r":[0,0]},
 {"t":"Godaannisa","e":"The Scar (Godaannisa)","a":"Dhaabaa Wayyeessaa","ae":"Dhaba Wayessa","l":"om","g":"fic","y":1992,"c":"#4A2525","s":"በአፋን ኦሮሞ የተጻፈ ታዋቂ የፍቅርና የማህበራዊ ሕይወት ልብ ወለድ።","se":"A landmark Afaan Oromoo novel exploring love, memory, and social struggle.","id":104,"r":[0,0]},
-{"t":"ሓደ ዛንታ","e":"Hade Zanta (One Story)","a":"በየነ ሃይለ","ae":"Beyene Haile","l":"ti","g":"fic","y":2005,"c":"#4A3535","s":"በትግርኛ ሥነ-ጽሑፍ ውስጥ ከፍተኛ አድናቆት ያተረፈ ጥልቅ ልብ ወለድ።","se":"An acclaimed Tigrinya novel celebrated for its poetic voice and philosophical depth.","id":105,"r":[0,0]}
+{"t":"ሓደ ዛንታ","e":"Hade Zanta (One Story)","a":"በየነ ሃይለ","ae":"Beyene Haile","l":"ti","g":"fic","y":2005,"c":"#4A2535","s":"በትግርኛ ሥነ-ጽሑፍ ውስጥ ከፍተኛ አድናቆት ያተረፈ ጥልቅ ልብ ወለድ።","se":"An acclaimed Tigrinya novel celebrated for its poetic voice and philosophical depth.","id":105,"r":[0,0]}
 ];
 const books=JSON.parse(JSON.stringify(STARTER_BOOKS));
 const revs={};books.forEach(b=>revs[b.id]=[]);
@@ -498,6 +513,7 @@ const stars=n=>{const f=Math.round(n||0);return '<span class="stars">'+"★".rep
 const avg=b=>(b&&b.r&&b.r[1])?Number(b.r[0]).toFixed(1):"–";
 const bt=b=>li===0?(b.t||b.e):(b.e||b.t),ba=b=>li===0?normAuthor(b.a):(b.ae||normAuthor(b.a)),bs=b=>li===0?(b.s||b.se):(b.se||b.s);
 
+// Cover Image Lookup (Google Books & Open Library)
 let COV_CACHE={};
 try{COV_CACHE=JSON.parse(localStorage.getItem("adafrus_cov_cache")||"{}")}catch(e){}
 const saveCovCache=()=>{try{localStorage.setItem("adafrus_cov_cache",JSON.stringify(COV_CACHE))}catch(e){}};
@@ -533,6 +549,7 @@ async function lookupBookCover(b){
    const doc=(d3.docs||[]).find(x=>x.cover_i);
    if(doc&&doc.cover_i)return saveHit(`https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`);
   }
+  // 4. Internet Archive (archive.org) scanned books
   const iaQ=encodeURIComponent(`title:(${b.e||b.t}) AND mediatype:texts`);
   const r4=await fetch(`https://archive.org/advancedsearch.php?q=${iaQ}&fl[]=identifier&rows=2&output=json`);
   if(r4.ok){
@@ -595,6 +612,7 @@ const authorAvatar=(a,ae,size=76)=>{
   return `<div class="av" style="margin:auto;width:${size}px;height:${size}px">${esc(name.charAt(0))}${photo?`<img src="${esc(photo)}" alt="${esc(name)}" loading="lazy" decoding="async" onerror="this.remove()">`:""}</div>`;
 };
 
+// Ad Banner Component (automatically hidden if user has Premium!)
 function adBanner(){
  if(isPremium||!AD_CFG.enabled)return "";
  return `<div class="ad-slot">
@@ -964,6 +982,7 @@ function openProfile(){
  $("#go").onclick=()=>{const n=$("#nm").value.trim();if(!n){$("#lerr").textContent=tr("e3");return}user={id:ME.id,name:n,role:$("#role").value};if(SB)SB.auth.updateUser({data:{name:n,role:user.role}});saveMe();$("#login").close();render()};
  if($("#lo"))$("#lo").onclick=()=>{if(SB)SB.auth.signOut();user=null;isAdmin=false;isPremium=false;mine={};myVote=null;$("#login").close();render()};$("#login").showModal()}
 
+// Events View: Book Exhibitions, Book Launches, Book Signings
 const evTypeLabel=tp=>({exhibition:"🏛️ Exhibition",launch:"🚀 Book Launch",signing:"✒️ Book Signing"}[tp]||"📅 Event");
 function eventsView(v){
  const list=EVENTS.filter(ev=>!evFilter||ev.type===evFilter);
@@ -1029,6 +1048,7 @@ function editEventModal(){
  if(!$("#bk").open)$("#bk").showModal();
 }
 
+// Premium Subscription View (Ad-Free + Rare Books + Supporter Badge)
 function premiumView(v){
  const rareBooks=books.filter(b=>b.rare);
  v.innerHTML=`
@@ -1061,6 +1081,7 @@ function premiumView(v){
  };
 }
 
+// Admin Panel (Restored & Enhanced: Author Verification, Submissions, Author Profiles, Events, Ads, Books & Settings)
 async function adminView(v){
  if(!isAdmin){v.innerHTML="";return}
  let rq=[],sb=[];
@@ -1431,6 +1452,8 @@ function homeView(v){
  v.innerHTML=`
  ${f?`<section class="imdb-hero">
   <div class="spot">
+   ${getAuthorPhoto(f.a)?`<div class="spot-art-bg" style="background-image:url(${esc(getAuthorPhoto(f.a))})"></div>`:""}
+   <div class="spot-art-veil"></div>
    <div>
     <div class="k">★ ${tr("botd")} · ${LN[f.l]||f.l}</div>
     <h1>${esc(bt(f))}</h1>
@@ -1470,6 +1493,7 @@ function homeView(v){
   <small class="note">${x.c} ${tr("st1")}</small>
  </button>`).join("")}</div>
 
+ <!-- Upcoming Book Events Shelf -->
  <h2 class="sec">📅 ${tr("events")}</h2>
  <div class="ev-grid">
   ${EVENTS.slice(0,3).map(ev=>`<div class="ev-card">
@@ -1480,6 +1504,7 @@ function homeView(v){
   </div>`).join("")}
  </div>
 
+ <!-- Premium Subscription Banner (Ad-Free + Rare Books) -->
  ${isPremium?"":`<div class="prem-ban">
   <div>
    <h3>⭐ Adafrus ${tr("premium")}</h3>
@@ -1512,6 +1537,7 @@ function homeView(v){
  v.querySelectorAll("[data-l]").forEach(x=>x.onclick=()=>{lang=x.dataset.l;gen="";term="";tab="books";render()});
 }
 
+// ===== Shared database (Supabase) =====
 const SB_URL="https://igjiwfnlnvlrwwjevesn.supabase.co",SB_KEY="sb_publishable_1wo3z5Am8fbmpM1HsmAWmQ_w-bz2ps0";
 let SB=null;try{if(window.supabase&&!SB_URL.startsWith("PASTE"))SB=window.supabase.createClient(SB_URL,SB_KEY)}catch(e){}
 const ago=t=>{const m=(Date.now()-new Date(t))/6e4;return m<60?Math.max(1,Math.round(m))+"m":m<1440?Math.round(m/60)+"h":Math.round(m/1440)+"d"};
