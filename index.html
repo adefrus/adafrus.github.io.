@@ -755,18 +755,52 @@ function bindCards(root){
 }
 
 function openLogin(m){if(DB&&user)return openProfile();mode=m;drawLogin();$("#login").showModal()}
+let authProv="Email";
+const OAUTH_MAP={"Google / Gmail":"google","Facebook":"facebook"};
+async function startOAuth(provName){
+ const sbProv=OAUTH_MAP[provName];
+ if(!sbProv)return;
+ if(!SB){$("#lerr").textContent="Supabase connection not active.";return}
+ const redir=window.location.origin+window.location.pathname;
+ const r=await SB.auth.signInWithOAuth({provider:sbProv,options:{redirectTo:redir}});
+ if(r&&r.error){$("#lerr").textContent=r.error.message;}
+}
 function drawLogin(){const up=mode==="up";
  $("#lgc").innerHTML=`<h2>${up?tr("signup"):tr("login")}</h2>
+ <div style="display:flex;gap:6px;flex-wrap:wrap">
+  <button type="button" data-prov="Google / Gmail" style="padding:6px 12px;font-size:.82rem;background:${authProv==="Google / Gmail"?"var(--hero)":"var(--surface2)"};color:${authProv==="Google / Gmail"?"#fff":"var(--ink)"}">🌐 Gmail / Google</button>
+  <button type="button" data-prov="Facebook" style="padding:6px 12px;font-size:.82rem;background:${authProv==="Facebook"?"var(--hero)":"var(--surface2)"};color:${authProv==="Facebook"?"#fff":"var(--ink)"}">📘 Facebook</button>
+  <button type="button" data-prov="Telegram" style="padding:6px 12px;font-size:.82rem;background:${authProv==="Telegram"?"var(--hero)":"var(--surface2)"};color:${authProv==="Telegram"?"#fff":"var(--ink)"}">✈️ Telegram</button>
+  <button type="button" data-prov="Email" style="padding:6px 12px;font-size:.82rem;background:${authProv==="Email"?"var(--hero)":"var(--surface2)"};color:${authProv==="Email"?"#fff":"var(--ink)"}">✉️ Email</button>
+ </div>
+ ${OAUTH_MAP[authProv]?`<div class="panel" style="background:var(--surface2);padding:12px;gap:8px">
+  <div class="note" style="margin:0">በቀጥታ በ <b>${esc(authProv)}</b> ይግቡ (Supabase OAuth)።</div>
+  <button type="button" class="gold" id="oauthDirectBtn">🚀 Continue with ${esc(authProv)}</button>
+ </div>`:""}
  ${up?`<input id="nm" placeholder="${tr("name")}" autocomplete="name">`:""}
- <input id="em" type="email" placeholder="${tr("email")}" autocomplete="email"><input id="pw" type="password" placeholder="${tr("pw")}" autocomplete="${up?"new-password":"current-password"}">
+ <input id="em" type="${authProv==="Telegram"?"text":"email"}" placeholder="${authProv==="Telegram"?"Telegram username (e.g. @username) or email":authProv==="Facebook"?"Facebook email or profile name":"Gmail / Email address"}" autocomplete="email">
+ <input id="pw" type="password" placeholder="${tr("pw")}" autocomplete="${up?"new-password":"current-password"}">
  ${up?`<select id="role"><option value="reader">${tr("reader")}</option><option value="author">${tr("author")}</option></select>`:""}
- <p class="err" id="lerr"></p><p class="note">${tr("pwn")}</p><button class="primary" id="go">${up?tr("signup"):tr("login")}</button><button id="sw">${up?tr("haveacc"):tr("noacc")}</button><button id="lc">${tr("cancel")}</button>`;
+ <p class="err" id="lerr"></p><p class="note">${tr("pwn")} · ${esc(authProv)}</p>
+ <button class="primary" id="go">${up?tr("signup"):tr("login")} (${esc(authProv)})</button>
+ <button id="sw">${up?tr("haveacc"):tr("noacc")}</button><button id="lc">${tr("cancel")}</button>`;
+ $("#lgc").querySelectorAll("[data-prov]").forEach(b=>b.onclick=()=>{authProv=b.dataset.prov;drawLogin()});
+ if($("#oauthDirectBtn"))$("#oauthDirectBtn").onclick=()=>startOAuth(authProv);
  $("#lc").onclick=()=>$("#login").close();$("#sw").onclick=()=>{mode=up?"in":"up";drawLogin()};
- $("#go").onclick=()=>{const em=$("#em").value.trim().toLowerCase(),pw=$("#pw").value,er=m=>$("#lerr").textContent=tr(m);
-  if(!/^\S+@\S+\.\S+$/.test(em))return er("e1");if(SB){if(pw.length<6)return er("e2");const n=up?$("#nm").value.trim():"";if(up&&!n)return er("e3");return sbAuth(up,em,pw,n,up?$("#role").value:"")}
-  if(up){const n=$("#nm").value.trim();if(!n)return er("e3");if(pw.length<6)return er("e2");accts[em]={pw,name:n,role:$("#role").value};user={name:n,email:em,role:accts[em].role}}
-  else{if(pw.length<6)return er("e2");const a=accts[em];if(!a||a.pw!==pw)return er("e4");user={name:a.name,email:em,role:a.role}}
-  user.id=ME?ME.id:"local";try{localStorage.setItem("adafrus_user",JSON.stringify(user))}catch(e){}saveMe();$("#login").close();render()};
+ $("#go").onclick=()=>{
+  const rawEm=$("#em").value.trim();
+  const em=rawEm.toLowerCase();
+  const pw=$("#pw").value,er=m=>$("#lerr").textContent=tr(m);
+  const isTg=authProv==="Telegram"&&rawEm.replace(/^@/,"").length>=2;
+  if(!isTg&&!/^\S+@\S+\.\S+$/.test(em))return er("e1");
+  const normLoginEmail=isTg?rawEm.replace(/^@/,"").toLowerCase()+"@tg.adefris.local":em;
+  if(SB){if(pw.length<6)return er("e2");const n=up?$("#nm").value.trim():"";if(up&&!n)return er("e3");return sbAuth(up,normLoginEmail,pw,n,up?$("#role").value:"")}
+  if(up){const n=$("#nm").value.trim();if(!n)return er("e3");if(pw.length<6)return er("e2");accts[normLoginEmail]={pw,name:n,role:$("#role").value};user={name:n,email:rawEm,role:accts[normLoginEmail].role,provider:authProv}}
+  else{if(pw.length<6)return er("e2");const a=accts[normLoginEmail];if(!a||a.pw!==pw)return er("e4");user={name:a.name,email:rawEm,role:a.role,provider:authProv}}
+  user.id=ME?ME.id:"local";
+  isStaff=!!(TEAM.some(m=>{const t=String(m.email||"").trim().toLowerCase().replace(/^@/,"");return t&&(t===em||t===rawEm.toLowerCase().replace(/^@/,"")||t===String(user.name||"").toLowerCase())}));
+  try{localStorage.setItem("adafrus_user",JSON.stringify(user))}catch(e){}saveMe();$("#login").close();render();
+ };
 }
 
 function editBook(id,sub){subMode=!!sub;
@@ -1336,17 +1370,23 @@ async function adminView(v){
 
  v.innerHTML=`
  <div class="panel">
-  <h2>👥 የቡድን አባላት / ሠራተኞች (Team &amp; Limited Editors)</h2>
+  <h2>👥 የቡድን አባላት (Team)</h2>
   <p class="note" style="margin:0">ከእርስዎ በታች ሆነው <b>የመጽሐፍ ሽፋንና መረጃ ማስተካከል</b>፣ <b>የደራሲ ፎቶና ባክግራውንድ መቀየር</b>፣ እና <b>ዝግጅቶች (Events) መጨመር</b> የሚችሉ ሠራተኞች/አባላት ይመድቡ።</p>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-   <input id="tmEmail" type="email" placeholder="Member email (e.g. editor@adefris.com)" style="flex:1;min-width:190px">
-   <input id="tmName" placeholder="Member name (optional)" style="width:160px">
+   <select id="tmVia" style="width:145px">
+    <option value="Google / Gmail">🌐 Google / Gmail</option>
+    <option value="Facebook">📘 Facebook</option>
+    <option value="Telegram">✈️ Telegram</option>
+    <option value="Email">✉️ Email</option>
+   </select>
+   <input id="tmEmail" placeholder="Gmail, @telegram, Facebook name/link, or ID" style="flex:1;min-width:190px">
+   <input id="tmName" placeholder="Member name (optional)" style="width:155px">
    <button class="gold" id="addTeamBtn">+ Add Team Member</button>
   </div>
   <div id="teamList">${TEAM.map((m,ti)=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)">
-   <div><b>${esc(m.name||m.email)}</b> <small class="note">(${esc(m.email)})</small> <span class="pill-tag pill-ok">Cover · Author BG · Events</span></div>
+   <div><b>${esc(m.name||m.email)}</b> <small class="note">(${esc(m.via||"Account")}: ${esc(m.email)})</small> <span class="pill-tag pill-ok">Cover · Author BG · Events</span></div>
    <button data-del-tm="${ti}" style="padding:3px 10px;color:var(--red);border-color:var(--red)">${tr("del")}</button>
-  </div>`).join("")||`<span class="note">No limited team members added yet.</span>`}</div>
+  </div>`).join("")||`<span class="note">No team members added yet.</span>`}</div>
  </div>
 
  <div class="panel" style="margin-top:14px">
@@ -1476,10 +1516,12 @@ async function adminView(v){
  </div>`;
 
  $("#addTeamBtn").onclick=async()=>{
-  const em=$("#tmEmail").value.trim().toLowerCase();
-  if(!/^\S+@\S+\.\S+$/.test(em))return;
-  const nmVal=$("#tmName").value.trim()||em.split("@")[0];
-  if(!TEAM.some(x=>x.email===em))TEAM.push({email:em,name:nmVal,role:"editor",t:Date.now()});
+  const rawId=$("#tmEmail").value.trim();
+  const cleanId=rawId.toLowerCase().replace(/^@/,"");
+  if(!cleanId)return;
+  const via=$("#tmVia").value;
+  const nmVal=$("#tmName").value.trim()||rawId;
+  if(!TEAM.some(x=>String(x.email||"").toLowerCase().replace(/^@/,"")===cleanId))TEAM.push({email:rawId,via,name:nmVal,role:"editor",t:Date.now()});
   await W("lib/team",{list:TEAM});
   render();
  };
@@ -1571,9 +1613,6 @@ async function adminView(v){
   const blob=new Blob([JSON.stringify({books,events:EVENTS,critics:CR,stores:ST,settings:SET,authors:AUTH_META},null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="adefris-backup.json";a.click();
  };
- $("#resetSet").onclick=async()=>{
-  SET={};document.documentElement.removeAttribute("style");await W("lib/settings",SET);render();
- };
  $("#resetSet").onclick=async()=>{SET={};document.documentElement.removeAttribute("style");await W("lib/settings",SET);render()};
  $("#ss").onclick=async()=>{
   const socials={};
@@ -1601,7 +1640,12 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
  if(m["lib/ads"])AD_CFG={...AD_CFG,...m["lib/ads"]};
  if(m["lib/critics"]&&Array.isArray(m["lib/critics"].list))CR.splice(0,CR.length,...m["lib/critics"].list);
  if(m["lib/stores"]&&Array.isArray(m["lib/stores"].list))ST.splice(0,ST.length,...m["lib/stores"].list);
- if(m["lib/team"]&&Array.isArray(m["lib/team"].list)){TEAM.splice(0,TEAM.length,...m["lib/team"].list);isStaff=!!(user&&user.email&&TEAM.some(m=>String(m.email||"").toLowerCase()===user.email.toLowerCase()))}
+ if(m["lib/team"]&&Array.isArray(m["lib/team"].list)){TEAM.splice(0,TEAM.length,...m["lib/team"].list);isStaff=!!(user&&TEAM.some(m=>{
+  const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
+  const uEm=String(user.email||"").trim().toLowerCase();
+  const uNm=String(user.name||"").trim().toLowerCase().replace(/^@/,"");
+  return target&&(target===uEm||target===uNm);
+}))}
  const me=m["data/users/local/me"];if(me){mine=me.mine||{};goal=me.goal||12;isPremium=!!me.isPremium;isMember=!!me.isMember;if(me.charityPlan)charityPlan=me.charityPlan}
  books.forEach(b=>{revs[b.id]=revs[b.id]||[];recalc(b)});nid=Math.max(...books.map(b=>b.id),140)+1}catch(e){}}
 
@@ -1710,6 +1754,7 @@ function openMenu(){
  $("#mc").innerHTML=`
   <div class="mhead"><b style="font-size:1.15rem">${tr("menu")}</b><button class="mclose" id="mxTop" aria-label="${tr("close")}">✕</button></div>
   ${tabsL().map(k=>`<button class="mi ${tab===k?"on":""}" data-t="${k}">${tr(k)}</button>`).join("")}
+  <button class="mi" id="mInb">💬 Messages</button>
   <button class="mi" id="th">◐ ${tr("theme")}</button>
   <h3 style="margin-top:8px">${tr("popint")}</h3>${GK.map(k=>`<button class="mi" data-g="${k}">${gn(k)}</button>`).join("")}
   <h3 style="margin-top:8px">${tr("explore")}</h3>${LK.map(k=>`<button class="mi" data-l="${k}">${LN[k]}</button>`).join("")}
@@ -1718,7 +1763,7 @@ function openMenu(){
  m.querySelectorAll("[data-t]").forEach(x=>x.onclick=()=>{tab=x.dataset.t;c();render()});
  m.querySelectorAll("[data-g]").forEach(x=>x.onclick=()=>{gen=x.dataset.g;lang="";term="";tab="books";c();render()});
  m.querySelectorAll("[data-l]").forEach(x=>x.onclick=()=>{lang=x.dataset.l;gen="";term="";tab="books";c();render()});
- $("#th").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark";applySet();};
+ $("#mInb").onclick=()=>{c();openInbox()};$("#th").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark";applySet();};
  $("#mx").onclick=c;$("#mxTop").onclick=c;
  $("#menu").showModal();
 }
@@ -1967,7 +2012,12 @@ async function loadShared(){
  if(ad)AD_CFG={...AD_CFG,...ad};
  if(crData&&Array.isArray(crData.list))CR.splice(0,CR.length,...crData.list);
  if(stData&&Array.isArray(stData.list))ST.splice(0,ST.length,...stData.list);
- if(tmData&&Array.isArray(tmData.list)){TEAM.splice(0,TEAM.length,...tmData.list);isStaff=!!(user&&user.email&&TEAM.some(m=>String(m.email||"").toLowerCase()===user.email.toLowerCase()))}
+ if(tmData&&Array.isArray(tmData.list)){TEAM.splice(0,TEAM.length,...tmData.list);isStaff=!!(user&&TEAM.some(m=>{
+  const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
+  const uEm=String(user.email||"").trim().toLowerCase();
+  const uNm=String(user.name||"").trim().toLowerCase().replace(/^@/,"");
+  return target&&(target===uEm||target===uNm);
+}))}
  Object.keys(revs).forEach(k=>delete revs[k]);
  (rv.data||[]).forEach(r=>{(revs[r.book_id]=revs[r.book_id]||[]).push({id:r.id,u:r.user_name,n:r.stars,x:r.body,h:r.helpful,real:1,uid:r.user_id})});
  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
@@ -1984,13 +2034,20 @@ async function afterAuth(ses){
    isAdmin=!!a.data;if(a.error)window.lastErr="admins: "+a.error.message;
    if(me.exists){const d=me.data();mine=d.mine||{};goal=d.goal||12;isPremium=!!d.isPremium;isMember=!!d.isMember;if(d.charityPlan)charityPlan=d.charityPlan}
    myVote=mv.data?mv.data.book_id:null}
-  else{user=null;ME=null;isAdmin=false;isPremium=false;mine={};myVote=null}
+  else{user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null}
   await loadShared()}catch(e){window.lastErr=String(e&&e.message||e);try{loadLocal()}catch(_){}}
  render()}
 async function init(){
  books.forEach(b=>{b.r0=b.r0||[...(b.r||[0,0])]});
  if(!SB){loadLocal();isAdmin=location.hash==="#owner";render();return}
- DB=mkDB();const r=await SB.auth.getSession();await afterAuth(r.data.session)}
+ DB=mkDB();
+ SB.auth.onAuthStateChange(async(ev,ses)=>{
+  if(ev==="SIGNED_IN"||ev==="TOKEN_REFRESHED"||ev==="SIGNED_OUT"){
+   if($("#login")&&$("#login").open)$("#login").close();
+   await afterAuth(ses);
+  }
+ });
+ const r=await SB.auth.getSession();await afterAuth(r.data.session)}
 VIEWS.awards=v=>{const nom=books.filter(b=>!b.up&&(SB||aw[b.id]!==undefined)),c=b=>aw[b.id]||0,tot=nom.reduce((a,b)=>a+c(b),0)||1;
  v.innerHTML=`<h2 class="sec">${tr("awards")} 2026</h2><p>${tr("awtx")}</p>${nom.map(b=>`<div class="panel" style="margin-top:10px;display:flex;gap:12px;align-items:center"><div style="width:60px;flex:none">${cover(b)}</div><div style="flex:1"><b>${esc(bt(b))}</b><div class="note">${esc(ba(b))}</div>${myVote?`<div class="vbar"><i style="width:${Math.round(c(b)/tot*100)}%"></i></div><small>${Math.round(c(b)/tot*100)}%</small>`:""}</div>${myVote?(myVote===b.id?"✓":""):`<button class="gold" data-vt="${b.id}">${tr("vote")}</button>`}</div>`).join("")}${myVote?`<p>${tr("voted")}</p>`:""}`;
  v.querySelectorAll("[data-vt]").forEach(x=>x.onclick=async()=>{if(!user)return openLogin("in");const id=+x.dataset.vt;if(SB){const r=await SB.from("votes").insert({year:2026,book_id:id});if(r.error)return}myVote=id;aw[id]=(aw[id]||0)+1;render()})};
