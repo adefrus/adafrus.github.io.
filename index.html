@@ -897,14 +897,12 @@ function editBook(id,sub){subMode=!!sub;
   }
   if(subMode&&nb){await submit(b);return}
   if(nb){b.id=nid++;books.unshift(b);revs[b.id]=[];notes.unshift({k:"nnew",id:b.id,u:1})}
-  // Update UI immediately so user never thinks it didn't save, then persist to backend
   render();
   if(nb)$("#bk").close();else openBook(b.id);
   await saveBooks();
  };
  if(!$("#bk").open)$("#bk").showModal();
 }
-
 
 // Fast Bulk Cover Manager: view all books missing covers in one list, 1-click Google/EthioBookReview search + instant paste/upload without opening separate modals
 function openFastCoverManager(){
@@ -1722,7 +1720,7 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
  if(m["lib/critics"]&&Array.isArray(m["lib/critics"].list))CR.splice(0,CR.length,...m["lib/critics"].list);
  if(m["lib/stores"]&&Array.isArray(m["lib/stores"].list))ST.splice(0,ST.length,...m["lib/stores"].list);
  if(m["lib/beginners"]&&Array.isArray(m["lib/beginners"].ids)){BEGINNER_IDS.splice(0,BEGINNER_IDS.length,...m["lib/beginners"].ids)}
- if(m["lib/team"]&&Array.isArray(m["lib/team"].list)){TEAM.splice(0,TEAM.length,...m["lib/team"].list);isStaff=!!(user&&TEAM.some(m=>
+ if(m["lib/team"]&&Array.isArray(m["lib/team"].list)){TEAM.splice(0,TEAM.length,...m["lib/team"].list);isStaff=!!(user&&TEAM.some(m=>{
   const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
   const uEm=String(user.email||"").trim().toLowerCase();
   const uNm=String(user.name||"").trim().toLowerCase().replace(/^@/,"");
@@ -2096,7 +2094,7 @@ async function loadShared(){
  if(crData&&Array.isArray(crData.list))CR.splice(0,CR.length,...crData.list);
  if(stData&&Array.isArray(stData.list))ST.splice(0,ST.length,...stData.list);
  if(bgData&&Array.isArray(bgData.ids)){BEGINNER_IDS.splice(0,BEGINNER_IDS.length,...bgData.ids)}
- if(tmData&&Array.isArray(tmData.list)){TEAM.splice(0,TEAM.length,...tmData.list);isStaff=!!(user&&TEAM.some(m=>
+ if(tmData&&Array.isArray(tmData.list)){TEAM.splice(0,TEAM.length,...tmData.list);isStaff=!!(user&&TEAM.some(m=>{
   const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
   const uEm=String(user.email||"").trim().toLowerCase();
   const uNm=String(user.name||"").trim().toLowerCase().replace(/^@/,"");
