@@ -66,18 +66,23 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Figtree','Noto Sans Ethiopic',system-ui,sans-serif;line-height:1.5;padding-bottom:84px}
 h1,h2,h3{font-family:var(--hf,'Noto Serif Ethiopic'),'Newsreader',Georgia,serif;margin:0;line-height:1.22}
 
-/* Clean, Modern Header */
-header{display:flex;align-items:center;gap:10px;padding:10px clamp(14px,3vw,36px);margin:0;flex-wrap:wrap;background:var(--hero);color:#FFFFFF;box-shadow:0 2px 12px rgba(0,0,0,.16);position:sticky;top:0;z-index:15}
-header .hr{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-header button,header select{color:#FFFFFF;border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.07)}
-header button:hover,header select:hover{background:rgba(255,255,255,.15)}
+/* Clean, Uncrowded Header with Dark/Light Toggle & Right-Aligned Utilities */
+header{display:flex;align-items:center;gap:8px;padding:8px clamp(12px,2.5vw,32px);margin:0;flex-wrap:wrap;background:var(--hero);color:#FFFFFF;box-shadow:0 2px 12px rgba(0,0,0,.16);position:sticky;top:0;z-index:15}
+header .hr{margin-left:auto;display:flex;gap:6px;align-items:center}
+header button,header select{color:#FFFFFF;border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);padding:6px 11px;font-size:.84rem}
+header button:hover,header select:hover{background:rgba(255,255,255,.16)}
 header option{color:#141B2D;background:#FFFFFF}
-header .note{color:#CBD5E1;font-weight:600}
+header .note{color:#CBD5E1;font-weight:600;font-size:.82rem;max-width:95px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #proBtn{border-color:var(--gold);color:var(--gold);font-weight:700}
 #admTopBtn{background:var(--gold);color:var(--gold-ink);border-color:var(--gold);font-weight:700}
-#hq{flex:1 1 200px;max-width:480px;order:3;background:rgba(255,255,255,.96);color:#141B2D;border:none;border-radius:999px;padding:8px 16px}
+#themeTopBtn{padding:6px 10px;font-size:.9rem}
+#hq{flex:0 1 230px;min-width:130px;background:rgba(255,255,255,.95);color:#141B2D;border:none;border-radius:999px;padding:6px 14px;font-size:.85rem}
 #hq::placeholder{color:#64748B}
-.logo{font-family:var(--hf,'Noto Serif Ethiopic'),serif;font-weight:800;background:#FFFFFF;color:#141B2D!important;padding:2px 15px;border-radius:999px;font-size:1.4rem;cursor:pointer}
+.logo{font-family:var(--hf,'Noto Serif Ethiopic'),serif;font-weight:800;background:#FFFFFF;color:#141B2D!important;padding:2px 14px;border-radius:999px;font-size:1.3rem;cursor:pointer;flex:none}
+@media (max-width:720px){
+  #hq{order:3;flex:1 1 100%;max-width:100%}
+  #listBtn{display:none}
+}
 
 button{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);padding:8px 14px;border-radius:999px;transition:transform .12s,background .15s,border-color .15s}
 button:active{transform:scale(.97)}
@@ -155,11 +160,11 @@ h2.sec:after{content:"";flex:1;height:1px;background:var(--line)}
 .stars{color:var(--gold);letter-spacing:1px;white-space:nowrap}
 .stars i{font-style:normal;color:var(--line)}
 
-/* Top 10 IMDb-style numbered cards */
-.t10{display:flex;align-items:flex-end;flex:none;border:none;background:none;padding:4px 0;text-align:left;width:214px;position:relative;transition:transform .2s}
-.t10:hover{transform:translateY(-4px)}
-.t10 .n{font-family:'Newsreader',Georgia,serif;font-size:7.2rem;font-weight:800;line-height:.76;background:linear-gradient(180deg,var(--gold) 15%,#8C5E10 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 6px 12px rgba(217,155,38,.28));margin-right:-18px;z-index:1;letter-spacing:-.05em}
-.t10 .cover{width:136px;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.24);border:1.5px solid rgba(217,155,38,.45)}
+/* Top 10 Editorial Cards: Crisp Top-Right Rank Badge (Zero Clipping) */
+.t10{display:flex;flex-direction:column;flex:none;border:1px solid var(--line);background:var(--surface);padding:0;text-align:left;width:166px;border-radius:14px;overflow:hidden;position:relative;transition:transform .18s,box-shadow .18s}
+.t10:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(20,27,45,.12)}
+.t10 .n{position:absolute;top:8px;right:8px;z-index:3;min-width:34px;height:30px;padding:0 9px;border-radius:999px;background:linear-gradient(135deg,#F5C451,#C88A16);color:#141000;font-family:'Figtree',sans-serif;font-size:.9rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.35);border:1.5px solid #FFFDF8}
+.t10 .cover{width:100%;border-radius:0;box-shadow:none}
 
 /* Author Portraits */
 .av{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark));color:#FFFFFF;display:grid;place-items:center;font-weight:800;font-size:1.55rem;box-shadow:0 0 0 3px var(--bg),0 0 0 4.5px var(--gold);position:relative;overflow:hidden}
@@ -275,17 +280,18 @@ footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align
   <div class="logo" id="logo"></div>
   <input id="hq" type="search">
   <div class="hr">
-    <button id="admTopBtn" style="display:none">⚙️ Admin</button>
+    <button id="admTopBtn" style="display:none">⚙️</button>
     <button id="proBtn"></button>
     <button id="listBtn"></button>
-    <select id="lg" aria-label="Language">
-      <option value="am">🌐 አማርኛ</option>
-      <option value="en">🌐 English</option>
-      <option value="om">🌐 Afaan Oromoo</option>
-      <option value="ti">🌐 ትግርኛ</option>
-    </select>
+    <button id="themeTopBtn" aria-label="Light / Dark" title="Light / Dark">🌓</button>
     <button id="inboxBtn" aria-label="Messages">💬</button>
     <button id="bell" aria-label="Notifications"></button>
+    <select id="lg" aria-label="Language">
+      <option value="am">🌐 አማ</option>
+      <option value="en">🌐 EN</option>
+      <option value="om">🌐 OM</option>
+      <option value="ti">🌐 ትግ</option>
+    </select>
     <span id="who" class="note"></span>
     <button id="loginBtn" class="primary"></button>
   </div>
@@ -1001,7 +1007,7 @@ function openBook(id){
   <div><b>${tr("addl")}</b><div class="chips">${["s0","s1","s2"].map(x=>`<button data-s="${x}" class="${mine[id]===x?"on":""}">${tr(x)}</button>`).join("")}</div></div>
   <div><b>${tr("rate")}</b><div class="rate">${[1,2,3,4,5].map(n=>`<button data-n="${n}" class="${n<=pick?"on":""}" aria-label="${n}">★</button>`).join("")}</div>
   <textarea id="rt" rows="3" placeholder="${tr("ph")}" style="width:100%"></textarea><p class="err" id="re"></p><button class="primary" id="sub">${tr("post")}</button></div>
-  <h3>${tr("revs")} (${rv.length})</h3>${rv.map((r,i)=>`<div class="rev">${stars(r.n)} <button data-chat-u="${esc(r.uid||"")}" data-chat-n="${esc(r.u)}" style="border:none;padding:0 6px;font-weight:700;color:var(--gold);font-size:.85rem">👤 ${esc(r.u)} 💬</button><p>${esc(r.x)}</p><button data-h="${i}">👍 ${tr("help")} (${r.h})</button></div>`).join("")||`<p>${tr("none")}</p>`}
+  <h3>${tr("revs")} (${rv.length})</h3>${rv.map((r,i)=>`<div class="rev">${stars(r.n)} <button data-chat-u="${esc(r.uid||"")}" data-chat-n="${esc(r.u)}" style="border:none;padding:0 6px;font-weight:700;color:var(--gold);font-size:.85rem">👤 ${esc(r.u)} 💬</button><p>${esc(r.x)}</p><div style="display:flex;gap:6px"><button data-h="${i}">👍 ${tr("help")} (${r.h})</button>${isAdmin?`<button data-del-rev="${i}" style="color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>`:""}</div></div>`).join("")||`<p>${tr("none")}</p>`}
   <button id="cl">${tr("close")}</button>`;
   $("#cl").onclick=()=>$("#bk").close();
   $("#openAuthFromBk").onclick=()=>openAuthor(canonA);
@@ -1012,6 +1018,7 @@ function openBook(id){
   document.querySelectorAll("[data-s]").forEach(x=>x.onclick=()=>{if(!user)return need();mine[id]=x.dataset.s;saveMe();draw();render()});
   document.querySelectorAll("[data-n]").forEach(x=>x.onclick=()=>{pick=+x.dataset.n;draw()});
   document.querySelectorAll("[data-h]").forEach(x=>x.onclick=()=>{const r=rv[+x.dataset.h];r.h++;if(SB&&r.id)SB.rpc("bump_helpful",{rid:r.id});else saveRev(id);draw()});
+  document.querySelectorAll("[data-del-rev]").forEach(x=>x.onclick=async()=>{const idx=+x.dataset.delRev;const r=rv[idx];if(!r)return;rv.splice(idx,1);recalc(b);if(SB&&r.id)await SB.from("reviews").delete().eq("id",r.id);else saveRev(id);render();draw()});
   $("#sub").onclick=()=>{if(!user)return need();if(!pick){$("#re").textContent=tr("e5");return}
    rv.unshift({u:user.name,n:pick,x:$("#rt").value.trim(),h:0,real:1,uid:user.id});recalc(b);saveRev(id);render();draw()};
  };
@@ -1089,6 +1096,65 @@ function eventsView(v){
   if(idx>-1){EVENTS.splice(idx,1);await W("lib/events",{list:EVENTS});render()}
  });
  if($("#addEvBtn"))$("#addEvBtn").onclick=()=>editEventModal();
+}
+
+
+function editCriticModal(idx){
+ const isNew=idx===null;
+ const c=isNew?{id:Date.now(),n:"",e:"",s:"",se:"",rv:[]}:CR[idx];
+ const r0=c.rv[0]||{b:books[0]?books[0].id:1,sc:9,t:"",te:""};
+ $("#bkc").innerHTML=`<h2>🎙️ ${isNew?"Add Critic":"Edit Critic"}</h2>
+ <div class="form">
+  <label>Critic Name (Amharic)</label><input id="crN" value="${esc(c.n)}">
+  <label>Critic Name (English)</label><input id="crE" value="${esc(c.e)}">
+  <label>Specialty (Amharic)</label><input id="crS" value="${esc(c.s)}" placeholder="ለምሳሌ፡ ልብ ወለድ እና ግጥም">
+  <label>Specialty (English)</label><input id="crSE" value="${esc(c.se)}" placeholder="e.g. Fiction & Poetry">
+  <label>Featured Critic Pick Book</label>
+  <select id="crB">${books.map(b=>`<option value="${b.id}" ${b.id==r0.b?"selected":""}>${esc(bt(b))}</option>`).join("")}</select>
+  <label>Score (1–10)</label><input id="crSc" type="number" min="1" max="10" value="${r0.sc||9}">
+  <label>Critic Review (Amharic)</label><textarea id="crT" rows="2">${esc(r0.t)}</textarea>
+  <label>Critic Review (English)</label><textarea id="crTE" rows="2">${esc(r0.te)}</textarea>
+ </div>
+ <button class="primary" id="crSv">${tr("save")}</button><button id="crCx">${tr("cancel")}</button>`;
+ $("#crCx").onclick=()=>$("#bk").close();
+ $("#crSv").onclick=async()=>{
+  const n=$("#crN").value.trim(),e=$("#crE").value.trim();if(!n&&!e)return;
+  const pick={b:+$("#crB").value,sc:Math.min(10,Math.max(1,+$("#crSc").value||9)),t:$("#crT").value.trim(),te:$("#crTE").value.trim()||$("#crT").value.trim()};
+  const updated={id:c.id,n:n||e,e:e||n,s:$("#crS").value.trim()||"ሥነ-ጽሑፍ",se:$("#crSE").value.trim()||"Literature",rv:(pick.t||pick.te)?[pick,...c.rv.slice(1)]:c.rv};
+  if(isNew)CR.push(updated);else CR[idx]=updated;
+  await W("lib/critics",{list:CR});
+  $("#bk").close();render();
+ };
+ if(!$("#bk").open)$("#bk").showModal();
+}
+
+function editStoreModal(idx){
+ const isNew=idx===null;
+ const s=isNew?{id:Date.now(),n:"",e:"",c:"አዲስ አበባ",ce:"Addis Ababa",a:"",ae:"",ph:"+251 ",la:9.01,lo:38.76}:ST[idx];
+ $("#bkc").innerHTML=`<h2>📍 ${isNew?"Add Bookstore":"Edit Bookstore"}</h2>
+ <div class="form">
+  <label>Bookstore Name (Amharic)</label><input id="stN" value="${esc(s.n)}">
+  <label>Bookstore Name (English)</label><input id="stE" value="${esc(s.e)}">
+  <label>City (Amharic)</label><input id="stC" value="${esc(s.c)}">
+  <label>City (English)</label><input id="stCE" value="${esc(s.ce)}">
+  <label>Area / Subcity (Amharic)</label><input id="stA" value="${esc(s.a)}" placeholder="ለምሳሌ፡ ቦሌ / ፒያሳ">
+  <label>Area / Subcity (English)</label><input id="stAE" value="${esc(s.ae)}" placeholder="e.g. Bole / Piassa">
+  <label>Phone Number</label><input id="stPh" value="${esc(s.ph)}">
+  <div style="display:flex;gap:8px">
+   <div style="flex:1"><label>Latitude</label><input id="stLa" type="number" step="any" value="${s.la}"></div>
+   <div style="flex:1"><label>Longitude</label><input id="stLo" type="number" step="any" value="${s.lo}"></div>
+  </div>
+ </div>
+ <button class="primary" id="stSv">${tr("save")}</button><button id="stCx">${tr("cancel")}</button>`;
+ $("#stCx").onclick=()=>$("#bk").close();
+ $("#stSv").onclick=async()=>{
+  const n=$("#stN").value.trim(),e=$("#stE").value.trim();if(!n&&!e)return;
+  const updated={id:s.id,n:n||e,e:e||n,c:$("#stC").value.trim()||"አዲስ አበባ",ce:$("#stCE").value.trim()||"Addis Ababa",a:$("#stA").value.trim(),ae:$("#stAE").value.trim(),ph:$("#stPh").value.trim(),la:+$("#stLa").value||9.01,lo:+$("#stLo").value||38.76};
+  if(isNew)ST.push(updated);else ST[idx]=updated;
+  await W("lib/stores",{list:ST});
+  $("#bk").close();render();
+ };
+ if(!$("#bk").open)$("#bk").showModal();
 }
 
 function editEventModal(){
@@ -1269,6 +1335,32 @@ async function adminView(v){
  </div>
 
  <div class="panel" style="margin-top:14px">
+  <h2>🎙️ ${tr("critics")} (${CR.length})</h2>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+   <button class="gold" id="admAddCr">+ Add Critic & Review</button>
+  </div>
+  ${CR.map((c,ci)=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)">
+   <div><b>${esc(nm(c.n,c.e))}</b> <small class="note">(${esc(nm(c.s,c.se))} · ${c.rv.length} picks)</small></div>
+   <div style="display:flex;gap:6px">
+    <button data-ed-cr="${ci}" style="padding:3px 10px">${tr("edit")}</button>
+    <button data-del-cr="${ci}" style="padding:3px 10px;color:var(--red);border-color:var(--red)">${tr("del")}</button>
+   </div>
+  </div>`).join("")}
+ </div>
+
+ <div class="panel" style="margin-top:14px">
+  <h2>📍 ${tr("stores")} (${ST.length})</h2>
+  <div><button class="gold" id="admAddSt">+ Add Bookstore</button></div>
+  ${ST.map((s,si)=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)">
+   <div><b>${esc(nm(s.n,s.e))}</b> <small class="note">(${esc(nm(s.c,s.ce))} · ${esc(s.ph)})</small></div>
+   <div style="display:flex;gap:6px">
+    <button data-ed-st="${si}" style="padding:3px 10px">${tr("edit")}</button>
+    <button data-del-st="${si}" style="padding:3px 10px;color:var(--red);border-color:var(--red)">${tr("del")}</button>
+   </div>
+  </div>`).join("")}
+ </div>
+
+ <div class="panel" style="margin-top:14px">
   <h2>📅 ${tr("events")} (${EVENTS.length})</h2>
   <div><button class="gold" id="admAddEv">+ Add Book Exhibition / Launch / Signing</button></div>
   ${EVENTS.map(ev=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)">
@@ -1329,6 +1421,12 @@ async function adminView(v){
 
  $("#ab").onclick=()=>editBook(null);
  $("#admAddEv").onclick=()=>editEventModal();
+ $("#admAddCr").onclick=()=>editCriticModal(null);
+ $("#admAddSt").onclick=()=>editStoreModal(null);
+ v.querySelectorAll("[data-ed-cr]").forEach(b=>b.onclick=()=>editCriticModal(+b.dataset.edCr));
+ v.querySelectorAll("[data-del-cr]").forEach(b=>b.onclick=async()=>{CR.splice(+b.dataset.delCr,1);await W("lib/critics",{list:CR});render()});
+ v.querySelectorAll("[data-ed-st]").forEach(b=>b.onclick=()=>editStoreModal(+b.dataset.edSt));
+ v.querySelectorAll("[data-del-st]").forEach(b=>b.onclick=async()=>{ST.splice(+b.dataset.delSt,1);await W("lib/stores",{list:ST});render()});
  $("#af").oninput=e=>{adminFilter=e.target.value;const p=e.target.selectionStart;adminView(v).then(()=>{$("#af").focus();$("#af").setSelectionRange(p,p)})};
  v.querySelectorAll("[data-eda]").forEach(b=>b.onclick=()=>editAuthorMeta(b.dataset.eda,b.dataset.edae));
  v.querySelectorAll("[data-del-ev]").forEach(b=>b.onclick=async()=>{
@@ -1433,6 +1531,8 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
  if(m["lib/authors"])AUTH_META=m["lib/authors"];
  if(m["lib/events"]&&Array.isArray(m["lib/events"].list))EVENTS.splice(0,EVENTS.length,...m["lib/events"].list);
  if(m["lib/ads"])AD_CFG={...AD_CFG,...m["lib/ads"]};
+ if(m["lib/critics"]&&Array.isArray(m["lib/critics"].list))CR.splice(0,CR.length,...m["lib/critics"].list);
+ if(m["lib/stores"]&&Array.isArray(m["lib/stores"].list))ST.splice(0,ST.length,...m["lib/stores"].list);
  const me=m["data/users/local/me"];if(me){mine=me.mine||{};goal=me.goal||12;isPremium=!!me.isPremium}
  books.forEach(b=>{revs[b.id]=revs[b.id]||[];recalc(b)});nid=Math.max(...books.map(b=>b.id),105)+1}catch(e){}}
 
@@ -1492,6 +1592,10 @@ async function studioView(v){
    <div><button class="primary" id="svMyBio">${tr("save")}</button></div>
   </div>`:""}
  </div>
+ <div class="panel" style="margin-top:14px">
+  <h3>💬 የደራሲ መልዕክት ሳጥን (Author Inbox)</h3>
+  <div id="studioInbox" style="display:grid;gap:8px"><span class="note">Loading reader messages...</span></div>
+ </div>
  ${mySubs.length?`<div class="panel" style="margin-top:14px"><h3>${tr("subs")} (${mySubs.length})</h3>${mySubs.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-top:1px solid var(--line)"><b>${esc(s.book.t||s.book.e)}</b><span class="pill-tag ${s.status==="approved"?"pill-ok":s.status==="rejected"?"pill-no":"pill-wait"}">${s.status}</span></div>`).join("")}</div>`:""}
  ${rowH("books",my)}`;
  if($("#ns"))$("#ns").onclick=()=>editBook(null,true);
@@ -1507,6 +1611,22 @@ async function studioView(v){
   render();
  };
  bindCards(v);
+ (async()=>{
+  const box=$("#studioInbox");if(!box)return;
+  let msgs=[];
+  if(SB){
+   const r=await SB.from("messages").select("*").order("created",{ascending:false}).limit(30);
+   msgs=(r.data||[]).filter(m=>m.to_uid===user.id||normAuthor(m.to_author)===canon||isAdmin);
+  }
+  box.innerHTML=msgs.length?msgs.map(m=>`<div style="padding:10px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)">
+   <div style="display:flex;justify-content:space-between;align-items:center">
+    <b>👤 ${esc(m.from_name||"Reader")}</b>
+    ${m.from_user&&m.from_user!==user.id?`<button data-st-reply="${esc(m.from_user)}" data-st-rname="${esc(m.from_name||"Reader")}" class="gold" style="padding:3px 10px;font-size:.78rem">Reply</button>`:""}
+   </div>
+   <p style="margin:4px 0 0">${esc(m.body)}</p>
+  </div>`).join(""):`<span class="note">${tr("nempty")}</span>`;
+  box.querySelectorAll("[data-st-reply]").forEach(b=>b.onclick=()=>openChat(b.dataset.stReply,b.dataset.stRname));
+ })();
 }
 
 async function submit(b){const sid="s"+Date.now().toString(36);b.a=normAuthor(b.a==="—"?user.name:b.a);b.ae=b.ae==="—"?user.name:b.ae;
@@ -1534,6 +1654,7 @@ function openMenu(){
  $("#menu").showModal();
 }
 $("#menuBtn").onclick=openMenu;
+$("#themeTopBtn").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark"};
 
 ["menu","bk","login","nt"].forEach(id=>{
  const d=document.getElementById(id);
@@ -1546,8 +1667,8 @@ let feed=[
  {i:2,u:"Dawit",uid:"",t:"ወሪሳን እና አጥቢያን አንብቤ ጨረስኩ — ዓለማየሁ ገላጋይ ድንቅ ነው!",b:9,l:8,d:"5h",c:[]},
  {i:3,u:"Hanna",uid:"",t:"«እሳት ወይ አበባ» በሎሬት ጸጋዬ ገብረመድኅን እና «ፍቅር እዚህ ቦታ ፈገግ ብሎ ነበር» በኤፍሬም ስዩም የማይጠገቡ የግጥም መጻሕፍት ናቸው!",b:20,l:15,d:"1d",c:[]}
 ];
-const CR=[{id:1,n:"ናሙና ሃያሲ ፩",e:"Sample Critic 1",s:"ልብ ወለድ",se:"Fiction",rv:[{b:57,sc:9,t:"የመደብ ልዩነትን በሚያምር ቋንቋ ያሳያል።",te:"Shows class divides in beautiful language."},{b:44,sc:9,t:"በኢትዮጵያ ዘመናዊ ሥነ-ጽሑፍ አዲስ ምዕራፍ የከፈተ ሥራ።",te:"A landmark work opening a new chapter in modern Ethiopian literature."}]},{id:2,n:"ናሙና ሃያሲ ፪",e:"Sample Critic 2",s:"ግጥምና ፍልስፍና",se:"Poetry and philosophy",rv:[{b:20,sc:10,t:"የኢትዮጵያ ሥነ-ግጥም ቁንጮ።",te:"The pinnacle of Ethiopian poetry."},{b:9,sc:9,t:"የከተማ ሕይወትንና ማህበራዊ እውነትን በጥልቀት ይመረምራል።",te:"Deeply examines urban life and social truth."}]}];
-const ST=[["ናሙና መጽሐፍ መደብር ፩","Sample Bookstore 1","አዲስ አበባ","Addis Ababa","ፒያሳ","Piassa","+251 11 000 0001",9.035,38.75],["ናሙና መጽሐፍ መደብር ፪","Sample Bookstore 2","አዲስ አበባ","Addis Ababa","ቦሌ","Bole","+251 11 000 0002",8.995,38.79],["ናሙና መጽሐፍ መደብር ፫","Sample Bookstore 3","ባሕር ዳር","Bahir Dar","ማዕከል","Center","+251 58 000 0003",11.595,37.39],["ናሙና መጽሐፍ መደብር ፬","Sample Bookstore 4","ሐዋሳ","Hawassa","ማዕከል","Center","+251 46 000 0004",7.06,38.48],["ናሙና መጽሐፍ መደብር ፭","Sample Bookstore 5","መቀሌ","Mekelle","ማዕከል","Center","+251 34 000 0005",13.5,39.47]].map(a=>({n:a[0],e:a[1],c:a[2],ce:a[3],a:a[4],ae:a[5],ph:a[6],la:a[7],lo:a[8]}));
+let CR=[{id:1,n:"ናሙና ሃያሲ ፩",e:"Sample Critic 1",s:"ልብ ወለድ",se:"Fiction",rv:[{b:57,sc:9,t:"የመደብ ልዩነትን በሚያምር ቋንቋ ያሳያል።",te:"Shows class divides in beautiful language."},{b:44,sc:9,t:"በኢትዮጵያ ዘመናዊ ሥነ-ጽሑፍ አዲስ ምዕራፍ የከፈተ ሥራ።",te:"A landmark work opening a new chapter in modern Ethiopian literature."}]},{id:2,n:"ናሙና ሃያሲ ፪",e:"Sample Critic 2",s:"ግጥምና ፍልስፍና",se:"Poetry and philosophy",rv:[{b:20,sc:10,t:"የኢትዮጵያ ሥነ-ግጥም ቁንጮ።",te:"The pinnacle of Ethiopian poetry."},{b:9,sc:9,t:"የከተማ ሕይወትንና ማህበራዊ እውነትን በጥልቀት ይመረምራል።",te:"Deeply examines urban life and social truth."}]}];
+let ST=[["ናሙና መጽሐፍ መደብር ፩","Sample Bookstore 1","አዲስ አበባ","Addis Ababa","ፒያሳ","Piassa","+251 11 000 0001",9.035,38.75],["ናሙና መጽሐፍ መደብር ፪","Sample Bookstore 2","አዲስ አበባ","Addis Ababa","ቦሌ","Bole","+251 11 000 0002",8.995,38.79],["ናሙና መጽሐፍ መደብር ፫","Sample Bookstore 3","ባሕር ዳር","Bahir Dar","ማዕከል","Center","+251 58 000 0003",11.595,37.39],["ናሙና መጽሐፍ መደብር ፬","Sample Bookstore 4","ሐዋሳ","Hawassa","ማዕከል","Center","+251 46 000 0004",7.06,38.48],["ናሙና መጽሐፍ መደብር ፭","Sample Bookstore 5","መቀሌ","Mekelle","ማዕከል","Center","+251 34 000 0005",13.5,39.47]].map((a,idx)=>({id:idx+1,n:a[0],e:a[1],c:a[2],ce:a[3],a:a[4],ae:a[5],ph:a[6],la:a[7],lo:a[8]}));
 let aw={1:48,20:42,44:35,57:50,65:30},myVote=null,userPos=null,cityF="";
 const nm=(x,y)=>li===0?x:y,dist=(a,b,c,d)=>{const t=x=>x*Math.PI/180,h=Math.sin(t(c-a)/2)**2+Math.cos(t(a))*Math.cos(t(c))*Math.sin(t(d-b)/2)**2;return 12742*Math.asin(Math.sqrt(h))};
 
@@ -1577,6 +1698,7 @@ const postH=p=>{
   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
    <button data-lk="${p.i}" style="padding:3px 11px;font-size:.82rem">❤ ${p.l}</button>
    <button data-rep-toggle="${p.i}" style="padding:3px 11px;font-size:.82rem">💬 Reply (${replies.length})</button>
+   ${isAdmin?`<button data-del-post="${p.i}" style="padding:3px 10px;font-size:.78rem;color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>`:""}
   </div>
   ${replies.length?`<div style="margin-top:8px;padding-left:12px;border-left:2px solid var(--gold);display:grid;gap:4px">${replies.map(r=>`<div style="font-size:.85rem"><b>${esc(r.u)}:</b> ${esc(r.x)}</div>`).join("")}</div>`:""}
   <div id="repBox-${p.i}" style="display:none;margin-top:8px;gap:6px">
@@ -1602,12 +1724,13 @@ VIEWS.stores=v=>{const cities=[...new Set(ST.map(s=>nm(s.c,s.ce)))];let l=ST.fil
  v.querySelectorAll("[data-cf]").forEach(x=>x.onclick=()=>{cityF=x.dataset.cf;render()});
  $("#nb").onclick=()=>{if(!navigator.geolocation){$("#ne").textContent=tr("locfail");return}navigator.geolocation.getCurrentPosition(p=>{userPos=[p.coords.latitude,p.coords.longitude];render()},()=>{$("#ne").textContent=tr("locfail")})}};
 
-document.addEventListener("click",e=>{
+document.addEventListener("click",async e=>{
  const a=e.target.closest("[data-ta]");if(a){openAuthor(a.dataset.ta);return}
  const g=e.target.closest("[data-go]");if(g){tab=g.dataset.go;render();return}
  const ch=e.target.closest("[data-chat-n]");if(ch){openChat(ch.dataset.chatU,ch.dataset.chatN);return}
  const rt=e.target.closest("[data-rep-toggle]");if(rt){const b=document.getElementById("repBox-"+rt.dataset.repToggle);if(b)b.style.display=b.style.display==="flex"?"none":"flex";return}
  const rs=e.target.closest("[data-rep-send]");if(rs){if(!user)return openLogin("in");const id=rs.dataset.repSend;const inp=document.getElementById("repIn-"+id);const txt=inp&&inp.value.trim();if(!txt)return;const p=feed.find(x=>x.i==id);if(p){p.c=p.c||[];p.c.push({u:user.name,x:txt});render()}return}
+ const dp=e.target.closest("[data-del-post]");if(dp&&isAdmin){const pid=dp.dataset.delPost;const idx=feed.findIndex(x=>String(x.i)===String(pid));if(idx>-1){feed.splice(idx,1);if(SB&&typeof pid==="string"&&pid.includes("-"))await SB.from("posts").delete().eq("id",pid);render()}return}
  const k=e.target.closest("[data-lk]");if(k){const p=feed.find(x=>x.i==k.dataset.lk);if(p){p.l++;if(SB&&typeof p.i==="string")SB.rpc("bump_like",{pid:p.i});render()}}
 });
 
@@ -1629,7 +1752,7 @@ function homeView(v){
  v.innerHTML=`
  ${f?`<section class="imdb-hero">
   <div class="spot">
-   ${getAuthorPhoto(f.a)?`<div class="spot-art-bg" style="background-image:url(${esc(getAuthorPhoto(f.a))})"></div>`:""}
+   ${(getAuthorPhoto(f.a)||getCoverSrc(f))?`<div class="spot-art-bg" style="background-image:url(${esc(getAuthorPhoto(f.a)||getCoverSrc(f))})"></div>`:""}
    <div class="spot-art-veil"></div>
    <div>
     <div class="k">★ ${tr("botd")} · ${LN[f.l]||f.l}</div>
@@ -1654,14 +1777,25 @@ function homeView(v){
   </div>
  </section>`:""}
 
+ <!-- Compact Quick-Browse Strip right near the top -->
+ <div style="display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none;align-items:center">
+  <button data-go="books" class="gold" style="padding:6px 14px;font-size:.84rem;white-space:nowrap">📚 ${tr("books")}</button>
+  <button data-go="authors" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">✍️ ${tr("authors")}</button>
+  <button data-go="events" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">📅 ${tr("events")}</button>
+  <button data-go="critics" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">🎙️ ${tr("critics")}</button>
+  <button data-go="stores" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">📍 ${tr("stores")}</button>
+  <button data-go="feed" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">💬 ${tr("feed")}</button>
+  ${LK.map(k=>`<button data-l="${k}" style="padding:5px 11px;font-size:.8rem;white-space:nowrap;background:var(--surface2)">${LN[k]}</button>`).join("")}
+ </div>
+
  ${SET.hideTop10?"":`<h2 class="sec">${tr("top10")}</h2>
- <div class="row">${rated.slice(0,10).map((b,i)=>`<button class="t10" data-id="${b.id}"><span class="n">${i+1}</span>${cover(b,"★ "+avg(b),i<5)}</button>`).join("")}</div>`}
+ <div class="row">${rated.slice(0,10).map((b,i)=>`<button class="t10" data-id="${b.id}"><span class="n">#${i+1}</span>${cover(b,"",i<5)}<div class="meta"><div class="rline"><span class="st">★</span> ${avg(b)}</div><strong>${esc(bt(b))}</strong><small>${esc(ba(b))}</small></div></button>`).join("")}</div>`}
+
+ ${rowH("fans",rated.slice(0,12))}
+ ${SET.hidePoe?"":rowH("poe",poems)}
+ ${user&&mylist.length?rowH("fromlist",mylist):""}
 
  ${adBanner()}
-
- ${SET.hidePoe?"":rowH("poe",poems)}
- ${rowH("fans",rated.slice(0,12))}
- ${user&&mylist.length?rowH("fromlist",mylist):""}
 
  <h2 class="sec">${tr("tauth")}</h2>
  <div class="row">${authorStats().slice(0,26).map(x=>`<button data-ta="${esc(x.a)}" style="border:none;text-align:center;width:130px;flex:none;background:none">
@@ -1726,7 +1860,7 @@ async function sbAuth(up,em,pw,n,role){
  $("#login").close();await afterAuth(r.data.session)}
 async function loadShared(){
  const g=async p=>{const r=await DB.doc(p).get();return r.exists?r.data():null};
- const [b,n,st,v,au,ev,ad,rv,fp,vt]=await Promise.all([
+ const [b,n,st,v,au,ev,ad,crData,stData,rv,fp,vt]=await Promise.all([
   g("lib/books"),
   g("lib/notes"),
   g("lib/settings"),
@@ -1734,6 +1868,8 @@ async function loadShared(){
   g("lib/authors"),
   g("lib/events"),
   g("lib/ads"),
+  g("lib/critics"),
+  g("lib/stores"),
   SB.from("reviews").select("*").order("created",{ascending:false}),
   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
   SB.rpc("vote_totals",{y:2026})
@@ -1745,6 +1881,8 @@ async function loadShared(){
  AUTH_META=au||{};
  if(ev&&Array.isArray(ev.list)&&ev.list.length)EVENTS.splice(0,EVENTS.length,...ev.list);
  if(ad)AD_CFG={...AD_CFG,...ad};
+ if(crData&&Array.isArray(crData.list))CR.splice(0,CR.length,...crData.list);
+ if(stData&&Array.isArray(stData.list))ST.splice(0,ST.length,...stData.list);
  Object.keys(revs).forEach(k=>delete revs[k]);
  (rv.data||[]).forEach(r=>{(revs[r.book_id]=revs[r.book_id]||[]).push({id:r.id,u:r.user_name,n:r.stars,x:r.body,h:r.helpful,real:1,uid:r.user_id})});
  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
