@@ -2,7 +2,7 @@
 <html lang="am">
 <head>
 <meta charset="utf-8">
-<title>Adafrus — አደፍርስ</title>
+<title>Adefris — አደፍርስ</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -156,9 +156,10 @@ h2.sec:after{content:"";flex:1;height:1px;background:var(--line)}
 .stars i{font-style:normal;color:var(--line)}
 
 /* Top 10 IMDb-style numbered cards */
-.t10{display:flex;align-items:flex-end;flex:none;border:none;background:none;padding:0;text-align:left;width:206px;position:relative}
-.t10 .n{font-family:'Newsreader',serif;font-size:6.5rem;font-weight:800;line-height:.78;color:var(--bg);-webkit-text-stroke:2px var(--gold);margin-right:-14px;z-index:1}
-.t10 .cover{width:132px}
+.t10{display:flex;align-items:flex-end;flex:none;border:none;background:none;padding:4px 0;text-align:left;width:214px;position:relative;transition:transform .2s}
+.t10:hover{transform:translateY(-4px)}
+.t10 .n{font-family:'Newsreader',Georgia,serif;font-size:7.2rem;font-weight:800;line-height:.76;background:linear-gradient(180deg,var(--gold) 15%,#8C5E10 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 6px 12px rgba(217,155,38,.28));margin-right:-18px;z-index:1;letter-spacing:-.05em}
+.t10 .cover{width:136px;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.24);border:1.5px solid rgba(217,155,38,.45)}
 
 /* Author Portraits */
 .av{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark));color:#FFFFFF;display:grid;place-items:center;font-weight:800;font-size:1.55rem;box-shadow:0 0 0 3px var(--bg),0 0 0 4.5px var(--gold);position:relative;overflow:hidden}
@@ -242,6 +243,14 @@ footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align
 .fl{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0 16px}
 .fl button{border:none;color:#CBD5E1;padding:4px 10px}
 
+.vbadge{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#1D9BF0,#0E7490);color:#fff;font-size:.68rem;font-weight:800;vertical-align:middle;margin-left:4px;box-shadow:0 2px 6px rgba(29,155,240,.38)}
+.vbadge-lg{width:22px;height:22px;font-size:.78rem}
+.tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:12px 0}
+.tier{border:1.5px solid var(--line);border-radius:16px;padding:16px;background:var(--surface);text-align:center;cursor:pointer;transition:transform .15s,border-color .15s}
+.tier:hover,.tier.on{border-color:var(--gold);background:var(--surface2);transform:translateY(-2px)}
+.tier .save-tag{display:inline-block;background:var(--green);color:#fff;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-bottom:6px}
+.tier b{display:block;font-size:1.35rem;color:var(--ink);margin:4px 0}
+.charity-card{border-radius:18px;padding:22px;background:linear-gradient(135deg,#141B2D,#1E3A5F);color:#fff;display:grid;gap:12px;margin-top:18px;border:1.5px solid rgba(217,155,38,.45)}
 .pill-tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.75rem;font-weight:700}
 .pill-ok{background:rgba(28,110,82,.15);color:var(--green)}
 .pill-wait{background:rgba(217,155,38,.2);color:var(--gold)}
@@ -307,8 +316,8 @@ home:["ዋና ገጽ","Home","Mana","ቀዳማይ ገጽ"],studio:["ደራሲ �
 fromlist:["ከዝርዝርዎ","From your reading list","Tarree keessaniin","ካብ ዝርዝርኩም"],top10:["በአደፍርስ ምርጥ 10","Top 10 on Adefris","Kudhan olaanoo Adefris","ናይ ኣደፍርስ 10 ልዑላት"],
 fans:["የአንባቢ ምርጦች","Fan favorites","Kan dubbistootni jaallatan","ፍቱዋት ኣንበብቲ"],popint:["በዘርፍ ያስሱ","Browse by genre","Gosaan sakatta'i","ብዓይነት ድሕስሱ"],
 explore:["በቋንቋ ያስሱ","Explore by language","Afaaniin sakatta'i","ብቋንቋ ድሕስሱ"],recent:["በቅርቡ ያዩት","Recently viewed","Kan dhiyeenya ilaalte","ሕጂ ዝረኣኹም"],
-followus:["በማህበራዊ ሚዲያ ይከተሉን","Follow Adafrus on social media","Maxxansa hawaasaa irratti nu hordofi","ኣብ ማሕበራዊ ሚድያ ተኸተሉና"],getapp:["የአደፍርስ መተግበሪያ ያግኙ","Get the Adafrus app","Appii Adafrus argadhu","መተግበሪ ኣደፍርስ ረኽቡ"],
-help:["እገዛ","Help","Gargaarsa","ሓገዝ"],siteidx:["የድር ጣቢያ ማውጫ","Site index","Tarreeffama saayitii","ማውጫ"],license:["ፍቃድ","License Adafrus data","Hayyama","ፍቓድ"],press:["የፕሬስ ክፍል","Press room","Kutaa pireesii","ክፍሊ ፕረስ"],adv:["ማስታወቂያ","Advertising","Beeksisa","መወከሲ"],jobs:["ሥራዎች","Jobs","Hojii","ስራሕ"],
+followus:["በማህበራዊ ሚዲያ ይከተሉን","Follow Adefris on social media","Maxxansa hawaasaa irratti nu hordofi","ኣብ ማሕበራዊ ሚድያ ተኸተሉና"],getapp:["የአደፍርስ መተግበሪያ ያግኙ","Get the Adefris app","Appii Adefris argadhu","መተግበሪ ኣደፍርስ ረኽቡ"],
+help:["እገዛ","Help","Gargaarsa","ሓገዝ"],siteidx:["የድር ጣቢያ ማውጫ","Site index","Tarreeffama saayitii","ማውጫ"],license:["ፍቃድ","License Adefris data","Hayyama","ፍቓድ"],press:["የፕሬስ ክፍል","Press room","Kutaa pireesii","ክፍሊ ፕረስ"],adv:["ማስታወቂያ","Advertising","Beeksisa","መወከሲ"],jobs:["ሥራዎች","Jobs","Hojii","ስራሕ"],
 terms:["የአጠቃቀም ደንቦች","Conditions of use","Haala itti fayyadama","ኩነታት ኣጠቓቕማ"],privacy:["የግላዊነት ፖሊሲ","Privacy policy","Imaammata dhuunfaa","ፖሊሲ ብሕትውና"],adchoice:["የማስታወቂያ ግላዊነት ምርጫዎ","Your ads privacy choices","Filannoo dhuunfaa beeksisaa","ምርጫ ብሕትውና መወከሲ"],soonmsg:["ይህ ገጽ በቅርቡ ይመጣል።","This page is coming soon.","Fuulli kun dhiyeenyatti dhufa.","እዚ ገጽ ኣብ ቀረባ ይመጽእ።"],
 reqv:["ማረጋገጫ ጠይቅ","Request verification","Mirkaneessuu gaafadhu","ምርግጋጽ ሕተት"],vpend:["መለያዎ ገና አልተረጋገጠም። ማረጋገጫ ይጠይቁ፤ አስተዳዳሪው ሲያረጋግጥልዎ መጻሕፍትዎን መጫንና ስምዎን ማስተዋወቅ ይችላሉ።","Your account is not verified yet. Request verification; once the admin confirms, you'll get a Verified ✓ badge and can upload your books.","Akkaawuntiin kee hin mirkanoofne. Mirkaneessuu gaafadhu.","ኣካውንትኩም ገና ኣይተረጋገጸን። ምርግጋጽ ሕተቱ።"],
 vdone:["መለያዎ ተረጋግጧል ✓። መጻሕፍትዎን ይጫኑ፣ ጽሑፎችዎን ያስተዋውቁ!","Your account is verified ✓. Upload your books and promote your writings!","Akkaawuntiin kee mirkanaa'eera ✓. Kitaabota kee ergi.","ኣካውንትኩም ተረጋጊጹ ✓። መጻሕፍትኩም ኣእትዉ።"],verify:["አረጋግጥ","Verify","Mirkaneessi","ኣረጋግጽ"],revoke:["አንሳ","Revoke","Haqi","ኣልግስ"],apprv:["ፍቀድ","Approve","Hayyami","ፍቐድ"],rejct:["ውድቅ","Reject","Didi","ንፈግ"],
@@ -317,7 +326,7 @@ admin:["አስተዳዳሪ","Admin","Bulchaa","ኣመሓዳሪ"],settings:["ቅ�
 del:["ሰርዝ","Delete","Haqi","ሰርዝ"],pend:["በመጠባበቅ","Pending","Eegaa jira","ይጽበ"],
 notif:["ማሳወቂያዎች","Notifications","Beeksisa","ሓበሬታታት"],nempty:["ምንም አዲስ ነገር የለም።","Nothing new yet.","Homaatu haaraan hin jiru.","ሓድሽ የለን።"],
 nnew:["አዲስ መጽሐፍ ተጨምሯል፦","New book added:","Kitaabni haaraan dabalame:","ሓድሽ መጽሓፍ ተወሲኹ፦"],soon:["በቅርብ የሚወጡ","Coming soon","Dhiyeenyatti","ኣብ ቀረባ ዝወጹ"],nsub:["ስለ አዳዲስ መጻሕፍት አሳውቀኝ","Notify me about new books","Waa'ee kitaabota haaraa na beeksisi","ብዛዕባ ሓደስቲ መጻሕፍቲ ኣፍልጡኒ"],
-logo:["አደፍርስ","Adafrus","Adafrus","ኣደፍርስ"],
+logo:["አደፍሪስ","Adefris","Adefris","ኣደፍሪስ"],
 books:["መጻሕፍት","Books","Kitaabota","መጻሕፍቲ"],authors:["ደራሲያን","Authors","Barreessitoota","ደረስቲ"],list:["የኔ ዝርዝር","My list","Tarree koo","ዝርዝረይ"],premium:["ፕሪሚየም","Premium","Premium","ፕሪሚየም"],
 st1:["መጻሕፍት","books","kitaabota","መጻሕፍቲ"],
 login:["ግባ","Log in","Seeni","እተው"],logout:["ውጣ","Log out","Ba'i","ውጻእ"],signup:["ተመዝገብ","Sign up","Galmaa'i","ተመዝገብ"],
@@ -345,7 +354,8 @@ a1:["ያለ ማስታወቂያ (Ad-Free)","Ad-free experience","Beeksisa malee",
 join:["ፕሪሚየም ይሁኑ (100 ብር / 3 ወር)","Upgrade to Premium (100 ETB / 3 mo)","Premium seeni (100 ETB)","ፕሪሚየም እተዉ (100 ብር)"],
 nb:["መጽሐፍ ጨምር","Add a book","Kitaaba dabali","መጽሓፍ ወስኽ"],eb:["መጽሐፍ አስተካክል","Edit book","Kitaaba gulaali","መጽሓፍ ኣሰናብድ"],
 ft:["Amharic title","English title","Author (Amharic)","Author (English)","Language","Genre","Year","Description (Amharic)","Description (English)","Cover picture (Ethio Book Review, Google, Facebook, TikTok, upload, or paste)"],
-note:["የኢትዮጵያ መጻሕፍትና ሥነ-ግጥም ማህበረሰብ — አደፍርስ።","Adafrus — Ethiopian books, poetry & reading community.","Adafrus — Hawaasa dubbisaa kitaabota Itoophiyaa.","ኣደፍርስ — ማሕበረሰብ መጻሕፍቲ ኢትዮጵያ።"],
+note:["የኢትዮጵያ መጻሕፍትና ሥነ-ግጥም ማህበረሰብ — አደፍሪስ።","Adefris — Ethiopian books, poetry & reading community.","Adefris — Hawaasa dubbisaa kitaabota Itoophiyaa.","ኣደፍሪስ — ማሕበረሰብ መጻሕፍቲ ኢትዮጵያ።"],
+member:["የበጎ አድራጎት አባልነት","Charity Membership","Miseensummaa Arjoomaa","ኣባልነት ግብረ ሰናይ"],
 newb:["አዲስ","New","Haaraa","ሓድሽ"],pwn:["መለያዎ በአስተማማኝ ሁኔታ ይቀመጣል።","Accounts are stored securely in Supabase.","Akkaawuntiin kee nageenyaan olkaa'ama.","ኣካውንትኩም ብውሑስ ይዕቀብ።"]};
 
 // Genres [am,en,om,ti]
@@ -499,11 +509,11 @@ const STARTER_BOOKS=[
 const books=JSON.parse(JSON.stringify(STARTER_BOOKS));
 const revs={};books.forEach(b=>revs[b.id]=[]);
 let notes=[{k:"ntop",id:1,u:1},{k:"nnew",id:20,u:1}],user=null,tab="home",lang="",gen="",sort="top",term="",mine={},goal=12,nid=books.length+1,accts={},mode="in";
-let isPremium=false,AD_CFG={enabled:true,title:"Advertise on Adafrus — አደፍርስ",body:"Reach thousands of Ethiopian readers, authors, and book lovers.",cta:"Contact Us",url:""};
+let isPremium=false,isMember=false,AD_CFG={enabled:true,title:"Advertise on Adefris — አደፍርስ",body:"Reach thousands of Ethiopian readers, authors, and book lovers.",cta:"Contact Us",url:""};
 let EVENTS=[
  {id:1,type:"exhibition",t:"የአዲስ አበባ የመጻሕፍት ዐውደ ርዕይ 2026",e:"Addis Ababa Book Exhibition 2026",d:"Dec 12–15, 2026 · 9:00 AM",loc:"Addis Ababa Exhibition Center (Meskel Square)",org:"Ethiopian Publishers Association",likes:42},
- {id:2,type:"launch",t:"አዲስ የግጥም መድብል ምረቃ",e:"Contemporary Amharic Poetry Anthology Launch",d:"Dec 20, 2026 · 5:30 PM",loc:"National Theater Hall, Addis Ababa",org:"Adafrus Literary Circle",likes:31},
- {id:3,type:"signing",t:"የደራሲያን የፊርማ ሥነ-ሥርዓት እና ውይይት",e:"Authors Book Signing & Reader Meetup",d:"Jan 04, 2027 · 3:00 PM",loc:"Jafer Books, Bole, Addis Ababa",org:"Jafer Books & Adafrus",likes:27}
+ {id:2,type:"launch",t:"አዲስ የግጥም መድብል ምረቃ",e:"Contemporary Amharic Poetry Anthology Launch",d:"Dec 20, 2026 · 5:30 PM",loc:"National Theater Hall, Addis Ababa",org:"Adefris Literary Circle",likes:31},
+ {id:3,type:"signing",t:"የደራሲያን የፊርማ ሥነ-ሥርዓት እና ውይይት",e:"Authors Book Signing & Reader Meetup",d:"Jan 04, 2027 · 3:00 PM",loc:"Jafer Books, Bole, Addis Ababa",org:"Jafer Books & Adefris",likes:27}
 ];
 
 try{user=JSON.parse(localStorage.getItem("adafrus_user")||"null");const s=localStorage.getItem("adafrus_lang");if(s&&LC.includes(s))li=LC.indexOf(s)}catch(e){}
@@ -643,6 +653,7 @@ function render(){
   if(tab==="studio"){studioView(v);return}
   if(tab==="events"){eventsView(v);return}
   if(tab==="premium"){premiumView(v);return}
+  if(tab==="member"){memberView(v);return}
   if(tab==="admin"){adminView(v);return}
   if(tab==="books"){
    let list=books.filter(b=>(!lang||b.l===lang)&&(!gen||b.g===gen)&&(b.t+b.e+b.a+b.ae+normAuthor(b.a)).toLowerCase().includes(term.toLowerCase()));
@@ -773,6 +784,57 @@ function editBook(id,sub){subMode=!!sub;
  if(!$("#bk").open)$("#bk").showModal();
 }
 
+
+// Fast Bulk Cover Manager: view all books missing covers in one list, 1-click Google/EthioBookReview search + instant paste/upload without opening separate modals
+function openFastCoverManager(){
+ const missing=books.filter(b=>!getCoverSrc(b));
+ $("#bkc").innerHTML=`
+  <div style="display:flex;justify-content:space-between;align-items:center">
+   <h2>⚡ Fast Cover Manager (${missing.length} missing)</h2>
+   <button id="fcClose" style="padding:4px 12px">${tr("close")}</button>
+  </div>
+  <p class="note">Tap <b>🔍 Search</b> to open Google Images for that book, copy the image (or its link), and paste directly into the box—it auto-saves!</p>
+  <div style="display:grid;gap:10px;max-height:68vh;overflow-y:auto;padding-right:4px">
+   ${missing.slice(0,40).map(b=>{
+    const q=encodeURIComponent(`${b.t} ${b.ae||b.a} መጽሐፍ`.trim());
+    return `<div class="panel" style="padding:10px;gap:8px" id="fcm-${b.id}">
+     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+      <div><b>${esc(bt(b))}</b> <small class="note">(${esc(ba(b))})</small></div>
+      <div style="display:flex;gap:6px">
+       <a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=${q}" style="text-decoration:none;padding:4px 10px;border-radius:999px;background:var(--gold);color:var(--gold-ink);font-size:.78rem;font-weight:700">🔍 Google</a>
+       <a target="_blank" rel="noopener" href="https://www.google.com/search?q=${encodeURIComponent("site:ethiobookreview.com "+b.t)}" style="text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ink);font-size:.78rem;font-weight:600">📚 EBR</a>
+      </div>
+     </div>
+     <div style="display:flex;gap:6px;align-items:center">
+      <input data-fcm-in="${b.id}" placeholder="Paste image link OR Ctrl+V copied cover here..." style="flex:1;padding:6px 10px;font-size:.84rem">
+      <label style="padding:6px 10px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:.8rem;background:var(--surface2)">📁 File<input type="file" accept="image/*" data-fcm-file="${b.id}" style="display:none"></label>
+     </div>
+    </div>`;
+   }).join("")||`<p class="pill-tag pill-ok">🎉 All books have cover pictures!</p>`}
+  </div>`;
+ $("#fcClose").onclick=()=>{$("#bk").close();render()};
+ const applyCov=async(id,src)=>{
+  const b=books.find(x=>x.id===id);if(!b||!src)return;
+  b.img=src;
+  const row=document.getElementById("fcm-"+id);
+  if(row)row.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><img src="${esc(src)}" style="width:36px;height:52px;object-fit:cover;border-radius:4px"><b>${esc(bt(b))}</b><span class="pill-tag pill-ok">✓ Saved</span></div>`;
+  await saveBooks();
+ };
+ $("#bkc").querySelectorAll("[data-fcm-in]").forEach(inp=>{
+  const id=+inp.dataset.fcmIn;
+  inp.oninput=e=>{const u=e.target.value.trim();if(u.startsWith("http")||u.startsWith("data:image"))applyCov(id,u)};
+  inp.onpaste=e=>{
+   const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.type.startsWith("image/"));
+   if(it){e.preventDefault();const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,360/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);applyCov(id,c.toDataURL("image/jpeg",.75))};im.src=r.result};r.readAsDataURL(it.getAsFile())}
+  };
+ });
+ $("#bkc").querySelectorAll("[data-fcm-file]").forEach(fi=>{
+  const id=+fi.dataset.fcmFile;
+  fi.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,360/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);applyCov(id,c.toDataURL("image/jpeg",.75))};im.src=r.result};r.readAsDataURL(f)};
+ });
+ if(!$("#bk").open)$("#bk").showModal();
+}
+
 function openAuthor(rawName,focusChat=false){
  const canon=normAuthor(rawName);
  const aBooks=books.filter(b=>normAuthor(b.a)===canon);
@@ -784,7 +846,7 @@ function openAuthor(rawName,focusChat=false){
  $("#bkc").innerHTML=`
   <div class="auth-banner" style="${bannerStyle}">
    ${authorAvatar(canon,ae,86)}
-   <h2 style="margin-top:10px;color:#FFFFFF">${esc(nm(canon,ae))} ${isVer?'<span style="color:var(--gold)">✓</span>':""}</h2>
+   <h2 style="margin-top:10px;color:#FFFFFF">${esc(nm(canon,ae))} ${isVer?'<span class="vbadge vbadge-lg" title="Verified Author">✓</span>':""}</h2>
    <div style="font-size:.85rem;color:#CBD5E1;margin-top:4px">${aBooks.length} ${tr("st1")} ${isVer?"· Verified Author ✓":""}</div>
    ${meta.bio?`<p style="margin:8px auto 0;max-width:48ch;font-size:.9rem;color:#F2F3F7">${esc(meta.bio)}</p>`:""}
    ${isAdmin?`<button id="edAuthBtn" class="gold" style="margin-top:10px;padding:4px 14px;font-size:.82rem">⚙️ Edit Author Picture & Background</button>`:""}
@@ -934,8 +996,8 @@ function openBook(id){
  const need=()=>{$("#bk").close();openLogin("in")};
  const locked=b.rare&&!isPremium&&!isAdmin;
  const draw=()=>{
-  $("#bkc").innerHTML=`<div class="top">${cover(b)}<div><h2>${esc(bt(b))}</h2><p class="note"><button id="openAuthFromBk" style="border:none;padding:0;font-weight:700;color:var(--gold)">${esc(ba(b))}${isAuthorVerified(canonA)?" ✓":""}</button><br>${LN[b.l]} · ${gn(b.g)} · ${b.y}</p><div>${stars(b.r[0])} <b>${avg(b)}</b> <small>(${b.r[1]})</small></div>${isAdmin?`<button id="ed" style="margin-top:8px;padding:4px 12px">${tr("edit")}</button>`:""}<button id="sh" style="margin-top:8px;padding:4px 12px">🔗 ${tr("share")}</button></div></div>
-  ${locked?`<div class="panel" style="border-color:var(--gold);background:var(--surface2)"><b>👑 Rare & Archival Edition</b><p class="note" style="margin:0">This rare Ethiopian literary work is available exclusively to Adafrus Premium members.</p><div><button class="gold" id="goPrem">⭐ ${tr("join")}</button></div></div>`:`<p>${esc(bs(b))}</p>`}
+  $("#bkc").innerHTML=`<div class="top">${cover(b)}<div><h2>${esc(bt(b))}</h2><p class="note"><button id="openAuthFromBk" style="border:none;padding:0;font-weight:700;color:var(--gold)">${esc(ba(b))}${isAuthorVerified(canonA)?'<span class="vbadge" title="Verified Author">✓</span>':""}</button><br>${LN[b.l]} · ${gn(b.g)} · ${b.y}</p><div>${stars(b.r[0])} <b>${avg(b)}</b> <small>(${b.r[1]})</small></div>${isAdmin?`<button id="ed" style="margin-top:8px;padding:4px 12px">${tr("edit")}</button>`:""}<button id="sh" style="margin-top:8px;padding:4px 12px">🔗 ${tr("share")}</button></div></div>
+  ${locked?`<div class="panel" style="border-color:var(--gold);background:var(--surface2)"><b>👑 Rare & Archival Edition</b><p class="note" style="margin:0">This rare Ethiopian literary work is available exclusively to Adefris Premium members.</p><div><button class="gold" id="goPrem">⭐ ${tr("join")}</button></div></div>`:`<p>${esc(bs(b))}</p>`}
   <div><b>${tr("addl")}</b><div class="chips">${["s0","s1","s2"].map(x=>`<button data-s="${x}" class="${mine[id]===x?"on":""}">${tr(x)}</button>`).join("")}</div></div>
   <div><b>${tr("rate")}</b><div class="rate">${[1,2,3,4,5].map(n=>`<button data-n="${n}" class="${n<=pick?"on":""}" aria-label="${n}">★</button>`).join("")}</div>
   <textarea id="rt" rows="3" placeholder="${tr("ph")}" style="width:100%"></textarea><p class="err" id="re"></p><button class="primary" id="sub">${tr("post")}</button></div>
@@ -967,9 +1029,16 @@ function openNotes(){notes.forEach(n=>n.u=0);saveMe();render();
 $("#bell").onclick=openNotes;
 
 let DB=null,USER=null,ME=null,ASSETS=null,isAdmin=false,SET={},adminFilter="",reqSent=false,evFilter="";
-const tabsL=()=>["home","books","events","feed","authors","critics","stores","awards","premium","list"].concat(user&&user.role==="author"?["studio"]:[]).concat(isAdmin?["admin"]:[]);
+const tabsL=()=>["home","books","events","feed","authors","critics","stores","awards","premium","member","list"].concat(user&&user.role==="author"?["studio"]:[]).concat(isAdmin?["admin"]:[]);
 const FONTS=["Noto Serif Ethiopic","Abyssinica SIL","Playfair Display","Lora","Merriweather","Figtree"];
-function applySet(){const r=document.documentElement.style;if(SET.font)r.setProperty("--hf","'"+SET.font+"'");if(SET.accent)r.setProperty("--gold",SET.accent)}
+function applySet(){
+ const r=document.documentElement.style;
+ if(SET.font)r.setProperty("--hf","'"+SET.font+"'");
+ if(SET.accent)r.setProperty("--gold",SET.accent);
+ if(SET.heroBg){r.setProperty("--hero",SET.heroBg);r.setProperty("--hero-mid",SET.heroBg)}
+ if(SET.pageBg)r.setProperty("--bg",SET.pageBg);
+ if(SET.cardBg)r.setProperty("--surface",SET.cardBg);
+}
 function recalc(b){if(!b)return;const rv=(revs[b.id]||[]).filter(r=>r.real),r0=b.r0||(b.r0=[0,0]),n=rv.length,t=rv.reduce((a,r)=>a+r.n,0);b.r=[r0[1]+n?(r0[0]*r0[1]+t)/(r0[1]+n):0,r0[1]+n]}
 const W=(path,data)=>{if(DB)return DB.doc(path).set(data).catch(e=>{window.lastErr=String(e&&e.message||e)});try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m[path]=data;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(e){}return Promise.resolve()};
 async function saveBooks(){if(isAdmin){await W("lib/books",{list:JSON.parse(JSON.stringify(books))});await W("lib/notes",{list:notes.map(n=>({k:n.k,id:n.id}))})}}
@@ -1035,13 +1104,13 @@ function editEventModal(){
   <label>Event Title (English)</label><input id="evE" placeholder="e.g. Addis Ababa Book Exhibition">
   <label>Date & Time</label><input id="evD" placeholder="e.g. Dec 25, 2026 · 4:00 PM">
   <label>Venue & City</label><input id="evL" placeholder="e.g. Skylight Hotel / Exhibition Center, Addis Ababa">
-  <label>Organizer / Author</label><input id="evO" placeholder="e.g. Adafrus & Author Name">
+  <label>Organizer / Author</label><input id="evO" placeholder="e.g. Adefris & Author Name">
  </div>
  <button class="primary" id="evSv">${tr("save")}</button><button id="evCx">${tr("cancel")}</button>`;
  $("#evCx").onclick=()=>$("#bk").close();
  $("#evSv").onclick=async()=>{
   const t=$("#evT").value.trim(),e=$("#evE").value.trim();if(!t&&!e)return;
-  EVENTS.unshift({id:Date.now(),type:$("#evType").value,t:t||e,e:e||t,d:$("#evD").value.trim()||"TBA",loc:$("#evL").value.trim()||"Addis Ababa",org:$("#evO").value.trim()||"Adafrus",likes:1});
+  EVENTS.unshift({id:Date.now(),type:$("#evType").value,t:t||e,e:e||t,d:$("#evD").value.trim()||"TBA",loc:$("#evL").value.trim()||"Addis Ababa",org:$("#evO").value.trim()||"Adefris",likes:1});
   await W("lib/events",{list:EVENTS});
   $("#bk").close();render();
  };
@@ -1049,33 +1118,102 @@ function editEventModal(){
 }
 
 // Premium Subscription View (Ad-Free + Rare Books + Supporter Badge)
+let premPlan="1m";
+let charityPlan="100";
 function premiumView(v){
  const rareBooks=books.filter(b=>b.rare);
+ const plans=[
+  {id:"1m",name:"1 ወር · 1 Month",price:"130 ብር / ETB",save:""},
+  {id:"3m",name:"3 ወር · 3 Months",price:"340 ብር / ETB",save:"Save 50 ETB"},
+  {id:"6m",name:"6 ወር · 6 Months",price:"620 ብር / ETB",save:"Save 160 ETB"},
+  {id:"1y",name:"1 ዓመት · 1 Year",price:"1,100 ብር / ETB",save:"Best Value · Save 460 ETB"}
+ ];
  v.innerHTML=`
  <div class="panel">
-  <h2>⭐ Adafrus ${tr("premium")}</h2>
-  <p class="note">Support Ethiopian literature while unlocking an ad-free experience and rare archival books.</p>
+  <h2>⭐ Adefris ${tr("premium")}</h2>
+  <p class="note">ያለ ማስታወቂያ (Ad-Free) ያንብቡ፣ የጠፉና ብርቅዬ መጻሕፍትን ያግኙ፣ አዳዲስ መጻሕፍትና ዝግጅቶች ሲኖሩ ቀድመው በመልዕክት ይወቁ።</p>
+  <div class="tier-grid">
+   ${plans.map(p=>`<div class="tier ${premPlan===p.id?"on":""}" data-plan="${p.id}">
+    ${p.save?`<span class="save-tag">${p.save}</span>`:`<span class="note">Standard</span>`}
+    <div><b>${p.price}</b></div>
+    <small>${p.name}</small>
+   </div>`).join("")}
+  </div>
   <div class="plans">
    <div class="plan">
     <h3>${tr("free")}</h3>
     <ul><li>${tr("f1")}</li><li>${tr("f2")}</li><li>${tr("f3")}</li></ul>
    </div>
    <div class="plan pro">
-    <h3>⭐ ${tr("premium")} — 100 ETB / 3 Months</h3>
-    <ul><li>${tr("a1")}</li><li>${tr("a2")}</li><li>${tr("a3")}</li></ul>
+    <h3>⭐ የፕሪሚየም ጥቅሞች (Premium Benefits)</h3>
+    <ul>
+     <li><b>ያለ ማስታወቂያ (100% Ad-Free)</b> ንባብ</li>
+     <li><b>የጠፉና ብርቅዬ መጻሕፍትን</b> ፈልገን እናቀርብልዎታለን (Rare & Lost Books)</li>
+     <li><b>ቀድሞ ማሳወቂያ (Early Alerts):</b> አዳዲስ መጻሕፍት ሲወጡና ዝግጅቶች ሲኖሩ ቀድሞ በመልዕክት ይደርስዎታል</li>
+     <li><b>የፕሪሚየም ደጋፊ ምልክት ⭐</b> እና ልዩ የንባብ ስታቲስቲክስ</li>
+    </ul>
     ${isPremium?`<span class="pill-tag pill-ok">Active Premium Member ⭐</span>`:`
     <div class="form" style="margin-top:10px">
      <select id="pmPay"><option>Telebirr</option><option>CBE Birr</option><option>Chapa</option></select>
-     <button class="gold" id="subPremBtn">${tr("join")}</button>
+     <button class="gold" id="subPremBtn">⭐ አሁን ፕሪሚየም ይሁኑ (Activate Premium)</button>
     </div>`}
    </div>
   </div>
  </div>
- ${rowH("books",rareBooks)}`;
+ ${rowH("books",rareBooks)}
+ <div class="charity-card">
+  <div>
+   <h3>🤝 የአደፍሪስ የበጎ አድራጎት አባልነት (Adefris Charity Membership)</h3>
+   <p style="margin:6px 0 0;color:#E2E8F0">የኢትዮጵያን ሥነ-ጽሑፍና አዳዲስ ደራሲያንን በፈቃደኝነት ይደግፉ። በየ2 ወሩ በሚያዋጡት አነስተኛ ድጋፍ አዲስ የታተሙ መጻሕፍትን በመግዛት ደራሲያንን እናበረታታለን፣ መጻሕፍቱንም ለአንባቢያን እናዳርሳለን።</p>
+  </div>
+  <div><button class="gold" data-go="member">🤝 ስለ በጎ አድራጎት አባልነት ይመልከቱ →</button></div>
+ </div>`;
+
+ v.querySelectorAll("[data-plan]").forEach(el=>el.onclick=()=>{premPlan=el.dataset.plan;render()});
  bindCards(v);
  if($("#subPremBtn"))$("#subPremBtn").onclick=()=>{
   if(!user)return openLogin("in");
   isPremium=true;
+  saveMe();
+  render();
+ };
+}
+
+function memberView(v){
+ const opts=[
+  {id:"50",label:"50 ብር / በየ 2 ወሩ (Every 2 Months)",desc:"ለጀማሪ ደራሲያን ማበረታቻ"},
+  {id:"100",label:"100 ብር / በየ 2 ወሩ (Every 2 Months)",desc:"1,000 አባላት ሲኖሩን በየ2 ወሩ 100,000 ብር በመሰብሰብ አዳዲስ መጻሕፍትን ገዝተን ለደራሲያን ገቢ እናደርጋለን"}
+ ];
+ v.innerHTML=`
+ <div class="panel">
+  <h2>🤝 የአደፍሪስ የበጎ አድራጎት አባልነት (Voluntary Charity Membership)</h2>
+  <p>ይህ አባልነት ሙሉ በሙሉ <b>በፈቃደኝነት (Voluntary)</b> ላይ የተመሠረተ የኢትዮጵያ ሥነ-ጽሑፍ ድጋፍ ነው።</p>
+  <div class="panel" style="background:var(--surface2)">
+   <h3>🎯 የገቢው ዓላማ እና አገልግሎት፦</h3>
+   <ul style="margin:0;padding-left:20px;display:grid;gap:6px">
+    <li><b>ደራሲያንን ማበረታታት፦</b> በየ2 ወሩ የሚሰበሰበው ገንዘብ አዲስ ለታተሙና እየተሸጡ ላሉ የኢትዮጵያ መጻሕፍት ደራሲያን ቀጥተኛ ገቢ እንዲሆን መጻሕፍቶቻቸውን በብዛት እንገዛለን።</li>
+    <li><b>መጻሕፍትን ማዳረስ፦</b> የተገዙትን መጻሕፍት ለቤተ-መጻሕፍት፣ ለትምህርት ቤቶች እና ለአንባቢያን በነፃ እናዳርሳለን።</li>
+    <li><b>ግልጽነት፦</b> 1,000 አባላት በየሁለት ወሩ 100 ብር ቢያዋጡ <b>100,000 ብር</b> በመሰብሰብ በየሁለት ወሩ የበርካታ ደራሲያንን ሕይወትና ሥራ መቀየር ይቻላል።</li>
+   </ul>
+  </div>
+  <div class="tier-grid">
+   ${opts.map(o=>`<div class="tier ${charityPlan===o.id?"on":""}" data-cplan="${o.id}">
+    <span class="save-tag">Voluntary Support</span>
+    <b>${o.label}</b>
+    <small class="note">${o.desc}</small>
+   </div>`).join("")}
+  </div>
+  ${isMember?`<span class="pill-tag pill-ok">የበጎ አድራጎት አባል ነዎት 🤝 ✓</span>`:`
+  <div class="form">
+   <label>የመክፈያ መንገድ (Payment Method)</label>
+   <select><option>Telebirr</option><option>CBE Birr</option><option>Chapa</option></select>
+   <button class="gold" id="joinCharityBtn">🤝 የበጎ አድራጎት አባል ይሁኑ (Join Charity Membership)</button>
+  </div>`}
+ </div>`;
+ v.querySelectorAll("[data-cplan]").forEach(el=>el.onclick=()=>{charityPlan=el.dataset.cplan;render()});
+ if($("#joinCharityBtn"))$("#joinCharityBtn").onclick=()=>{
+  if(!user)return openLogin("in");
+  isMember=true;
   saveMe();
   render();
  };
@@ -1155,6 +1293,7 @@ async function adminView(v){
    <button class="gold" id="ab">${tr("add")}</button>
    <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load Full 105 Books & Poets Catalog</button>
    <button id="fcov" style="border-color:var(--gold);color:var(--ink);font-weight:700">🖼️ Auto-Fetch Web Covers</button>
+   <button id="fastCovBtn" style="border-color:var(--hero);color:var(--hero);font-weight:700">⚡ Fast Bulk Cover Manager</button>
   </div>
   <p class="note" id="impStatus"></p>
   <input id="af" type="search" placeholder="${tr("search")}" value="${esc(adminFilter)}">
@@ -1162,11 +1301,30 @@ async function adminView(v){
  </div>
 
  <div class="panel" style="margin-top:14px">
-  <h2>${tr("settings")}</h2>
-  <label>${tr("sitename")}</label><input id="sn" value="${esc(SET.name||"")}" placeholder="${tr("logo")}">
-  <label>${tr("font")}</label><select id="sf">${FONTS.map(f=>`<option ${SET.font===f?"selected":""}>${f}</option>`).join("")}</select>
-  <label>${tr("color")}</label><input id="sc" type="color" value="${SET.accent||"#D99B26"}">
-  <div><button class="primary" id="ss">${tr("save")}</button></div>
+  <h2>⚙️ ${tr("settings")} (Site Design, Colors, Fonts & Social Links)</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+   <div><label>${tr("sitename")}</label><input id="sn" style="width:100%" value="${esc(SET.name||"")}" placeholder="${tr("logo")}"></div>
+   <div><label>${tr("font")}</label><select id="sf" style="width:100%">${FONTS.map(f=>`<option ${SET.font===f?"selected":""}>${f}</option>`).join("")}</select></div>
+   <div><label>${tr("color")} (Gold Accent)</label><input id="sc" type="color" style="width:100%;height:40px" value="${SET.accent||"#D99B26"}"></div>
+   <div><label>Header & Hero Color</label><input id="shero" type="color" style="width:100%;height:40px" value="${SET.heroBg||"#141B2D"}"></div>
+   <div><label>Page Background Color</label><input id="spage" type="color" style="width:100%;height:40px" value="${SET.pageBg||"#F6F5F2"}"></div>
+   <div><label>Card Surface Color</label><input id="scard" type="color" style="width:100%;height:40px" value="${SET.cardBg||"#FFFFFF"}"></div>
+  </div>
+  <h3 style="margin-top:8px;font-size:1rem">Home Page Sections Visibility</h3>
+  <div style="display:flex;gap:14px;flex-wrap:wrap">
+   <label><input type="checkbox" id="sShowTop10" ${SET.hideTop10?"":"checked"}> Show Top 10</label>
+   <label><input type="checkbox" id="sShowPoe" ${SET.hidePoe?"":"checked"}> Show Poetry Shelf</label>
+   <label><input type="checkbox" id="sShowEv" ${SET.hideEv?"":"checked"}> Show Events Shelf</label>
+   <label><input type="checkbox" id="sShowPrem" ${SET.hidePrem?"":"checked"}> Show Premium Banner</label>
+  </div>
+  <h3 style="margin-top:8px;font-size:1rem">Social Media Links</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px">
+   ${["Facebook","Instagram","X","YouTube","Telegram"].map(s=>`<input id="soc_${s}" placeholder="${s} URL (https://...)" value="${esc((SET.socials&&SET.socials[s])||"")}">`).join("")}
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+   <button class="primary" id="ss">${tr("save")}</button>
+   <button id="resetSet">Reset Default Colors</button>
+  </div>
  </div>`;
 
  $("#ab").onclick=()=>editBook(null);
@@ -1241,8 +1399,26 @@ async function adminView(v){
   const idx=books.findIndex(b=>b.id==x.dataset.d);
   if(idx>-1){books.splice(idx,1);render();await saveBooks()}
  });
+ $("#fastCovBtn").onclick=()=>openFastCoverManager();
+ $("#resetSet").onclick=async()=>{
+  SET={};document.documentElement.removeAttribute("style");await W("lib/settings",SET);render();
+ };
  $("#ss").onclick=async()=>{
-  SET={name:$("#sn").value.trim(),font:$("#sf").value,accent:$("#sc").value};
+  const socials={};
+  ["Facebook","Instagram","X","YouTube","Telegram"].forEach(s=>{const val=$("#soc_"+s).value.trim();if(val)socials[s]=val});
+  SET={
+   name:$("#sn").value.trim(),
+   font:$("#sf").value,
+   accent:$("#sc").value,
+   heroBg:$("#shero").value,
+   pageBg:$("#spage").value,
+   cardBg:$("#scard").value,
+   hideTop10:!$("#sShowTop10").checked,
+   hidePoe:!$("#sShowPoe").checked,
+   hideEv:!$("#sShowEv").checked,
+   hidePrem:!$("#sShowPrem").checked,
+   socials
+  };
   applySet();render();await W("lib/settings",SET);
  };
 }
@@ -1263,9 +1439,10 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
 function chrome(){
  $("#logo").onclick=()=>{tab="home";render();scrollTo(0,0)};
  $("#proBtn").textContent="✍️ "+tr("studio");$("#listBtn").textContent=tr("list");$("#hq").placeholder=tr("search");
- const L=["help","siteidx","studio","events","premium","terms","privacy","adchoice"];
- $("#ft").innerHTML=`<b>${tr("followus")}</b><div class="fl">${["Facebook","Instagram","X","YouTube","Telegram"].map(x=>`<button data-i="${x}">${x}</button>`).join("")}</div><b>${tr("getapp")}</b><div class="fl"><button data-i="Google Play">Google Play</button><button data-i="App Store">App Store</button></div><div class="fl">${L.map(k=>`<button data-i="${k}">${tr(k)}</button>`).join("")}</div><div style="font-size:.85rem">© Adafrus — አደፍርስ</div>`;
- $("#ft").querySelectorAll("[data-i]").forEach(x=>x.onclick=()=>{const k=x.dataset.i;if(["studio","events","premium"].includes(k)){tab=k;render();scrollTo(0,0);return}$("#bkc").innerHTML=`<h2>${esc(x.textContent)}</h2><p>${tr("soonmsg")}</p><button id="cl">${tr("close")}</button>`;$("#cl").onclick=()=>$("#bk").close();if(!$("#bk").open)$("#bk").showModal()})}
+ const L=["help","siteidx","studio","events","premium","member","terms","privacy","adchoice"];
+ const soc=SET.socials||{};
+ $("#ft").innerHTML=`<b>${tr("followus")}</b><div class="fl">${["Facebook","Instagram","X","YouTube","Telegram"].map(x=>soc[x]?`<a href="${esc(soc[x])}" target="_blank" rel="noopener" style="color:#CBD5E1;text-decoration:none;padding:4px 10px;font-weight:600">${x}</a>`:`<button data-i="${x}">${x}</button>`).join("")}</div><b>${tr("getapp")}</b><div class="fl"><button data-i="Google Play">Google Play</button><button data-i="App Store">App Store</button></div><div class="fl">${L.map(k=>`<button data-i="${k}">${tr(k)}</button>`).join("")}</div><div style="font-size:.85rem">© Adefris — አደፍሪስ</div>`;
+ $("#ft").querySelectorAll("[data-i]").forEach(x=>x.onclick=()=>{const k=x.dataset.i;if(["studio","events","premium","member"].includes(k)){tab=k;render();scrollTo(0,0);return}$("#bkc").innerHTML=`<h2>${esc(x.textContent)}</h2><p>${tr("soonmsg")}</p><button id="cl">${tr("close")}</button>`;$("#cl").onclick=()=>$("#bk").close();if(!$("#bk").open)$("#bk").showModal()})}
 
 const bcard=(b,bd)=>{
  const inList=!!mine[b.id];
@@ -1276,7 +1453,7 @@ const bcard=(b,bd)=>{
   <div class="meta">
    <div class="rline"><span class="st">★</span> ${avg(b)} <small>(${b.r[1]})</small></div>
    <strong>${esc(bt(b))}</strong>
-   <small>${esc(ba(b))}${isAuthorVerified(canonA)?" ✓":""}</small>
+   <small>${esc(ba(b))}${isAuthorVerified(canonA)?'<span class="vbadge" title="Verified Author">✓</span>':""}</small>
   </div>
  </div>`;
 };
@@ -1302,7 +1479,7 @@ async function studioView(v){
  v.innerHTML=`
  <div class="panel">
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-   <h2>✍️ ${tr("studio")} — ${esc(user.name)} ${ver?'<span style="color:var(--green)">✓</span>':""}</h2>
+   <h2>✍️ ${tr("studio")} — ${esc(user.name)} ${ver?'<span class="vbadge vbadge-lg" title="Verified Author">✓</span>':""}</h2>
    <span class="pill-tag ${ver?"pill-ok":reqSent?"pill-wait":"pill-no"}">${ver?"Verified Author ✓":reqSent?"Pending Review ⏳":"Unverified"}</span>
   </div>
   <p>${ver?tr("vdone"):tr("vpend")}</p>
@@ -1477,24 +1654,24 @@ function homeView(v){
   </div>
  </section>`:""}
 
- <h2 class="sec">${tr("top10")}</h2>
- <div class="row">${rated.slice(0,10).map((b,i)=>`<button class="t10" data-id="${b.id}"><span class="n">${i+1}</span>${cover(b,"★ "+avg(b),i<5)}</button>`).join("")}</div>
+ ${SET.hideTop10?"":`<h2 class="sec">${tr("top10")}</h2>
+ <div class="row">${rated.slice(0,10).map((b,i)=>`<button class="t10" data-id="${b.id}"><span class="n">${i+1}</span>${cover(b,"★ "+avg(b),i<5)}</button>`).join("")}</div>`}
 
  ${adBanner()}
 
- ${rowH("poe",poems)}
+ ${SET.hidePoe?"":rowH("poe",poems)}
  ${rowH("fans",rated.slice(0,12))}
  ${user&&mylist.length?rowH("fromlist",mylist):""}
 
  <h2 class="sec">${tr("tauth")}</h2>
  <div class="row">${authorStats().slice(0,26).map(x=>`<button data-ta="${esc(x.a)}" style="border:none;text-align:center;width:130px;flex:none;background:none">
   ${authorAvatar(x.a,x.ae)}
-  <strong style="display:block;margin-top:9px;font-size:.9rem">${esc(nm(x.a,x.ae))}${x.ver?' <span style="color:var(--green)">✓</span>':""}</strong>
+  <strong style="display:block;margin-top:9px;font-size:.9rem">${esc(nm(x.a,x.ae))}${x.ver?'<span class="vbadge" title="Verified Author">✓</span>':""}</strong>
   <small class="note">${x.c} ${tr("st1")}</small>
  </button>`).join("")}</div>
 
  <!-- Upcoming Book Events Shelf -->
- <h2 class="sec">📅 ${tr("events")}</h2>
+ ${SET.hideEv?"":`<h2 class="sec">📅 ${tr("events")}</h2>
  <div class="ev-grid">
   ${EVENTS.slice(0,3).map(ev=>`<div class="ev-card">
    <span class="ev-date">${evTypeLabel(ev.type)} · ${esc(ev.d)}</span>
@@ -1502,12 +1679,12 @@ function homeView(v){
    <div class="note">📍 ${esc(ev.loc)}</div>
    <div><button data-go="events" style="padding:4px 12px;font-size:.82rem">Details & RSVP →</button></div>
   </div>`).join("")}
- </div>
+ </div>`}
 
  <!-- Premium Subscription Banner (Ad-Free + Rare Books) -->
- ${isPremium?"":`<div class="prem-ban">
+ ${(isPremium||SET.hidePrem)?"":`<div class="prem-ban">
   <div>
-   <h3>⭐ Adafrus ${tr("premium")}</h3>
+   <h3>⭐ Adefris ${tr("premium")}</h3>
    <p style="margin:4px 0 0;color:#D1FAE5">Ad-free reading + exclusive access to Rare & Archival Ethiopian books (100 ETB / 3 months).</p>
   </div>
   <button class="gold" data-go="premium">${tr("join")}</button>
