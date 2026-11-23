@@ -825,6 +825,25 @@ function editBook(id,sub){subMode=!!sub;
  <img id="pv" alt="" src="${esc(curSrc)}" style="max-height:160px;border-radius:8px;display:${curSrc?"block":"none"}"></div>
  <p class="err" id="fe"></p><button class="primary" id="sv">${tr("save")}</button><button id="cx">${tr("cancel")}</button>`;
  let img=b.img||"";
+ const setCoverInstant=(newSrc,statusMsg)=>{
+  img=newSrc;
+  if(newSrc){
+   if(b.e)COV_CACHE[b.e]=newSrc;
+   if(b.t)COV_CACHE[b.t]=newSrc;
+   saveCovCache();
+   const pv=$("#pv");
+   if(pv){pv.src=newSrc;pv.style.display="block"}
+   let stEl=$("#covStatusBadge");
+   if(!stEl&&pv&&pv.parentNode){
+    stEl=document.createElement("div");
+    stEl.id="covStatusBadge";
+    stEl.className="pill-tag pill-ok";
+    stEl.style.marginTop="6px";
+    pv.parentNode.insertBefore(stEl,pv);
+   }
+   if(stEl)stEl.textContent=statusMsg||"✓ Cover ready — click Save";
+  }
+ };
  const updSearchLinks=()=>{
   const rawTitle=($("#f1").value||$("#f2").value||b.t).trim();
   const rawAuth=($("#f3").value||$("#f4").value||b.a).trim();
@@ -837,17 +856,51 @@ function editBook(id,sub){subMode=!!sub;
  };
  updSearchLinks();
  ["f1","f2","f3","f4"].forEach(fid=>$("#"+fid).addEventListener("input",updSearchLinks));
- const compressBlob=file=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,360/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);img=c.toDataURL("image/jpeg",.75);$("#pv").src=img;$("#pv").style.display="block"};im.src=r.result};r.readAsDataURL(file)};
- $("#furl").oninput=e=>{const u=e.target.value.trim();img=u;if(u){$("#pv").src=img;$("#pv").style.display="block"}};
+ const compressBlob=file=>{
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=()=>{
+   const im=new Image();
+   im.onload=()=>{
+    const k=Math.min(1,480/im.width),c=document.createElement("canvas");
+    c.width=Math.max(1,Math.round(im.width*k));
+    c.height=Math.max(1,Math.round(im.height*k));
+    c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+    setCoverInstant(c.toDataURL("image/jpeg",.78),"✓ Image loaded — click Save once");
+   };
+   im.src=r.result;
+  };
+  r.readAsDataURL(file);
+ };
+ $("#furl").oninput=e=>{
+  const u=e.target.value.trim();
+  if(u)setCoverInstant(u,"✓ Image link loaded — click Save once");
+  else img="";
+ };
  $("#bkc").onpaste=e=>{const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.type.startsWith("image/"));if(it){e.preventDefault();compressBlob(it.getAsFile())}};
  $("#fi").onchange=e=>{const f=e.target.files[0];if(f)compressBlob(f)};
  $("#cx").onclick=()=>nb?$("#bk").close():openBook(b.id);
- $("#sv").onclick=async()=>{const t=$("#f1").value.trim(),e=$("#f2").value.trim();if(!t&&!e){$("#fe").textContent=tr("e6");return}
+ $("#sv").onclick=async()=>{
+  if($("#sv").disabled)return;
+  const t=$("#f1").value.trim(),e=$("#f2").value.trim();
+  if(!t&&!e){$("#fe").textContent=tr("e6");return}
+  $("#sv").disabled=true;
+  $("#sv").textContent="⏳ "+tr("save");
   const canonA=normAuthor($("#f3").value.trim()||"—");
-  Object.assign(b,{t:t||e,e:e||t,a:canonA,ae:$("#f4").value.trim()||canonA,l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2026,s:$("#f8").value.trim(),se:$("#f9").value.trim(),img,rare:isAdmin&&$("#frare")?($("#frare").checked?1:0):(b.rare||0)});
+  const finalImg=img||b.img||"";
+  Object.assign(b,{t:t||e,e:e||t,a:canonA,ae:$("#f4").value.trim()||canonA,l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2026,s:$("#f8").value.trim(),se:$("#f9").value.trim(),img:finalImg,rare:isAdmin&&$("#frare")?($("#frare").checked?1:0):(b.rare||0)});
+  if(finalImg){
+   if(b.e)COV_CACHE[b.e]=finalImg;
+   if(b.t)COV_CACHE[b.t]=finalImg;
+   saveCovCache();
+  }
   if(subMode&&nb){await submit(b);return}
   if(nb){b.id=nid++;books.unshift(b);revs[b.id]=[];notes.unshift({k:"nnew",id:b.id,u:1})}
-  await saveBooks();render();nb?$("#bk").close():openBook(b.id)};
+  // Update UI immediately so user never thinks it didn't save, then persist to backend
+  render();
+  if(nb)$("#bk").close();else openBook(b.id);
+  await saveBooks();
+ };
  if(!$("#bk").open)$("#bk").showModal();
 }
 
@@ -883,6 +936,9 @@ function openFastCoverManager(){
  const applyCov=async(id,src)=>{
   const b=books.find(x=>x.id===id);if(!b||!src)return;
   b.img=src;
+  if(b.e)COV_CACHE[b.e]=src;
+  if(b.t)COV_CACHE[b.t]=src;
+  saveCovCache();
   const row=document.getElementById("fcm-"+id);
   if(row)row.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><img src="${esc(src)}" style="width:36px;height:52px;object-fit:cover;border-radius:4px"><b>${esc(bt(b))}</b><span class="pill-tag pill-ok">✓ Saved</span></div>`;
   await saveBooks();
