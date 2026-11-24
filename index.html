@@ -561,12 +561,21 @@ const bt=b=>b.t||"",ba=b=>li===0?normAuthor(b.a):(b.ae||normAuthor(b.a)),bs=b=>l
 
 // Cover Image Lookup (Google Books & Open Library)
 let COV_CACHE={};
+let BOOK_COVERS={};
 try{COV_CACHE=JSON.parse(localStorage.getItem("adafrus_cov_cache")||"{}")}catch(e){}
+try{BOOK_COVERS=JSON.parse(localStorage.getItem("adafrus_covers")||"{}")}catch(e){}
 const saveCovCache=()=>{try{localStorage.setItem("adafrus_cov_cache",JSON.stringify(COV_CACHE))}catch(e){}};
+const saveBookCovers=async()=>{
+ try{localStorage.setItem("adafrus_covers",JSON.stringify(BOOK_COVERS))}catch(e){}
+ if(canEditContent()){await W("lib/covers",{map:BOOK_COVERS})}
+};
 
 function getCoverSrc(b){
  if(!b)return "";
  if(b.img)return b.img;
+ if(BOOK_COVERS[String(b.id)])return BOOK_COVERS[String(b.id)];
+ if(b.t&&BOOK_COVERS[b.t])return BOOK_COVERS[b.t];
+ if(b.e&&BOOK_COVERS[b.e])return BOOK_COVERS[b.e];
  if(b.t&&COV_CACHE[b.t])return COV_CACHE[b.t];
  if(b.e&&COV_CACHE[b.e])return COV_CACHE[b.e];
  if(b.isbn)return `https://covers.openlibrary.org/b/isbn/${b.isbn}-L.jpg?default=false`;
@@ -897,9 +906,14 @@ function editBook(id,sub){subMode=!!sub;
   const finalImg=img||b.img||"";
   Object.assign(b,{t:t||"",e:e||"",a:canonA,ae:$("#f4").value.trim()||canonA,l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2026,s:"",se:"",img:finalImg,rare:isAdmin&&$("#frare")?($("#frare").checked?1:0):(b.rare||0)});
   if(finalImg){
+   b.img=finalImg;
+   if(b.id!==undefined)BOOK_COVERS[String(b.id)]=finalImg;
+   if(b.t)BOOK_COVERS[b.t]=finalImg;
+   if(b.e)BOOK_COVERS[b.e]=finalImg;
    if(b.e)COV_CACHE[b.e]=finalImg;
    if(b.t)COV_CACHE[b.t]=finalImg;
    saveCovCache();
+   await saveBookCovers();
   }
   if(subMode&&nb){await submit(b);return}
   if(nb){b.id=nid++;books.unshift(b);revs[b.id]=[];notes.unshift({k:"nnew",id:b.id,u:1})}
@@ -941,9 +955,13 @@ function openFastCoverManager(){
  const applyCov=async(id,src)=>{
   const b=books.find(x=>x.id===id);if(!b||!src)return;
   b.img=src;
+  if(b.id!==undefined)BOOK_COVERS[String(b.id)]=src;
+  if(b.t)BOOK_COVERS[b.t]=src;
+  if(b.e)BOOK_COVERS[b.e]=src;
   if(b.e)COV_CACHE[b.e]=src;
   if(b.t)COV_CACHE[b.t]=src;
   saveCovCache();
+  await saveBookCovers();
   const row=document.getElementById("fcm-"+id);
   if(row)row.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><img src="${esc(src)}" style="width:36px;height:52px;object-fit:cover;border-radius:4px"><b>${esc(bt(b))}</b><span class="pill-tag pill-ok">✓ Saved</span></div>`;
   await saveBooks();
@@ -1168,7 +1186,7 @@ $("#bell").onclick=openNotes;
 
 let DB=null,USER=null,ME=null,ASSETS=null,isAdmin=false,isStaff=false,TEAM=[],SET={},adminFilter="",reqSent=false,evFilter="";
 const canEditContent=()=>!!(isAdmin||isStaff||(user&&(user.role==="staff"||user.role==="editor")));
-const tabsL=()=>["home","feed","books","events","authors","critics","stores","awards","premium","member","list"].concat(user?["profile"]:[]).concat(user&&user.role==="author"?["studio"]:[]).concat(isAdmin?["admin"]:[]);
+const tabsL=()=>["home","feed","books","events","authors","critics","stores","awards","premium","member","list"].concat(user?["profile"]:[]).concat(user&&user.role==="author"?["studio"]:[]).concat(canEditContent()?["admin"]:[]);
 const FONTS=["Noto Serif Ethiopic","Abyssinica SIL","Playfair Display","Lora","Merriweather","Figtree"];
 function isDarkNow(){const dm=document.documentElement.dataset.theme;return dm==="dark"||(!dm&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)}
 function applySet(){const r=document.documentElement.style;if(SET.font)r.setProperty("--hf","'"+SET.font+"'");const pal=SET.palettes&&SET.palettes[isDarkNow()?"dark":"light"];if(pal){if(pal.gold)r.setProperty("--gold",pal.gold);if(pal.hero){r.setProperty("--hero",pal.hero);r.setProperty("--hero-mid",pal.hero)}if(pal.bg)r.setProperty("--bg",pal.bg);if(pal.surface)r.setProperty("--surface",pal.surface);return}if(SET.accent)r.setProperty("--gold",SET.accent);if(SET.heroBg){r.setProperty("--hero",SET.heroBg);r.setProperty("--hero-mid",SET.heroBg)}if(SET.pageBg)r.setProperty("--bg",SET.pageBg);if(SET.cardBg)r.setProperty("--surface",SET.cardBg)}
@@ -1864,6 +1882,7 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
  if(m["lib/beginners"]&&Array.isArray(m["lib/beginners"].ids)){BEGINNER_IDS.splice(0,BEGINNER_IDS.length,...m["lib/beginners"].ids)}
  if(m["lib/drops"]&&Array.isArray(m["lib/drops"].ids)){DROP_IDS.splice(0,DROP_IDS.length,...m["lib/drops"].ids)}
  if(m["lib/members"]&&Array.isArray(m["lib/members"].list)){MEMBERS_LOG.splice(0,MEMBERS_LOG.length,...m["lib/members"].list)}
+ if(m["lib/covers"]&&m["lib/covers"].map){BOOK_COVERS={...BOOK_COVERS,...m["lib/covers"].map}}
  if(m["lib/team"]&&Array.isArray(m["lib/team"].list)){TEAM.splice(0,TEAM.length,...m["lib/team"].list);isStaff=!!(user&&TEAM.some(m=>{
   const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
   const uEm=String(user.email||"").trim().toLowerCase();
@@ -2186,6 +2205,7 @@ VIEWS.stores=v=>{const cities=[...new Set(ST.map(s=>nm(s.c,s.ce)))];let l=ST.fil
  $("#nb").onclick=()=>{if(!navigator.geolocation){$("#ne").textContent=tr("locfail");return}navigator.geolocation.getCurrentPosition(p=>{userPos=[p.coords.latitude,p.coords.longitude];render()},()=>{$("#ne").textContent=tr("locfail")})}};
 
 document.addEventListener("click",async e=>{
+ const dt=e.target.closest("[data-t]");if(dt){tab=dt.dataset.t;render();scrollTo(0,0);return}
  const a=e.target.closest("[data-ta]");if(a){openAuthor(a.dataset.ta);return}
  const g=e.target.closest("[data-go]");if(g){tab=g.dataset.go;render();return}
  const ch=e.target.closest("[data-chat-n]");if(ch){openChat(ch.dataset.chatU,ch.dataset.chatN);return}
@@ -2338,7 +2358,7 @@ async function sbAuth(up,em,pw,n,role){
  $("#login").close();await afterAuth(r.data.session)}
 async function loadShared(){
  const g=async p=>{const r=await DB.doc(p).get();return r.exists?r.data():null};
- const [b,n,st,v,au,ev,ad,crData,stData,tmData,bgData,drData,mbData,rv,fp,vt]=await Promise.all([
+ const [b,n,st,v,au,ev,ad,crData,stData,tmData,bgData,drData,mbData,cvMapData,rv,fp,vt]=await Promise.all([
   g("lib/books"),
   g("lib/notes"),
   g("lib/settings"),
@@ -2352,6 +2372,7 @@ async function loadShared(){
   g("lib/beginners"),
   g("lib/drops"),
   g("lib/members"),
+  g("lib/covers"),
   SB.from("reviews").select("*").order("created",{ascending:false}),
   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
   SB.rpc("vote_totals",{y:2026})
@@ -2361,7 +2382,7 @@ async function loadShared(){
   books.forEach(oldB=>{if(oldB&&oldB.img)prevByTitle[oldB.t||oldB.e||oldB.id]=oldB.img});
   const mergedList=b.list.filter(Boolean).map(x=>{
    const k=x.t||x.e||x.id;
-   const keepImg=x.img||prevByTitle[k]||(x.t&&COV_CACHE[x.t])||(x.e&&COV_CACHE[x.e])||"";
+   const keepImg=x.img||prevByTitle[k]||BOOK_COVERS[String(x.id)]||(x.t&&BOOK_COVERS[x.t])||(x.e&&BOOK_COVERS[x.e])||(x.t&&COV_CACHE[x.t])||(x.e&&COV_CACHE[x.e])||"";
    return {...x,a:normAuthor(x.a),r:x.r||[0,0],img:keepImg};
   });
   books.splice(0,books.length,...mergedList);
@@ -2377,6 +2398,7 @@ async function loadShared(){
  if(bgData&&Array.isArray(bgData.ids)){BEGINNER_IDS.splice(0,BEGINNER_IDS.length,...bgData.ids)}
  if(drData&&Array.isArray(drData.ids)){DROP_IDS.splice(0,DROP_IDS.length,...drData.ids)}
  if(mbData&&Array.isArray(mbData.list)){MEMBERS_LOG.splice(0,MEMBERS_LOG.length,...mbData.list)}
+ if(cvMapData&&cvMapData.map&&typeof cvMapData.map==="object"){BOOK_COVERS={...BOOK_COVERS,...cvMapData.map};try{localStorage.setItem("adafrus_covers",JSON.stringify(BOOK_COVERS))}catch(e){}}
  if(tmData&&Array.isArray(tmData.list)){TEAM.splice(0,TEAM.length,...tmData.list);isStaff=!!(user&&TEAM.some(m=>{
   const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
   const uEm=String(user.email||"").trim().toLowerCase();
