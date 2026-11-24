@@ -337,6 +337,7 @@ subs:["የተላኩ መጻሕፍት","Book submissions","Kitaabota ergaman","ዝ
 admin:["አስተዳዳሪ","Admin","Bulchaa","ኣመሓዳሪ"],settings:["ቅንብሮች","Site settings","Qindaa'ina","ቅጥዕታት"],sitename:["የድር ጣቢያ ስም","Site name","Maqaa saayitii","ስም ሳይት"],font:["የርዕስ ፊደል","Heading font","Fonta mata-duree","ፊደል ኣርእስቲ"],color:["ዋና ቀለም","Accent color","Halluu","ሕብሪ"],
 del:["ሰርዝ","Delete","Haqi","ሰርዝ"],pend:["በመጠባበቅ","Pending","Eegaa jira","ይጽበ"],
 notif:["ማሳወቂያዎች","Notifications","Beeksisa","ሓበሬታታት"],nempty:["ምንም አዲስ ነገር የለም።","Nothing new yet.","Homaatu haaraan hin jiru.","ሓድሽ የለን።"],
+nteam:["የቡድን አባል ገብቷል፦","Team member joined:","Miseensi garee seeneera:","ኣባል ጋንታ ኣትዩ፦"],
 nnew:["አዲስ መጽሐፍ ተጨምሯል፦","New book added:","Kitaabni haaraan dabalame:","ሓድሽ መጽሓፍ ተወሲኹ፦"],soon:["በቅርብ የሚወጡ","Coming soon","Dhiyeenyatti","ኣብ ቀረባ ዝወጹ"],nsub:["ስለ አዳዲስ መጻሕፍት አሳውቀኝ","Notify me about new books","Waa'ee kitaabota haaraa na beeksisi","ብዛዕባ ሓደስቲ መጻሕፍቲ ኣፍልጡኒ"],
 logo:["አደፍሪስ","Adefris","Adefris","ኣደፍሪስ"],
 books:["መጻሕፍት","Books","Kitaabota","መጻሕፍቲ"],authors:["ደራሲያን","Authors","Barreessitoota","ደረስቲ"],list:["የኔ ዝርዝር","My list","Tarree koo","ዝርዝረይ"],profile:["የኔ ፕሮፋይል","My Profile","Pirofaayilii koo","ፕሮፋይለይ"],premium:["ፕሪሚየም","Premium","Premium","ፕሪሚየም"],
@@ -546,6 +547,37 @@ let isPremium=false,isMember=false,AD_CFG={enabled:true,title:"Advertise on Adef
 let userProfile={avatar:"",cover:"",bio:"",city:"",memberSince:Date.now()};let myRatings={};
 let BEGINNER_IDS=[1,43,57,69,77,87,119];
 let DROP_IDS=[];
+let MEMBERS_LOG=[];
+async function recordMemberJoin(uObj){
+ if(!uObj)return;
+ try{
+  const entry={
+   id:uObj.id||("u_"+Date.now()),
+   name:uObj.name||uObj.email||"Member",
+   email:uObj.email||"",
+   role:uObj.role||"reader",
+   joinedAt:Date.now()
+  };
+  const idx=MEMBERS_LOG.findIndex(x=>(entry.id&&x.id===entry.id)||(entry.email&&x.email===entry.email));
+  if(idx>-1){
+   MEMBERS_LOG[idx]={...MEMBERS_LOG[idx],name:entry.name,email:entry.email||MEMBERS_LOG[idx].email,role:entry.role||MEMBERS_LOG[idx].role};
+  }else{
+   MEMBERS_LOG.unshift(entry);
+  }
+  const uEm=String(entry.email||"").trim().toLowerCase();
+  const uNm=String(entry.name||"").trim().toLowerCase().replace(/^@/,"");
+  const matchedTeam=TEAM.find(m=>{
+   const t=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
+   return t&&(t===uEm||t===uNm);
+  });
+  if(matchedTeam&&!matchedTeam._notified){
+   matchedTeam._notified=true;
+   notes.unshift({k:"nteam",name:entry.name,u:1});
+   await W("lib/team",{list:TEAM});
+  }
+  await W("lib/members",{list:MEMBERS_LOG.slice(0,200)});
+ }catch(e){}
+}
 let EVENTS=[
  {id:1,type:"exhibition",t:"የአዲስ አበባ የመጻሕፍት ዐውደ ርዕይ 2026",e:"Addis Ababa Book Exhibition 2026",d:"Dec 12–15, 2026 · 9:00 AM",loc:"Addis Ababa Exhibition Center (Meskel Square)",org:"Ethiopian Publishers Association",likes:42},
  {id:2,type:"launch",t:"አዲስ የግጥም መድብል ምረቃ",e:"Contemporary Amharic Poetry Anthology Launch",d:"Dec 20, 2026 · 5:30 PM",loc:"National Theater Hall, Addis Ababa",org:"Adefris Literary Circle",likes:31},
@@ -1447,46 +1479,6 @@ function memberView(v){
  if($("#joinCharityBtn"))$("#joinCharityBtn").onclick=()=>{
   if(!user)return openLogin("in");
   charityPending=true;
-  render();
- };
-}
-
-function memberView(v){
- const opts=[
-  {id:"50",label:"50 ብር / በየ 2 ወሩ (Every 2 Months)",desc:"ለጀማሪ ደራሲያን ማበረታቻ"},
-  {id:"100",label:"100 ብር / በየ 2 ወሩ (Every 2 Months)",desc:"1,000 አባላት ሲኖሩን በየ2 ወሩ 100,000 ብር በመሰብሰብ አዳዲስ መጻሕፍትን ገዝተን ለደራሲያን ገቢ እናደርጋለን"}
- ];
- v.innerHTML=`
- <div class="panel">
-  <h2>🤝 የአደፍሪስ የበጎ አድራጎት አባልነት (Voluntary Charity Membership)</h2>
-  <p>ይህ አባልነት ሙሉ በሙሉ <b>በፈቃደኝነት (Voluntary)</b> ላይ የተመሠረተ የኢትዮጵያ ሥነ-ጽሑፍ ድጋፍ ነው።</p>
-  <div class="panel" style="background:var(--surface2)">
-   <h3>🎯 የገቢው ዓላማ እና አገልግሎት፦</h3>
-   <ul style="margin:0;padding-left:20px;display:grid;gap:6px">
-    <li><b>ደራሲያንን ማበረታታት፦</b> በየ2 ወሩ የሚሰበሰበው ገንዘብ አዲስ ለታተሙና እየተሸጡ ላሉ የኢትዮጵያ መጻሕፍት ደራሲያን ቀጥተኛ ገቢ እንዲሆን መጻሕፍቶቻቸውን በብዛት እንገዛለን።</li>
-    <li><b>መጻሕፍትን ማዳረስ፦</b> የተገዙትን መጻሕፍት ለቤተ-መጻሕፍት፣ ለትምህርት ቤቶች እና ለአንባቢያን በነፃ እናዳርሳለን።</li>
-    <li><b>ግልጽነት፦</b> 1,000 አባላት በየሁለት ወሩ 100 ብር ቢያዋጡ <b>100,000 ብር</b> በመሰብሰብ በየሁለት ወሩ የበርካታ ደራሲያንን ሕይወትና ሥራ መቀየር ይቻላል።</li>
-   </ul>
-  </div>
-  <div class="tier-grid">
-   ${opts.map(o=>`<div class="tier ${charityPlan===o.id?"on":""}" data-cplan="${o.id}">
-    <span class="save-tag">Voluntary Support</span>
-    <b>${o.label}</b>
-    <small class="note">${o.desc}</small>
-   </div>`).join("")}
-  </div>
-  ${isMember?`<span class="pill-tag pill-ok">የበጎ አድራጎት አባል ነዎት 🤝 ✓</span>`:`
-  <div class="form">
-   <label>የመክፈያ መንገድ (Payment Method)</label>
-   <select><option>Telebirr</option><option>CBE Birr</option><option>Chapa</option></select>
-   <button class="gold" id="joinCharityBtn">🤝 የበጎ አድራጎት አባል ይሁኑ (Join Charity Membership)</button>
-  </div>`}
- </div>`;
- v.querySelectorAll("[data-cplan]").forEach(el=>el.onclick=()=>{charityPlan=el.dataset.cplan;render()});
- if($("#joinCharityBtn"))$("#joinCharityBtn").onclick=()=>{
-  if(!user)return openLogin("in");
-  isMember=true;
-  saveMe();
   render();
  };
 }
@@ -2429,10 +2421,10 @@ async function afterAuth(ses){
    isAdmin=!!a.data;if(a.error)window.lastErr="admins: "+a.error.message;
    if(me.exists){const d=me.data();mine=d.mine||{};goal=d.goal||12;isPremium=!!d.isPremium;isMember=!!d.isMember;if(d.charityPlan)charityPlan=d.charityPlan;if(d.myRatings)myRatings=d.myRatings;if(d.profile){userProfile={...userProfile,...d.profile};if(!userProfile.memberSince)userProfile.memberSince=u.created_at?new Date(u.created_at).getTime():Date.now()}}
    else{userProfile.memberSince=u.created_at?new Date(u.created_at).getTime():Date.now()}
-   myVote=mv.data?mv.data.book_id:null;
-   await recordMemberJoin(user)}
+   myVote=mv.data?mv.data.book_id:null}
   else{user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null}
-  await loadShared()}catch(e){window.lastErr=String(e&&e.message||e);try{loadLocal()}catch(_){}}
+  await loadShared();
+  if(user)await recordMemberJoin(user)}catch(e){window.lastErr=String(e&&e.message||e);try{loadLocal()}catch(_){}}
  render()}
 async function init(){
  books.forEach(b=>{b.r0=b.r0||[...(b.r||[0,0])]});
