@@ -993,12 +993,11 @@ function editBook(id,sub){subMode=!!sub;
  $("#bkc").onpaste=e=>{const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.type.startsWith("image/"));if(it){e.preventDefault();compressBlob(it.getAsFile())}};
  $("#fi").onchange=e=>{const f=e.target.files[0];if(f)compressBlob(f)};
  $("#cx").onclick=()=>nb?$("#bk").close():openBook(b.id);
- $("#sv").onclick=async()=>{
+ $("#sv").onclick=()=>{
   if($("#sv").disabled)return;
   const t=$("#f1").value.trim(),e=$("#f2").value.trim();
   if(!t&&!e){$("#fe").textContent=tr("e6");return}
   $("#sv").disabled=true;
-  $("#sv").textContent="⏳ "+tr("save");
   const canonA=normAuthor($("#f3").value.trim()||"—");
   const finalImg=img||b.img||"";
   Object.assign(b,{t:t||"",e:e||"",a:canonA,ae:$("#f4").value.trim()||canonA,l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2026,s:"",se:"",img:finalImg,rare:isAdmin&&$("#frare")?($("#frare").checked?1:0):(b.rare||0)});
@@ -1010,13 +1009,16 @@ function editBook(id,sub){subMode=!!sub;
    if(b.e)COV_CACHE[b.e]=finalImg;
    if(b.t)COV_CACHE[b.t]=finalImg;
    saveCovCache();
-   await saveBookCovers();
+   try{localStorage.setItem("adafrus_covers",JSON.stringify(BOOK_COVERS))}catch(err){}
   }
-  if(subMode&&nb){await submit(b);return}
+  if(subMode&&nb){submit(b);return}
   if(nb){b.id=nid++;books.unshift(b);revs[b.id]=[];notes.unshift({k:"nnew",id:b.id,u:1})}
-  render();
   if(nb)$("#bk").close();else openBook(b.id);
-  await saveBooks();
+  render();
+  Promise.all([
+   finalImg&&canEditContent()?W("lib/covers",{map:BOOK_COVERS}):Promise.resolve(),
+   saveBooks()
+  ]).finally(()=>{if($("#sv"))$("#sv").disabled=false});
  };
  if(!$("#bk").open)$("#bk").showModal();
 }
@@ -1167,11 +1169,14 @@ function editAuthorMeta(canon,ae){
  $("#abgfi").onchange=e=>{if(e.target.files[0])readTo(e.target.files[0],u=>{bgImg=u;$("#abgurl").value=u})};
  $("#abgurl").oninput=e=>{bgImg=e.target.value.trim()};
  $("#acx").onclick=()=>openAuthor(canon);
- $("#asv").onclick=async()=>{
+ $("#asv").onclick=()=>{
+  if($("#asv").disabled)return;
+  $("#asv").disabled=true;
   AUTH_META[canon]={ver:$("#aver").checked,bio:$("#abio").value.trim(),img:pImg,bg:$("#abg").value,bgImg};
-  await W("lib/authors",AUTH_META);
+  try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m["lib/authors"]=AUTH_META;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(err){}
   render();
   openAuthor(canon);
+  if(DB)DB.doc("lib/authors").set(AUTH_META).catch(()=>{});
  };
 }
 
@@ -1740,7 +1745,7 @@ async function adminView(v){
   </div>
   <p class="note" id="impStatus"></p>
   <input id="af" type="search" placeholder="${tr("search")}" value="${esc(adminFilter)}">
-  <div id="ablist">${fBooks.map(row).join("")}</div>
+  <div id="ablist">${(adminFilter?fBooks:fBooks.slice(0,40)).map(row).join("")}${(!adminFilter&&fBooks.length>40)?`<div style="padding-top:8px"><button id="showAllAdmBooks">Show All (${fBooks.length}) Books</button></div>`:""}</div>
  </div>
 
  <div class="panel" style="margin-top:14px">
@@ -1863,7 +1868,9 @@ async function adminView(v){
  v.querySelectorAll("[data-del-cr]").forEach(b=>b.onclick=async()=>{CR.splice(+b.dataset.delCr,1);await W("lib/critics",{list:CR});render()});
  v.querySelectorAll("[data-ed-st]").forEach(b=>b.onclick=()=>editStoreModal(+b.dataset.edSt));
  v.querySelectorAll("[data-del-st]").forEach(b=>b.onclick=async()=>{ST.splice(+b.dataset.delSt,1);await W("lib/stores",{list:ST});render()});
- $("#af").oninput=e=>{adminFilter=e.target.value;const p=e.target.selectionStart;adminView(v).then(()=>{$("#af").focus();$("#af").setSelectionRange(p,p)})};
+ let afTimer=null;
+ if($("#showAllAdmBooks"))$("#showAllAdmBooks").onclick=()=>{$("#ablist").innerHTML=fBooks.map(row).join("");v.querySelectorAll("[data-e]").forEach(x=>x.onclick=()=>editBook(+x.dataset.e));v.querySelectorAll("[data-d]").forEach(x=>x.onclick=async()=>{const idx=books.findIndex(b=>b.id==x.dataset.d);if(idx>-1){books.splice(idx,1);render();await saveBooks()}})};
+ $("#af").oninput=e=>{adminFilter=e.target.value;const p=e.target.selectionStart;clearTimeout(afTimer);afTimer=setTimeout(()=>adminView(v).then(()=>{if($("#af")){$("#af").focus();$("#af").setSelectionRange(p,p)}}),110)};
  v.querySelectorAll("[data-eda]").forEach(b=>b.onclick=()=>editAuthorMeta(b.dataset.eda,b.dataset.edae));
  v.querySelectorAll("[data-del-ev]").forEach(b=>b.onclick=async()=>{
   const idx=EVENTS.findIndex(x=>x.id==b.dataset.delEv);
