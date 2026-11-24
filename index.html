@@ -1286,11 +1286,26 @@ const canEditContent=()=>!!(isAdmin||isStaff||(user&&(user.role==="staff"||user.
 const tabsL=()=>["home","feed","books","events","authors","critics","stores","awards","premium","member","list"].concat(user?["profile"]:[]).concat(user&&user.role==="author"?["studio"]:[]).concat(canEditContent()?["admin"]:[]);
 const FONTS=["Noto Serif Ethiopic","Abyssinica SIL","Playfair Display","Lora","Merriweather","Figtree"];
 function isDarkNow(){const dm=document.documentElement.dataset.theme;return dm==="dark"||(!dm&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)}
-function applySet(){const r=document.documentElement.style;if(SET.font)r.setProperty("--hf","'"+SET.font+"'");const pal=SET.palettes&&SET.palettes[isDarkNow()?"dark":"light"];if(pal){if(pal.gold)r.setProperty("--gold",pal.gold);if(pal.hero){r.setProperty("--hero",pal.hero);r.setProperty("--hero-mid",pal.hero)}if(pal.bg)r.setProperty("--bg",pal.bg);if(pal.surface)r.setProperty("--surface",pal.surface);return}if(SET.accent)r.setProperty("--gold",SET.accent);if(SET.heroBg){r.setProperty("--hero",SET.heroBg);r.setProperty("--hero-mid",SET.heroBg)}if(SET.pageBg)r.setProperty("--bg",SET.pageBg);if(SET.cardBg)r.setProperty("--surface",SET.cardBg);
+function applySet(){
+ const r=document.documentElement.style;
+ if(SET.font)r.setProperty("--hf","'"+SET.font+"'");
  const bVal=SET.spotBlur!==undefined?Number(SET.spotBlur):28;
  r.setProperty("--spot-blur",bVal+"px");
  const opVal=SET.spotBgOpacity!==undefined?Number(SET.spotBgOpacity):(isDarkNow()?.62:.42);
- r.setProperty("--spot-op",String(opVal));}
+ r.setProperty("--spot-op",String(opVal));
+ const pal=SET.palettes&&SET.palettes[isDarkNow()?"dark":"light"];
+ if(pal){
+  if(pal.gold)r.setProperty("--gold",pal.gold);
+  if(pal.hero){r.setProperty("--hero",pal.hero);r.setProperty("--hero-mid",pal.hero)}
+  if(pal.bg)r.setProperty("--bg",pal.bg);
+  if(pal.surface)r.setProperty("--surface",pal.surface);
+  return;
+ }
+ if(SET.accent)r.setProperty("--gold",SET.accent);
+ if(SET.heroBg){r.setProperty("--hero",SET.heroBg);r.setProperty("--hero-mid",SET.heroBg)}
+ if(SET.pageBg)r.setProperty("--bg",SET.pageBg);
+ if(SET.cardBg)r.setProperty("--surface",SET.cardBg);
+}
 function recalc(b){if(!b)return;const rv=(revs[b.id]||[]).filter(r=>r.real),r0=b.r0||(b.r0=[0,0]),n=rv.length,t=rv.reduce((a,r)=>a+r.n,0);b.r=[r0[1]+n?(r0[0]*r0[1]+t)/(r0[1]+n):0,r0[1]+n]}
 const W=(path,data)=>{if(DB)return DB.doc(path).set(data).catch(e=>{window.lastErr=String(e&&e.message||e)});try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m[path]=data;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(e){}return Promise.resolve()};
 async function saveBooks(){if(canEditContent()){await W("lib/books",{list:JSON.parse(JSON.stringify(books))});if(isAdmin)await W("lib/notes",{list:notes.map(n=>({k:n.k,id:n.id}))})}}
@@ -1924,8 +1939,9 @@ async function adminView(v){
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="adefris-backup.json";a.click();
  };
  $("#resetSet").onclick=async()=>{SET={};document.documentElement.removeAttribute("style");await W("lib/settings",SET);render()};
- if($("#sSpotBlur"))$("#sSpotBlur").oninput=e=>{if($("#sSpotBlurVal"))$("#sSpotBlurVal").textContent=e.target.value};
- if($("#sSpotOp"))$("#sSpotOp").oninput=e=>{if($("#sSpotOpVal"))$("#sSpotOpVal").textContent=e.target.value};
+ if($("#sSpotBgMode"))$("#sSpotBgMode").onchange=e=>{SET.spotBgMode=e.target.value;applySet()};
+ if($("#sSpotBlur"))$("#sSpotBlur").oninput=e=>{SET.spotBlur=Number(e.target.value);if($("#sSpotBlurVal"))$("#sSpotBlurVal").textContent=e.target.value;applySet()};
+ if($("#sSpotOp"))$("#sSpotOp").oninput=e=>{SET.spotBgOpacity=Number(e.target.value)/100;if($("#sSpotOpVal"))$("#sSpotOpVal").textContent=e.target.value;applySet()};
  $("#ss").onclick=async()=> {
   const socials={};
   ["Facebook","Instagram","X","YouTube","Telegram"].forEach(s=>{const val=$("#soc_"+s).value.trim();if(val)socials[s]=val});
@@ -2320,13 +2336,13 @@ function homeView(v){
 
  v.innerHTML=`
  ${(f&&!SET.hideSpot)?`<section class="imdb-hero">
-  <div class="spot">
+  <div class="spot" style="--spot-blur:${SET.spotBlur!==undefined?Number(SET.spotBlur):28}px;--spot-op:${SET.spotBgOpacity!==undefined?Number(SET.spotBgOpacity):(isDarkNow()?.62:.45)}">
    ${(()=>{
   const mode=SET.spotBgMode||"auto";
   const bgUrl=mode==="none"?"":mode==="cover"?(getCoverSrc(f)||getAuthorPhoto(f)):mode==="author"?(getAuthorPhoto(f.a)||getCoverSrc(f)):(getAuthorPhoto(f.a)||getCoverSrc(f));
   return bgUrl?`<img class="spot-art-bg" src="${esc(bgUrl)}" alt="" aria-hidden="true" onerror="this.remove()">`:"";
  })()}
-   <div class="spot-art-veil"></div>
+   <div class="spot-art-veil" style="opacity:${Math.max(0.18, 1 - (SET.spotBgOpacity!==undefined?Number(SET.spotBgOpacity):0.55)*0.75)}"></div>
    <div>
     <div class="k">★ ${tr("botd")} · ${LN[f.l]||f.l}</div>
     <h1>${esc(bt(f))}</h1>
