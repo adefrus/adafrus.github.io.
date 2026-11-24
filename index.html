@@ -548,35 +548,86 @@ let userProfile={avatar:"",cover:"",bio:"",city:"",memberSince:Date.now()};let m
 let BEGINNER_IDS=[1,43,57,69,77,87,119];
 let DROP_IDS=[];
 let MEMBERS_LOG=[];
+function mergeIntoMembersLog(entry){
+ if(!entry||(!entry.id&&!entry.name&&!entry.email))return;
+ const norm={
+  id:entry.id||("u_"+Date.now()),
+  name:entry.name||entry.email||"Member",
+  email:entry.email||"",
+  role:entry.role||"reader",
+  joinedAt:entry.joinedAt||Date.now()
+ };
+ const idx=MEMBERS_LOG.findIndex(x=>(norm.id&&x.id===norm.id)||(norm.email&&x.email&&x.email.toLowerCase()===norm.email.toLowerCase()));
+ if(idx>-1){
+  MEMBERS_LOG[idx]={
+   ...MEMBERS_LOG[idx],
+   name:norm.name||MEMBERS_LOG[idx].name,
+   email:norm.email||MEMBERS_LOG[idx].email,
+   role:norm.role||MEMBERS_LOG[idx].role,
+   joinedAt:Math.min(MEMBERS_LOG[idx].joinedAt||norm.joinedAt,norm.joinedAt)
+  };
+ }else{
+  MEMBERS_LOG.push(norm);
+ }
+}
+
+async function backfillMembersFromStore(){
+ try{
+  if(SB){
+   const r=await SB.from("kv").select("path,data").like("path","data/users/%/me");
+   (r.data||[]).forEach(row=>{
+    const d=row&&row.data;
+    const uid=row&&row.path?row.path.split("/")[2]:"";
+    if(d&&(d.name||d.email||uid)){
+     mergeIntoMembersLog({
+      id:uid||d.email||d.name,
+      name:d.name||d.email||"Member",
+      email:d.email||"",
+      role:d.role||"reader",
+      joinedAt:(d.profile&&d.profile.memberSince)||Date.now()
+     });
+    }
+   });
+  }
+  Object.values(revs||{}).forEach(arr=>{
+   (arr||[]).forEach(rvItem=>{
+    if(rvItem&&rvItem.real&&(rvItem.uid||rvItem.u)){
+     mergeIntoMembersLog({id:rvItem.uid||rvItem.u,name:rvItem.u||"Member",role:"reader"});
+    }
+   });
+  });
+  (feed||[]).forEach(p=>{
+   if(p&&(p.uid||p.u)){
+    mergeIntoMembersLog({id:p.uid||p.u,name:p.u||"Member",role:"reader"});
+   }
+  });
+  MEMBERS_LOG.sort((a,b)=>(b.joinedAt||0)-(a.joinedAt||0));
+ }catch(e){}
+}
+
 async function recordMemberJoin(uObj){
  if(!uObj)return;
  try{
-  const entry={
+  mergeIntoMembersLog({
    id:uObj.id||("u_"+Date.now()),
    name:uObj.name||uObj.email||"Member",
    email:uObj.email||"",
    role:uObj.role||"reader",
    joinedAt:Date.now()
-  };
-  const idx=MEMBERS_LOG.findIndex(x=>(entry.id&&x.id===entry.id)||(entry.email&&x.email===entry.email));
-  if(idx>-1){
-   MEMBERS_LOG[idx]={...MEMBERS_LOG[idx],name:entry.name,email:entry.email||MEMBERS_LOG[idx].email,role:entry.role||MEMBERS_LOG[idx].role};
-  }else{
-   MEMBERS_LOG.unshift(entry);
-  }
-  const uEm=String(entry.email||"").trim().toLowerCase();
-  const uNm=String(entry.name||"").trim().toLowerCase().replace(/^@/,"");
+  });
+  const uEm=String(uObj.email||"").trim().toLowerCase();
+  const uNm=String(uObj.name||"").trim().toLowerCase().replace(/^@/,"");
   const matchedTeam=TEAM.find(m=>{
    const t=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
    return t&&(t===uEm||t===uNm);
   });
   if(matchedTeam&&!matchedTeam._notified){
    matchedTeam._notified=true;
-   notes.unshift({k:"nteam",name:entry.name,u:1});
+   notes.unshift({k:"nteam",name:uObj.name||uObj.email,u:1});
    await W("lib/team",{list:TEAM});
   }
-  await W("lib/members",{list:MEMBERS_LOG.slice(0,200)});
- }catch(e){}
+  await W("lib/members",{list:MEMBERS_LOG.slice(0,300)});
+ }catch(e){window.lastErr=String(e&&e.message||e)}
 }
 let EVENTS=[
  {id:1,type:"exhibition",t:"የአዲስ አበባ የመጻሕፍት ዐውደ ርዕይ 2026",e:"Addis Ababa Book Exhibition 2026",d:"Dec 12–15, 2026 · 9:00 AM",loc:"Addis Ababa Exhibition Center (Meskel Square)",org:"Ethiopian Publishers Association",likes:42},
@@ -2410,6 +2461,7 @@ async function loadShared(){
  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
  feed.splice(0,feed.length,...(fp.data||[]).map(p=>({i:p.id,u:p.user_name,uid:p.user_id,t:p.body,b:p.book_id||0,l:p.likes,d:ago(p.created),c:[]})));
  Object.keys(aw).forEach(k=>delete aw[k]);(vt.data||[]).forEach(r=>{aw[r.book_id]=Number(r.n)});
+ await backfillMembersFromStore();
  nid=Math.max(...books.map(b=>b.id||0),140)+1}
 async function afterAuth(ses){
  try{if(ses){const u=ses.user,m=u.user_metadata||{};ME={id:u.id,name:m.name||u.email};user={id:u.id,name:m.name||u.email,email:u.email,role:m.role||"reader"};
