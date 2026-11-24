@@ -567,7 +567,8 @@ const saveCovCache=()=>{try{localStorage.setItem("adafrus_cov_cache",JSON.string
 function getCoverSrc(b){
  if(!b)return "";
  if(b.img)return b.img;
- if(COV_CACHE[b.e])return COV_CACHE[b.e];
+ if(b.t&&COV_CACHE[b.t])return COV_CACHE[b.t];
+ if(b.e&&COV_CACHE[b.e])return COV_CACHE[b.e];
  if(b.isbn)return `https://covers.openlibrary.org/b/isbn/${b.isbn}-L.jpg?default=false`;
  return "";
 }
@@ -1474,16 +1475,21 @@ function memberView(v){
 
 // Admin Panel (Restored & Enhanced: Author Verification, Submissions, Author Profiles, Events, Ads, Books & Settings)
 async function adminView(v){
- if(!canEditContent()){v.innerHTML="";return}
+ if(!canEditContent()){
+  v.innerHTML=`<div class="panel" style="margin-top:16px"><h2>⚙️ ${tr("admin")}</h2><p class="note">Sign in with your Admin account or a Team account to open Admin controls.</p><div><button class="primary" id="admNeedLogin">${tr("login")}</button></div></div>`;
+  if($("#admNeedLogin"))$("#admNeedLogin").onclick=()=>openLogin("in");
+  return;
+ }
  let rq=[],sb=[];
  if(DB){
   try{
+   const withTimeout=(p,ms=4000)=>Promise.race([p,new Promise(res=>setTimeout(()=>res({docs:[]}),ms))]);
    const [rqRes,sbRes]=await Promise.all([
-    DB.collection("requests").get(),
-    DB.collection("submissions").get()
+    withTimeout(DB.collection("requests").get()),
+    withTimeout(DB.collection("submissions").get())
    ]);
-   rq=rqRes.docs.map(d=>d.data()).sort((a,b)=>(b.t||0)-(a.t||0));
-   sb=sbRes.docs.map(d=>d.data()).filter(x=>x.status==="pending");
+   rq=(rqRes&&rqRes.docs||[]).map(d=>d.data()).sort((a,b)=>(b.t||0)-(a.t||0));
+   sb=(sbRes&&sbRes.docs||[]).map(d=>d.data()).filter(x=>x.status==="pending");
   }catch(e){window.lastErr=String(e&&e.message||e)}
  }
  const fBooks=books.filter(b=>!adminFilter||(b.t+b.e+b.a+b.ae).toLowerCase().includes(adminFilter.toLowerCase()));
@@ -2350,7 +2356,16 @@ async function loadShared(){
   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
   SB.rpc("vote_totals",{y:2026})
  ]);
- if(b&&Array.isArray(b.list)&&b.list.length)books.splice(0,books.length,...b.list.filter(Boolean).map(x=>({...x,a:normAuthor(x.a),r:x.r||[0,0]})));else if(isAdmin)saveBooks();
+ if(b&&Array.isArray(b.list)&&b.list.length){
+  const prevByTitle={};
+  books.forEach(oldB=>{if(oldB&&oldB.img)prevByTitle[oldB.t||oldB.e||oldB.id]=oldB.img});
+  const mergedList=b.list.filter(Boolean).map(x=>{
+   const k=x.t||x.e||x.id;
+   const keepImg=x.img||prevByTitle[k]||(x.t&&COV_CACHE[x.t])||(x.e&&COV_CACHE[x.e])||"";
+   return {...x,a:normAuthor(x.a),r:x.r||[0,0],img:keepImg};
+  });
+  books.splice(0,books.length,...mergedList);
+ }else if(isAdmin)saveBooks();
  if(n&&Array.isArray(n.list))notes.splice(0,notes.length,...n.list.map(x=>({...x,u:0})));
  if(st){SET=st;applySet()}
  VER=v?v.ids||[]:[];
