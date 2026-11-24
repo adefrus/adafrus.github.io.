@@ -109,17 +109,31 @@ input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);bo
 
 /* Clean Editorial Spotlight + Up Next Hero (No childish frames) */
 .imdb-hero{display:grid;grid-template-columns:2.1fr 1fr;gap:16px;margin-top:16px;align-items:stretch;min-height:clamp(320px,48vh,480px)}
-.spot{position:relative;overflow:hidden;border-radius:18px;color:#FFFFFF;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark) 88%);padding:clamp(22px,3vw,38px);display:grid;grid-template-columns:1fr clamp(132px,14vw,196px);gap:clamp(16px,2.5vw,28px);align-items:center;box-shadow:0 12px 28px rgba(13,18,31,.18)}
-.spot>.spot-art-bg{position:absolute;inset:-32px;width:calc(100% + 64px);height:calc(100% + 64px);object-fit:cover;object-position:center top;filter:blur(28px) saturate(1.45) contrast(1.08) brightness(.82);transform:scale(1.18);opacity:.62;pointer-events:none;z-index:0}
-.spot>.spot-art-veil{position:absolute;inset:0;background:linear-gradient(115deg,rgba(13,18,31,.82) 0%,rgba(20,27,45,.65) 55%,rgba(13,18,31,.76) 100%);pointer-events:none;z-index:0}
+.spot{--spot-blur:28px;--spot-op:.55;position:relative;overflow:hidden;border-radius:18px;color:var(--ink);background:linear-gradient(135deg,var(--surface),var(--surface2) 92%);border:1px solid var(--line);padding:clamp(22px,3vw,38px);display:grid;grid-template-columns:1fr clamp(132px,14vw,196px);gap:clamp(16px,2.5vw,28px);align-items:center;box-shadow:0 12px 28px rgba(13,18,31,.1)}
+.spot>.spot-art-bg{position:absolute;inset:-32px;width:calc(100% + 64px);height:calc(100% + 64px);object-fit:cover;object-position:center top;filter:blur(var(--spot-blur,28px)) saturate(1.35) contrast(1.05);transform:scale(1.18);opacity:var(--spot-op,.45);pointer-events:none;z-index:0}
+.spot>.spot-art-veil{position:absolute;inset:0;background:linear-gradient(115deg,rgba(246,245,242,.88) 0%,rgba(255,255,255,.76) 55%,rgba(236,234,228,.86) 100%);pointer-events:none;z-index:0}
 .spot>div,.spot>button{position:relative;z-index:1}
 .spot .k{display:inline-flex;align-items:center;gap:6px;letter-spacing:.12em;font-size:.75rem;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
-.spot h1{font-size:clamp(1.75rem,3.4vw,2.85rem);font-weight:800;color:#FFFFFF}
-.spot .sub-author{color:#CBD5E1;font-size:clamp(.95rem,1.2vw,1.1rem);margin-top:6px;font-weight:600}
-.spot p{color:#E2E8F0;max-width:54ch;font-size:clamp(.9rem,1.05vw,1.02rem);margin:12px 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.spot h1{font-size:clamp(1.75rem,3.4vw,2.85rem);font-weight:800;color:var(--ink)}
+.spot .sub-author{color:var(--muted);font-size:clamp(.95rem,1.2vw,1.1rem);margin-top:6px;font-weight:600}
+.spot p{color:var(--ink);opacity:.88;max-width:54ch;font-size:clamp(.9rem,1.05vw,1.02rem);margin:12px 0 14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+:root[data-theme="dark"] .spot{color:#FFFFFF;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark) 88%);border-color:var(--line);box-shadow:0 12px 28px rgba(13,18,31,.24)}
+:root[data-theme="dark"] .spot>.spot-art-bg{filter:blur(var(--spot-blur,28px)) saturate(1.45) contrast(1.08) brightness(.82);opacity:var(--spot-op,.62)}
+:root[data-theme="dark"] .spot>.spot-art-veil{background:linear-gradient(115deg,rgba(13,18,31,.82) 0%,rgba(20,27,45,.65) 55%,rgba(13,18,31,.76) 100%)}
+:root[data-theme="dark"] .spot h1{color:#FFFFFF}
+:root[data-theme="dark"] .spot .sub-author{color:#CBD5E1}
+:root[data-theme="dark"] .spot p{color:#E2E8F0;opacity:1}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .spot{color:#FFFFFF;background:linear-gradient(135deg,var(--hero-mid),var(--hero-dark) 88%);border-color:var(--line);box-shadow:0 12px 28px rgba(13,18,31,.24)}
+  :root:not([data-theme="light"]) .spot>.spot-art-bg{filter:blur(var(--spot-blur,28px)) saturate(1.45) contrast(1.08) brightness(.82);opacity:var(--spot-op,.62)}
+  :root:not([data-theme="light"]) .spot>.spot-art-veil{background:linear-gradient(115deg,rgba(13,18,31,.82) 0%,rgba(20,27,45,.65) 55%,rgba(13,18,31,.76) 100%)}
+  :root:not([data-theme="light"]) .spot h1{color:#FFFFFF}
+  :root:not([data-theme="light"]) .spot .sub-author{color:#CBD5E1}
+  :root:not([data-theme="light"]) .spot p{color:#E2E8F0;opacity:1}
+}
 .spot .bk{filter:drop-shadow(0 14px 24px rgba(0,0,0,.45));border:none;padding:0;background:none;border-radius:10px;width:100%}
 .spot-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.spot-actions .wl-btn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);font-weight:600}
+.spot-actions .wl-btn{background:var(--surface2);color:var(--ink);border:1px solid var(--line);font-weight:600}:root[data-theme="dark"] .spot-actions .wl-btn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .spot-actions .wl-btn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28)}}
 .spot-actions .wl-btn.saved{background:var(--green);border-color:var(--green)}
 .dots{display:flex;gap:8px;margin-top:16px}
 .dots button{width:30px;height:5px;padding:0;border-radius:9px;border:none;background:rgba(255,255,255,.28)}
@@ -1272,7 +1286,11 @@ const canEditContent=()=>!!(isAdmin||isStaff||(user&&(user.role==="staff"||user.
 const tabsL=()=>["home","feed","books","events","authors","critics","stores","awards","premium","member","list"].concat(user?["profile"]:[]).concat(user&&user.role==="author"?["studio"]:[]).concat(canEditContent()?["admin"]:[]);
 const FONTS=["Noto Serif Ethiopic","Abyssinica SIL","Playfair Display","Lora","Merriweather","Figtree"];
 function isDarkNow(){const dm=document.documentElement.dataset.theme;return dm==="dark"||(!dm&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)}
-function applySet(){const r=document.documentElement.style;if(SET.font)r.setProperty("--hf","'"+SET.font+"'");const pal=SET.palettes&&SET.palettes[isDarkNow()?"dark":"light"];if(pal){if(pal.gold)r.setProperty("--gold",pal.gold);if(pal.hero){r.setProperty("--hero",pal.hero);r.setProperty("--hero-mid",pal.hero)}if(pal.bg)r.setProperty("--bg",pal.bg);if(pal.surface)r.setProperty("--surface",pal.surface);return}if(SET.accent)r.setProperty("--gold",SET.accent);if(SET.heroBg){r.setProperty("--hero",SET.heroBg);r.setProperty("--hero-mid",SET.heroBg)}if(SET.pageBg)r.setProperty("--bg",SET.pageBg);if(SET.cardBg)r.setProperty("--surface",SET.cardBg)}
+function applySet(){const r=document.documentElement.style;if(SET.font)r.setProperty("--hf","'"+SET.font+"'");const pal=SET.palettes&&SET.palettes[isDarkNow()?"dark":"light"];if(pal){if(pal.gold)r.setProperty("--gold",pal.gold);if(pal.hero){r.setProperty("--hero",pal.hero);r.setProperty("--hero-mid",pal.hero)}if(pal.bg)r.setProperty("--bg",pal.bg);if(pal.surface)r.setProperty("--surface",pal.surface);return}if(SET.accent)r.setProperty("--gold",SET.accent);if(SET.heroBg){r.setProperty("--hero",SET.heroBg);r.setProperty("--hero-mid",SET.heroBg)}if(SET.pageBg)r.setProperty("--bg",SET.pageBg);if(SET.cardBg)r.setProperty("--surface",SET.cardBg);
+ const bVal=SET.spotBlur!==undefined?Number(SET.spotBlur):28;
+ r.setProperty("--spot-blur",bVal+"px");
+ const opVal=SET.spotBgOpacity!==undefined?Number(SET.spotBgOpacity):(isDarkNow()?.62:.42);
+ r.setProperty("--spot-op",String(opVal));}
 function recalc(b){if(!b)return;const rv=(revs[b.id]||[]).filter(r=>r.real),r0=b.r0||(b.r0=[0,0]),n=rv.length,t=rv.reduce((a,r)=>a+r.n,0);b.r=[r0[1]+n?(r0[0]*r0[1]+t)/(r0[1]+n):0,r0[1]+n]}
 const W=(path,data)=>{if(DB)return DB.doc(path).set(data).catch(e=>{window.lastErr=String(e&&e.message||e)});try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m[path]=data;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(e){}return Promise.resolve()};
 async function saveBooks(){if(canEditContent()){await W("lib/books",{list:JSON.parse(JSON.stringify(books))});if(isAdmin)await W("lib/notes",{list:notes.map(n=>({k:n.k,id:n.id}))})}}
@@ -1749,7 +1767,22 @@ async function adminView(v){
    <label><input type="checkbox" id="sShowLang" ${SET.hideLang?"":"checked"}> Explore by Language</label>
    <label><input type="checkbox" id="sShowRecent" ${SET.hideRecent?"":"checked"}> Recently Viewed</label>
   </div>
-    <h3 style="margin-top:8px;font-size:1rem">Extra Display Settings</h3>
+    <h3 style="margin-top:8px;font-size:1rem">Featured Today Background &amp; Blurriness</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px">
+   <div><label>Background Art Source</label><select id="sSpotBgMode" style="width:100%">
+    <option value="auto" ${(SET.spotBgMode||"auto")==="auto"?"selected":""}>Auto (Author Photo / Book Cover)</option>
+    <option value="cover" ${SET.spotBgMode==="cover"?"selected":""}>Book Cover Only</option>
+    <option value="author" ${SET.spotBgMode==="author"?"selected":""}>Author Portrait Only</option>
+    <option value="none" ${SET.spotBgMode==="none"?"selected":""}>Clean Gradient (No Art)</option>
+   </select></div>
+   <div><label>Blurriness Level: <span id="sSpotBlurVal">${SET.spotBlur!==undefined?SET.spotBlur:28}</span>px</label>
+    <input id="sSpotBlur" type="range" min="0" max="60" step="2" style="width:100%" value="${SET.spotBlur!==undefined?SET.spotBlur:28}">
+   </div>
+   <div><label>Art Visibility (Opacity): <span id="sSpotOpVal">${Math.round((SET.spotBgOpacity!==undefined?SET.spotBgOpacity:.55)*100)}</span>%</label>
+    <input id="sSpotOp" type="range" min="0" max="100" step="5" style="width:100%" value="${Math.round((SET.spotBgOpacity!==undefined?SET.spotBgOpacity:.55)*100)}">
+   </div>
+  </div>
+  <h3 style="margin-top:8px;font-size:1rem">Extra Display Settings</h3>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px">
    <div><label>Default Books Sort</label><select id="sDefSort" style="width:100%"><option value="top" ${SET.defSort==="top"?"selected":""}>Top Rated</option><option value="new" ${SET.defSort==="new"?"selected":""}>Newest</option><option value="az" ${SET.defSort==="az"?"selected":""}>A–Z</option></select></div>
    <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap">
@@ -1891,7 +1924,9 @@ async function adminView(v){
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="adefris-backup.json";a.click();
  };
  $("#resetSet").onclick=async()=>{SET={};document.documentElement.removeAttribute("style");await W("lib/settings",SET);render()};
- $("#ss").onclick=async()=>{
+ if($("#sSpotBlur"))$("#sSpotBlur").oninput=e=>{if($("#sSpotBlurVal"))$("#sSpotBlurVal").textContent=e.target.value};
+ if($("#sSpotOp"))$("#sSpotOp").oninput=e=>{if($("#sSpotOpVal"))$("#sSpotOpVal").textContent=e.target.value};
+ $("#ss").onclick=async()=> {
   const socials={};
   ["Facebook","Instagram","X","YouTube","Telegram"].forEach(s=>{const val=$("#soc_"+s).value.trim();if(val)socials[s]=val});
   const palettes={
@@ -1904,6 +1939,9 @@ async function adminView(v){
    hidePoe:!$("#sShowPoe").checked,hideBeg:!$("#sShowBeg").checked,hideWorld:!$("#sShowWorld").checked,hideFans:!$("#sShowFans").checked,
    hideAuth:!$("#sShowAuth").checked,hideEv:!$("#sShowEv").checked,hidePrem:!$("#sShowPrem").checked,hideAward:!$("#sShowAward").checked,
    hideComm:!$("#sShowComm").checked,hideStores:!$("#sShowStores").checked,hideLang:!$("#sShowLang").checked,hideRecent:!$("#sShowRecent").checked,
+   spotBgMode:$("#sSpotBgMode")?$("#sSpotBgMode").value:"auto",
+   spotBlur:$("#sSpotBlur")?Number($("#sSpotBlur").value):28,
+   spotBgOpacity:$("#sSpotOp")?Number($("#sSpotOp").value)/100:0.55,
    defSort:$("#sDefSort").value,hideBeta:$("#sHideBeta").checked,compact:$("#sCompact").checked,socials};
   sort=SET.defSort||sort;
   applySet();render();await W("lib/settings",SET);
@@ -2283,7 +2321,11 @@ function homeView(v){
  v.innerHTML=`
  ${(f&&!SET.hideSpot)?`<section class="imdb-hero">
   <div class="spot">
-   ${(getAuthorPhoto(f.a)||getCoverSrc(f))?`<img class="spot-art-bg" src="${esc(getAuthorPhoto(f.a)||getCoverSrc(f))}" alt="" aria-hidden="true" onerror="this.remove()">`:""}
+   ${(()=>{
+  const mode=SET.spotBgMode||"auto";
+  const bgUrl=mode==="none"?"":mode==="cover"?(getCoverSrc(f)||getAuthorPhoto(f)):mode==="author"?(getAuthorPhoto(f.a)||getCoverSrc(f)):(getAuthorPhoto(f.a)||getCoverSrc(f));
+  return bgUrl?`<img class="spot-art-bg" src="${esc(bgUrl)}" alt="" aria-hidden="true" onerror="this.remove()">`:"";
+ })()}
    <div class="spot-art-veil"></div>
    <div>
     <div class="k">★ ${tr("botd")} · ${LN[f.l]||f.l}</div>
