@@ -659,6 +659,20 @@ const bt=b=>b.t||"",ba=b=>li===0?normAuthor(b.a):(b.ae||normAuthor(b.a)),bs=b=>l
 // Cover Image Lookup (Google Books & Open Library)
 let COV_CACHE={};
 let BOOK_COVERS={};
+let DELETED_BOOK_KEYS=[];
+try{DELETED_BOOK_KEYS=JSON.parse(localStorage.getItem("adafrus_deleted_books")||"[]")}catch(e){}
+const bookMatchKey=b=>b?String((b.t||b.e||"").trim()).toLowerCase():"";
+const markBookDeleted=async b=>{
+ if(!b)return;
+ const k=bookMatchKey(b);
+ if(k&&!DELETED_BOOK_KEYS.includes(k))DELETED_BOOK_KEYS.push(k);
+ if(b.id!==undefined){
+  const kid="id:"+String(b.id);
+  if(!DELETED_BOOK_KEYS.includes(kid))DELETED_BOOK_KEYS.push(kid);
+ }
+ try{localStorage.setItem("adafrus_deleted_books",JSON.stringify(DELETED_BOOK_KEYS))}catch(e){}
+ if(canEditContent()){await W("lib/deleted_books",{keys:DELETED_BOOK_KEYS})}
+};
 try{COV_CACHE=JSON.parse(localStorage.getItem("adafrus_cov_cache")||"{}")}catch(e){}
 try{BOOK_COVERS=JSON.parse(localStorage.getItem("adafrus_covers")||"{}")}catch(e){}
 const saveCovCache=()=>{try{localStorage.setItem("adafrus_cov_cache",JSON.stringify(COV_CACHE))}catch(e){}};
@@ -1315,7 +1329,7 @@ function openBook(id){
   if($("#ed"))$("#ed").onclick=()=>editBook(id);
   if($("#delBkDirect"))$("#delBkDirect").onclick=async()=>{
    const idx=books.findIndex(x=>x.id===id);
-   if(idx>-1){books.splice(idx,1);render();await saveBooks()}
+   if(idx>-1){const [rem]=books.splice(idx,1);await markBookDeleted(rem);render();await saveBooks()}
    $("#bk").close();
   };
   $("#sh").onclick=()=>shareDirectLink("#book/"+b.id,bt(b),$("#sh"));
@@ -2010,7 +2024,8 @@ create policy "Admins and Team manage lib/*" on kv
   STARTER_BOOKS.forEach(sb=>{
    const clean=JSON.parse(JSON.stringify(sb));
    clean.a=normAuthor(clean.a);
-   if(!merged.some(x=>x.t===clean.t||x.e===clean.e))merged.push(clean);
+   const mk=bookMatchKey(clean);
+   if(!(mk&&DELETED_BOOK_KEYS.includes(mk))&&!merged.some(x=>x.t===clean.t||x.e===clean.e))merged.push(clean);
   });
   merged.forEach((b,i)=>{b.id=i+1;b.a=normAuthor(b.a);revs[b.id]=revs[b.id]||[];recalc(b)});
   books.splice(0,books.length,...merged);
@@ -2059,7 +2074,7 @@ create policy "Admins and Team manage lib/*" on kv
  v.querySelectorAll("[data-e]").forEach(x=>x.onclick=()=>editBook(+x.dataset.e));
  v.querySelectorAll("[data-d]").forEach(x=>x.onclick=async()=>{
   const idx=books.findIndex(b=>b.id==x.dataset.d);
-  if(idx>-1){books.splice(idx,1);render();await saveBooks()}
+  if(idx>-1){const [rem]=books.splice(idx,1);await markBookDeleted(rem);render();await saveBooks()}
  });
  $("#fastCovBtn").onclick=()=>openFastCoverManager();
  $("#expJsonBtn").onclick=()=>{
@@ -2592,8 +2607,9 @@ async function sbAuth(up,em,pw,n,role){
  $("#login").close();await afterAuth(r.data.session)}
 async function loadShared(){
  const g=async p=>{const r=await DB.doc(p).get();return r.exists?r.data():null};
- const [cvMapData,b,n,st,v,au,ev,ad,crData,stData,tmData,bgData,drData,mbData,rv,fp,vt]=await Promise.all([
+ const [cvMapData,delBooksData,b,n,st,v,au,ev,ad,crData,stData,tmData,bgData,drData,mbData,rv,fp,vt]=await Promise.all([
   g("lib/covers"),
+  g("lib/deleted_books"),
   g("lib/books"),
   g("lib/notes"),
   g("lib/settings"),
@@ -2611,6 +2627,10 @@ async function loadShared(){
   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
   SB.rpc("vote_totals",{y:2026})
  ]);
+ if(delBooksData&&Array.isArray(delBooksData.keys)){
+  DELETED_BOOK_KEYS=[...new Set([...DELETED_BOOK_KEYS,...delBooksData.keys])];
+  try{localStorage.setItem("adafrus_deleted_books",JSON.stringify(DELETED_BOOK_KEYS))}catch(e){}
+ }
  if(cvMapData&&cvMapData.map&&typeof cvMapData.map==="object"){
   BOOK_COVERS={...BOOK_COVERS,...cvMapData.map};
   try{localStorage.setItem("adafrus_covers",JSON.stringify(BOOK_COVERS))}catch(e){}
@@ -2618,7 +2638,11 @@ async function loadShared(){
  if(b&&Array.isArray(b.list)&&b.list.length){
   const prevByTitle={};
   books.forEach(oldB=>{if(oldB&&oldB.img)prevByTitle[oldB.t||oldB.e||oldB.id]=oldB.img});
-  const mergedList=b.list.filter(Boolean).map(x=>{
+  const mergedList=b.list.filter(Boolean).filter(x=>{
+   const mk=bookMatchKey(x);
+   const kid="id:"+String(x.id);
+   return !(mk&&DELETED_BOOK_KEYS.includes(mk))&&!DELETED_BOOK_KEYS.includes(kid);
+  }).map(x=>{
    const k=x.t||x.e||x.id;
    const keepImg=x.img||prevByTitle[k]||BOOK_COVERS[String(x.id)]||(x.t&&BOOK_COVERS[x.t])||(x.e&&BOOK_COVERS[x.e])||(x.t&&COV_CACHE[x.t])||(x.e&&COV_CACHE[x.e])||"";
    return {...x,a:normAuthor(x.a),r:x.r||[0,0],img:keepImg};
@@ -2628,7 +2652,14 @@ async function loadShared(){
  if(n&&Array.isArray(n.list))notes.splice(0,notes.length,...n.list.map(x=>({...x,u:0})));
  if(st){SET=st;applySet()}
  VER=v?v.ids||[]:[];
- AUTH_META=au||{};
+ if(au&&typeof au==="object"){
+  const nextAu={...AUTH_META};
+  Object.entries(au).forEach(([ak,av])=>{
+   const prev=nextAu[ak]||{};
+   nextAu[ak]={...prev,...av,img:(av&&av.img)||prev.img||"",bgImg:(av&&av.bgImg)||prev.bgImg||""};
+  });
+  AUTH_META=nextAu;
+ }
  if(ev&&Array.isArray(ev.list)&&ev.list.length)EVENTS.splice(0,EVENTS.length,...ev.list);
  if(ad)AD_CFG={...AD_CFG,...ad};
  if(crData&&Array.isArray(crData.list))CR.splice(0,CR.length,...crData.list);
