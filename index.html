@@ -545,7 +545,6 @@ let notes=[{k:"ntop",id:1,u:1},{k:"nnew",id:20,u:1}],user=null,tab="home",lang="
 let isPremium=false,isMember=false,AD_CFG={enabled:true,title:"Advertise on Adefris — አደፍርስ",body:"Reach thousands of Ethiopian readers, authors, and book lovers.",cta:"Contact Us",url:""};
 let userProfile={avatar:"",cover:"",bio:"",city:"",memberSince:Date.now()};let myRatings={};
 let BEGINNER_IDS=[1,43,57,69,77,87,119];
-let DROP_IDS=[];
 let EVENTS=[
  {id:1,type:"exhibition",t:"የአዲስ አበባ የመጻሕፍት ዐውደ ርዕይ 2026",e:"Addis Ababa Book Exhibition 2026",d:"Dec 12–15, 2026 · 9:00 AM",loc:"Addis Ababa Exhibition Center (Meskel Square)",org:"Ethiopian Publishers Association",likes:42},
  {id:2,type:"launch",t:"አዲስ የግጥም መድብል ምረቃ",e:"Contemporary Amharic Poetry Anthology Launch",d:"Dec 20, 2026 · 5:30 PM",loc:"National Theater Hall, Addis Ababa",org:"Adefris Literary Circle",likes:31},
@@ -1314,8 +1313,6 @@ function editEventModal(){
 // Premium Subscription View (Ad-Free + Rare Books + Supporter Badge)
 let premPlan="1m";
 let charityPlan="100";
-let premPending=false, charityPending=false;
-
 function premiumView(v){
  const rareBooks=books.filter(b=>b.rare);
  const plans=[
@@ -1343,67 +1340,34 @@ function premiumView(v){
    <div class="plan pro">
     <h3>⭐ የፕሪሚየም ጥቅሞች (Premium Benefits)</h3>
     <ul>
-     <li><b>ያለ ማስታወቂያ (Ad-Free)</b> ንባብ</li>
+     <li><b>ያለ ማስታወቂያ (100% Ad-Free)</b> ንባብ</li>
      <li><b>የጠፉና ብርቅዬ መጻሕፍትን</b> ፈልገን እናቀርብልዎታለን (Rare & Lost Books)</li>
      <li><b>ቀድሞ ማሳወቂያ (Early Alerts):</b> አዳዲስ መጻሕፍት ሲወጡና ዝግጅቶች ሲኖሩ ቀድሞ በመልዕክት ይደርስዎታል</li>
-     <li><b>የፕሪሚየም ደጋፊ ምልክት ⭐</b></li>
+     <li><b>የፕሪሚየም ደጋፊ ምልክት ⭐</b> እና ልዩ የንባብ ስታቲስቲክስ</li>
     </ul>
     ${isPremium?`<span class="pill-tag pill-ok">Active Premium Member ⭐</span>`:`
     <div class="form" style="margin-top:10px">
      <select id="pmPay"><option>Telebirr</option><option>CBE Birr</option><option>Chapa</option></select>
-     <button class="gold" id="subPremBtn">⭐ ፕሪሚየም ይመዝገቡ (Register for Premium)</button>
-    </div>
-    ${premPending?`<div class="panel" style="background:var(--surface2);margin-top:10px;padding:12px"><b>💳 የክፍያ ማሳወቂያ (Payment Notice)</b><p class="note" style="margin:4px 0 0">የፕሪሚየም ምዝገባዎ ተመዝግቧል። የክፍያ ስርዓት በይፋ ሲጀመር አገልግሎቱን ለማግኘት ተገቢውን ክፍያ መፈጸም ያስፈልግዎታል (አሁን በሙከራ ደረጃ በነፃ ፕሪሚየም አይከፈትም)።</p></div>`:""}`}
+     <button class="gold" id="subPremBtn">⭐ አሁን ፕሪሚየም ይሁኑ (Activate Premium)</button>
+    </div>`}
    </div>
   </div>
  </div>
- ${rowH("books",rareBooks)}`;
+ ${rowH("books",rareBooks)}
+ <div class="charity-card">
+  <div>
+   <h3>🤝 የአደፍሪስ የበጎ አድራጎት አባልነት (Adefris Charity Membership)</h3>
+   <p style="margin:6px 0 0;color:#E2E8F0">የኢትዮጵያን ሥነ-ጽሑፍና አዳዲስ ደራሲያንን በፈቃደኝነት ይደግፉ። በየ2 ወሩ በሚያዋጡት አነስተኛ ድጋፍ አዲስ የታተሙ መጻሕፍትን በመግዛት ደራሲያንን እናበረታታለን፣ መጻሕፍቱንም ለአንባቢያን እናዳርሳለን።</p>
+  </div>
+  <div><button class="gold" data-go="member">🤝 ስለ በጎ አድራጎት አባልነት ይመልከቱ →</button></div>
+ </div>`;
 
  v.querySelectorAll("[data-plan]").forEach(el=>el.onclick=()=>{premPlan=el.dataset.plan;render()});
  bindCards(v);
  if($("#subPremBtn"))$("#subPremBtn").onclick=()=>{
   if(!user)return openLogin("in");
-  premPending=true;
-  render();
- };
-}
-
-function memberView(v){
- const opts=[
-  {id:"50",label:"50 ብር / በየ 2 ወሩ (Every 2 Months)",desc:"ለጀማሪ ደራሲያን ማበረታቻ"},
-  {id:"100",label:"100 ብር / በየ 2 ወሩ (Every 2 Months)",desc:"1,000 አባላት ሲኖሩን በየ2 ወሩ 100,000 ብር በመሰብሰብ አዳዲስ መጻሕፍትን ገዝተን ለደራሲያን ገቢ እናደርጋለን"}
- ];
- v.innerHTML=`
- <div class="panel">
-  <h2>🤝 የአደፍሪስ የበጎ አድራጎት አባልነት (Voluntary Charity Membership)</h2>
-  <p>ይህ አባልነት ሙሉ በሙሉ <b>በፈቃደኝነት (Voluntary)</b> ላይ የተመሠረተ የኢትዮጵያ ሥነ-ጽሑፍ ድጋፍ ነው።</p>
-  <div class="panel" style="background:var(--surface2)">
-   <h3>🎯 የበጎ አድራጎት አባልነት ዝርዝር (Membership Details)፦</h3>
-   <ul style="margin:0;padding-left:20px;display:grid;gap:6px">
-    <li><b>ደራሲያንን ማበረታታት፦</b> በየ2 ወሩ የሚሰበሰበው ገንዘብ አዲስ ለታተሙና እየተሸጡ ላሉ የኢትዮጵያ መጻሕፍት ደራሲያን ቀጥተኛ ገቢ እንዲሆን መጻሕፍቶቻቸውን በብዛት እንገዛለን።</li>
-    <li><b>መጻሕፍትን ማዳረስ፦</b> የተገዙትን መጻሕፍት ለቤተ-መጻሕፍት፣ ለትምህርት ቤቶች እና ለአንባቢያን በነፃ እናዳርሳለን።</li>
-    <li><b>የአስተዋጽኦ ዕቅድ፦</b> በየ2 ወሩ 50 ብር ወይም 100 ብር በመለገስ የኢትዮጵያ ሥነ-ጽሑፍ እንዲያድግ አስተዋጽኦ ያድርጉ።</li>
-   </ul>
-  </div>
-  <div class="tier-grid">
-   ${opts.map(o=>`<div class="tier ${charityPlan===o.id?"on":""}" data-cplan="${o.id}">
-    <span class="save-tag">Voluntary Support</span>
-    <b>${o.label}</b>
-    <small class="note">${o.desc}</small>
-   </div>`).join("")}
-  </div>
-  ${isMember?`<span class="pill-tag pill-ok">የበጎ አድራጎት አባል ነዎት 🤝 ✓</span>`:`
-  <div class="form">
-   <label>የመክፈያ መንገድ (Payment Method)</label>
-   <select id="chPay"><option>Telebirr</option><option>CBE Birr</option><option>Chapa</option></select>
-   <button class="gold" id="joinCharityBtn">🤝 እንደ አባል ይመዝገቡ (Register as Charity Member)</button>
-  </div>
-  ${charityPending?`<div class="panel" style="background:var(--surface2);margin-top:10px;padding:12px"><b>💳 የክፍያ ማሳወቂያ (Payment Notice)</b><p class="note" style="margin:4px 0 0">እንደ የበጎ አድራጎት አባል የመመዝገብ ጥያቄዎ ተመዝግቧል። ክፍያ ሲጀመር የመረጡትን መዋጮ (${esc(charityPlan)} ብር / በየ2 ወሩ) ክፍያ መፈጸም እንዳለብዎ እናሳውቃለን።</p></div>`:""}`}
- </div>`;
- v.querySelectorAll("[data-cplan]").forEach(el=>el.onclick=()=>{charityPlan=el.dataset.cplan;render()});
- if($("#joinCharityBtn"))$("#joinCharityBtn").onclick=()=>{
-  if(!user)return openLogin("in");
-  charityPending=true;
+  isPremium=true;
+  saveMe();
   render();
  };
 }
@@ -1544,20 +1508,6 @@ async function adminView(v){
  </div>
 
  <div class="panel" style="margin-top:14px">
-  <h2>🔥 አዳዲስ መጻሕፍት — New Drops Shelf</h2>
-  <p class="note" style="margin:0">በሆምፔጅ ላይ የሚታዩትን <b>New Drops</b> መጻሕፍት በእጅ ይምረጡ ወይም ያስወግዱ (${DROP_IDS.length} pinned; auto-trending when empty)።</p>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-   <select id="dropBookSel" style="flex:1;min-width:200px">
-    ${books.map(b=>`<option value="${b.id}">${esc(bt(b))} — ${esc(ba(b))} (${b.y||""})</option>`).join("")}
-   </select>
-   <button class="gold" id="addDropBtn">+ Add to New Drops</button>
-  </div>
-  <div id="dropList" style="display:flex;gap:8px;flex-wrap:wrap">
-   ${DROP_IDS.map(id=>{const b=books.find(x=>x.id===id);return b?`<span class="pill-tag pill-ok" style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px">${esc(bt(b))} <button data-rm-drop="${id}" style="border:none;background:none;color:var(--red);padding:0 2px;font-weight:800;cursor:pointer">✕</button></span>`:""}).join("")||`<span class="note">Using automatic New & Trending books (2026 & top-rated/reviewed). Add books above to pin custom drops.</span>`}
-  </div>
- </div>
-
- <div class="panel" style="margin-top:14px">
   <h2>🌱 ከዚህ ጀምር — ለጀማሪዎች (Start Here — Beginners Shelf)</h2>
   <p class="note" style="margin:0">ለጀማሪ አንባቢያን የሚመከሩ መጻሕፍትን ይጨምሩ ወይም ያስወግዱ (${BEGINNER_IDS.length} selected)።</p>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -1595,7 +1545,7 @@ async function adminView(v){
   <div style="display:flex;gap:8px;flex-wrap:wrap">
    <button class="gold" id="ab">${tr("add")}</button>
    <button id="imp" style="border-color:var(--green);color:var(--green);font-weight:700">📚 Load Full Catalog</button>
-   <button id="fcov" style="border-color:var(--gold);color:var(--ink);font-weight:700">🖼️ Fetch Book Covers</button>
+   <button id="fcov" style="border-color:var(--gold);color:var(--ink);font-weight:700">🖼️ Auto-Fetch Web Covers</button>
    <button id="fastCovBtn" style="border-color:var(--hero);color:var(--hero);font-weight:700">⚡ Fast Bulk Cover Manager</button>
    <button id="expJsonBtn" style="border-color:var(--green);color:var(--ink);font-weight:600">💾 Backup Catalog JSON</button>
   </div>
@@ -1665,16 +1615,6 @@ async function adminView(v){
   render();
  });
  $("#ab").onclick=()=>editBook(null);
- $("#addDropBtn").onclick=async()=>{
-  const id=+$("#dropBookSel").value;
-  if(id&&!DROP_IDS.includes(id)){DROP_IDS.push(id);await W("lib/drops",{ids:DROP_IDS});render()}
- };
- v.querySelectorAll("[data-rm-drop]").forEach(b=>b.onclick=async()=>{
-  const id=+b.dataset.rmDrop;
-  DROP_IDS=DROP_IDS.filter(x=>x!==id);
-  await W("lib/drops",{ids:DROP_IDS});
-  render();
- });
  $("#addBegBtn").onclick=async()=>{
   const id=+$("#begBookSel").value;
   if(id&&!BEGINNER_IDS.includes(id)){BEGINNER_IDS.push(id);await W("lib/beginners",{ids:BEGINNER_IDS});render()}
@@ -1725,7 +1665,7 @@ async function adminView(v){
   let found=0;
   for(let i=0;i<books.length;i+=4){
    const batch=books.slice(i,i+4);
-   $("#impStatus").textContent=`Loading book covers ${i+1}–${Math.min(i+4,books.length)} / ${books.length}...`;
+   $("#impStatus").textContent=`Searching web covers ${i+1}–${Math.min(i+4,books.length)} / ${books.length}...`;
    await Promise.all(batch.map(async b=>{
     if(!b.img){
      const u=await lookupBookCover(b);
@@ -1795,7 +1735,6 @@ function loadLocal(){try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||
  if(m["lib/critics"]&&Array.isArray(m["lib/critics"].list))CR.splice(0,CR.length,...m["lib/critics"].list);
  if(m["lib/stores"]&&Array.isArray(m["lib/stores"].list))ST.splice(0,ST.length,...m["lib/stores"].list);
  if(m["lib/beginners"]&&Array.isArray(m["lib/beginners"].ids)){BEGINNER_IDS.splice(0,BEGINNER_IDS.length,...m["lib/beginners"].ids)}
- if(m["lib/drops"]&&Array.isArray(m["lib/drops"].ids)){DROP_IDS.splice(0,DROP_IDS.length,...m["lib/drops"].ids)}
  if(m["lib/team"]&&Array.isArray(m["lib/team"].list)){TEAM.splice(0,TEAM.length,...m["lib/team"].list);isStaff=!!(user&&TEAM.some(m=>{
   const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
   const uEm=String(user.email||"").trim().toLowerCase();
@@ -2135,9 +2074,7 @@ function homeView(v){
  const pub=books.filter(b=>b&&!b.up);
  const rated=[...pub].sort((a,b)=>((b.r&&b.r[0])||0)-((a.r&&a.r[0])||0)||((b.y||0)-(a.y||0)));
  const poems=pub.filter(b=>b.g==="poe");
- const autoDrops=[...pub].sort((a,b)=>((b.y||0)-(a.y||0))||(((b.r&&b.r[1])||0)-((a.r&&b.r[1])||0))||(((b.r&&b.r[0])||0)-((a.r&&a.r[0])||0))).slice(0,4);
- const pickedDrops=DROP_IDS.map(id=>pub.find(x=>x.id===id)).filter(Boolean);
- const newDrops=(pickedDrops.length?pickedDrops:autoDrops).slice(0,4);
+ const newDrops=[...pub].sort((a,b)=>((b.y||0)-(a.y||0))||(((b.r&&b.r[1])||0)-((a.r&&a.r[1])||0))||(((b.r&&b.r[0])||0)-((a.r&&a.r[0])||0))).slice(0,4);
  const feat=newDrops.length?newDrops:rated.slice(0,4),f=feat[fi%feat.length]||books[0];
  const mylist=Object.keys(mine).map(i=>books.find(x=>x.id==i)).filter(Boolean);
  const rv=viewed.map(i=>books.find(x=>x.id===i)).filter(Boolean);
@@ -2270,7 +2207,7 @@ async function sbAuth(up,em,pw,n,role){
  $("#login").close();await afterAuth(r.data.session)}
 async function loadShared(){
  const g=async p=>{const r=await DB.doc(p).get();return r.exists?r.data():null};
- const [b,n,st,v,au,ev,ad,crData,stData,tmData,bgData,drData,rv,fp,vt]=await Promise.all([
+ const [b,n,st,v,au,ev,ad,crData,stData,tmData,bgData,rv,fp,vt]=await Promise.all([
   g("lib/books"),
   g("lib/notes"),
   g("lib/settings"),
@@ -2282,7 +2219,6 @@ async function loadShared(){
   g("lib/stores"),
   g("lib/team"),
   g("lib/beginners"),
-  g("lib/drops"),
   SB.from("reviews").select("*").order("created",{ascending:false}),
   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
   SB.rpc("vote_totals",{y:2026})
@@ -2297,7 +2233,6 @@ async function loadShared(){
  if(crData&&Array.isArray(crData.list))CR.splice(0,CR.length,...crData.list);
  if(stData&&Array.isArray(stData.list))ST.splice(0,ST.length,...stData.list);
  if(bgData&&Array.isArray(bgData.ids)){BEGINNER_IDS.splice(0,BEGINNER_IDS.length,...bgData.ids)}
- if(drData&&Array.isArray(drData.ids)){DROP_IDS.splice(0,DROP_IDS.length,...drData.ids)}
  if(tmData&&Array.isArray(tmData.list)){TEAM.splice(0,TEAM.length,...tmData.list);isStaff=!!(user&&TEAM.some(m=>{
   const target=String(m.email||"").trim().toLowerCase().replace(/^@/,"");
   const uEm=String(user.email||"").trim().toLowerCase();
