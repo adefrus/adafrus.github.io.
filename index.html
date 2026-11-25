@@ -353,7 +353,7 @@ del:["ሰርዝ","Delete","Haqi","ሰርዝ"],pend:["በመጠባበቅ","Pendin
 notif:["ማሳወቂያዎች","Notifications","Beeksisa","ሓበሬታታት"],nempty:["ምንም አዲስ ነገር የለም።","Nothing new yet.","Homaatu haaraan hin jiru.","ሓድሽ የለን።"],
 nteam:["የቡድን አባል ገብቷል፦","Team member joined:","Miseensi garee seeneera:","ኣባል ጋንታ ኣትዩ፦"],
 nnew:["አዲስ መጽሐፍ ተጨምሯል፦","New book added:","Kitaabni haaraan dabalame:","ሓድሽ መጽሓፍ ተወሲኹ፦"],soon:["በቅርብ የሚወጡ","Coming soon","Dhiyeenyatti","ኣብ ቀረባ ዝወጹ"],nsub:["ስለ አዳዲስ መጻሕፍት አሳውቀኝ","Notify me about new books","Waa'ee kitaabota haaraa na beeksisi","ብዛዕባ ሓደስቲ መጻሕፍቲ ኣፍልጡኒ"],
-logo:["አደፍሪስ","Adefris","Adefris","ኣደፍሪስ"],
+logo:["አደፍርስ","Adefris","Adefris","ኣደፍሪስ"],
 books:["መጻሕፍት","Books","Kitaabota","መጻሕፍቲ"],authors:["ደራሲያን","Authors","Barreessitoota","ደረስቲ"],list:["የኔ ዝርዝር","My list","Tarree koo","ዝርዝረይ"],profile:["የኔ ፕሮፋይል","My Profile","Pirofaayilii koo","ፕሮፋይለይ"],premium:["ፕሪሚየም","Premium","Premium","ፕሪሚየም"],
 st1:["መጻሕፍት","books","kitaabota","መጻሕፍቲ"],
 login:["ግባ","Log in","Seeni","እተው"],logout:["ውጣ","Log out","Ba'i","ውጻእ"],signup:["ተመዝገብ","Sign up","Galmaa'i","ተመዝገብ"],
@@ -381,7 +381,7 @@ a1:["ያለ ማስታወቂያ (Ad-Free)","Ad-free experience","Beeksisa malee",
 join:["ፕሪሚየም ይሁኑ (100 ብር / 3 ወር)","Upgrade to Premium (100 ETB / 3 mo)","Premium seeni (100 ETB)","ፕሪሚየም እተዉ (100 ብር)"],
 nb:["መጽሐፍ ጨምር","Add a book","Kitaaba dabali","መጽሓፍ ወስኽ"],eb:["መጽሐፍ አስተካክል","Edit book","Kitaaba gulaali","መጽሓፍ ኣሰናብድ"],
 ft:["Amharic title","English title","Author (Amharic)","Author (English)","Language","Genre","Year","Description (Amharic)","Description (English)","Cover picture (Ethio Book Review, Google, Facebook, TikTok, upload, or paste)"],
-note:["የኢትዮጵያ መጻሕፍትና ሥነ-ግጥም ማህበረሰብ — አደፍሪስ።","Adefris — Ethiopian books, poetry & reading community.","Adefris — Hawaasa dubbisaa kitaabota Itoophiyaa.","ኣደፍሪስ — ማሕበረሰብ መጻሕፍቲ ኢትዮጵያ።"],
+note:["የኢትዮጵያ መጻሕፍትና ሥነ-ግጥም ማህበረሰብ — አደፍርስ።","Adefris — Ethiopian books, poetry & reading community.","Adefris — Hawaasa dubbisaa kitaabota Itoophiyaa.","ኣደፍሪስ — ማሕበረሰብ መጻሕፍቲ ኢትዮጵያ።"],
 member:["የበጎ አድራጎት አባልነት","Charity Membership","Miseensummaa Arjoomaa","ኣባልነት ግብረ ሰናይ"],
 newb:["አዲስ","New","Haaraa","ሓድሽ"],pwn:["መለያዎ በአስተማማኝ ሁኔታ ይቀመጣል።","Accounts are stored securely in Supabase.","Akkaawuntiin kee nageenyaan olkaa'ama.","ኣካውንትኩም ብውሑስ ይዕቀብ።"]};
 
@@ -649,7 +649,7 @@ let EVENTS=[
  {id:3,type:"signing",t:"የደራሲያን የፊርማ ሥነ-ሥርዓት እና ውይይት",e:"Authors Book Signing & Reader Meetup",d:"Jan 04, 2027 · 3:00 PM",loc:"Jafer Books, Bole, Addis Ababa",org:"Jafer Books & Adefris",likes:27}
 ];
 
-try{user=JSON.parse(localStorage.getItem("adafrus_user")||"null");const s=localStorage.getItem("adafrus_lang");if(s&&LC.includes(s))li=LC.indexOf(s)}catch(e){}
+try{if(!window.supabase)user=JSON.parse(localStorage.getItem("adafrus_user")||"null");const s=localStorage.getItem("adafrus_lang");if(s&&LC.includes(s))li=LC.indexOf(s)}catch(e){}
 
 const $=s=>document.querySelector(s),esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const stars=n=>{const f=Math.round(n||0);return '<span class="stars">'+"★".repeat(f)+"<i>"+"★".repeat(5-f)+"</i></span>"};
@@ -1321,7 +1321,7 @@ function openProfile(){
  $("#lgc").innerHTML=`<h2>${tr("edit")}</h2><input id="nm" value="${esc(user?user.name:ME?ME.name:"")}" placeholder="${tr("name")}"><select id="role"><option value="reader" ${user&&user.role==="reader"?"selected":""}>${tr("reader")}</option><option value="author" ${user&&user.role==="author"?"selected":""}>${tr("author")}</option></select><p class="err" id="lerr"></p><button class="primary" id="go">${tr("save")}</button><button id="lc">${tr("cancel")}</button>${user?`<button id="lo">${tr("logout")}</button>`:""}`;
  $("#lc").onclick=()=>$("#login").close();
  $("#go").onclick=()=>{const n=$("#nm").value.trim();if(!n){$("#lerr").textContent=tr("e3");return}user={id:ME.id,name:n,role:$("#role").value};if(SB)SB.auth.updateUser({data:{name:n,role:user.role}});saveMe();$("#login").close();render()};
- if($("#lo"))$("#lo").onclick=()=>{if(SB)SB.auth.signOut();user=null;isAdmin=false;isPremium=false;mine={};myVote=null;$("#login").close();render()};$("#login").showModal()}
+ if($("#lo"))$("#lo").onclick=()=>{if(SB)SB.auth.signOut();user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null;try{localStorage.removeItem("adafrus_user")}catch(e){}$("#login").close();render()};$("#login").showModal()}
 
 // Events View: Book Exhibitions, Book Launches, Book Signings
 const evTypeLabel=tp=>({exhibition:"🏛️ Exhibition",launch:"🚀 Book Launch",signing:"✒️ Book Signing"}[tp]||"📅 Event");
@@ -1539,7 +1539,7 @@ function memberView(v){
  ];
  v.innerHTML=`
  <div class="panel">
-  <h2>🤝 የአደፍሪስ የበጎ አድራጎት አባልነት (Voluntary Charity Membership)</h2>
+  <h2>🤝 የአደፍርስ የበጎ አድራጎት አባልነት (Voluntary Charity Membership)</h2>
   <p>ይህ አባልነት ሙሉ በሙሉ <b>በፈቃደኝነት (Voluntary)</b> ላይ የተመሠረተ የኢትዮጵያ ሥነ-ጽሑፍ ድጋፍ ነው።</p>
   <div class="panel" style="background:var(--surface2)">
    <h3>🎯 የበጎ አድራጎት አባልነት ዝርዝር (Membership Details)፦</h3>
@@ -2005,7 +2005,7 @@ function chrome(){
  $("#proBtn").textContent="✍️ "+tr("studio");$("#listBtn").textContent=tr("list");$("#hq").placeholder=tr("search");
  const L=["help","siteidx","studio","events","premium","member","terms","privacy","adchoice"];
  const soc=SET.socials||{};
- $("#ft").innerHTML=`<b>${tr("followus")}</b><div class="fl">${["Facebook","Instagram","X","YouTube","Telegram"].map(x=>soc[x]?`<a href="${esc(soc[x])}" target="_blank" rel="noopener" style="color:#CBD5E1;text-decoration:none;padding:4px 10px;font-weight:600">${x}</a>`:`<button data-i="${x}">${x}</button>`).join("")}</div><b>${tr("getapp")}</b><div class="fl"><button data-i="Google Play">Google Play</button><button data-i="App Store">App Store</button></div><div class="fl">${L.map(k=>`<button data-i="${k}">${tr(k)}</button>`).join("")}</div><div style="font-size:.85rem">© Adefris — አደፍሪስ</div>`;
+ $("#ft").innerHTML=`<b>${tr("followus")}</b><div class="fl">${["Facebook","Instagram","X","YouTube","Telegram"].map(x=>soc[x]?`<a href="${esc(soc[x])}" target="_blank" rel="noopener" style="color:#CBD5E1;text-decoration:none;padding:4px 10px;font-weight:600">${x}</a>`:`<button data-i="${x}">${x}</button>`).join("")}</div><b>${tr("getapp")}</b><div class="fl"><button data-i="Google Play">Google Play</button><button data-i="App Store">App Store</button></div><div class="fl">${L.map(k=>`<button data-i="${k}">${tr(k)}</button>`).join("")}</div><div style="font-size:.85rem">© Adefris — አደፍርስ</div>`;
  $("#ft").querySelectorAll("[data-i]").forEach(x=>x.onclick=()=>{const k=x.dataset.i;if(["studio","events","premium","member"].includes(k)){tab=k;render();scrollTo(0,0);return}$("#bkc").innerHTML=`<h2>${esc(x.textContent)}</h2><p>${tr("soonmsg")}</p><button id="cl">${tr("close")}</button>`;$("#cl").onclick=()=>$("#bk").close();if(!$("#bk").open)$("#bk").showModal()})}
 
 const bcard=(b,bd)=>{
@@ -2536,10 +2536,11 @@ async function afterAuth(ses){
     SB.from("votes").select("book_id").eq("year",2026).maybeSingle()
    ]);
    isAdmin=!!a.data;if(a.error)window.lastErr="admins: "+a.error.message;
-   if(me.exists){const d=me.data();mine=d.mine||{};goal=d.goal||12;isPremium=!!d.isPremium;isMember=!!d.isMember;if(d.charityPlan)charityPlan=d.charityPlan;if(d.myRatings)myRatings=d.myRatings;if(d.profile){userProfile={...userProfile,...d.profile};if(!userProfile.memberSince)userProfile.memberSince=u.created_at?new Date(u.created_at).getTime():Date.now()}}
+   if(me.exists){const d=me.data();if(d.name&&!m.name)user.name=d.name;mine=d.mine||{};goal=d.goal||12;isPremium=!!d.isPremium;isMember=!!d.isMember;if(d.charityPlan)charityPlan=d.charityPlan;if(d.myRatings)myRatings=d.myRatings;if(d.profile){userProfile={...userProfile,...d.profile};if(!userProfile.memberSince)userProfile.memberSince=u.created_at?new Date(u.created_at).getTime():Date.now()}}
    else{userProfile.memberSince=u.created_at?new Date(u.created_at).getTime():Date.now()}
+   try{localStorage.setItem("adafrus_user",JSON.stringify(user))}catch(e){}
    myVote=mv.data?mv.data.book_id:null}
-  else{user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null}
+  else{user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null;try{localStorage.removeItem("adafrus_user")}catch(e){}}
   await loadShared();
   if(user)await recordMemberJoin(user)}catch(e){window.lastErr=String(e&&e.message||e);try{loadLocal()}catch(_){}}
  render()}
