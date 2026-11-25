@@ -1207,8 +1207,8 @@
       }
 
       function initSupabaseClient() {
-        const savedUrl = localStorage.getItem(STORAGE_KEYS.url) || window.ADEFRIS_SUPABASE_URL || "";
-        const savedKey = localStorage.getItem(STORAGE_KEYS.key) || window.ADEFRIS_SUPABASE_ANON_KEY || "";
+        const savedUrl = localStorage.getItem(STORAGE_KEYS.url) || window.ADEFRIS_SUPABASE_URL || "https://igjiwfnlnvlrwwjevesn.supabase.co";
+        const savedKey = localStorage.getItem(STORAGE_KEYS.key) || window.ADEFRIS_SUPABASE_ANON_KEY || "sb_publishable_1wo3z5Am8fbmpM1HsmAWmQ_w-bz2ps0";
         if (el("sb-url-input")) el("sb-url-input").value = savedUrl;
         if (el("sb-key-input")) el("sb-key-input").value = savedKey;
 
