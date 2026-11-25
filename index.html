@@ -1890,21 +1890,26 @@ insert into storage.buckets (id, name, public)
 values ('media', 'media', true)
 on conflict (id) do nothing;
 
+drop policy if exists "Public read media" on storage.objects;
 create policy "Public read media" on storage.objects
   for select using (bucket_id = 'media');
 
+drop policy if exists "Authenticated upload media" on storage.objects;
 create policy "Authenticated upload media" on storage.objects
   for insert to authenticated with check (bucket_id = 'media');
 
+drop policy if exists "Authenticated update media" on storage.objects;
 create policy "Authenticated update media" on storage.objects
   for update to authenticated using (bucket_id = 'media');
 
 -- 2. Lock down 'kv' table so only Admins or Team members can modify lib/*
 alter table kv enable row level security;
 
+drop policy if exists "Public read kv" on kv;
 create policy "Public read kv" on kv
   for select using (true);
 
+drop policy if exists "Users manage own profile & requests" on kv;
 create policy "Users manage own profile & requests" on kv
   for all to authenticated
   using (
@@ -1918,6 +1923,7 @@ create policy "Users manage own profile & requests" on kv
     or path like 'submissions/%'
   );
 
+drop policy if exists "Admins and Team manage lib/*" on kv;
 create policy "Admins and Team manage lib/*" on kv
   for all to authenticated
   using (
