@@ -541,7 +541,6 @@ const STARTER_BOOKS=[
 {"t":"ሰይጣን በውጭ ሀገር","e":"","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"mys","y":2012,"c":"#2A1E36","s":"","se":"","id":112,"r":[0,0]},
 {"t":"መርከቡ","e":"","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"sf","y":2014,"c":"#1B4965","s":"","se":"","id":113,"r":[0,0]},
 {"t":"የጥበብ መንገድ","e":"","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"phi","y":2017,"c":"#1E4D3B","s":"","se":"","id":114,"r":[0,0]},
-{"t":"አስማት","e":"","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"mys","y":2019,"c":"#4A2525","s":"","se":"","id":115,"r":[0,0]},
 {"t":"የድል ቀን","e":"","a":"ይስማዕከ ወርቁ","ae":"Yismaeke Worku","l":"am","g":"his","y":2021,"c":"#5E491E","s":"","se":"","id":116,"r":[0,0]},
 {"t":"የዘላለም ብርሃን","e":"","a":"ደሞዝ ጎሹሜ","ae":"Demoz Goshime","l":"am","g":"fai","y":2019,"c":"#243B5E","s":"","se":"","id":117,"r":[0,0]},
 {"t":"ዲጂታል ኢትዮጵያ እና ቴክኖሎጂ","e":"","a":"ሰላማዊት ካሳ","ae":"Selamawit Kassa","l":"am","g":"tec","y":2024,"c":"#1B4965","s":"","se":"","id":118,"r":[0,0]},
@@ -675,6 +674,7 @@ const markBookDeleted=async b=>{
 };
 try{COV_CACHE=JSON.parse(localStorage.getItem("adafrus_cov_cache")||"{}")}catch(e){}
 try{BOOK_COVERS=JSON.parse(localStorage.getItem("adafrus_covers")||"{}")}catch(e){}
+try{const savedAu=JSON.parse(localStorage.getItem("adafrus_authors")||"{}");if(savedAu&&typeof savedAu==="object")AUTH_META={...AUTH_META,...savedAu}}catch(e){}
 const saveCovCache=()=>{try{localStorage.setItem("adafrus_cov_cache",JSON.stringify(COV_CACHE))}catch(e){}};
 const saveBookCovers=async()=>{
  try{localStorage.setItem("adafrus_covers",JSON.stringify(BOOK_COVERS))}catch(e){}
@@ -1186,7 +1186,7 @@ function editAuthorMeta(canon,ae){
   if($("#asv").disabled)return;
   $("#asv").disabled=true;
   AUTH_META[canon]={ver:$("#aver").checked,bio:$("#abio").value.trim(),img:pImg,bg:$("#abg").value,bgImg};
-  try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m["lib/authors"]=AUTH_META;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(err){}
+  try{localStorage.setItem("adafrus_authors",JSON.stringify(AUTH_META));const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m["lib/authors"]=AUTH_META;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(err){}
   render();
   openAuthor(canon);
   if(DB)DB.doc("lib/authors").set(AUTH_META).catch(()=>{});
@@ -2577,19 +2577,36 @@ async function loadShared(){
   try{localStorage.setItem("adafrus_covers",JSON.stringify(BOOK_COVERS))}catch(e){}
  }
  if(b&&Array.isArray(b.list)&&b.list.length){
-  const prevByTitle={};
-  books.forEach(oldB=>{if(oldB&&oldB.img)prevByTitle[oldB.t||oldB.e||oldB.id]=oldB.img});
+  const prevByKey={};
+  books.forEach(oldB=>{
+   if(oldB){
+    const imgVal=oldB.img||BOOK_COVERS[String(oldB.id)]||(oldB.t&&BOOK_COVERS[oldB.t])||(oldB.e&&BOOK_COVERS[oldB.e])||(oldB.t&&COV_CACHE[oldB.t])||(oldB.e&&COV_CACHE[oldB.e])||"";
+    if(imgVal){
+     if(oldB.id!==undefined)prevByKey["id:"+String(oldB.id)]=imgVal;
+     if(oldB.t)prevByKey["t:"+oldB.t]=imgVal;
+     if(oldB.e)prevByKey["e:"+oldB.e]=imgVal;
+    }
+   }
+  });
   const mergedList=b.list.filter(Boolean).filter(x=>{
    const mk=bookMatchKey(x);
    const kid="id:"+String(x.id);
    return !(mk&&DELETED_BOOK_KEYS.includes(mk))&&!DELETED_BOOK_KEYS.includes(kid);
   }).map(x=>{
-   const k=x.t||x.e||x.id;
-   const keepImg=x.img||prevByTitle[k]||BOOK_COVERS[String(x.id)]||(x.t&&BOOK_COVERS[x.t])||(x.e&&BOOK_COVERS[x.e])||(x.t&&COV_CACHE[x.t])||(x.e&&COV_CACHE[x.e])||"";
+   const keepImg=x.img
+    ||(x.id!==undefined&&prevByKey["id:"+String(x.id)])
+    ||(x.t&&prevByKey["t:"+x.t])
+    ||(x.e&&prevByKey["e:"+x.e])
+    ||(x.id!==undefined&&BOOK_COVERS[String(x.id)])
+    ||(x.t&&BOOK_COVERS[x.t])
+    ||(x.e&&BOOK_COVERS[x.e])
+    ||(x.t&&COV_CACHE[x.t])
+    ||(x.e&&COV_CACHE[x.e])
+    ||"";
    return {...x,a:normAuthor(x.a),r:x.r||[0,0],img:keepImg};
   });
   books.splice(0,books.length,...mergedList);
- }else if(isAdmin)saveBooks();
+ }
  if(n&&Array.isArray(n.list))notes.splice(0,notes.length,...n.list.map(x=>({...x,u:0})));
  if(st){SET=st;applySet()}
  VER=v?v.ids||[]:[];
@@ -2642,8 +2659,6 @@ async function loadShared(){
    }
   }catch(e){}
  }
- // Re-apply BOOK_COVERS & COV_CACHE onto every non-deleted book and re-save clean catalog if any deleted book was stripped
- const beforeLen=books.length;
  const cleanedBooks=books.filter(x=>{
   const mk=bookMatchKey(x);
   const kid="id:"+String(x.id);
@@ -2653,9 +2668,6 @@ async function loadShared(){
   return {...x,a:normAuthor(x.a),img:cSrc};
  });
  books.splice(0,books.length,...cleanedBooks);
- if(canEditContent()&&books.length!==beforeLen){
-  await W("lib/books",{list:JSON.parse(JSON.stringify(books))});
- }
  await backfillMembersFromStore();
  nid=Math.max(...books.map(b=>b.id||0),140)+1}
 async function afterAuth(ses){
