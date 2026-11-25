@@ -730,60 +730,12 @@ function getCoverSrc(b){
 }
 
 async function lookupBookCover(b){
- const key=b.e||b.t;
- if(!key||COV_CACHE[key]!==undefined)return COV_CACHE[key]||"";
- const saveHit=u=>{COV_CACHE[key]=u;saveCovCache();return u};
- try{
-  const queries=[`${b.t} ${b.ae||""}`.trim()];
-  if(b.e&&b.e!==b.t)queries.push(`${b.e} ${b.ae||""}`.trim());
-  for(const qRaw of queries){
-   const r=await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(qRaw)}&maxResults=2`);
-   if(r.ok){
-    const d=await r.json();
-    const item=(d.items||[]).find(x=>x.volumeInfo&&x.volumeInfo.imageLinks);
-    const links=item&&item.volumeInfo.imageLinks;
-    const u=links&&(links.thumbnail||links.smallThumbnail);
-    if(u)return saveHit(u.replace(/^http:/,"https://").replace("&edge=curl",""));
-   }
-  }
-  const r3=await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent((b.e||b.t)+" "+(b.ae||""))}&limit=2`);
-  if(r3.ok){
-   const d3=await r3.json();
-   const doc=(d3.docs||[]).find(x=>x.cover_i);
-   if(doc&&doc.cover_i)return saveHit(`https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`);
-  }
-  // 4. Internet Archive (archive.org) scanned books
-  const iaQ=encodeURIComponent(`title:(${b.e||b.t}) AND mediatype:texts`);
-  const r4=await fetch(`https://archive.org/advancedsearch.php?q=${iaQ}&fl[]=identifier&rows=2&output=json`);
-  if(r4.ok){
-   const d4=await r4.json();
-   const hit=(d4.response&&d4.response.docs||[])[0];
-   if(hit&&hit.identifier)return saveHit(`https://archive.org/services/img/${hit.identifier}`);
-  }
- }catch(e){}
- return saveHit("");
+ if(!b)return "";
+ return getCoverSrc(b)||"";
 }
 
-let hydrating=false;
 async function hydrateVisibleCovers(){
- if(hydrating)return;
- hydrating=true;
- try{
-  const missing=books.filter(b=>!getCoverSrc(b)&&COV_CACHE[b.e||b.t]===undefined).slice(0,12);
-  await Promise.allSettled(missing.map(async b=>{
-   const url=await lookupBookCover(b);
-   if(url){
-    document.querySelectorAll(`[data-cov-id="${b.id}"]`).forEach(el=>{
-     if(!el.querySelector("img.cov-img")){
-      const img=document.createElement("img");
-      img.className="cov-img";img.src=url;img.alt=bt(b);img.decoding="async";
-      img.onerror=()=>img.remove();
-      el.appendChild(img);
-     }
-    });
-   }
-  }));
- }finally{hydrating=false}
+ return;
 }
 
 const cover=(b,badge,eager=false)=>{
@@ -989,6 +941,7 @@ function editBook(id,sub){subMode=!!sub;
  <label>${L[7]}</label><textarea id="f8" rows="2">${esc(b.s)}</textarea><label>${L[8]}</label><textarea id="f9" rows="2">${esc(b.se)}</textarea>
  ${isAdmin?`<label><input type="checkbox" id="frare" ${b.rare?"checked":""}> 👑 Rare / Premium Book (Requires Premium Subscription)</label>`:""}
  <label>${L[9]}</label>
+ ${(window.UPLOADED_MEDIA_COVERS&&window.UPLOADED_MEDIA_COVERS.length)?`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="note">Uploaded covers in Storage:</span>${window.UPLOADED_MEDIA_COVERS.slice(-6).map(item=>`<button type="button" data-pick-cov-img="${esc(item.url)}" style="padding:3px 9px;font-size:.76rem;background:var(--surface2)">🖼️ ${esc(item.name.slice(-14))}</button>`).join("")}</div>`:""}
  <div style="display:flex;gap:6px;flex-wrap:wrap">
   <a id="sgImg" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:.82rem;font-weight:600;color:var(--ink);background:var(--surface2)">🔍 Google Images</a>
   <a id="sFb" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:.82rem;font-weight:600;color:var(--ink);background:var(--surface2)">📘 Facebook</a>
@@ -1042,6 +995,7 @@ function editBook(id,sub){subMode=!!sub;
   if(u)setCoverInstant(u,"✓ Image link loaded — click Save once");
   else img="";
  };
+ $("#bkc").querySelectorAll("[data-pick-cov-img]").forEach(btn=>btn.onclick=()=>{const u=btn.dataset.pickCovImg;$("#furl").value=u;setCoverInstant(u,"✓ Uploaded cover selected — click Save")});
  $("#bkc").onpaste=e=>{const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.type.startsWith("image/"));if(it){e.preventDefault();compressBlob(it.getAsFile())}};
  $("#fi").onchange=e=>{const f=e.target.files[0];if(f)compressBlob(f)};
  $("#cx").onclick=()=>nb?$("#bk").close():openBook(b.id);
@@ -1206,6 +1160,7 @@ function editAuthorMeta(canon,ae){
   <label><input type="checkbox" id="aver" ${isAuthorVerified(canon)?"checked":""}> Verified Author Badge (✓)</label>
   <label>Author Bio / Promotion Text</label><textarea id="abio" rows="2">${esc(m.bio||"")}</textarea>
   <label>Author Portrait Picture (Upload, URL, or Ctrl+V)</label>
+  ${(window.UPLOADED_MEDIA_AUTHORS&&window.UPLOADED_MEDIA_AUTHORS.length)?`<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="note">Uploaded author photos in Storage:</span>${window.UPLOADED_MEDIA_AUTHORS.slice(-6).map(item=>`<button type="button" data-pick-auth-img="${esc(item.url)}" style="padding:3px 9px;font-size:.76rem;background:var(--surface2)">🖼️ ${esc(item.name.slice(-14))}</button>`).join("")}</div>`:""}
   <div style="display:flex;gap:6px;flex-wrap:wrap">
    <a target="_blank" rel="noopener" href="https://www.google.com/search?tbm=isch&q=${encodeURIComponent(canon+" "+ae)}" style="text-decoration:none;padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-size:.8rem;color:var(--ink)">🔍 Search Author Photo</a>
   </div>
@@ -1223,6 +1178,7 @@ function editAuthorMeta(canon,ae){
  const readTo=async(file,cb)=>{const u=await uploadMediaFile(file,"authors",480,cb);if(u)cb(u)};
  $("#afi").onchange=e=>{if(e.target.files[0])readTo(e.target.files[0],u=>{pImg=u;$("#apv").src=u;$("#apv").style.display="block"})};
  $("#afurl").oninput=e=>{pImg=e.target.value.trim();if(pImg){$("#apv").src=pImg;$("#apv").style.display="block"}};
+ $("#bkc").querySelectorAll("[data-pick-auth-img]").forEach(btn=>btn.onclick=()=>{pImg=btn.dataset.pickAuthImg;$("#afurl").value=pImg;$("#apv").src=pImg;$("#apv").style.display="block"});
  $("#abgfi").onchange=e=>{if(e.target.files[0])readTo(e.target.files[0],u=>{bgImg=u;$("#abgurl").value=u})};
  $("#abgurl").oninput=e=>{bgImg=e.target.value.trim()};
  $("#acx").onclick=()=>openAuthor(canon);
@@ -2034,23 +1990,8 @@ create policy "Admins and Team manage lib/*" on kv
   render();
  };
 
- $("#fcov").onclick=async()=>{
-  $("#fcov").disabled=true;
-  let found=0;
-  for(let i=0;i<books.length;i+=4){
-   const batch=books.slice(i,i+4);
-   $("#impStatus").textContent=`Loading book covers ${i+1}–${Math.min(i+4,books.length)} / ${books.length}...`;
-   await Promise.all(batch.map(async b=>{
-    if(!b.img){
-     const u=await lookupBookCover(b);
-     if(u){b.img=u;found++}
-    }
-   }));
-  }
-  await saveBooks();
-  $("#impStatus").textContent=`✓ Done! Found and saved ${found} book covers. Tap Edit on any book to search Ethio Book Review, Google Images, Facebook, or TikTok and paste its cover!`;
-  $("#fcov").disabled=false;
-  render();
+ $("#fcov").onclick=()=>{
+  openFastCoverManager();
  };
 
  v.querySelectorAll("[data-v]").forEach(x=>x.onclick=async()=>{
@@ -2679,6 +2620,42 @@ async function loadShared(){
  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
  feed.splice(0,feed.length,...(fp.data||[]).map(p=>({i:p.id,u:p.user_name,uid:p.user_id,t:p.body,b:p.book_id||0,l:p.likes,d:ago(p.created),c:[]})));
  Object.keys(aw).forEach(k=>delete aw[k]);(vt.data||[]).forEach(r=>{aw[r.book_id]=Number(r.n)});
+ // Restore any uploaded images from Supabase Storage 'media' bucket if missing in memory
+ if(SB){
+  try{
+   const [covListRes,authListRes]=await Promise.all([
+    SB.storage.from("media").list("covers",{limit:500}),
+    SB.storage.from("media").list("authors",{limit:500})
+   ]);
+   if(covListRes&&Array.isArray(covListRes.data)){
+    // Keep public URLs available in a helper list for quick recovery if needed
+    window.UPLOADED_MEDIA_COVERS=covListRes.data.filter(f=>f&&f.name&&!f.name.startsWith(".")).map(f=>{
+     const p=SB.storage.from("media").getPublicUrl("covers/"+f.name);
+     return {name:f.name,url:(p&&p.data&&p.data.publicUrl)||""};
+    }).filter(x=>x.url);
+   }
+   if(authListRes&&Array.isArray(authListRes.data)){
+    window.UPLOADED_MEDIA_AUTHORS=authListRes.data.filter(f=>f&&f.name&&!f.name.startsWith(".")).map(f=>{
+     const p=SB.storage.from("media").getPublicUrl("authors/"+f.name);
+     return {name:f.name,url:(p&&p.data&&p.data.publicUrl)||""};
+    }).filter(x=>x.url);
+   }
+  }catch(e){}
+ }
+ // Re-apply BOOK_COVERS & COV_CACHE onto every non-deleted book and re-save clean catalog if any deleted book was stripped
+ const beforeLen=books.length;
+ const cleanedBooks=books.filter(x=>{
+  const mk=bookMatchKey(x);
+  const kid="id:"+String(x.id);
+  return !(mk&&DELETED_BOOK_KEYS.includes(mk))&&!DELETED_BOOK_KEYS.includes(kid);
+ }).map(x=>{
+  const cSrc=x.img||BOOK_COVERS[String(x.id)]||(x.t&&BOOK_COVERS[x.t])||(x.e&&BOOK_COVERS[x.e])||(x.t&&COV_CACHE[x.t])||(x.e&&COV_CACHE[x.e])||"";
+  return {...x,a:normAuthor(x.a),img:cSrc};
+ });
+ books.splice(0,books.length,...cleanedBooks);
+ if(canEditContent()&&books.length!==beforeLen){
+  await W("lib/books",{list:JSON.parse(JSON.stringify(books))});
+ }
  await backfillMembersFromStore();
  nid=Math.max(...books.map(b=>b.id||0),140)+1}
 async function afterAuth(ses){
