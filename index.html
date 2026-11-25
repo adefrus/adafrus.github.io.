@@ -667,6 +667,42 @@ const saveBookCovers=async()=>{
  if(canEditContent()){await W("lib/covers",{map:BOOK_COVERS})}
 };
 
+async function uploadMediaFile(file,folder="covers",maxW=480,onPreview=null){
+ if(!file)return "";
+ return new Promise(resolve=>{
+  const r=new FileReader();
+  r.onload=()=>{
+   const im=new Image();
+   im.onload=()=>{
+    const k=Math.min(1,maxW/im.width),c=document.createElement("canvas");
+    c.width=Math.max(1,Math.round(im.width*k));
+    c.height=Math.max(1,Math.round(im.height*k));
+    c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+    const dataUrl=c.toDataURL("image/jpeg",.8);
+    if(onPreview)onPreview(dataUrl);
+    if(!SB||!user){resolve(dataUrl);return}
+    c.toBlob(async blob=>{
+     if(!blob){resolve(dataUrl);return}
+     try{
+      const uidPart=(user&&user.id)||"anon";
+      const filePath=`${folder}/${uidPart}_${Date.now()}_${Math.random().toString(36).slice(2,7)}.jpg`;
+      const up=await SB.storage.from("media").upload(filePath,blob,{contentType:"image/jpeg",upsert:true});
+      if(!up.error){
+       const pub=SB.storage.from("media").getPublicUrl(filePath);
+       if(pub&&pub.data&&pub.data.publicUrl){resolve(pub.data.publicUrl);return}
+      }else{
+       window.lastStorageHint=up.error.message;
+      }
+     }catch(err){window.lastStorageHint=String(err&&err.message||err)}
+     resolve(dataUrl);
+    },"image/jpeg",.8);
+   };
+   im.src=r.result;
+  };
+  r.readAsDataURL(file);
+ });
+}
+
 function getCoverSrc(b){
  if(!b)return "";
  if(b.img)return b.img;
@@ -927,7 +963,16 @@ function editBook(id,sub){subMode=!!sub;
  <label>${L[0]}</label><input id="f1" value="${esc(b.t)}"><label>${L[1]}</label><input id="f2" value="${esc(b.e)}">
  <label>${L[2]}</label><input id="f3" value="${esc(b.a)}"><label>${L[3]}</label><input id="f4" value="${esc(b.ae)}">
  <label>${L[4]}</label><select id="f5">${o(LK,x=>LN[x],b.l)}</select><label>${L[5]}</label><select id="f6">${o(GK,gn,b.g)}</select>
- <label>${L[6]}</label><input id="f7" type="number" value="${b.y}"><label>${L[7]}</label><textarea id="f8" rows="2">${esc(b.s)}</textarea><label>${L[8]}</label><textarea id="f9" rows="2">${esc(b.se)}</textarea>
+ <label>${L[6]}</label><input id="f7" type="number" value="${b.y}">
+ <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:8px">
+  <div><label>Pages (ገጽ ብዛት — Optional)</label><input id="f_pages" type="number" min="1" placeholder="e.g. 320" value="${b.pages||""}" style="width:100%"></div>
+  <div><label>Publisher (አሳታሚ — Optional)</label><input id="f_pub" placeholder="e.g. አሳታሚ ስም" value="${esc(b.pub||"")}" style="width:100%"></div>
+ </div>
+ <label>Where to Buy (Bookstores Availability — Optional)</label>
+ <div style="display:flex;gap:8px;flex-wrap:wrap;padding:6px 8px;border:1px solid var(--line);border-radius:10px;background:var(--surface2)">
+  ${ST.map(stItem=>`<label style="display:inline-flex;align-items:center;gap:4px;font-size:.8rem;color:var(--ink)"><input type="checkbox" name="f_stores" value="${stItem.id}" ${(b.storeIds||[]).includes(stItem.id)?"checked":""}> ${esc(nm(stItem.n,stItem.e))}</label>`).join("")}
+ </div>
+ <label>${L[7]}</label><textarea id="f8" rows="2">${esc(b.s)}</textarea><label>${L[8]}</label><textarea id="f9" rows="2">${esc(b.se)}</textarea>
  ${isAdmin?`<label><input type="checkbox" id="frare" ${b.rare?"checked":""}> 👑 Rare / Premium Book (Requires Premium Subscription)</label>`:""}
  <label>${L[9]}</label>
  <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -969,21 +1014,14 @@ function editBook(id,sub){subMode=!!sub;
  };
  updSearchLinks();
  ["f1","f2","f3","f4"].forEach(fid=>$("#"+fid).addEventListener("input",updSearchLinks));
- const compressBlob=file=>{
+ const compressBlob=async file=>{
   if(!file)return;
-  const r=new FileReader();
-  r.onload=()=>{
-   const im=new Image();
-   im.onload=()=>{
-    const k=Math.min(1,480/im.width),c=document.createElement("canvas");
-    c.width=Math.max(1,Math.round(im.width*k));
-    c.height=Math.max(1,Math.round(im.height*k));
-    c.getContext("2d").drawImage(im,0,0,c.width,c.height);
-    setCoverInstant(c.toDataURL("image/jpeg",.78),"✓ Image loaded — click Save once");
-   };
-   im.src=r.result;
-  };
-  r.readAsDataURL(file);
+  const finalUrl=await uploadMediaFile(file,"covers",480,previewUrl=>{
+   setCoverInstant(previewUrl,"⏳ Uploading cover...");
+  });
+  if(finalUrl){
+   setCoverInstant(finalUrl,finalUrl.startsWith("http")?"✓ Uploaded to cloud storage — click Save":"✓ Image ready — click Save");
+  }
  };
  $("#furl").oninput=e=>{
   const u=e.target.value.trim();
@@ -1000,7 +1038,10 @@ function editBook(id,sub){subMode=!!sub;
   $("#sv").disabled=true;
   const canonA=normAuthor($("#f3").value.trim()||"—");
   const finalImg=img||b.img||"";
-  Object.assign(b,{t:t||"",e:e||"",a:canonA,ae:$("#f4").value.trim()||canonA,l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2026,s:"",se:"",img:finalImg,rare:isAdmin&&$("#frare")?($("#frare").checked?1:0):(b.rare||0)});
+  const selStores=[...$("#bkc").querySelectorAll('input[name="f_stores"]:checked')].map(el=>+el.value);
+  const pgVal=+$("#f_pages").value||0;
+  const pubVal=$("#f_pub").value.trim();
+  Object.assign(b,{t:t||"",e:e||"",a:canonA,ae:$("#f4").value.trim()||canonA,l:$("#f5").value,g:$("#f6").value,y:+$("#f7").value||2026,pages:pgVal,pub:pubVal,storeIds:selStores,s:"",se:"",img:finalImg,rare:isAdmin&&$("#frare")?($("#frare").checked?1:0):(b.rare||0)});
   if(finalImg){
    b.img=finalImg;
    if(b.id!==undefined)BOOK_COVERS[String(b.id)]=finalImg;
@@ -1068,20 +1109,21 @@ function openFastCoverManager(){
  $("#bkc").querySelectorAll("[data-fcm-in]").forEach(inp=>{
   const id=+inp.dataset.fcmIn;
   inp.oninput=e=>{const u=e.target.value.trim();if(u.startsWith("http")||u.startsWith("data:image"))applyCov(id,u)};
-  inp.onpaste=e=>{
+  inp.onpaste=async e=>{
    const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.type.startsWith("image/"));
-   if(it){e.preventDefault();const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,360/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);applyCov(id,c.toDataURL("image/jpeg",.75))};im.src=r.result};r.readAsDataURL(it.getAsFile())}
+   if(it){e.preventDefault();const u=await uploadMediaFile(it.getAsFile(),"covers",420);if(u)applyCov(id,u)}
   };
  });
  $("#bkc").querySelectorAll("[data-fcm-file]").forEach(fi=>{
   const id=+fi.dataset.fcmFile;
-  fi.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,360/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);applyCov(id,c.toDataURL("image/jpeg",.75))};im.src=r.result};r.readAsDataURL(f)};
+  fi.onchange=async e=>{const f=e.target.files[0];if(!f)return;const u=await uploadMediaFile(f,"covers",420);if(u)applyCov(id,u)};
  });
  if(!$("#bk").open)$("#bk").showModal();
 }
 
 function openAuthor(rawName,focusChat=false){
  const canon=normAuthor(rawName);
+ try{history.replaceState(null,"","#author/"+encodeURIComponent(canon))}catch(e){}
  const aBooks=books.filter(b=>normAuthor(b.a)===canon);
  const ae=aBooks[0]?aBooks[0].ae:canon;
  const meta=AUTH_META[canon]||{};
@@ -1094,7 +1136,7 @@ function openAuthor(rawName,focusChat=false){
    <h2 style="margin-top:10px;color:#FFFFFF">${esc(nm(canon,ae))} ${isVer?'<span class="vbadge vbadge-lg" title="Verified Author">✓</span>':""}</h2>
    <div style="font-size:.85rem;color:#CBD5E1;margin-top:4px">${aBooks.length} ${tr("st1")} ${isVer?"· Verified Author ✓":""}</div>
    ${meta.bio?`<p style="margin:8px auto 0;max-width:48ch;font-size:.9rem;color:#F2F3F7">${esc(meta.bio)}</p>`:""}
-   ${canEditContent()?`<button id="edAuthBtn" class="gold" style="margin-top:10px;padding:4px 14px;font-size:.82rem">⚙️ Edit Author Picture & Background</button>`:""}
+   <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px"><button id="shAuthBtn" style="padding:4px 14px;font-size:.82rem;background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)">🔗 ${tr("share")}</button>${canEditContent()?`<button id="edAuthBtn" class="gold" style="padding:4px 14px;font-size:.82rem">⚙️ Edit Author Picture & Background</button>`:""}</div>
   </div>
 
   <h3>${tr("books")} (${aBooks.length})</h3>
@@ -1113,6 +1155,7 @@ function openAuthor(rawName,focusChat=false){
 
  $("#cl").onclick=()=>$("#bk").close();
  bindCards($("#bkc"));
+ if($("#shAuthBtn"))$("#shAuthBtn").onclick=()=>shareDirectLink("#author/"+encodeURIComponent(canon),nm(canon,ae),$("#shAuthBtn"));
  if($("#edAuthBtn"))$("#edAuthBtn").onclick=()=>editAuthorMeta(canon,ae);
 
  const loadAuthorChat=async()=>{
@@ -1163,7 +1206,7 @@ function editAuthorMeta(canon,ae){
  <button class="primary" id="asv">${tr("save")}</button><button id="acx">${tr("cancel")}</button>`;
 
  let pImg=m.img||"",bgImg=m.bgImg||"";
- const readTo=(file,cb)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,480/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",.75))};im.src=r.result};r.readAsDataURL(file)};
+ const readTo=async(file,cb)=>{const u=await uploadMediaFile(file,"authors",480,cb);if(u)cb(u)};
  $("#afi").onchange=e=>{if(e.target.files[0])readTo(e.target.files[0],u=>{pImg=u;$("#apv").src=u;$("#apv").style.display="block"})};
  $("#afurl").oninput=e=>{pImg=e.target.value.trim();if(pImg){$("#apv").src=pImg;$("#apv").style.display="block"}};
  $("#abgfi").onchange=e=>{if(e.target.files[0])readTo(e.target.files[0],u=>{bgImg=u;$("#abgurl").value=u})};
@@ -1237,14 +1280,29 @@ async function openInbox(){
 }
 $("#inboxBtn").onclick=openInbox;
 
+function shareDirectLink(hashStr,titleStr,btnEl){
+ const shareUrl=location.origin+location.pathname+hashStr;
+ try{history.replaceState(null,"",hashStr)}catch(e){}
+ try{
+  if(navigator.share){navigator.share({title:titleStr,url:shareUrl}).catch(()=>{});return}
+ }catch(e){}
+ try{
+  navigator.clipboard.writeText(shareUrl);
+  if(btnEl){const orig=btnEl.textContent;btnEl.textContent="✓ Link Copied!";setTimeout(()=>{if(btnEl)btnEl.textContent=orig},1800)}
+ }catch(e){}
+}
+
 function openBook(id){
  const b=books.find(x=>x.id===id);if(!b)return;
+ try{history.replaceState(null,"","#book/"+id)}catch(e){}
  const canonA=normAuthor(b.a);
  const rv=revs[id]||(revs[id]=[]);let pick=0;viewed=[id,...viewed.filter(x=>x!==id)].slice(0,8);
  const need=()=>{$("#bk").close();openLogin("in")};
  const locked=b.rare&&!isPremium&&!isAdmin;
+ const availStores=(b.storeIds||[]).map(sid=>ST.find(x=>x.id===sid)).filter(Boolean);
  const draw=()=>{
-  $("#bkc").innerHTML=`<div class="top">${cover(b)}<div><h2>${esc(bt(b))}</h2><p class="note"><button id="openAuthFromBk" style="border:none;padding:0;font-weight:700;color:var(--gold)">${esc(ba(b))}${isAuthorVerified(canonA)?'<span class="vbadge" title="Verified Author">✓</span>':""}</button><br>${LN[b.l]} · ${gn(b.g)} · ${b.y}</p><div>${stars(b.r[0])} <b>${avg(b)}</b> <small>(${b.r[1]})</small></div>${canEditContent()?`<button id="ed" style="margin-top:8px;padding:4px 12px">${tr("edit")}</button>`:""}${isAdmin?`<button id="delBkDirect" style="margin-top:8px;margin-left:6px;padding:4px 12px;color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>`:""}<button id="sh" style="margin-top:8px;padding:4px 12px">🔗 ${tr("share")}</button></div></div>
+  $("#bkc").innerHTML=`<div class="top">${cover(b)}<div><h2>${esc(bt(b))}</h2><p class="note"><button id="openAuthFromBk" style="border:none;padding:0;font-weight:700;color:var(--gold)">${esc(ba(b))}${isAuthorVerified(canonA)?'<span class="vbadge" title="Verified Author">✓</span>':""}</button><br>${LN[b.l]} · ${gn(b.g)} · ${b.y}${b.pages?` · 📄 ${b.pages} pages`:""}${b.pub?` · 🏢 ${esc(b.pub)}`:""}</p><div>${stars(b.r[0])} <b>${avg(b)}</b> <small>(${b.r[1]})</small></div>${canEditContent()?`<button id="ed" style="margin-top:8px;padding:4px 12px">${tr("edit")}</button>`:""}${isAdmin?`<button id="delBkDirect" style="margin-top:8px;margin-left:6px;padding:4px 12px;color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>`:""}<button id="sh" style="margin-top:8px;margin-left:6px;padding:4px 12px">🔗 ${tr("share")}</button></div></div>
+  ${availStores.length?`<div class="panel" style="padding:10px 12px;background:var(--surface2)"><b>📍 Where to Buy</b><div style="display:flex;gap:6px;flex-wrap:wrap">${availStores.map(stItem=>`<a href="https://www.google.com/maps/search/?api=1&query=${stItem.la},${stItem.lo}" target="_blank" rel="noopener" style="text-decoration:none;padding:4px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:.8rem;color:var(--ink);font-weight:600">📍 ${esc(nm(stItem.n,stItem.e))} (${esc(nm(stItem.a,stItem.ae))})</a>`).join("")}</div></div>`:""}
   ${locked?`<div class="panel" style="border-color:var(--gold);background:var(--surface2)"><b>👑 Rare & Archival Edition</b><p class="note" style="margin:0">This rare Ethiopian literary work is available exclusively to Adefris Premium members.</p><div><button class="gold" id="goPrem">⭐ ${tr("join")}</button></div></div>`:`<p>${esc(bs(b))}</p>`}
   <div><b>${tr("addl")}</b><div class="chips">${["s0","s1","s2"].map(x=>`<button data-s="${x}" class="${mine[id]===x?"on":""}">${tr(x)}</button>`).join("")}</div></div>
   <div><b>${tr("rate")}</b><div class="rate">${[1,2,3,4,5].map(n=>`<button data-n="${n}" class="${n<=pick?"on":""}" aria-label="${n}">★</button>`).join("")}</div>
@@ -1260,7 +1318,7 @@ function openBook(id){
    if(idx>-1){books.splice(idx,1);render();await saveBooks()}
    $("#bk").close();
   };
-  $("#sh").onclick=()=>{try{navigator.share?navigator.share({title:bt(b),url:location.href}):navigator.clipboard.writeText(location.href)}catch(e){}};
+  $("#sh").onclick=()=>shareDirectLink("#book/"+b.id,bt(b),$("#sh"));
   document.querySelectorAll("[data-chat-n]").forEach(x=>x.onclick=()=>openChat(x.dataset.chatU,x.dataset.chatN));
   document.querySelectorAll("[data-s]").forEach(x=>x.onclick=()=>{if(!user)return need();mine[id]=x.dataset.s;saveMe();draw();render()});
   document.querySelectorAll("[data-n]").forEach(x=>x.onclick=()=>{pick=+x.dataset.n;draw()});
@@ -1822,6 +1880,63 @@ async function adminView(v){
    <button class="primary" id="ss">${tr("save")}</button>
    <button id="resetSet">Reset Default Colors</button>
   </div>
+ </div>
+
+ <div class="panel" style="margin-top:14px">
+  <h2>🛡️ Supabase Storage &amp; Security (RLS) Setup</h2>
+  <p class="note" style="margin:0">Run this SQL once in your Supabase <b>SQL Editor</b> to enable the fast <code>media</code> image bucket and lock <code>lib/*</code> writes to Admins &amp; Team members.</p>
+  <textarea id="rlsSqlBox" rows="6" readonly style="font-family:monospace;font-size:.78rem">-- 1. Create public Storage bucket 'media' for fast book covers & profile photos
+insert into storage.buckets (id, name, public)
+values ('media', 'media', true)
+on conflict (id) do nothing;
+
+create policy "Public read media" on storage.objects
+  for select using (bucket_id = 'media');
+
+create policy "Authenticated upload media" on storage.objects
+  for insert to authenticated with check (bucket_id = 'media');
+
+create policy "Authenticated update media" on storage.objects
+  for update to authenticated using (bucket_id = 'media');
+
+-- 2. Lock down 'kv' table so only Admins or Team members can modify lib/*
+alter table kv enable row level security;
+
+create policy "Public read kv" on kv
+  for select using (true);
+
+create policy "Users manage own profile & requests" on kv
+  for all to authenticated
+  using (
+    path = ('data/users/' || auth.uid()::text || '/me')
+    or path = ('requests/' || auth.uid()::text)
+    or path like 'submissions/%'
+  )
+  with check (
+    path = ('data/users/' || auth.uid()::text || '/me')
+    or path = ('requests/' || auth.uid()::text)
+    or path like 'submissions/%'
+  );
+
+create policy "Admins and Team manage lib/*" on kv
+  for all to authenticated
+  using (
+    exists (select 1 from admins where user_id = auth.uid())
+    or exists (
+      select 1 from kv t, jsonb_array_elements(t.data->'list') m
+      where t.path = 'lib/team'
+        and lower(trim(both '@' from coalesce(m->>'email',''))) = lower(coalesce(auth.jwt()->>'email',''))
+    )
+  )
+  with check (
+    exists (select 1 from admins where user_id = auth.uid())
+    or exists (
+      select 1 from kv t, jsonb_array_elements(t.data->'list') m
+      where t.path = 'lib/team'
+        and lower(trim(both '@' from coalesce(m->>'email',''))) = lower(coalesce(auth.jwt()->>'email',''))
+    )
+  );</textarea>
+  <div><button class="gold" id="copyRlsSqlBtn">📋 Copy Supabase SQL</button></div>
  </div>`;
 
  $("#addTeamBtn").onclick=async()=>{
@@ -1946,6 +2061,7 @@ async function adminView(v){
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="adefris-backup.json";a.click();
  };
  $("#resetSet").onclick=async()=>{SET={};document.documentElement.removeAttribute("style");await W("lib/settings",SET);render()};
+ if($("#copyRlsSqlBtn"))$("#copyRlsSqlBtn").onclick=()=>{navigator.clipboard.writeText($("#rlsSqlBox").value);$("#copyRlsSqlBtn").textContent="✓ Copied SQL!"};
  if($("#sSpotBgMode"))$("#sSpotBgMode").onchange=e=>{SET.spotBgMode=e.target.value;applySet()};
  if($("#sSpotBlur"))$("#sSpotBlur").oninput=e=>{SET.spotBlur=Number(e.target.value);if($("#sSpotBlurVal"))$("#sSpotBlurVal").textContent=e.target.value;applySet()};
  if($("#sSpotOp"))$("#sSpotOp").oninput=e=>{SET.spotBgOpacity=Number(e.target.value)/100;if($("#sSpotOpVal"))$("#sSpotOpVal").textContent=e.target.value;applySet()};
@@ -2120,7 +2236,7 @@ function profileView(v){
  </div>`;
 
  let avData=userProfile.avatar||"",cvData=userProfile.cover||"";
- const readImg=(file,cb)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,520/im.width),c=document.createElement("canvas");c.width=Math.max(1,Math.round(im.width*k));c.height=Math.max(1,Math.round(im.height*k));c.getContext("2d").drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",.78))};im.src=r.result};r.readAsDataURL(file)};
+ const readImg=async(file,cb)=>{const u=await uploadMediaFile(file,"profiles",520,cb);if(u)cb(u)};
  $("#pAvFile").onchange=e=>{if(e.target.files[0])readImg(e.target.files[0],u=>{avData=u})};
  $("#pAvUrl").oninput=e=>{if(e.target.value.trim())avData=e.target.value.trim()};
  $("#pCvFile").onchange=e=>{if(e.target.files[0])readImg(e.target.files[0],u=>{cvData=u})};
@@ -2543,10 +2659,30 @@ async function afterAuth(ses){
   else{user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null;try{localStorage.removeItem("adafrus_user")}catch(e){}}
   await loadShared();
   if(user)await recordMemberJoin(user)}catch(e){window.lastErr=String(e&&e.message||e);try{loadLocal()}catch(_){}}
- render()}
+ render();applyHashRoute()}
+function applyHashRoute(){
+ const h=location.hash||"";
+ if(h.startsWith("#book/")){
+  const bid=+h.slice(6);
+  if(bid&&books.some(x=>x.id===bid))openBook(bid);
+ }else if(h.startsWith("#author/")){
+  const aname=decodeURIComponent(h.slice(8)||"");
+  if(aname)openAuthor(aname);
+ }else if(h.startsWith("#tab/")){
+  const tname=h.slice(5);
+  if(tabsL().includes(tname)&&tab!==tname){tab=tname;render()}
+ }
+}
+if($("#bk"))$("#bk").addEventListener("close",()=>{
+ if(location.hash.startsWith("#book/")||location.hash.startsWith("#author/")){
+  try{history.replaceState(null,"",tab==="home"?location.pathname:"#tab/"+tab)}catch(e){}
+ }
+});
+window.addEventListener("hashchange",applyHashRoute);
+
 async function init(){
  books.forEach(b=>{b.r0=b.r0||[...(b.r||[0,0])]});
- if(!SB){loadLocal();isAdmin=location.hash==="#owner";render();return}
+ if(!SB){loadLocal();isAdmin=location.hash==="#owner";render();applyHashRoute();return}
  DB=mkDB();
  SB.auth.onAuthStateChange(async(ev,ses)=>{
   if(ev==="SIGNED_IN"||ev==="TOKEN_REFRESHED"||ev==="SIGNED_OUT"){
