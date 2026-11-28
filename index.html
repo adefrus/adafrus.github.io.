@@ -6,9 +6,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://commons.wikimedia.org" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://igjiwfnlnvlrwwjevesn.supabase.co" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;700&family=Figtree:wght@400;500;600;700&family=Noto+Serif+Ethiopic:wght@600;800&family=Noto+Sans+Ethiopic:wght@400;600;700&family=Abyssinica+SIL&family=Playfair+Display:wght@600;800&family=Lora:wght@600;700&family=Merriweather:wght@700&display=swap">
+<link rel="preconnect" href="https://commons.wikimedia.org" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;700&family=Figtree:wght@400;500;600;700&family=Noto+Serif+Ethiopic:wght@600;800&family=Noto+Sans+Ethiopic:wght@400;600;700&family=Abyssinica+SIL&family=Playfair+Display:wght@600;800&family=Lora:wght@600;700&family=Merriweather:wght@700&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;700&family=Figtree:wght@400;500;600;700&family=Noto+Serif+Ethiopic:wght@600;800&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap"></noscript>
 <style>
 :root{
   --bg:#F6F5F2;
@@ -113,7 +115,7 @@ input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);bo
 .spot{--spot-blur:28px;--spot-op:.55;position:relative;overflow:hidden;border-radius:18px;color:var(--ink);background:linear-gradient(135deg,var(--surface),var(--surface2) 92%);border:1px solid var(--line);padding:clamp(22px,3vw,38px);display:grid;grid-template-columns:1fr clamp(132px,14vw,196px);gap:clamp(16px,2.5vw,28px);align-items:center;box-shadow:0 12px 28px rgba(13,18,31,.1)}
 .spot>.spot-art-bg{position:absolute;inset:-32px;width:calc(100% + 64px);height:calc(100% + 64px);object-fit:cover;object-position:center top;filter:blur(var(--spot-blur,28px)) saturate(1.35) contrast(1.05);transform:scale(1.18);opacity:var(--spot-op,.45);pointer-events:none;z-index:0}
 .spot>.spot-art-veil{position:absolute;inset:0;background:linear-gradient(115deg,rgba(246,245,242,.88) 0%,rgba(255,255,255,.76) 55%,rgba(236,234,228,.86) 100%);pointer-events:none;z-index:0}
-.spot>div,.spot>button{position:relative;z-index:1}
+.spot>div,.spot>button{position:relative;z-index:1;min-width:0}
 .spot .k{display:inline-flex;align-items:center;gap:6px;letter-spacing:.12em;font-size:.75rem;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
 .spot h1{font-size:clamp(1.75rem,3.4vw,2.85rem);font-weight:800;color:var(--ink)}
 .spot .sub-author{color:var(--muted);font-size:clamp(.95rem,1.2vw,1.1rem);margin-top:6px;font-weight:600}
@@ -290,7 +292,24 @@ footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align
   .two{grid-template-columns:1fr}
 }
 @media (max-width:540px){
-  .spot{grid-template-columns:1fr 104px;padding:18px 15px;min-height:240px}
+  header{padding:7px 10px;gap:6px}
+  header .hr{gap:4px;max-width:100%}
+  header button,header select{padding:4px 8px;font-size:.75rem}
+  #hq{padding:6px 12px;font-size:.83rem}
+  .spot{grid-template-columns:minmax(0,1fr) 104px;gap:12px;padding:16px 14px;min-height:auto;align-items:start}
+  .spot .bk{width:104px;max-width:100%;justify-self:end}
+  .spot h1{font-size:1.45rem;word-break:break-word}
+  .spot .sub-author{font-size:.88rem}
+  .spot p{font-size:.85rem;margin:8px 0 10px;-webkit-line-clamp:2}
+  .spot-actions{gap:7px;margin-top:10px}
+  .spot-actions button{padding:7px 12px;font-size:.82rem}
+  .dots{gap:6px;margin-top:12px;flex-wrap:wrap;max-width:100%}
+  .dots button{width:16px;height:4px;flex:0 0 auto}
+  .dots button.on{width:28px}
+}
+@media (max-width:380px){
+  .spot{grid-template-columns:minmax(0,1fr) 92px;gap:10px;padding:14px 12px}
+  .spot .bk{width:92px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -346,7 +365,7 @@ post:["አጋራ","Post","Maxxansi","ኣቐምጥ"],postph:["ምን እያነበ
 near:["ቅርብ መጻሕፍት ቤት ፈልግ","Find bookstores near me","Suuqa kitaabaa naannoo koo","ቀረባ ድኳን መጻሕፍቲ"],locfail:["አካባቢዎን ማግኘት አልተቻለም።","Could not get your location.","Bakki kee hin argamne.","ቦታኹም ኣይተረኽበን።"],km:["ኪ.ሜ","km","km","ኪ.ሜ"],allc:["ሁሉም ከተማ","All cities","Magaalaa hundaa","ኩሉ ከተማ"],
 vote:["ድምጽ ስጥ","Vote","Sagalee kenni","ድምጺ ሃብ"],voted:["ድምጽዎን ሰጥተዋል ✓","You voted ✓","Sagalee kenniteetta ✓","ድምጽኹም ሂብኩም ✓"],awtx:["የ2026 የዓመቱን መጽሐፍ ይምረጡ። አንድ አባል አንድ ድምጽ።","Pick the 2026 Book of the Year. One member, one vote.","Kitaaba waggaa 2026 filadhu. Miseensa tokkoof sagalee tokko.","መጽሓፍ ዓመት 2026 ምረጹ። ሓደ ኣባል ሓደ ድምጺ።"],
 tauth:["ተወዳጅ ደራሲያን እና ገጣሚያን","Authors & Poets","Barreessitootaa fi Waloo","ደረስትን ገጠምትን"],fromcomm:["ከማህበረሰቡ","From the community","Hawaasa irraa","ካብ ማሕበረሰብ"],cpicks:["የሃያሲያን ምርጫ","Critics' picks","Filannoo hayyootaa","ምርጫ ሓያስያን"],
-menu:["ምናሌ","Menu","Baafata","ሜኑ"],share:["አጋራ","Share","Qoodi","ኣካፍል"],theme:["ብርሃን / ጨለማ","Light / dark","Ifa / dukkana","ብርሃን / ጸልማት"],
+menu:["ሜኑ","Menu","Baafata","ሜኑ"],share:["አጋራ","Share","Qoodi","ኣካፍል"],theme:["ብርሃን / ጨለማ","Light / dark","Ifa / dukkana","ብርሃን / ጸልማት"],
 home:["ዋና ገጽ","Home","Mana","ቀዳማይ ገጽ"],studio:["ደራሲ ነኝ","I'm an author","Barreessaa dha","ደራሲ እየ"],upnext:["አዳዲስ መጻሕፍት","New Drops","Kitaabota Haaraa","ሓደስቲ መጻሕፍቲ"],
 fromlist:["ከዝርዝርዎ","From your reading list","Tarree keessaniin","ካብ ዝርዝርኩም"],top10:["በአደፍርስ ምርጥ 10","Top 10 on Adefrs","Kudhan olaanoo Adefrs","ናይ ኣደፍርስ 10 ልዑላት"],
 fans:["የአንባቢ ምርጦች","Fan favorites","Kan dubbistootni jaallatan","ፍቱዋት ኣንበብቲ"],popint:["በዘርፍ ያስሱ","Browse by genre","Gosaan sakatta'i","ብዓይነት ድሕስሱ"],
@@ -869,7 +888,7 @@ function render(){
   }
   $("#tabs").innerHTML=tabsL().map(k=>`<button data-t="${k}" class="${k===tab?"on":""}">${tr(k)}</button>`).join("");
   const v=$("#view");
-  if(tab==="home"){homeView(v);hydrateVisibleCovers();return}
+  if(tab==="home"){homeView(v);clearTimeout(window._hydT);window._hydT=setTimeout(hydrateVisibleCovers,1800);return}
   if(VIEWS[tab]){VIEWS[tab](v);return}
   if(tab==="profile"){profileView(v);return}
   if(tab==="studio"){studioView(v);return}
@@ -2795,12 +2814,14 @@ async function sbAuth(up,em,pw,n,role){
  if(r.error){$("#lerr").textContent=r.error.message;return}
  if(!r.data.session){$("#lerr").textContent="Check your email to confirm, then log in.";return}
  $("#login").close();await afterAuth(r.data.session)}
-const LIB_KV_PATHS=["lib/covers","lib/books","lib/notes","lib/settings","lib/verified","lib/authors","lib/events","lib/ads","lib/critics","lib/stores","lib/team","lib/beginners","lib/drops","lib/members"];
+const CORE_KV_PATHS=["lib/settings","lib/drops","lib/books","lib/covers","lib/beginners"];
+const EXTRA_KV_PATHS=["lib/authors","lib/notes","lib/verified","lib/events","lib/ads","lib/critics","lib/stores","lib/team","lib/members"];
+const LIVE_CACHE_VER="v2";
 function saveLiveCacheSnapshot(kvMap){
  try{
   const prev=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");
   const next={...prev,...kvMap};
-  try{localStorage.setItem("adafrus_kv",JSON.stringify(next))}
+  try{localStorage.setItem("adafrus_kv",JSON.stringify(next));localStorage.setItem("adafrus_kv_ver",LIVE_CACHE_VER)}
   catch(quotaErr){
    const slim={...next};
    if(slim["lib/books"]&&Array.isArray(slim["lib/books"].list)){
@@ -2810,20 +2831,11 @@ function saveLiveCacheSnapshot(kvMap){
     const cm={};Object.entries(slim["lib/covers"].map).forEach(([k,v])=>{if(typeof v==="string"&&!v.startsWith("data:"))cm[k]=v});
     slim["lib/covers"]={map:cm};
    }
-   try{localStorage.setItem("adafrus_kv",JSON.stringify(slim))}catch(_){}
+   try{localStorage.setItem("adafrus_kv",JSON.stringify(slim));localStorage.setItem("adafrus_kv_ver",LIVE_CACHE_VER)}catch(_){}
   }
  }catch(e){}
 }
-async function loadShared(){
- const [kvRes,rv,fp,vt]=await Promise.all([
-  SB.from("kv").select("path,data").in("path",LIB_KV_PATHS),
-  SB.from("reviews").select("*").order("created",{ascending:false}),
-  SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
-  SB.rpc("vote_totals",{y:2026})
- ]);
- const kvMap={};
- (kvRes&&kvRes.data||[]).forEach(row=>{if(row&&row.path)kvMap[row.path]=row.data});
- if(kvRes&&kvRes.error)window.lastErr="kv: "+kvRes.error.message;
+function applyKvMap(kvMap){
  const cvMapData=kvMap["lib/covers"]||null,b=kvMap["lib/books"]||null,n=kvMap["lib/notes"]||null,st=kvMap["lib/settings"]||null,v=kvMap["lib/verified"]||null,au=kvMap["lib/authors"]||null,ev=kvMap["lib/events"]||null,ad=kvMap["lib/ads"]||null,crData=kvMap["lib/critics"]||null,stData=kvMap["lib/stores"]||null,tmData=kvMap["lib/team"]||null,bgData=kvMap["lib/beginners"]||null,drData=kvMap["lib/drops"]||null,mbData=kvMap["lib/members"]||null;
  const covObj=cvMapData&&typeof cvMapData==="object"?(cvMapData.map&&typeof cvMapData.map==="object"?cvMapData.map:cvMapData):null;
  if(covObj){
@@ -2840,10 +2852,10 @@ async function loadShared(){
    return {...x,id:Number(x.id)||x.id,a:normAuthor(x.a||x.author),r:x.r||[0,0],img:keepImg};
   });
   books.splice(0,books.length,...mergedList);
- }else if(isAdmin)saveBooks();
+ }else if(b!==null&&isAdmin)saveBooks();
  if(n&&Array.isArray(n.list))notes.splice(0,notes.length,...n.list.map(x=>({...x,u:0})));
  if(st){SET=st;applySet()}
- VER=v?v.ids||[]:[];
+ if(v)VER=v.ids||[];
  if(au&&typeof au==="object"&&Object.keys(au).length){AUTH_META={...AUTH_META,...au}}
  if(ev&&Array.isArray(ev.list)&&ev.list.length)EVENTS.splice(0,EVENTS.length,...ev.list);
  if(ad)AD_CFG={...AD_CFG,...ad};
@@ -2858,17 +2870,48 @@ async function loadShared(){
   const uEm=String(user.email||"").trim().toLowerCase();
   const uNm=String(user.name||"").trim().toLowerCase().replace(/^@/,"");
   return target&&(target===uEm||target===uNm);
-}))}
- Object.keys(revs).forEach(k=>delete revs[k]);
- (rv.data||[]).forEach(r=>{(revs[r.book_id]=revs[r.book_id]||[]).push({id:r.id,u:r.user_name,n:r.stars,x:r.body,h:r.helpful,real:1,uid:r.user_id})});
- books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
- feed.splice(0,feed.length,...(fp.data||[]).map(p=>({i:p.id,u:p.user_name,uid:p.user_id,t:p.body,b:p.book_id||0,l:p.likes,d:ago(p.created),c:[]})));
- Object.keys(aw).forEach(k=>delete aw[k]);(vt.data||[]).forEach(r=>{aw[r.book_id]=Number(r.n)});
- if(Object.keys(kvMap).length)saveLiveCacheSnapshot(kvMap);
+ }))}
  nid=Math.max(...books.map(b=>b.id||0),140)+1;
- if(canEditContent())backfillMembersFromStore().then(()=>{if(tab==="admin")render()}).catch(()=>{})}
-async function afterAuth(ses){
- try{if(ses){const u=ses.user,m=u.user_metadata||{};ME={id:u.id,name:m.name||u.email};user={id:u.id,name:m.name||u.email,email:u.email,role:m.role||"reader"};
+}
+function fetchCoreKv(){
+ return SB.from("kv").select("path,data").in("path",CORE_KV_PATHS);
+}
+async function loadExtraShared(){
+ try{
+  const [exRes,rv,fp,vt]=await Promise.all([
+   SB.from("kv").select("path,data").in("path",EXTRA_KV_PATHS),
+   SB.from("reviews").select("*").order("created",{ascending:false}),
+   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
+   SB.rpc("vote_totals",{y:2026})
+  ]);
+  const exMap={};
+  (exRes&&exRes.data||[]).forEach(row=>{if(row&&row.path)exMap[row.path]=row.data});
+  if(exRes&&exRes.error)window.lastErr="kv: "+exRes.error.message;
+  applyKvMap(exMap);
+  Object.keys(revs).forEach(k=>delete revs[k]);
+  (rv.data||[]).forEach(r=>{(revs[r.book_id]=revs[r.book_id]||[]).push({id:r.id,u:r.user_name,n:r.stars,x:r.body,h:r.helpful,real:1,uid:r.user_id})});
+  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
+  feed.splice(0,feed.length,...(fp.data||[]).map(p=>({i:p.id,u:p.user_name,uid:p.user_id,t:p.body,b:p.book_id||0,l:p.likes,d:ago(p.created),c:[]})));
+  Object.keys(aw).forEach(k=>delete aw[k]);(vt.data||[]).forEach(r=>{aw[r.book_id]=Number(r.n)});
+  if(Object.keys(exMap).length)saveLiveCacheSnapshot(exMap);
+  render();
+  if(user)recordMemberJoin(user).catch(()=>{});
+  if(canEditContent())backfillMembersFromStore().then(()=>{if(tab==="admin")render()}).catch(()=>{});
+ }catch(e){window.lastErr=String(e&&e.message||e)}
+}
+async function loadShared(preCore){
+ const coreRes=await (preCore||fetchCoreKv());
+ const coreMap={};
+ (coreRes&&coreRes.data||[]).forEach(row=>{if(row&&row.path)coreMap[row.path]=row.data});
+ if(coreRes&&coreRes.error)window.lastErr="kv: "+coreRes.error.message;
+ applyKvMap(coreMap);
+ if(Object.keys(coreMap).length)saveLiveCacheSnapshot(coreMap);
+}
+async function afterAuth(ses,preCore){
+ try{
+  const coreTask=preCore||fetchCoreKv();
+  if(ses){
+   const u=ses.user,m=u.user_metadata||{};ME={id:u.id,name:m.name||u.email};user={id:u.id,name:m.name||u.email,email:u.email,role:m.role||"reader"};
    const [a,me,mv]=await Promise.all([
     SB.from("admins").select("user_id").eq("user_id",u.id).maybeSingle(),
     DB.doc("data/users/"+u.id+"/me").get(),
@@ -2878,11 +2921,16 @@ async function afterAuth(ses){
    if(me.exists){const d=me.data();if(d.name&&!m.name)user.name=d.name;mine=d.mine||{};goal=d.goal||12;isPremium=!!d.isPremium;isMember=!!d.isMember;if(d.charityPlan)charityPlan=d.charityPlan;if(d.myRatings)myRatings=d.myRatings;if(d.profile){userProfile={...userProfile,...d.profile};if(!userProfile.memberSince)userProfile.memberSince=u.created_at?new Date(u.created_at).getTime():Date.now()}}
    else{userProfile.memberSince=u.created_at?new Date(u.created_at).getTime():Date.now()}
    try{localStorage.setItem("adafrus_user",JSON.stringify(user))}catch(e){}
-   myVote=mv.data?mv.data.book_id:null}
-  else{user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null;try{localStorage.removeItem("adafrus_user")}catch(e){}}
-  await loadShared();
-  if(user)await recordMemberJoin(user)}catch(e){window.lastErr=String(e&&e.message||e);try{loadLocal()}catch(_){}}
- applyHashRoute();bootHashReady=true;render();hideBootVeil()}
+   myVote=mv.data?mv.data.book_id:null;
+  }else{
+   user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null;
+   try{localStorage.removeItem("adafrus_user")}catch(e){}
+  }
+  await loadShared(coreTask);
+ }catch(e){window.lastErr=String(e&&e.message||e);try{loadLocal()}catch(_){}}
+ applyHashRoute();bootHashReady=true;render();hideBootVeil();
+ loadExtraShared();
+}
 function applyHashRoute(){
  const h=location.hash||"";
  if(h.startsWith("#book/")){
@@ -2922,7 +2970,7 @@ async function init(){
    await afterAuth(ses);
   }
  });
- const r=await SB.auth.getSession();await afterAuth(r.data.session);initDone=true}
+ const coreP=fetchCoreKv();const r=await SB.auth.getSession();await afterAuth(r.data.session,coreP);initDone=true}
 VIEWS.awards=v=>{const nom=books.filter(b=>!b.up&&(SB||aw[b.id]!==undefined)),c=b=>aw[b.id]||0,tot=nom.reduce((a,b)=>a+c(b),0)||1;
  v.innerHTML=`<h2 class="sec">${tr("awards")} 2026</h2><p>${tr("awtx")}</p>${nom.map(b=>`<div class="panel" style="margin-top:10px;display:flex;gap:12px;align-items:center"><div style="width:60px;flex:none">${cover(b)}</div><div style="flex:1"><b>${esc(bt(b))}</b><div class="note">${esc(ba(b))}</div>${myVote?`<div class="vbar"><i style="width:${Math.round(c(b)/tot*100)}%"></i></div><small>${Math.round(c(b)/tot*100)}%</small>`:""}</div>${myVote?(myVote===b.id?"✓":""):`<button class="gold" data-vt="${b.id}">${tr("vote")}</button>`}</div>`).join("")}${myVote?`<p>${tr("voted")}</p>`:""}`;
  v.querySelectorAll("[data-vt]").forEach(x=>x.onclick=async()=>{if(!user)return openLogin("in");const id=+x.dataset.vt;if(SB){const r=await SB.from("votes").insert({year:2026,book_id:id});if(r.error)return}myVote=id;aw[id]=(aw[id]||0)+1;render()})};
@@ -2934,12 +2982,19 @@ function hideBootVeil(){
   setTimeout(()=>{if(v.parentNode)v.remove()},240);
  }
 }
-if(!SB){
+function hasV2LiveCache(){
+ try{
+  if(localStorage.getItem("adafrus_kv_ver")!==LIVE_CACHE_VER)return false;
+  const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");
+  return !!(m["lib/books"]&&Array.isArray(m["lib/books"].list)&&m["lib/books"].list.length);
+ }catch(e){return false}
+}
+if(!SB||hasV2LiveCache()){
  loadLocal();
  render();
  hideBootVeil();
 }else{
- setTimeout(()=>{if(!bootHashReady){loadLocal();bootHashReady=true;render();hideBootVeil()}},3500);
+ setTimeout(()=>{if(!bootHashReady){loadLocal();bootHashReady=true;render();hideBootVeil()}},3000);
 }
 init();
 </script>
