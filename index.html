@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://commons.wikimedia.org" crossorigin>
+<link rel="preconnect" href="https://igjiwfnlnvlrwwjevesn.supabase.co" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;700&family=Figtree:wght@400;500;600;700&family=Noto+Serif+Ethiopic:wght@600;800&family=Noto+Sans+Ethiopic:wght@400;600;700&family=Abyssinica+SIL&family=Playfair+Display:wght@600;800&family=Lora:wght@600;700&family=Merriweather:wght@700&display=swap">
 <style>
 :root{
@@ -292,6 +293,15 @@ footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align
   .spot{grid-template-columns:1fr 104px;padding:18px 15px;min-height:240px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Smooth initial load skeleton (prevents flashing starter books before Supabase loads) */
+.boot-skel{display:grid;gap:16px;margin-top:16px}
+.boot-skel-hero{display:grid;grid-template-columns:2.1fr 1fr;gap:16px;min-height:340px}
+.boot-skel-box{border-radius:18px;background:linear-gradient(110deg,var(--surface) 25%,var(--surface2) 45%,var(--surface) 65%);background-size:200% 100%;animation:skelShimmer 1.35s ease-in-out infinite;border:1px solid var(--line)}
+.boot-skel-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:14px}
+.boot-skel-card{aspect-ratio:2/3;border-radius:14px;background:linear-gradient(110deg,var(--surface) 25%,var(--surface2) 45%,var(--surface) 65%);background-size:200% 100%;animation:skelShimmer 1.35s ease-in-out infinite;border:1px solid var(--line)}
+@keyframes skelShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@media (max-width:860px){.boot-skel-hero{grid-template-columns:1fr;min-height:220px}}
 </style>
 </head>
 <body>
@@ -556,7 +566,7 @@ const STARTER_BOOKS=[
 ];
 const books=JSON.parse(JSON.stringify(STARTER_BOOKS));
 const revs={};books.forEach(b=>revs[b.id]=[]);
-let notes=[{k:"ntop",id:1,u:1},{k:"nnew",id:20,u:1}],user=null,tab="home",lang="",gen="",sort="top",term="",mine={},goal=12,nid=books.length+1,accts={},mode="in";
+let notes=[],user=null,tab="home",lang="",gen="",sort="top",term="",mine={},goal=12,nid=books.length+1,accts={},mode="in";
 let isPremium=false,isMember=false,AD_CFG={enabled:true,title:"Advertise on Adefrs — አደፍርስ",body:"Reach thousands of Ethiopian readers, authors, and book lovers.",cta:"Contact Us",url:""};
 let userProfile={avatar:"",cover:"",bio:"",city:"",memberSince:Date.now()};let myRatings={};
 let BEGINNER_IDS=[1,43,57,69,77,87,119];
@@ -1453,7 +1463,7 @@ function applySet(){
  if(SET.cardBg)r.setProperty("--surface",SET.cardBg);
 }
 function recalc(b){if(!b)return;const rv=(revs[b.id]||[]).filter(r=>r.real),r0=b.r0||(b.r0=[0,0]),n=rv.length,t=rv.reduce((a,r)=>a+r.n,0);b.r=[r0[1]+n?(r0[0]*r0[1]+t)/(r0[1]+n):0,r0[1]+n]}
-const W=(path,data)=>{if(DB)return DB.doc(path).set(data).catch(e=>{window.lastErr=String(e&&e.message||e)});try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m[path]=data;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(e){}return Promise.resolve()};
+const W=(path,data)=>{try{const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");m[path]=data;localStorage.setItem("adafrus_kv",JSON.stringify(m))}catch(e){}if(DB)return DB.doc(path).set(data).catch(e=>{window.lastErr=String(e&&e.message||e)});return Promise.resolve()};
 async function saveBooks(){if(canEditContent()){await W("lib/books",{list:JSON.parse(JSON.stringify(books))});if(isAdmin)await W("lib/notes",{list:notes.map(n=>({k:n.k,id:n.id}))})}}
 function saveRev(id){if(SB){const r=revs[id][0];if(r&&!r.id&&r.real)SB.from("reviews").insert({book_id:id,user_name:r.u,stars:r.n,body:r.x}).select().single().then(x=>{if(x.data)r.id=x.data.id});return}W("reviews/"+id,{list:revs[id]})}
 function saveMe(){if(user&&user.id)W("data/users/"+user.id+"/me",{name:user.name,email:user.email||"",role:user.role,profile:userProfile,myRatings,mine,goal,isPremium,isMember,charityPlan,seen:notes.filter(n=>!n.u).map(n=>n.k+n.id)})}
@@ -2786,27 +2796,36 @@ async function sbAuth(up,em,pw,n,role){
  if(r.error){$("#lerr").textContent=r.error.message;return}
  if(!r.data.session){$("#lerr").textContent="Check your email to confirm, then log in.";return}
  $("#login").close();await afterAuth(r.data.session)}
+const LIB_KV_PATHS=["lib/covers","lib/books","lib/notes","lib/settings","lib/verified","lib/authors","lib/events","lib/ads","lib/critics","lib/stores","lib/team","lib/beginners","lib/drops","lib/members"];
+function saveLiveCacheSnapshot(kvMap){
+ try{
+  const prev=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");
+  const next={...prev,...kvMap};
+  try{localStorage.setItem("adafrus_kv",JSON.stringify(next))}
+  catch(quotaErr){
+   const slim={...next};
+   if(slim["lib/books"]&&Array.isArray(slim["lib/books"].list)){
+    slim["lib/books"]={list:slim["lib/books"].list.map(x=>x&&typeof x.img==="string"&&x.img.startsWith("data:")?{...x,img:""}:x)};
+   }
+   if(slim["lib/covers"]&&slim["lib/covers"].map){
+    const cm={};Object.entries(slim["lib/covers"].map).forEach(([k,v])=>{if(typeof v==="string"&&!v.startsWith("data:"))cm[k]=v});
+    slim["lib/covers"]={map:cm};
+   }
+   try{localStorage.setItem("adafrus_kv",JSON.stringify(slim))}catch(_){}
+  }
+ }catch(e){}
+}
 async function loadShared(){
- const g=async p=>{const r=await DB.doc(p).get();return r.exists?r.data():null};
- const [cvMapData,b,n,st,v,au,ev,ad,crData,stData,tmData,bgData,drData,mbData,rv,fp,vt]=await Promise.all([
-  g("lib/covers"),
-  g("lib/books"),
-  g("lib/notes"),
-  g("lib/settings"),
-  g("lib/verified"),
-  g("lib/authors"),
-  g("lib/events"),
-  g("lib/ads"),
-  g("lib/critics"),
-  g("lib/stores"),
-  g("lib/team"),
-  g("lib/beginners"),
-  g("lib/drops"),
-  g("lib/members"),
+ const [kvRes,rv,fp,vt]=await Promise.all([
+  SB.from("kv").select("path,data").in("path",LIB_KV_PATHS),
   SB.from("reviews").select("*").order("created",{ascending:false}),
   SB.from("posts").select("*").order("created",{ascending:false}).limit(50),
   SB.rpc("vote_totals",{y:2026})
  ]);
+ const kvMap={};
+ (kvRes&&kvRes.data||[]).forEach(row=>{if(row&&row.path)kvMap[row.path]=row.data});
+ if(kvRes&&kvRes.error)window.lastErr="kv: "+kvRes.error.message;
+ const cvMapData=kvMap["lib/covers"]||null,b=kvMap["lib/books"]||null,n=kvMap["lib/notes"]||null,st=kvMap["lib/settings"]||null,v=kvMap["lib/verified"]||null,au=kvMap["lib/authors"]||null,ev=kvMap["lib/events"]||null,ad=kvMap["lib/ads"]||null,crData=kvMap["lib/critics"]||null,stData=kvMap["lib/stores"]||null,tmData=kvMap["lib/team"]||null,bgData=kvMap["lib/beginners"]||null,drData=kvMap["lib/drops"]||null,mbData=kvMap["lib/members"]||null;
  const covObj=cvMapData&&typeof cvMapData==="object"?(cvMapData.map&&typeof cvMapData.map==="object"?cvMapData.map:cvMapData):null;
  if(covObj){
   BOOK_COVERS={...BOOK_COVERS,...covObj};
@@ -2846,8 +2865,9 @@ async function loadShared(){
  books.forEach(b=>{b.r0=[0,0];revs[b.id]=revs[b.id]||[];recalc(b)});
  feed.splice(0,feed.length,...(fp.data||[]).map(p=>({i:p.id,u:p.user_name,uid:p.user_id,t:p.body,b:p.book_id||0,l:p.likes,d:ago(p.created),c:[]})));
  Object.keys(aw).forEach(k=>delete aw[k]);(vt.data||[]).forEach(r=>{aw[r.book_id]=Number(r.n)});
- await backfillMembersFromStore();
- nid=Math.max(...books.map(b=>b.id||0),140)+1}
+ if(Object.keys(kvMap).length)saveLiveCacheSnapshot(kvMap);
+ nid=Math.max(...books.map(b=>b.id||0),140)+1;
+ if(canEditContent())backfillMembersFromStore().then(()=>{if(tab==="admin")render()}).catch(()=>{})}
 async function afterAuth(ses){
  try{if(ses){const u=ses.user,m=u.user_metadata||{};ME={id:u.id,name:m.name||u.email};user={id:u.id,name:m.name||u.email,email:u.email,role:m.role||"reader"};
    const [a,me,mv]=await Promise.all([
@@ -2906,7 +2926,36 @@ VIEWS.awards=v=>{const nom=books.filter(b=>!b.up&&(SB||aw[b.id]!==undefined)),c=
  v.innerHTML=`<h2 class="sec">${tr("awards")} 2026</h2><p>${tr("awtx")}</p>${nom.map(b=>`<div class="panel" style="margin-top:10px;display:flex;gap:12px;align-items:center"><div style="width:60px;flex:none">${cover(b)}</div><div style="flex:1"><b>${esc(bt(b))}</b><div class="note">${esc(ba(b))}</div>${myVote?`<div class="vbar"><i style="width:${Math.round(c(b)/tot*100)}%"></i></div><small>${Math.round(c(b)/tot*100)}%</small>`:""}</div>${myVote?(myVote===b.id?"✓":""):`<button class="gold" data-vt="${b.id}">${tr("vote")}</button>`}</div>`).join("")}${myVote?`<p>${tr("voted")}</p>`:""}`;
  v.querySelectorAll("[data-vt]").forEach(x=>x.onclick=async()=>{if(!user)return openLogin("in");const id=+x.dataset.vt;if(SB){const r=await SB.from("votes").insert({year:2026,book_id:id});if(r.error)return}myVote=id;aw[id]=(aw[id]||0)+1;render()})};
 function dbg(){if(location.hash!=="#debug")return;let d=$("#dbg");if(!d){d=document.createElement("div");d.id="dbg";d.style.cssText="position:fixed;top:0;left:0;right:0;background:#000;color:#0f0;font:12px monospace;padding:6px;z-index:99;white-space:pre-wrap";document.body.appendChild(d)}d.textContent="SB:"+!!SB+" | user:"+(user?user.email:"none")+" | admin:"+isAdmin+" | prem:"+isPremium+" | books:"+books.length+" | err:"+(window.lastErr||"none")}
-render();init();
+function hasCachedLiveSnapshot(){
+ try{
+  const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");
+  return !!((m["lib/books"]&&Array.isArray(m["lib/books"].list)&&m["lib/books"].list.length)||m["lib/settings"]||m["lib/drops"]);
+ }catch(e){return false}
+}
+function renderBootSkeleton(){
+ document.documentElement.lang=LC[li];$("#lg").value=LC[li];document.title=tr("logo");
+ $("#logo").textContent=(SET.name||tr("logo")).replace(/አደፍሪስ/g,"አደፍርስ").replace(/Adefris/g,"Adefrs");
+ chrome();nav();
+ $("#loginBtn").textContent=user?"✏️":tr("login");
+ $("#tabs").innerHTML=tabsL().map(k=>`<button data-t="${k}" class="${k===tab?"on":""}">${tr(k)}</button>`).join("");
+ $("#view").innerHTML=`<div class="boot-skel" aria-busy="true">
+  <div class="boot-skel-hero">
+   <div class="boot-skel-box"></div>
+   <div class="boot-skel-box"></div>
+  </div>
+  <div class="boot-skel-row">${'<div class="boot-skel-card"></div>'.repeat(6)}</div>
+ </div>`;
+}
+if(hasCachedLiveSnapshot()){
+ loadLocal();
+ render();
+}else if(SB){
+ renderBootSkeleton();
+ setTimeout(()=>{if(!bootHashReady){bootHashReady=true;render()}},4500);
+}else{
+ render();
+}
+init();
 </script>
 </body>
 </html>
