@@ -328,6 +328,44 @@ footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align
 .bv-logo{font-family:'Noto Serif Ethiopic','Newsreader',serif;font-weight:800;font-size:1.6rem;letter-spacing:.02em;color:#F0B43C}
 .bv-spin{width:30px;height:30px;border-radius:50%;border:3px solid rgba(255,255,255,.18);border-top-color:#F0B43C;animation:bvSpin .75s linear infinite}
 @keyframes bvSpin{to{transform:rotate(360deg)}}
+
+/* Readable multi-paragraph passages for reviews & feed posts */
+.rich-body{margin:8px 0;font-size:.95rem;line-height:1.68;color:var(--ink)}
+.rich-body p.passage{margin:0 0 11px 0;white-space:pre-wrap;word-break:break-word}
+.rich-body p.passage:last-child{margin-bottom:0}
+.post-media{margin:10px 0 8px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--surface2);cursor:zoom-in;position:relative}
+.post-media img{display:block;width:100%;max-height:460px;object-fit:contain;background:var(--hero-dark)}
+.post-media.fit-wide img{aspect-ratio:16/9;object-fit:cover;max-height:380px}
+.post-media.fit-square img{aspect-ratio:1/1;object-fit:cover;max-height:420px}
+.composer-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.photo-attach-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);font-size:.83rem;font-weight:600;cursor:pointer}
+.photo-attach-btn:hover{border-color:var(--gold)}
+.photo-prev-wrap{display:grid;gap:8px;padding:10px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}
+.photo-prev-wrap img{width:100%;max-height:240px;object-fit:contain;border-radius:10px;background:var(--hero-dark)}
+.photo-prev-wrap.fit-wide img{aspect-ratio:16/9;object-fit:cover}
+.photo-prev-wrap.fit-square img{aspect-ratio:1/1;object-fit:cover;max-width:260px;margin:auto}
+.photo-fit-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.photo-fit-bar button{padding:4px 10px;font-size:.76rem}
+.photo-fit-bar button.on{background:var(--hero);color:#fff;border-color:var(--hero)}
+/* Full-screen photo lightbox */
+#imgModal{padding:0;background:transparent;border:none;max-width:94vw;max-height:92vh;box-shadow:none;overflow:visible}
+#imgModal::backdrop{background:rgba(5,8,16,.88);backdrop-filter:blur(4px)}
+#imgModal .lb-wrap{position:relative;display:grid;place-items:center}
+#imgModal img{max-width:92vw;max-height:84vh;border-radius:14px;object-fit:contain;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+#imgModal .lb-close{position:absolute;top:-14px;right:-10px;width:36px;height:36px;border-radius:50%;padding:0;background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:800;display:grid;place-items:center}
+/* Home Collapsible All Genres Menu */
+.genre-menu-wrap{margin-top:8px}
+.genre-menu-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:.84rem;font-weight:700;background:var(--surface);border:1px solid var(--line);border-radius:999px;white-space:nowrap}
+.genre-menu-btn.open{border-color:var(--gold);color:var(--gold);background:var(--surface2)}
+.genre-menu-panel{display:none;margin-top:8px;padding:12px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 12px 28px rgba(13,18,31,.16)}
+.genre-menu-panel.open{display:block}
+.genre-menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
+.genre-menu-item{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 11px;border-radius:10px;border:1px solid transparent;background:var(--surface2);color:var(--ink);font-size:.84rem;font-weight:600}
+.genre-menu-item:hover{border-color:var(--gold);color:var(--gold)}
+@media (max-width:540px){
+  .genre-menu-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .genre-menu-item{padding:8px 9px;font-size:.81rem}
+}
 </style>
 </head>
 <body>
@@ -364,6 +402,7 @@ footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align
 <dialog id="bk"><div class="dl" id="bkc"></div></dialog>
 <dialog id="menu"><div class="dl" id="mc"></div></dialog>
 <dialog id="nt"><div class="dl" id="ntc"></div></dialog>
+<dialog id="imgModal"><div class="lb-wrap"><button class="lb-close" id="imgModalClose" aria-label="Close">✕</button><img id="imgModalPic" src="" alt=""></div></dialog>
 
 <script>
 const LC=["am","en","om","ti"];let li=0;
@@ -709,6 +748,38 @@ const $=s=>document.querySelector(s),esc=s=>String(s||"").replace(/[&<>"]/g,c=>(
 const stars=n=>{const f=Math.round(n||0);return '<span class="stars">'+"★".repeat(f)+"<i>"+"★".repeat(5-f)+"</i></span>"};
 const avg=b=>(b&&b.r&&b.r[1])?Number(b.r[0]).toFixed(1):"–";
 const bt=b=>b.t||"",ba=b=>li===0?normAuthor(b.a):(b.ae||normAuthor(b.a)),bs=b=>li===0?(b.s||b.se):(b.se||b.s);
+const GENRE_ICONS={fic:"📖",his:"🏛️",poe:"🪶",pol:"🗳️",aut:"🖋️",phi:"🧠",tec:"💻",fan:"🐉",sf:"🚀",rom:"💞",mys:"🔍",fai:"🕊️",kid:"🧸",slf:"🌱",biz:"💼",sci:"🔬",fol:"🏺",hum:"😄"};
+function splitMediaBody(raw){
+ let s=String(raw||"");
+ let img="",fit="natural";
+ const fitM=s.match(/(?:\r?\n)?\[imgfit:(natural|wide|square)\]\s*$/i);
+ if(fitM){fit=fitM[1].toLowerCase();s=s.slice(0,fitM.index)}
+ const imgM=s.match(/(?:\r?\n)?\[img:(https?:\/\/[^\]\s]+|data:image\/[^\]\s]+)\]\s*$/i);
+ if(imgM){img=imgM[1];s=s.slice(0,imgM.index)}
+ const fitM2=s.match(/(?:\r?\n)?\[imgfit:(natural|wide|square)\]\s*$/i);
+ if(fitM2){fit=fitM2[1].toLowerCase();s=s.slice(0,fitM2.index)}
+ return {text:s.replace(/\s+$/,""),img,fit};
+}
+function packMediaBody(text,img,fit="natural"){
+ const cleanText=String(text||"").replace(/\r\n/g,"\n").trim();
+ if(!img)return cleanText;
+ const fitTag=fit&&fit!=="natural"?`\n[imgfit:${fit}]`:"";
+ return (cleanText?cleanText+"\n":"")+`[img:${img}]`+fitTag;
+}
+function formatPassagesHtml(raw){
+ const {text,img,fit}=splitMediaBody(raw);
+ const paras=text?text.split(/\n\s*\n+/).map(p=>p.trim()).filter(Boolean):[];
+ const textHtml=paras.length?`<div class="rich-body">${paras.map(p=>`<p class="passage">${esc(p).replace(/\n/g,"<br>")}</p>`).join("")}</div>`:"";
+ const fitCls=fit==="wide"?" fit-wide":fit==="square"?" fit-square":"";
+ const imgHtml=img?`<div class="post-media${fitCls}" data-zoom-img="${esc(img)}"><img src="${esc(img)}" alt="Attached photo" loading="lazy" decoding="async"></div>`:"";
+ return textHtml+imgHtml;
+}
+function openPhotoLightbox(src){
+ const dlg=$("#imgModal"),pic=$("#imgModalPic");
+ if(!dlg||!pic||!src)return;
+ pic.src=src;
+ if(!dlg.open)dlg.showModal();
+}
 
 // Cover Image Lookup (Google Books & Open Library)
 let COV_CACHE={};
@@ -844,8 +915,39 @@ const getAuthorPhoto=a=>{
 
 const isAuthorVerified=a=>{
  const canon=normAuthor(a);
- if(AUTH_META[canon]&&AUTH_META[canon].ver)return true;
+ if(AUTH_META[canon]&&(AUTH_META[canon].ver||AUTH_META[canon].ownerUid))return true;
  return books.some(b=>normAuthor(b.a)===canon&&b.uid&&VER.includes(b.uid));
+};
+const getAuthorOwnerUid=a=>{
+ const canon=normAuthor(a);
+ const m=AUTH_META[canon];
+ if(m&&m.ownerUid)return String(m.ownerUid);
+ const ob=books.find(b=>normAuthor(b.a)===canon&&b.uid&&VER.includes(b.uid));
+ return ob?String(ob.uid):"";
+};
+const getMyClaimedAuthor=()=>{
+ if(!user)return "";
+ const uId=String(user.id||""),uEm=String(user.email||"").trim().toLowerCase();
+ for(const [k,m] of Object.entries(AUTH_META||{})){
+  if(!m||typeof m!=="object")continue;
+  if(uId&&m.ownerUid&&String(m.ownerUid)===uId)return k;
+  if(uEm&&m.ownerEmail&&String(m.ownerEmail).trim().toLowerCase()===uEm)return k;
+ }
+ if(uId&&VER.includes(uId)){
+  const c=normAuthor(user.name);
+  if(c&&c!=="—")return c;
+ }
+ return "";
+};
+const isMyAuthorProfile=a=>{
+ if(!user)return false;
+ const canon=normAuthor(a);
+ const m=AUTH_META[canon]||{};
+ const uId=String(user.id||""),uEm=String(user.email||"").trim().toLowerCase();
+ if(uId&&m.ownerUid&&String(m.ownerUid)===uId)return true;
+ if(uEm&&m.ownerEmail&&String(m.ownerEmail).trim().toLowerCase()===uEm)return true;
+ if(uId&&VER.includes(uId)&&normAuthor(user.name)===canon)return true;
+ return false;
 };
 
 const authorAvatar=(a,ae,size=76)=>{
@@ -923,20 +1025,29 @@ function render(){
    hydrateVisibleCovers();
   }else if(tab==="authors"){
    const au=authorStats();
-   v.innerHTML=`<h2 class="sec">${tr("tauth")} (${au.length})</h2>
-   <div class="authors">${au.map(x=>{const isVer=isAuthorVerified(x.a);return `<div class="card" style="padding:16px;text-align:center">
+   v.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:10px">
+    <h2 class="sec" style="margin:0;flex:1">${tr("tauth")} (${au.length})</h2>
+    ${canEditContent()?`<button class="gold" id="tabAddAuthBtn">+ Add Author</button>`:""}
+   </div>
+   <div class="authors" style="margin-top:14px">${au.map(x=>{
+    const isVer=isAuthorVerified(x.a),isLive=!!getAuthorOwnerUid(x.a);
+    return `<div class="card" style="padding:16px;text-align:center">
     <button data-a="${esc(x.a)}" style="border:none;text-align:center;padding:0;background:none;width:100%">
      ${authorAvatar(x.a,x.ae)}
-     <h3 style="margin-top:10px">${esc(nm(x.a,x.ae))} ${isVer?'<span style="color:var(--green)">✓</span>':""}</h3>
-     <div class="note">${x.c} ${tr("st1")}</div>
+     <h3 style="margin-top:10px">${esc(nm(x.a,x.ae))} ${isVer?'<span class="vbadge" title="Verified Author">✓</span>':""}</h3>
+     <div class="note">${x.c} ${tr("st1")} ${isLive?'· <span style="color:var(--green);font-weight:700">🟢 Active</span>':""}</div>
     </button>
     <div style="display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap">
      <button data-a="${esc(x.a)}" class="gold" style="padding:5px 12px;font-size:.82rem">👤 Profile</button>
-     <button data-c="${esc(x.a)}" style="padding:5px 12px;font-size:.82rem">💬 Chat</button>
+     ${isLive?`<button data-c="${esc(x.a)}" style="padding:5px 12px;font-size:.82rem">💬 Chat</button>`:""}
+     ${canEditContent()?`<button data-abk="${esc(x.a)}" data-abke="${esc(x.ae)}" style="padding:5px 9px;font-size:.8rem" title="Add book to this author">+ 📖</button><button data-adel="${esc(x.a)}" data-adele="${esc(x.ae)}" style="padding:5px 9px;font-size:.8rem;color:var(--red);border-color:var(--red)" title="Delete or merge author">🗑️</button>`:""}
     </div>
    </div>`}).join("")}</div>`;
+   if($("#tabAddAuthBtn"))$("#tabAddAuthBtn").onclick=()=>openAddAuthorModal();
    v.querySelectorAll("[data-a]").forEach(x=>x.onclick=()=>openAuthor(x.dataset.a));
    v.querySelectorAll("[data-c]").forEach(x=>x.onclick=()=>openAuthor(x.dataset.c,true));
+   v.querySelectorAll("[data-abk]").forEach(x=>x.onclick=()=>editBook(null,false,{a:x.dataset.abk,ae:x.dataset.abke}));
+   v.querySelectorAll("[data-adel]").forEach(x=>x.onclick=()=>openDeleteAuthorModal(x.dataset.adel,x.dataset.adele));
    hydrateVisibleCovers();
   }else if(tab==="list"){
    if(!user){v.innerHTML=`<div class="panel"><h2>${tr("list")}</h2><p>${tr("loginfirst")}</p><button class="primary" id="ll">${tr("login")}</button></div>`;$("#ll").onclick=()=>openLogin("in");return}
@@ -1020,8 +1131,10 @@ function drawLogin(){const up=mode==="up";
  };
 }
 
-function editBook(id,sub){subMode=!!sub;
- const nb=id===null,b=nb?{t:"",e:"",a:user&&user.role==="author"?user.name:"",ae:"",l:"am",g:"fic",y:2026,c:"#141B2D",s:"",se:"",r:[0,0],rare:0}:books.find(x=>x.id===id);
+function editBook(id,sub,prefill=null){subMode=!!sub;
+ const pfA=(prefill&&prefill.a)||(user&&user.role==="author"?(getMyClaimedAuthor()||user.name):"");
+ const pfAe=(prefill&&prefill.ae)||"";
+ const nb=id===null,b=nb?{t:"",e:"",a:pfA,ae:pfAe,l:"am",g:"fic",y:2026,c:"#141B2D",s:"",se:"",r:[0,0],rare:0}:books.find(x=>x.id===id);
  const o=(arr,f,c)=>arr.map(x=>`<option value="${x}" ${x===c?"selected":""}>${f(x)}</option>`).join(""),L=T.ft;
  const curSrc=getCoverSrc(b);
  $("#bkc").innerHTML=`<h2>${nb?tr("nb"):tr("eb")}</h2><div class="form">
@@ -1048,7 +1161,12 @@ function editBook(id,sub){subMode=!!sub;
  <input id="fi" type="file" accept="image/*">
  <input id="furl" type="url" placeholder="Paste image link OR press Ctrl+V to paste copied cover" value="${esc(b.img&&b.img.startsWith("http")?b.img:"")}">
  <img id="pv" alt="" src="${esc(curSrc)}" style="max-height:160px;border-radius:8px;display:${curSrc?"block":"none"}"></div>
- <p class="err" id="fe"></p><button class="primary" id="sv">${tr("save")}</button><button id="cx">${tr("cancel")}</button>`;
+ ${subMode?`<div class="panel" style="background:var(--surface2);padding:12px;border-color:var(--gold)">
+  <b>📋 ${li===0?"የደራሲ መጽሐፍ ማረጋገጫ":"Author Book Confirmation"}</b>
+  <p class="note" style="margin:0">${li===0?"መጽሐፍዎ ለአስተዳዳሪ/ቡድን ማረጋገጫ ይላካል፤ ሲረጋገጥ በቀጥታ በደራሲ ገጽዎ ላይ ይታያል።":"Your book will be sent to the Adefrs Admin/Team for quick confirmation and published straight to your author profile."}</p>
+  <label style="display:flex;align-items:flex-start;gap:7px;font-size:.84rem;color:var(--ink);cursor:pointer"><input type="checkbox" id="subConfirmChk"> <span>${li===0?"የዚህ መጽሐፍ ደራሲ ወይም ሕጋዊ ባለቤት መሆኔን እና ወደ ገጼ እንዲጨመር ማረጋገጤን እገልጻለሁ።":"I confirm I am the author or authorized representative of this book and want to submit it to my profile."}</span></label>
+ </div>`:""}
+ <p class="err" id="fe"></p><button class="primary" id="sv">${subMode?(li===0?"✓ አረጋግጥና ላክ":"✓ Confirm & Submit Book"):tr("save")}</button><button id="cx">${tr("cancel")}</button>`;
  let img=b.img||"";
  const setCoverInstant=(newSrc,statusMsg)=>{
   img=newSrc;
@@ -1108,6 +1226,7 @@ function editBook(id,sub){subMode=!!sub;
   if($("#sv").disabled||covUploading)return;
   const t=$("#f1").value.trim(),e=$("#f2").value.trim();
   if(!t&&!e){$("#fe").textContent=tr("e6");return}
+  if(subMode&&$("#subConfirmChk")&&!$("#subConfirmChk").checked){$("#fe").textContent=li===0?"እባክዎ መጀመሪያ የማረጋገጫ ሳጥኑን ይምረጡ።":"Please check the author confirmation box before submitting.";return}
   $("#sv").disabled=true;
   $("#sv").textContent="⏳ Saving...";
   const canonA=normAuthor($("#f3").value.trim()||"—");
@@ -1214,71 +1333,236 @@ function openAuthor(rawName,focusChat=false){
  const canon=normAuthor(rawName);
  try{history.replaceState(null,"","#author/"+encodeURIComponent(canon))}catch(e){}
  const aBooks=books.filter(b=>normAuthor(b.a)===canon);
- const ae=aBooks[0]?aBooks[0].ae:canon;
+ const ae=(aBooks[0]&&aBooks[0].ae)||(AUTH_META[canon]&&AUTH_META[canon].ae)||canon;
  const meta=AUTH_META[canon]||{};
  const isVer=isAuthorVerified(canon);
+ const ownerUid=getAuthorOwnerUid(canon);
+ const isOwner=isMyAuthorProfile(canon);
+ const canManage=canEditContent();
  const bannerStyle=meta.bgImg?`background-image:url(${esc(meta.bgImg)})`:meta.bg?`background:${esc(meta.bg)}`:"";
 
  $("#bkc").innerHTML=`
   <div class="auth-banner" style="${bannerStyle}">
    ${authorAvatar(canon,ae,86)}
    <h2 style="margin-top:10px;color:#FFFFFF">${esc(nm(canon,ae))} ${isVer?'<span class="vbadge vbadge-lg" title="Verified Author">✓</span>':""}</h2>
-   <div style="font-size:.85rem;color:#CBD5E1;margin-top:4px">${aBooks.length} ${tr("st1")} ${isVer?"· Verified Author ✓":""}</div>
+   <div style="font-size:.85rem;color:#CBD5E1;margin-top:4px">${aBooks.length} ${tr("st1")} ${isVer?"· Verified Author ✓":""} ${ownerUid?'· <span style="color:#4ADE80;font-weight:700">🟢 Active on Adefrs</span>':""}</div>
    ${meta.bio?`<p style="margin:8px auto 0;max-width:48ch;font-size:.9rem;color:#F2F3F7">${esc(meta.bio)}</p>`:""}
-   <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px"><button id="shAuthBtn" style="padding:4px 14px;font-size:.82rem;background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)">🔗 ${tr("share")}</button>${canEditContent()?`<button id="edAuthBtn" class="gold" style="padding:4px 14px;font-size:.82rem">⚙️ Edit Author Picture & Background</button>`:""}</div>
+   <div style="display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+    <button id="shAuthBtn" style="padding:4px 13px;font-size:.82rem;background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3)">🔗 ${tr("share")}</button>
+    ${canManage?`<button id="addBkAuthBtn" class="gold" style="padding:4px 13px;font-size:.82rem">➕ ${tr("nb")}</button><button id="edAuthBtn" style="padding:4px 13px;font-size:.82rem;background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.35)">⚙️ Edit Author</button><button id="delAuthBtn" style="padding:4px 13px;font-size:.82rem;background:rgba(184,59,59,.88);color:#fff;border-color:#E06060">🗑️ Delete / Merge</button>`:""}
+    ${(!canManage&&isOwner)?`<button id="ownerAddBkBtn" class="gold" style="padding:4px 13px;font-size:.82rem">➕ ${li===0?"መጽሐፌን ጨምር":"Add My Book"}</button>`:""}
+   </div>
   </div>
 
-  <h3>${tr("books")} (${aBooks.length})</h3>
-  <div class="row">${aBooks.map(b=>bcard(b)).join("")}</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+   <h3>${tr("books")} (${aBooks.length})</h3>
+   ${canManage?`<button id="addBkAuthBtn2" class="gold" style="padding:4px 12px;font-size:.8rem">➕ ${tr("nb")}</button>`:isOwner?`<button id="ownerAddBkBtn2" class="gold" style="padding:4px 12px;font-size:.8rem">➕ ${li===0?"መጽሐፌን ጨምር":"Add My Book"}</button>`:""}
+  </div>
+  <div class="row">${aBooks.map(b=>bcard(b)).join("")||`<p class="note">${li===0?"ገና የተመዘገበ መጽሐፍ የለም።":"No books listed yet."}</p>`}</div>
 
-  <div class="panel" style="background:var(--surface2)">
-   <h3>💬 ${tr("ctact")} — ${esc(nm(canon,ae))}</h3>
+  ${ownerUid?`<div class="panel" style="background:var(--surface2)">
+   <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+    <h3>💬 ${tr("ctact")} — ${esc(nm(canon,ae))}</h3>
+    <span class="pill-tag pill-ok">🟢 Active Account</span>
+   </div>
    <div class="chat-box" id="authChatLog"><span class="note">Loading conversation...</span></div>
    <div style="display:flex;gap:8px">
     <input id="cm" style="flex:1" placeholder="${tr("msgph")}">
     <button class="gold" id="cs">${tr("send")}</button>
    </div>
    <p class="note" id="cn"></p>
-  </div>
+  </div>`:`<div class="panel" style="background:var(--surface2)">
+   <h3>💬 ${li===0?"ቀጥታ ውይይት ገና አልተከፈተም":"Direct Chat Not Active Yet"}</h3>
+   <p class="note" style="margin:0">${li===0?`ይህ የደራሲ ገጽ በአደፍርስ ማህበረሰብ የተዘጋጀ ነው። ደራሲው (${esc(nm(canon,ae))}) ገጹን ሲረከብና ሲረጋገጥ ቀጥታ መልዕክት መላክ ይቻላል።`:`This profile was created by the Adefrs community. Direct chat will open as soon as ${esc(nm(canon,ae))} claims and verifies their profile.`}</p>
+   <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="gold" id="claimAuthBtn">✍️ ${li===0?`እኔ ${esc(nm(canon,ae))} ነኝ — ገጹን ልረከብ`:`Are you ${esc(nm(canon,ae))}? Claim Profile`}</button>
+    <button id="discussAuthFeedBtn">💬 ${li===0?"ማህበረሰብ (Feed) ላይ ተወያዩ":"Discuss in Community Feed"}</button>
+    ${canManage?`<button id="linkAuthQuickBtn">🔗 Link Member Account</button>`:""}
+   </div>
+  </div>`}
   <button id="cl">${tr("close")}</button>`;
 
  $("#cl").onclick=()=>$("#bk").close();
  bindCards($("#bkc"));
  if($("#shAuthBtn"))$("#shAuthBtn").onclick=()=>shareDirectLink("#author/"+encodeURIComponent(canon),nm(canon,ae),$("#shAuthBtn"));
  if($("#edAuthBtn"))$("#edAuthBtn").onclick=()=>editAuthorMeta(canon,ae);
+ if($("#delAuthBtn"))$("#delAuthBtn").onclick=()=>openDeleteAuthorModal(canon,ae);
+ if($("#addBkAuthBtn"))$("#addBkAuthBtn").onclick=()=>editBook(null,false,{a:canon,ae});
+ if($("#addBkAuthBtn2"))$("#addBkAuthBtn2").onclick=()=>editBook(null,false,{a:canon,ae});
+ if($("#ownerAddBkBtn"))$("#ownerAddBkBtn").onclick=()=>editBook(null,true,{a:canon,ae});
+ if($("#ownerAddBkBtn2"))$("#ownerAddBkBtn2").onclick=()=>editBook(null,true,{a:canon,ae});
+ if($("#claimAuthBtn"))$("#claimAuthBtn").onclick=()=>openClaimAuthorModal(canon,ae);
+ if($("#linkAuthQuickBtn"))$("#linkAuthQuickBtn").onclick=()=>editAuthorMeta(canon,ae);
+ if($("#discussAuthFeedBtn"))$("#discussAuthFeedBtn").onclick=()=>{$("#bk").close();tab="feed";render();scrollTo(0,0)};
 
- const loadAuthorChat=async()=>{
-  const box=$("#authChatLog");if(!box)return;
-  let msgs=[];
-  if(SB&&user){
-   const r=await SB.from("messages").select("*").eq("to_author",canon).order("created",{ascending:true}).limit(30);
-   msgs=(r.data||[]).filter(m=>m.from_user===user.id||m.to_uid===user.id||isAdmin);
-  }
-  box.innerHTML=msgs.length?msgs.map(m=>`<div class="msg-b ${user&&m.from_user===user.id?"me":""}"><small><b>${esc(m.from_name||"Reader")}</b></small><div>${esc(m.body)}</div></div>`).join(""):`<span class="note">Start a conversation with ${esc(nm(canon,ae))}!</span>`;
-  box.scrollTop=box.scrollHeight;
- };
- loadAuthorChat();
-
- $("#cs").onclick=async()=>{
-  if(!user){$("#bk").close();return openLogin("in")}
-  const m=$("#cm").value.trim();if(!m)return;
-  $("#cm").value="";
-  const toUid=(aBooks[0]&&aBooks[0].uid)||null;
-  if(SB)await SB.from("messages").insert({to_author:canon,to_uid:toUid,from_name:user.name,body:m});
-  $("#cn").textContent=tr("sent");
+ if(ownerUid){
+  const loadAuthorChat=async()=>{
+   const box=$("#authChatLog");if(!box)return;
+   let msgs=[];
+   if(SB&&user){
+    const r=await SB.from("messages").select("*").eq("to_author",canon).order("created",{ascending:true}).limit(30);
+    msgs=(r.data||[]).filter(m=>m.from_user===user.id||m.to_uid===user.id||isOwner||isAdmin);
+   }
+   box.innerHTML=msgs.length?msgs.map(m=>`<div class="msg-b ${user&&m.from_user===user.id?"me":""}"><small><b>${esc(m.from_name||"Reader")}</b></small><div>${esc(m.body)}</div></div>`).join(""):`<span class="note">Start a conversation with ${esc(nm(canon,ae))}!</span>`;
+   box.scrollTop=box.scrollHeight;
+  };
   loadAuthorChat();
+
+  $("#cs").onclick=async()=>{
+   if(!user){$("#bk").close();return openLogin("in")}
+   const m=$("#cm").value.trim();if(!m)return;
+   $("#cm").value="";
+   if(SB)await SB.from("messages").insert({to_author:canon,to_uid:ownerUid,from_name:user.name,body:m});
+   $("#cn").textContent=tr("sent");
+   loadAuthorChat();
+  };
+ }
+
+ if(!$("#bk").open)$("#bk").showModal();
+ if(ownerUid&&focusChat&&$("#cm"))$("#cm").focus();
+}
+
+function openClaimAuthorModal(canon,ae){
+ if(!user){$("#bk").close();return openLogin("up")}
+ $("#bkc").innerHTML=`<h2>✍️ ${li===0?"የደራሲ ገጽ መረከቢያ ጥያቄ":"Claim Author Profile"}</h2>
+ <div class="panel" style="background:var(--surface2);padding:12px">
+  <b>${esc(nm(canon,ae))}</b>
+  <p class="note" style="margin:0">${li===0?"አስተዳዳሪው ማንነትዎን ሲያረጋግጥ ይህን ገጽ ማስተዳደር፣ መጻሕፍትዎን በማረጋገጫ መጨመር እና ከአንባቢያን ጋር ቀጥታ መወያየት ይችላሉ።":"Once the Adefrs Admin confirms your identity, your account will be linked to this profile so you can submit books with confirmation and chat directly with readers."}</p>
+ </div>
+ <div class="form">
+  <label>${li===0?"የማረጋገጫ መረጃ / መገናኛ (ስልክ፣ ቴሌግራም @username፣ ወይም የFacebook ገጽ)":"Verification Proof / Contact (Telegram @handle, phone, Facebook page, or publisher note)"}</label>
+  <textarea id="clProof" rows="3" placeholder="${li===0?"ለምሳሌ፡ ቴሌግራም @username ወይም ስልክ ቁጥር...":"e.g. Telegram @handle, official Facebook link, or phone number..."}"></textarea>
+  <label style="display:flex;align-items:flex-start;gap:7px;font-size:.85rem;color:var(--ink);cursor:pointer">
+   <input type="checkbox" id="clConfirm">
+   <span>${li===0?`እኔ ${esc(nm(canon,ae))} (ወይም ሕጋዊ ወኪል) መሆኔን አረጋግጣለሁ።`:`I confirm that I am ${esc(nm(canon,ae))} (or an authorized representative) requesting access to this profile.`}</span>
+  </label>
+ </div>
+ <p class="err" id="clErr"></p>
+ <div style="display:flex;gap:8px;flex-wrap:wrap">
+  <button class="gold" id="clSend">✓ ${li===0?"የማረጋገጫ ጥያቄ ላክ":"Submit Claim Request"}</button>
+  <button id="clBack">${tr("cancel")}</button>
+ </div>`;
+ $("#clBack").onclick=()=>openAuthor(canon);
+ $("#clSend").onclick=async()=>{
+  const proof=$("#clProof").value.trim();
+  if(!proof){$("#clErr").textContent=li===0?"እባክዎ የማረጋገጫ መገናኛ ወይም መረጃ ያስገቡ።":"Please provide a contact or proof note so Admin can verify you.";return}
+  if(!$("#clConfirm").checked){$("#clErr").textContent=li===0?"እባክዎ የማረጋገጫ ሳጥኑን ይምረጡ።":"Please check the confirmation box first.";return}
+  $("#clSend").disabled=true;$("#clSend").textContent="⏳ Sending...";
+  reqSent=true;
+  await W("requests/"+user.id,{id:user.id,name:user.name,email:user.email||"",targetAuthor:canon,proof,t:Date.now()});
+  $("#bkc").innerHTML=`<h2>✓ ${li===0?"ጥያቄዎ ተልኳል":"Claim Request Sent"}</h2>
+   <p>${li===0?`የ <b>${esc(nm(canon,ae))}</b> ገጽን ለመረከብ የላኩት ጥያቄ ለአስተዳዳሪ ደርሷል። ሲረጋገጥ ቀጥታ ውይይትና መጽሐፍ መጨመሪያ ይከፈትልዎታል።`:`Your request to claim <b>${esc(nm(canon,ae))}</b> has been sent to the Adefrs Admin team. Once confirmed, direct chat and book submissions will unlock on your profile.`}</p>
+   <button class="primary" id="clDone">${tr("close")}</button>`;
+  $("#clDone").onclick=()=>{$("#bk").close();render()};
+ };
+ if(!$("#bk").open)$("#bk").showModal();
+}
+
+function openDeleteAuthorModal(canon,ae){
+ if(!canEditContent())return;
+ const aBooks=books.filter(b=>normAuthor(b.a)===canon);
+ const others=authorStats().filter(x=>x.a!==canon);
+ $("#bkc").innerHTML=`<h2>🗑️ Delete or Merge Author: ${esc(nm(canon,ae))}</h2>
+ <p class="note" style="margin:0">This profile currently has <b>${aBooks.length}</b> ${aBooks.length===1?"book":"books"}.</p>
+
+ ${others.length?`<div class="panel" style="background:var(--surface2);border-color:var(--gold)">
+  <h3>🔀 Option 1: Merge Duplicate into Existing Author (Recommended)</h3>
+  <p class="note" style="margin:0">Use this if <b>${esc(nm(canon,ae))}</b> has two profiles. All ${aBooks.length} book(s) will move safely to the real profile, and this duplicate profile will be removed.</p>
+  <select id="mergeTargetSel" style="width:100%">
+   ${others.map(x=>`<option value="${esc(x.a)}" data-ae="${esc(x.ae)}">${esc(nm(x.a,x.ae))} (${x.c} ${tr("st1")})</option>`).join("")}
+  </select>
+  <button class="gold" id="doMergeAuthBtn">🔀 Merge Books &amp; Delete Duplicate</button>
+ </div>`:""}
+
+ <div class="panel" style="background:rgba(184,59,59,.08);border-color:var(--red)">
+  <h3 style="color:var(--red)">🗑️ Option 2: Delete Author Profile Completely</h3>
+  <p class="note" style="margin:0">${aBooks.length?`This will remove <b>${esc(nm(canon,ae))}</b> and permanently delete all <b>${aBooks.length}</b> book(s) under this profile.`:`This will remove the empty author profile <b>${esc(nm(canon,ae))}</b>.`}</p>
+  <button id="doDeleteAuthBtn" style="color:#fff;background:var(--red);border-color:var(--red);font-weight:700">🗑️ Delete Author${aBooks.length?` &amp; ${aBooks.length} Book(s)`:""}</button>
+ </div>
+
+ <p class="err" id="delAuthErr"></p>
+ <button id="delAuthCancel">${tr("cancel")}</button>`;
+
+ $("#delAuthCancel").onclick=()=>openAuthor(canon);
+
+ if($("#doMergeAuthBtn"))$("#doMergeAuthBtn").onclick=async()=>{
+  const sel=$("#mergeTargetSel");
+  const targetCanon=sel.value;
+  const targetAe=(sel.options[sel.selectedIndex]&&sel.options[sel.selectedIndex].dataset.ae)||targetCanon;
+  if(!targetCanon)return;
+  $("#doMergeAuthBtn").disabled=true;$("#doMergeAuthBtn").textContent="⏳ Merging...";
+  books.forEach(b=>{
+   if(normAuthor(b.a)===canon){b.a=targetCanon;b.ae=targetAe}
+  });
+  const oldMeta=AUTH_META[canon];
+  if(oldMeta){
+   const tMeta=AUTH_META[targetCanon]||{};
+   AUTH_META[targetCanon]={
+    ...tMeta,
+    ver:!!(tMeta.ver||oldMeta.ver),
+    img:tMeta.img||oldMeta.img||"",
+    bio:tMeta.bio||oldMeta.bio||"",
+    bg:tMeta.bg||oldMeta.bg||"#141B2D",
+    bgImg:tMeta.bgImg||oldMeta.bgImg||"",
+    ownerUid:tMeta.ownerUid||oldMeta.ownerUid||"",
+    ownerEmail:tMeta.ownerEmail||oldMeta.ownerEmail||"",
+    ownerName:tMeta.ownerName||oldMeta.ownerName||""
+   };
+   delete AUTH_META[canon];
+  }
+  window.lastErr="";
+  await Promise.all([W("lib/authors",AUTH_META),saveBooks()]);
+  if(window.lastErr){
+   $("#delAuthErr").textContent="⚠️ Merged locally, Supabase notice: "+window.lastErr;
+   $("#doMergeAuthBtn").disabled=false;$("#doMergeAuthBtn").textContent="🔀 Merge Books & Delete Duplicate";
+   render();return;
+  }
+  render();
+  openAuthor(targetCanon);
+ };
+
+ $("#doDeleteAuthBtn").onclick=async()=>{
+  $("#doDeleteAuthBtn").disabled=true;$("#doDeleteAuthBtn").textContent="⏳ Deleting...";
+  const rmIds=new Set();
+  for(let i=books.length-1;i>=0;i--){
+   if(normAuthor(books[i].a)===canon){rmIds.add(String(books[i].id));books.splice(i,1)}
+  }
+  if(rmIds.size){
+   DROP_IDS=DROP_IDS.filter(x=>!rmIds.has(String(x)));
+   BEGINNER_IDS=BEGINNER_IDS.filter(x=>!rmIds.has(String(x)));
+  }
+  delete AUTH_META[canon];
+  window.lastErr="";
+  await Promise.all([
+   W("lib/authors",AUTH_META),
+   saveBooks(),
+   rmIds.size?W("lib/drops",{ids:DROP_IDS}):Promise.resolve(),
+   rmIds.size?W("lib/beginners",{ids:BEGINNER_IDS}):Promise.resolve()
+  ]);
+  if(window.lastErr){
+   $("#delAuthErr").textContent="⚠️ Deleted locally, Supabase notice: "+window.lastErr;
+   $("#doDeleteAuthBtn").disabled=false;$("#doDeleteAuthBtn").textContent="🗑️ Delete Author";
+   render();return;
+  }
+  $("#bk").close();
+  render();
  };
 
  if(!$("#bk").open)$("#bk").showModal();
- if(focusChat&&$("#cm"))$("#cm").focus();
 }
 
 function editAuthorMeta(canon,ae){
  const m=AUTH_META[canon]||{};
  const curImg=getAuthorPhoto(canon);
+ const curOwnerUid=m.ownerUid||"";
  $("#bkc").innerHTML=`<h2>⚙️ Edit Author: ${esc(nm(canon,ae))}</h2>
  <div class="form">
   <label><input type="checkbox" id="aver" ${isAuthorVerified(canon)?"checked":""}> Verified Author Badge (✓)</label>
+  <label>🔗 Linked User Account (Unlocks Direct Chat &amp; Author Book Access)</label>
+  <select id="aOwnerSel">
+   <option value="">— Not linked to a user account (Chat disabled) —</option>
+   ${MEMBERS_LOG.map(mb=>`<option value="${esc(mb.id)}" data-em="${esc(mb.email||"")}" data-nm="${esc(mb.name||"")}" ${String(curOwnerUid)===String(mb.id)?"selected":""}>${esc(mb.name||"Member")} ${mb.email?`(${esc(mb.email)})`:""}</option>`).join("")}
+  </select>
   <label>Author Bio / Promotion Text</label><textarea id="abio" rows="2">${esc(m.bio||"")}</textarea>
   <label>Author Portrait Picture (Upload, URL, or Ctrl+V)</label>
   <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -1293,7 +1577,12 @@ function editAuthorMeta(canon,ae){
   <input id="abgurl" type="url" placeholder="https://... background image URL" value="${esc(m.bgImg||"")}">
  </div>
  <p class="err" id="aerr"></p><p class="note" id="astat" style="margin:0"></p>
- <button class="primary" id="asv">${tr("save")}</button><button id="acx">${tr("cancel")}</button>`;
+ <div style="display:flex;gap:8px;flex-wrap:wrap">
+  <button class="primary" id="asv">${tr("save")}</button>
+  <button class="gold" id="aAddBk">+ ${tr("nb")}</button>
+  <button id="aDelBtn" style="color:var(--red);border-color:var(--red)">🗑️ Delete / Merge</button>
+  <button id="acx">${tr("cancel")}</button>
+ </div>`;
 
  let pImg=m.img||"",bgImg=m.bgImg||"",upBusy=0;
  const setBusy=delta=>{
@@ -1317,6 +1606,8 @@ function editAuthorMeta(canon,ae){
  $("#abgfi").onchange=e=>{if(e.target.files[0])readTo(e.target.files[0],u=>{bgImg=u;$("#abgurl").value=u.startsWith("http")?u:""})};
  $("#abgurl").oninput=e=>{bgImg=e.target.value.trim()};
  $("#acx").onclick=()=>openAuthor(canon);
+ $("#aAddBk").onclick=()=>editBook(null,false,{a:canon,ae});
+ $("#aDelBtn").onclick=()=>openDeleteAuthorModal(canon,ae);
  $("#asv").onclick=async()=>{
   if($("#asv").disabled||upBusy>0)return;
   $("#asv").disabled=true;
@@ -1325,11 +1616,20 @@ function editAuthorMeta(canon,ae){
   const urlField=$("#afurl").value.trim();
   const finalPImg=pImg||urlField||"";
   const finalBgImg=bgImg||$("#abgurl").value.trim()||"";
-  AUTH_META[canon]={ver:$("#aver").checked,bio:$("#abio").value.trim(),img:finalPImg,bg:$("#abg").value,bgImg:finalBgImg};
+  const oSel=$("#aOwnerSel");
+  const selOpt=oSel&&oSel.options[oSel.selectedIndex];
+  const ownerUid=(oSel&&oSel.value)||"";
+  const ownerEmail=(selOpt&&selOpt.dataset.em)||"";
+  const ownerName=(selOpt&&selOpt.dataset.nm)||"";
+  AUTH_META[canon]={...m,ae:ae||m.ae||canon,ver:$("#aver").checked||!!ownerUid,bio:$("#abio").value.trim(),img:finalPImg,bg:$("#abg").value,bgImg:finalBgImg,ownerUid,ownerEmail,ownerName};
+  if(ownerUid&&!VER.includes(ownerUid)){VER=[...VER,ownerUid]}
   try{const kv=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");kv["lib/authors"]=AUTH_META;localStorage.setItem("adafrus_kv",JSON.stringify(kv))}catch(err){}
   let saveErr="";
   if(DB){
-   try{await DB.doc("lib/authors").set(AUTH_META)}
+   try{
+    await DB.doc("lib/authors").set(AUTH_META);
+    if(ownerUid)await DB.doc("lib/verified").set({ids:VER});
+   }
    catch(err){saveErr=String(err&&err.message||err);window.lastErr="lib/authors: "+saveErr}
   }
   if($("#asv")){$("#asv").disabled=false;$("#asv").textContent=tr("save")}
@@ -1416,7 +1716,7 @@ function openBook(id){
  const b=books.find(x=>x.id===id);if(!b)return;
  try{history.replaceState(null,"","#book/"+id)}catch(e){}
  const canonA=normAuthor(b.a);
- const rv=revs[id]||(revs[id]=[]);let pick=0;viewed=[id,...viewed.filter(x=>x!==id)].slice(0,8);
+ const rv=revs[id]||(revs[id]=[]);let pick=0,editRevIdx=-1,draftText="",draftImg="",draftFit="natural",draftImgStatus="",draftShareFeed=false,rvUploading=false;viewed=[id,...viewed.filter(x=>x!==id)].slice(0,8);
  const need=()=>{$("#bk").close();openLogin("in")};
  const locked=b.rare&&!isPremium&&!isAdmin;
  const availStores=(b.storeIds||[]).map(sid=>ST.find(x=>x.id===sid)).filter(Boolean);
@@ -1426,8 +1726,32 @@ function openBook(id){
   ${locked?`<div class="panel" style="border-color:var(--gold);background:var(--surface2)"><b>👑 Rare & Archival Edition</b><p class="note" style="margin:0">This rare Ethiopian literary work is available exclusively to Adefrs Premium members.</p><div><button class="gold" id="goPrem">⭐ ${tr("join")}</button></div></div>`:`<p>${esc(bs(b))}</p>`}
   <div><b>${tr("addl")}</b><div class="chips">${["s0","s1","s2"].map(x=>`<button data-s="${x}" class="${mine[id]===x?"on":""}">${tr(x)}</button>`).join("")}</div></div>
   <div><b>${tr("rate")}</b><div class="rate">${[1,2,3,4,5].map(n=>`<button data-n="${n}" class="${n<=pick?"on":""}" aria-label="${n}">★</button>`).join("")}</div>
-  <textarea id="rt" rows="3" placeholder="${tr("ph")}" style="width:100%"></textarea><p class="err" id="re"></p><button class="primary" id="sub">${tr("post")}</button></div>
-  <h3>${tr("revs")} (${rv.length})</h3>${rv.map((r,i)=>`<div class="rev">${stars(r.n)} <button data-chat-u="${esc(r.uid||"")}" data-chat-n="${esc(r.u)}" style="border:none;padding:0 6px;font-weight:700;color:var(--gold);font-size:.85rem">👤 ${esc(r.u)} 💬</button><p>${esc(r.x)}</p><div style="display:flex;gap:6px"><button data-h="${i}">👍 ${tr("help")} (${r.h})</button>${isAdmin?`<button data-del-rev="${i}" style="color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>`:""}</div></div>`).join("")||`<p>${tr("none")}</p>`}
+  <textarea id="rt" rows="4" placeholder="${tr("ph")} (${li===0?"ለአዲስ አንቀጽ ሁለት ጊዜ Enter ይጫኑ":"Press Enter twice for a gap between passages"})" style="width:100%">${esc(draftText)}</textarea>
+  <div class="composer-tools" style="margin-top:8px">
+   <label class="photo-attach-btn">📷 ${li===0?"ፎቶ ጨምር":"Add Photo"}<input type="file" id="rvImgFile" accept="image/*" style="display:none"></label>
+   <label style="display:inline-flex;align-items:center;gap:5px;font-size:.82rem;color:var(--muted);cursor:pointer"><input type="checkbox" id="rvShareFeed" ${draftShareFeed?"checked":""}> 📣 ${li===0?"ማህበረሰብ (Feed) ላይም አጋራ":"Also share to Feed"}</label>
+  </div>
+  ${draftImg?`<div class="photo-prev-wrap ${draftFit==="wide"?"fit-wide":draftFit==="square"?"fit-square":""}" style="margin-top:8px">
+   <img src="${esc(draftImg)}" alt="Preview">
+   <div class="photo-fit-bar">
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+     <button type="button" data-rv-fit="natural" class="${draftFit==="natural"?"on":""}">Full</button>
+     <button type="button" data-rv-fit="wide" class="${draftFit==="wide"?"on":""}">Wide 16:9</button>
+     <button type="button" data-rv-fit="square" class="${draftFit==="square"?"on":""}">Square 1:1</button>
+    </div>
+    <button type="button" id="rvRmImg" style="color:var(--red);border-color:var(--red)">✕ Remove</button>
+   </div>
+   ${draftImgStatus?`<small class="note">${esc(draftImgStatus)}</small>`:""}
+  </div>`:""}
+  <p class="err" id="re"></p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+   <button class="primary" id="sub" ${rvUploading?"disabled":""}>${rvUploading?"⏳ Uploading...":editRevIdx>-1?`✓ ${tr("save")}`:tr("post")}</button>
+   ${editRevIdx>-1?`<button type="button" id="cancelEditRev">${tr("cancel")}</button>`:""}
+  </div></div>
+  <h3>${tr("revs")} (${rv.length})</h3>${rv.map((r,i)=>{
+   const canOwn=!!(user&&((r.uid&&r.uid===user.id)||r.u===user.name));
+   return `<div class="rev">${stars(r.n)} <button data-chat-u="${esc(r.uid||"")}" data-chat-n="${esc(r.u)}" style="border:none;padding:0 6px;font-weight:700;color:var(--gold);font-size:.85rem">👤 ${esc(r.u)} 💬</button>${formatPassagesHtml(r.x)}<div style="display:flex;gap:6px;flex-wrap:wrap"><button data-h="${i}">👍 ${tr("help")} (${r.h})</button>${(canOwn||isAdmin)?`<button data-ed-rev="${i}">✏️ ${tr("edit")}</button><button data-del-rev="${i}" style="color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>`:""}</div></div>`;
+  }).join("")||`<p>${tr("none")}</p>`}
   <button id="cl">${tr("close")}</button>`;
   $("#cl").onclick=()=>$("#bk").close();
   $("#openAuthFromBk").onclick=()=>openAuthor(canonA);
@@ -1439,17 +1763,65 @@ function openBook(id){
    $("#bk").close();
   };
   $("#sh").onclick=()=>shareDirectLink("#book/"+b.id,bt(b),$("#sh"));
+  if($("#rt"))$("#rt").oninput=e=>{draftText=e.target.value};
+  if($("#rvShareFeed"))$("#rvShareFeed").onchange=e=>{draftShareFeed=e.target.checked};
+  if($("#rvImgFile"))$("#rvImgFile").onchange=async e=>{
+   const f=e.target.files[0];if(!f)return;
+   if(!user)return need();
+   rvUploading=true;draftImgStatus="⏳ Uploading photo...";draw();
+   try{
+    const url=await uploadMediaFile(f,"reviews",760,prev=>{draftImg=prev;draw()});
+    if(url){draftImg=url;draftImgStatus=url.startsWith("http")?"✓ Photo ready":"✓ Photo ready (compressed)"}
+   }finally{rvUploading=false;draw()}
+  };
+  document.querySelectorAll("[data-rv-fit]").forEach(btn=>btn.onclick=()=>{draftFit=btn.dataset.rvFit;draw()});
+  if($("#rvRmImg"))$("#rvRmImg").onclick=()=>{draftImg="";draftImgStatus="";draftFit="natural";draw()};
+  if($("#cancelEditRev"))$("#cancelEditRev").onclick=()=>{editRevIdx=-1;draftText="";draftImg="";draftImgStatus="";draftFit="natural";pick=0;draw()};
   document.querySelectorAll("[data-chat-n]").forEach(x=>x.onclick=()=>openChat(x.dataset.chatU,x.dataset.chatN));
   document.querySelectorAll("[data-s]").forEach(x=>x.onclick=()=>{if(!user)return need();mine[id]=x.dataset.s;saveMe();draw();render()});
   document.querySelectorAll("[data-n]").forEach(x=>x.onclick=()=>{pick=+x.dataset.n;draw()});
   document.querySelectorAll("[data-h]").forEach(x=>x.onclick=()=>{const r=rv[+x.dataset.h];r.h++;if(SB&&r.id)SB.rpc("bump_helpful",{rid:r.id});else saveRev(id);draw()});
-  document.querySelectorAll("[data-del-rev]").forEach(x=>x.onclick=async()=>{const idx=+x.dataset.delRev;const r=rv[idx];if(!r)return;rv.splice(idx,1);recalc(b);if(SB&&r.id)await SB.from("reviews").delete().eq("id",r.id);else saveRev(id);render();draw()});
-  $("#sub").onclick=()=>{if(!user)return need();if(!pick){$("#re").textContent=tr("e5");return}
-   const rx=$("#rt").value.trim();
+  document.querySelectorAll("[data-ed-rev]").forEach(x=>x.onclick=()=>{
+   const idx=+x.dataset.edRev,r=rv[idx];if(!r)return;
+   const parsed=splitMediaBody(r.x);
+   editRevIdx=idx;pick=r.n||5;draftText=parsed.text;draftImg=parsed.img;draftFit=parsed.fit;draftImgStatus="";
+   draw();
+   if($("#rt")){$("#rt").focus();$("#rt").scrollIntoView({behavior:"smooth",block:"center"})}
+  });
+  document.querySelectorAll("[data-del-rev]").forEach(x=>x.onclick=async()=>{const idx=+x.dataset.delRev;const r=rv[idx];if(!r)return;rv.splice(idx,1);if(editRevIdx===idx)editRevIdx=-1;recalc(b);if(SB&&r.id)await SB.from("reviews").delete().eq("id",r.id);else saveRev(id);render();draw()});
+  $("#sub").onclick=async()=>{
+   if(!user)return need();
+   if(rvUploading)return;
+   if(!pick){$("#re").textContent=tr("e5");return}
+   const rx=packMediaBody($("#rt").value,draftImg,draftFit);
+   if(editRevIdx>-1&&rv[editRevIdx]){
+    const target=rv[editRevIdx];
+    target.n=pick;target.x=rx;
+    myRatings[id]={stars:pick,text:rx,date:new Date().toISOString().slice(0,10)};
+    recalc(b);saveMe();
+    if(SB&&target.id){
+     const up=await SB.from("reviews").update({stars:pick,body:rx}).eq("id",target.id);
+     if(up&&up.error)window.lastErr="reviews update: "+up.error.message;
+    }else saveRev(id);
+    editRevIdx=-1;draftText="";draftImg="";draftImgStatus="";draftFit="natural";pick=0;
+    render();draw();return;
+   }
    rv.unshift({u:user.name,n:pick,x:rx,h:0,real:1,uid:user.id});
    myRatings[id]={stars:pick,text:rx,date:new Date().toISOString().slice(0,10)};
    if(!userProfile.memberSince)userProfile.memberSince=Date.now();
-   recalc(b);saveMe();saveRev(id);render();draw()};
+   recalc(b);saveMe();saveRev(id);
+   if(draftShareFeed){
+    const starTxt="★".repeat(pick)+"☆".repeat(5-pick);
+    const feedBody=packMediaBody(`${starTxt} (${pick}/5)
+
+${draftText.trim()}`.trim(),draftImg,draftFit);
+    const it={i:Date.now(),u:user.name,uid:user.id,t:feedBody,b:b.id,l:0,d:"now",c:[]};
+    feed.unshift(it);
+    if(SB)SB.from("posts").insert({user_name:user.name,body:feedBody,book_id:b.id}).select().single().then(x=>{if(x.data)it.i=x.data.id});
+   }
+   draftText="";draftImg="";draftImgStatus="";draftFit="natural";draftShareFeed=false;pick=0;
+   render();draw();
+  };
  };
  draw();if(!$("#bk").open)$("#bk").showModal();
  lookupBookCover(b).then(u=>{if(u&&$("#bk").open)draw()});
@@ -1557,7 +1929,7 @@ function openAddAuthorModal(){
   const aAm=$("#naAm").value.trim(),aEn=$("#naEn").value.trim();
   if(!aAm&&!aEn)return;
   const canon=normAuthor(aAm||aEn);
-  AUTH_META[canon]={...(AUTH_META[canon]||{}),ver:$("#naVer").checked,bio:$("#naBio").value.trim()};
+  AUTH_META[canon]={...(AUTH_META[canon]||{}),ae:aEn||canon,ver:$("#naVer").checked,bio:$("#naBio").value.trim()};
   await W("lib/authors",AUTH_META);
   const bTitle=$("#naBook").value.trim();
   if(bTitle){
@@ -1878,17 +2250,39 @@ async function adminView(v){
  </div>
 
  <div class="panel" style="margin-top:14px">
-  <h2>${tr("reqs")} (${rq.length})</h2>
-  ${rq.map(q=>{const ok=VER.includes(q.id);return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)">
-   <div><b>${esc(q.name)}</b> <span class="pill-tag ${ok?"pill-ok":"pill-wait"}">${ok?"Verified ✓":"Pending"}</span></div>
-   <button data-v="${q.id}" class="${ok?"":"gold"}" style="padding:5px 14px">${ok?tr("revoke"):tr("verify")}</button>
-  </div>`}).join("")||`<p class="note">—</p>`}
+  <h2>${tr("reqs")} &amp; Profile Claims (${rq.length})</h2>
+  <p class="note" style="margin:0">Approve &amp; link an author's account to their profile so direct chat and book submissions unlock for them.</p>
+  ${rq.map((q,qi)=>{
+   const ok=VER.includes(q.id);
+   const linkedK=Object.keys(AUTH_META||{}).find(k=>AUTH_META[k]&&String(AUTH_META[k].ownerUid||"")===String(q.id))||"";
+   const defTarget=linkedK||q.targetAuthor||normAuthor(q.name);
+   return `<div style="display:grid;gap:8px;padding:10px 0;border-top:1px solid var(--line)">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+     <div><b>${esc(q.name)}</b> ${q.email?`<small class="note">(${esc(q.email)})</small>`:""} <span class="pill-tag ${ok?"pill-ok":"pill-wait"}">${ok?(linkedK?`Linked → ${esc(linkedK)} ✓`:"Verified ✓"):"Pending"}</span></div>
+     <button data-v="${esc(q.id)}" data-vidx="${qi}" class="${ok?"":"gold"}" style="padding:5px 14px">${ok?tr("revoke"):`✓ ${tr("verify")} &amp; Link`}</button>
+    </div>
+    ${q.proof?`<div class="note" style="margin:0">📋 Proof/Contact: <b>${esc(q.proof)}</b></div>`:""}
+    ${!ok?`<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+     <small class="note">Link to profile:</small>
+     <select id="rqTarget-${qi}" style="flex:1;min-width:180px;padding:5px 9px;font-size:.82rem">
+      <option value="${esc(defTarget)}">${esc(defTarget)} (Requested / New)</option>
+      ${allAuthors.filter(x=>x.a!==defTarget).map(x=>`<option value="${esc(x.a)}">${esc(nm(x.a,x.ae))} (${x.c} ${tr("st1")})</option>`).join("")}
+     </select>
+    </div>`:""}
+   </div>`;
+  }).join("")||`<p class="note">—</p>`}
  </div>
 
  <div class="panel" style="margin-top:14px">
   <h2>${tr("subs")} (${sb.length})</h2>
   ${sb.map(x=>`<div class="rev">
-   <b>${esc(x.book.t||x.book.e)}</b> — ${esc(x.uname)} ${VER.includes(x.uid)?'<span class="pill-tag pill-ok">Verified ✓</span>':""}
+   <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    ${x.book&&x.book.img?`<img src="${esc(x.book.img)}" style="width:40px;height:56px;object-fit:cover;border-radius:6px">`:""}
+    <div>
+     <b>${esc(x.book.t||x.book.e)}</b> — <span class="note">${esc(x.book.a||x.uname)}</span> ${VER.includes(x.uid)?'<span class="pill-tag pill-ok">Verified ✓</span>':""}
+     <div class="note">Submitted by: ${esc(x.uname)} · ${x.book.y||""}</div>
+    </div>
+   </div>
    <div style="margin-top:6px;display:flex;gap:8px">
     <button data-ap="${x.id}" class="gold" style="padding:5px 14px">${tr("apprv")}</button>
     <button data-rj="${x.id}" style="padding:5px 14px">${tr("rejct")}</button>
@@ -1901,8 +2295,18 @@ async function adminView(v){
    <h2>👤 ${tr("tauth")} (${allAuthors.length})</h2>
    <button class="gold" id="admAddAuthorBtn">+ Add Author</button>
   </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;max-height:200px;overflow-y:auto">
-   ${allAuthors.map(x=>`<button data-eda="${esc(x.a)}" data-edae="${esc(x.ae)}" style="padding:5px 12px;font-size:.82rem;background:var(--surface2)">${esc(nm(x.a,x.ae))} ${isAuthorVerified(x.a)?"✓":""} ✏️</button>`).join("")}
+  <div style="display:grid;gap:6px;max-height:260px;overflow-y:auto">
+   ${allAuthors.map(x=>{
+    const isLive=!!getAuthorOwnerUid(x.a);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;border-radius:10px;background:var(--surface2);flex-wrap:wrap">
+     <div><b>${esc(nm(x.a,x.ae))}</b> ${isAuthorVerified(x.a)?"✓":""} ${isLive?'<span class="pill-tag pill-ok">🟢 Active</span>':""} <small class="note">(${x.c} ${tr("st1")})</small></div>
+     <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button data-adm-addbk="${esc(x.a)}" data-adm-addbke="${esc(x.ae)}" style="padding:3px 9px;font-size:.78rem">+ 📖 Book</button>
+      <button data-eda="${esc(x.a)}" data-edae="${esc(x.ae)}" style="padding:3px 9px;font-size:.78rem">✏️ ${tr("edit")}</button>
+      <button data-adm-dela="${esc(x.a)}" data-adm-delae="${esc(x.ae)}" style="padding:3px 9px;font-size:.78rem;color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>
+     </div>
+    </div>`;
+   }).join("")}
   </div>
  </div>
 
@@ -2225,6 +2629,8 @@ create policy "Admins and Team manage lib/*" on public.kv
  if($("#showAllAdmBooks"))$("#showAllAdmBooks").onclick=()=>{$("#ablist").innerHTML=fBooks.map(row).join("");v.querySelectorAll("[data-e]").forEach(x=>x.onclick=()=>editBook(+x.dataset.e));v.querySelectorAll("[data-d]").forEach(x=>x.onclick=async()=>{const idx=books.findIndex(b=>b.id==x.dataset.d);if(idx>-1){books.splice(idx,1);render();await saveBooks()}})};
  $("#af").oninput=e=>{adminFilter=e.target.value;const p=e.target.selectionStart;clearTimeout(afTimer);afTimer=setTimeout(()=>adminView(v).then(()=>{if($("#af")){$("#af").focus();$("#af").setSelectionRange(p,p)}}),110)};
  v.querySelectorAll("[data-eda]").forEach(b=>b.onclick=()=>editAuthorMeta(b.dataset.eda,b.dataset.edae));
+ v.querySelectorAll("[data-adm-addbk]").forEach(b=>b.onclick=()=>editBook(null,false,{a:b.dataset.admAddbk,ae:b.dataset.admAddbke}));
+ v.querySelectorAll("[data-adm-dela]").forEach(b=>b.onclick=()=>openDeleteAuthorModal(b.dataset.admDela,b.dataset.admDelae));
  v.querySelectorAll("[data-del-ev]").forEach(b=>b.onclick=async()=>{
   const idx=EVENTS.findIndex(x=>x.id==b.dataset.delEv);
   if(idx>-1){EVENTS.splice(idx,1);await W("lib/events",{list:EVENTS});render()}
@@ -2271,10 +2677,28 @@ create policy "Admins and Team manage lib/*" on public.kv
  };
 
  v.querySelectorAll("[data-v]").forEach(x=>x.onclick=async()=>{
-  const i=x.dataset.v;
-  VER=VER.includes(i)?VER.filter(y=>y!==i):[...VER,i];
-  render();
-  await W("lib/verified",{ids:VER});
+  const i=x.dataset.v,qi=+x.dataset.vidx;
+  const q=rq[qi]||{id:i,name:""};
+  if(VER.includes(i)){
+   VER=VER.filter(y=>y!==i);
+   Object.keys(AUTH_META||{}).forEach(k=>{
+    if(AUTH_META[k]&&String(AUTH_META[k].ownerUid||"")===String(i)){
+     AUTH_META[k]={...AUTH_META[k],ownerUid:"",ownerEmail:"",ownerName:""};
+    }
+   });
+   render();
+   await Promise.all([W("lib/verified",{ids:VER}),W("lib/authors",AUTH_META)]);
+  }else{
+   VER=[...VER,i];
+   const sel=document.getElementById("rqTarget-"+qi);
+   const targetCanon=normAuthor((sel&&sel.value)||q.targetAuthor||q.name);
+   if(targetCanon&&targetCanon!=="—"){
+    const prevM=AUTH_META[targetCanon]||{};
+    AUTH_META[targetCanon]={...prevM,ver:true,ownerUid:i,ownerEmail:q.email||prevM.ownerEmail||"",ownerName:q.name||prevM.ownerName||""};
+   }
+   render();
+   await Promise.all([W("lib/verified",{ids:VER}),W("lib/authors",AUTH_META)]);
+  }
  });
  v.querySelectorAll("[data-ap]").forEach(x=>x.onclick=async()=>{
   const m=sb.find(q=>q.id===x.dataset.ap);if(!m)return;
@@ -2438,7 +2862,7 @@ function profileView(v){
    <div>
     <button data-rb="${b.id}" style="border:none;padding:0;font-weight:700;text-align:left">${esc(bt(b))}</button>
     <div class="note">${esc(ba(b))} ${date?`· ${esc(date)}`:""}</div>
-    ${text?`<div style="font-size:.88rem;margin-top:3px">"${esc(text)}"</div>`:""}
+    ${text?`<div style="margin-top:4px">${formatPassagesHtml(text)}</div>`:""}
    </div>
    <div>${stars(stVal)} <b>${Number(stVal||0).toFixed(1)}</b></div>
   </div>`).join(""):`<p class="note">You haven't rated any books yet. Open a book to rate it.</p>`}
@@ -2470,7 +2894,7 @@ function profileView(v){
  <div class="panel" style="margin-top:14px">
   <h3>📚 My Reading List (${myBookIds.length}) & 💬 My Posts (${myPosts.length})</h3>
   ${myBookIds.length?`<div class="chips">${myBookIds.map(id=>{const b=books.find(x=>x.id==id);return b?`<button data-pb="${b.id}">${esc(bt(b))}</button>`:""}).join("")}</div>`:`<p class="note">${tr("emptyl")}</p>`}
-  ${myPosts.length?myPosts.map(p=>`<div class="post"><small class="note">${esc(p.d)}</small><p>${esc(p.t)}</p></div>`).join(""):`<p class="note">No posts yet.</p>`}
+  ${myPosts.length?myPosts.map(p=>`<div class="post"><small class="note">${esc(p.d)}</small>${formatPassagesHtml(p.t)}</div>`).join(""):`<p class="note">No posts yet.</p>`}
  </div>`;
 
  let avData=userProfile.avatar||"",cvData=userProfile.cover||"";
@@ -2502,10 +2926,13 @@ function profileView(v){
 
 async function studioView(v){
  if(!user){v.innerHTML=`<div class="panel"><h2>✍️ ${tr("studio")}</h2><p>${tr("authtx")}</p><button class="gold" id="stLg">${tr("signup")}</button></div>`;$("#stLg").onclick=()=>openLogin("up");return}
- const canon=normAuthor(user.name);
- const ver=VER.includes(user.id)||isAuthorVerified(canon);
+ const claimed=getMyClaimedAuthor();
+ const canon=claimed||normAuthor(user.name);
+ const ver=!!claimed||VER.includes(user.id);
  const my=books.filter(b=>b.uid===user.id||normAuthor(b.a)===canon);
+ const myAe=(my[0]&&my[0].ae)||(AUTH_META[canon]&&AUTH_META[canon].ae)||canon;
  const meta=AUTH_META[canon]||{};
+ const allAu=authorStats();
  let mySubs=[];
  if(DB){
   try{
@@ -2520,14 +2947,25 @@ async function studioView(v){
  v.innerHTML=`
  <div class="panel">
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
-   <h2>✍️ ${tr("studio")} — ${esc(user.name)} ${ver?'<span class="vbadge vbadge-lg" title="Verified Author">✓</span>':""}</h2>
-   <span class="pill-tag ${ver?"pill-ok":reqSent?"pill-wait":"pill-no"}">${ver?"Verified Author ✓":reqSent?"Pending Review ⏳":"Unverified"}</span>
+   <h2>✍️ ${tr("studio")} — ${esc(ver?nm(canon,myAe):user.name)} ${ver?'<span class="vbadge vbadge-lg" title="Verified Author">✓</span>':""}</h2>
+   <span class="pill-tag ${ver?"pill-ok":reqSent?"pill-wait":"pill-no"}">${ver?"Verified &amp; Linked ✓":reqSent?"Pending Review ⏳":"Unverified"}</span>
   </div>
   <p>${ver?tr("vdone"):tr("vpend")}</p>
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-   ${ver?`<button class="gold" id="ns">${tr("add")}</button><button id="vwMyProf">👤 View My Public Author Page</button>`:`<button class="gold" id="rq" ${reqSent?"disabled":""}>${reqSent?"✓ "+tr("pend"):tr("reqv")}</button>`}
-  </div>
-  ${ver?`<div class="form" style="margin-top:8px;padding-top:10px;border-top:1px solid var(--line)">
+  ${ver?`<div style="display:flex;gap:8px;flex-wrap:wrap">
+   <button class="gold" id="ns">➕ ${li===0?"መጽሐፌን ጨምር (በማረጋገጫ)":"Add Book to My Profile"}</button>
+   <button id="vwMyProf">👤 View My Public Author Page</button>
+  </div>`:`<div class="form" style="padding:12px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)">
+   <label>${li===0?"1. ቀድሞ ያለ የደራሲ ገጽዎን ይምረጡ (ወይም አዲስ ስም ይፍጠሩ)":"1. Claim your existing author profile on Adefrs (or create a new one)"}</label>
+   <select id="stClaimSel">
+    <option value="${esc(normAuthor(user.name))}">✨ Create new profile: ${esc(user.name)}</option>
+    ${allAu.filter(x=>!getAuthorOwnerUid(x.a)).map(x=>`<option value="${esc(x.a)}">👤 Claim: ${esc(nm(x.a,x.ae))} (${x.c} ${tr("st1")})</option>`).join("")}
+   </select>
+   <label>${li===0?"2. የማረጋገጫ መገናኛ / መረጃ (ቴሌግራም @username፣ ስልክ ወይም Facebook)":"2. Verification Contact / Proof (Telegram @handle, phone, or Facebook page)"}</label>
+   <input id="stClaimProof" placeholder="${li===0?"ለምሳሌ፡ @username ወይም ስልክ ቁጥር":"e.g. @telegram, phone number, or official page"}">
+   <p class="err" id="stClaimErr"></p>
+   <div><button class="gold" id="rq" ${reqSent?"disabled":""}>${reqSent?"✓ "+tr("pend"):`✍️ ${tr("reqv")}`}</button></div>
+  </div>`}
+  ${ver&&canEditContent()?`<div class="form" style="margin-top:8px;padding-top:10px;border-top:1px solid var(--line)">
    <label>Promote Your Bio & Writings (shown on your Author Profile)</label>
    <textarea id="myBio" rows="2" placeholder="Write about yourself, your books, and upcoming poetry...">${esc(meta.bio||"")}</textarea>
    <div><button class="primary" id="svMyBio">${tr("save")}</button></div>
@@ -2539,7 +2977,7 @@ async function studioView(v){
  </div>
  ${mySubs.length?`<div class="panel" style="margin-top:14px"><h3>${tr("subs")} (${mySubs.length})</h3>${mySubs.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-top:1px solid var(--line)"><b>${esc(s.book.t||s.book.e)}</b><span class="pill-tag ${s.status==="approved"?"pill-ok":s.status==="rejected"?"pill-no":"pill-wait"}">${s.status}</span></div>`).join("")}</div>`:""}
  ${rowH("books",my)}`;
- if($("#ns"))$("#ns").onclick=()=>editBook(null,true);
+ if($("#ns"))$("#ns").onclick=()=>editBook(null,true,{a:canon,ae:myAe});
  if($("#vwMyProf"))$("#vwMyProf").onclick=()=>openAuthor(canon);
  if($("#svMyBio"))$("#svMyBio").onclick=async()=>{
   AUTH_META[canon]={...meta,ver:true,bio:$("#myBio").value.trim()};
@@ -2547,8 +2985,11 @@ async function studioView(v){
   alert("✓ Saved to your public Author Profile!");
  };
  if($("#rq"))$("#rq").onclick=async()=>{
+  const proof=($("#stClaimProof")&&$("#stClaimProof").value.trim())||"";
+  const targetAuthor=($("#stClaimSel")&&$("#stClaimSel").value)||normAuthor(user.name);
+  if(!proof){if($("#stClaimErr"))$("#stClaimErr").textContent=li===0?"እባክዎ የማረጋገጫ መገናኛ ያስገቡ።":"Please enter your contact or proof note first.";return}
   reqSent=true;$("#rq").disabled=true;$("#rq").textContent="✓ "+tr("pend");
-  await W("requests/"+user.id,{id:user.id,name:user.name,t:Date.now()});
+  await W("requests/"+user.id,{id:user.id,name:user.name,email:user.email||"",targetAuthor,proof,t:Date.now()});
   render();
  };
  bindCards(v);
@@ -2598,7 +3039,8 @@ function openMenu(){
 $("#menuBtn").onclick=openMenu;
 $("#themeTopBtn").onclick=()=>{const r=document.documentElement,d=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=d?"light":"dark";applySet();};
 
-["menu","bk","login","nt"].forEach(id=>{
+if($("#imgModalClose"))$("#imgModalClose").onclick=()=>$("#imgModal").close();
+["menu","bk","login","nt","imgModal"].forEach(id=>{
  const d=document.getElementById(id);
  if(d)d.addEventListener("click",e=>{if(e.target===d)d.close()});
 });
@@ -2624,23 +3066,30 @@ function authorStats(){
   x.w+=(b.r&&b.r[1])||0;x.s+=((b.r&&b.r[0])||0)*((b.r&&b.r[1])||0);x.c++;
   if(isAuthorVerified(canon))x.ver=true;
  });
+ Object.entries(AUTH_META||{}).forEach(([k,info])=>{
+  if(!k||k==="—"||!info||typeof info!=="object")return;
+  const canon=normAuthor(k);
+  if(!m[canon])m[canon]={a:canon,ae:info.ae||canon,w:0,s:0,c:0,ver:isAuthorVerified(canon)};
+ });
  return Object.values(m).map(x=>({...x,avg:x.w?x.s/x.w:0})).sort((p,q)=>q.c-p.c||q.w*q.avg-p.w*p.avg);
 }
 
+let feedDraftText="",feedDraftBook=0,feedDraftImg="",feedDraftFit="natural",feedDraftImgStatus="",feedUploading=false;
 const postH=p=>{
  const b=books.find(x=>x.id===p.b);
  const replies=p.c||[];
+ const canOwn=!!(user&&((p.uid&&p.uid===user.id)||p.u===user.name));
  return `<div class="post">
-  <div style="display:flex;justify-content:space-between;align-items:center">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
    <button data-chat-u="${esc(p.uid||"")}" data-chat-n="${esc(p.u)}" style="border:none;padding:0;font-weight:700;color:var(--gold)">${(user&&(p.u===user.name||(p.uid&&p.uid===user.id))&&userProfile.avatar)?`<img src="${esc(userProfile.avatar)}" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:3px">`:`👤 `}${esc(p.u)} 💬</button>
-   <small class="note">${p.d}</small>
+   <small class="note">${esc(p.d)}</small>
   </div>
-  <p>${esc(p.t)}</p>
-  ${b?`<div style="margin-bottom:6px"><button data-id="${b.id}" style="padding:3px 10px;font-size:.8rem;background:var(--surface2)">📖 ${esc(bt(b))}</button></div>`:""}
-  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+  ${formatPassagesHtml(p.t)}
+  ${b?`<div style="margin:6px 0 8px"><button data-id="${b.id}" style="padding:4px 11px;font-size:.8rem;background:var(--surface2)">📖 ${esc(bt(b))}</button></div>`:""}
+  <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
    <button data-lk="${p.i}" style="padding:3px 11px;font-size:.82rem">❤ ${p.l}</button>
    <button data-rep-toggle="${p.i}" style="padding:3px 11px;font-size:.82rem">💬 Reply (${replies.length})</button>
-   ${isAdmin?`<button data-del-post="${p.i}" style="padding:3px 10px;font-size:.78rem;color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>`:""}
+   ${(canOwn||isAdmin)?`<button data-edit-post="${p.i}" style="padding:3px 10px;font-size:.78rem">✏️ ${tr("edit")}</button><button data-del-post="${p.i}" style="padding:3px 10px;font-size:.78rem;color:var(--red);border-color:var(--red)">🗑️ ${tr("del")}</button>`:""}
   </div>
   ${replies.length?`<div style="margin-top:8px;padding-left:12px;border-left:2px solid var(--gold);display:grid;gap:4px">${replies.map(r=>`<div style="font-size:.85rem"><b>${esc(r.u)}:</b> ${esc(r.x)}</div>`).join("")}</div>`:""}
   <div id="repBox-${p.i}" style="display:none;margin-top:8px;gap:6px">
@@ -2650,11 +3099,112 @@ const postH=p=>{
  </div>`;
 };
 
+function openEditPostModal(pid){
+ const p=feed.find(x=>String(x.i)===String(pid));if(!p)return;
+ const parsed=splitMediaBody(p.t);
+ let epText=parsed.text,epBook=p.b||0,epImg=parsed.img,epFit=parsed.fit,epStatus="",epBusy=false;
+ const drawEp=()=>{
+  $("#bkc").innerHTML=`<h2>✏️ ${tr("edit")} ${tr("feed")}</h2>
+  <div class="form">
+   <textarea id="epTxt" rows="6" placeholder="${tr("postph")}" style="width:100%">${esc(epText)}</textarea>
+   <small class="note">${li===0?"በአንቀጾች መካከል ክፍተት ለመተው ሁለት ጊዜ Enter ይጫኑ።":"Press Enter twice to leave a clean gap between passages."}</small>
+   <select id="epBook"><option value="0">— Tag a book or poem (optional) —</option>${books.map(b=>`<option value="${b.id}" ${b.id==epBook?"selected":""}>${esc(bt(b))} (${esc(ba(b))})</option>`).join("")}</select>
+   <div class="composer-tools">
+    <label class="photo-attach-btn">📷 ${epImg?(li===0?"ፎቶ ቀይር":"Change Photo"):(li===0?"ፎቶ ጨምር":"Add Photo")}<input type="file" id="epFile" accept="image/*" style="display:none"></label>
+   </div>
+   ${epImg?`<div class="photo-prev-wrap ${epFit==="wide"?"fit-wide":epFit==="square"?"fit-square":""}">
+    <img src="${esc(epImg)}" alt="Preview">
+    <div class="photo-fit-bar">
+     <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button type="button" data-ep-fit="natural" class="${epFit==="natural"?"on":""}">Full</button>
+      <button type="button" data-ep-fit="wide" class="${epFit==="wide"?"on":""}">Wide 16:9</button>
+      <button type="button" data-ep-fit="square" class="${epFit==="square"?"on":""}">Square 1:1</button>
+     </div>
+     <button type="button" id="epRmImg" style="color:var(--red);border-color:var(--red)">✕ Remove</button>
+    </div>
+    ${epStatus?`<small class="note">${esc(epStatus)}</small>`:""}
+   </div>`:""}
+  </div>
+  <p class="err" id="epErr"></p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+   <button class="gold" id="epSave" ${epBusy?"disabled":""}>${epBusy?"⏳ Uploading...":`✓ ${tr("save")}`}</button>
+   <button id="epCancel">${tr("cancel")}</button>
+  </div>`;
+  $("#epTxt").oninput=e=>{epText=e.target.value};
+  $("#epBook").onchange=e=>{epBook=+e.target.value};
+  $("#epFile").onchange=async e=>{
+   const f=e.target.files[0];if(!f)return;
+   epBusy=true;epStatus="⏳ Uploading photo...";drawEp();
+   try{
+    const url=await uploadMediaFile(f,"feed",760,prev=>{epImg=prev;drawEp()});
+    if(url){epImg=url;epStatus=url.startsWith("http")?"✓ Photo ready":"✓ Photo ready (compressed)"}
+   }finally{epBusy=false;drawEp()}
+  };
+  document.querySelectorAll("[data-ep-fit]").forEach(b=>b.onclick=()=>{epFit=b.dataset.epFit;drawEp()});
+  if($("#epRmImg"))$("#epRmImg").onclick=()=>{epImg="";epFit="natural";epStatus="";drawEp()};
+  $("#epCancel").onclick=()=>$("#bk").close();
+  $("#epSave").onclick=async()=>{
+   if(epBusy)return;
+   const packed=packMediaBody(epText,epImg,epFit);
+   if(!packed){$("#epErr").textContent=li===0?"ጽሑፍ ወይም ፎቶ ያስገቡ።":"Write text or attach a photo.";return}
+   p.t=packed;p.b=epBook;
+   if(SB&&typeof p.i==="string"&&p.i.includes("-")){
+    const r=await SB.from("posts").update({body:packed,book_id:epBook||null}).eq("id",p.i);
+    if(r&&r.error){$("#epErr").textContent="⚠️ Updated locally, Supabase notice: "+r.error.message;render();return}
+   }
+   $("#bk").close();render();
+  };
+ };
+ drawEp();
+ if(!$("#bk").open)$("#bk").showModal();
+}
+
 VIEWS.feed=v=>{v.innerHTML=`<h2 class="sec">${tr("feed")}</h2>
- ${user?`<div class="panel"><textarea id="fp2" rows="2" placeholder="${tr("postph")}"></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="fb" style="flex:1"><option value="0">— Tag a book or poem (optional) —</option>${books.map(b=>`<option value="${b.id}">${esc(bt(b))} (${esc(ba(b))})</option>`).join("")}</select><button class="gold" id="fpost">${tr("post")}</button></div></div>`:`<div class="panel"><button class="primary" id="fl">${tr("login")}</button></div>`}
+ ${user?`<div class="panel">
+  <textarea id="fp2" rows="4" placeholder="${tr("postph")} (${li===0?"ለአዲስ አንቀጽ ሁለት ጊዜ Enter ይጫኑ":"Press Enter twice for paragraph gaps"})">${esc(feedDraftText)}</textarea>
+  ${feedDraftImg?`<div class="photo-prev-wrap ${feedDraftFit==="wide"?"fit-wide":feedDraftFit==="square"?"fit-square":""}">
+   <img src="${esc(feedDraftImg)}" alt="Preview">
+   <div class="photo-fit-bar">
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+     <button type="button" data-fd-fit="natural" class="${feedDraftFit==="natural"?"on":""}">Full</button>
+     <button type="button" data-fd-fit="wide" class="${feedDraftFit==="wide"?"on":""}">Wide 16:9</button>
+     <button type="button" data-fd-fit="square" class="${feedDraftFit==="square"?"on":""}">Square 1:1</button>
+    </div>
+    <button type="button" id="fdRmImg" style="color:var(--red);border-color:var(--red)">✕ Remove</button>
+   </div>
+   ${feedDraftImgStatus?`<small class="note">${esc(feedDraftImgStatus)}</small>`:""}
+  </div>`:""}
+  <div class="composer-tools">
+   <label class="photo-attach-btn">📷 ${li===0?"ፎቶ ጨምር":"Photo"}<input type="file" id="fdImgFile" accept="image/*" style="display:none"></label>
+   <select id="fb" style="flex:1;min-width:170px"><option value="0">— Tag a book or poem (optional) —</option>${books.map(b=>`<option value="${b.id}" ${b.id==feedDraftBook?"selected":""}>${esc(bt(b))} (${esc(ba(b))})</option>`).join("")}</select>
+   <button class="gold" id="fpost" ${feedUploading?"disabled":""}>${feedUploading?"⏳ Uploading...":tr("post")}</button>
+  </div>
+ </div>`:`<div class="panel"><button class="primary" id="fl">${tr("login")}</button></div>`}
  <div class="panel" style="margin-top:14px">${feed.map(postH).join("")}</div>`;
  if($("#fl"))$("#fl").onclick=()=>openLogin("in");
- if($("#fpost"))$("#fpost").onclick=()=>{const t=$("#fp2").value.trim();if(!t)return;const it={i:Date.now(),u:user.name,uid:user.id,t,b:+$("#fb").value,l:0,d:"now",c:[]};feed.unshift(it);if(SB)SB.from("posts").insert({user_name:user.name,body:t,book_id:it.b||null}).select().single().then(x=>{if(x.data)it.i=x.data.id});render()};
+ if($("#fp2"))$("#fp2").oninput=e=>{feedDraftText=e.target.value};
+ if($("#fb"))$("#fb").onchange=e=>{feedDraftBook=+e.target.value};
+ if($("#fdImgFile"))$("#fdImgFile").onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  feedUploading=true;feedDraftImgStatus="⏳ Uploading photo...";render();
+  try{
+   const url=await uploadMediaFile(f,"feed",760,prev=>{feedDraftImg=prev;render()});
+   if(url){feedDraftImg=url;feedDraftImgStatus=url.startsWith("http")?"✓ Photo ready":"✓ Photo ready (compressed)"}
+  }finally{feedUploading=false;render()}
+ };
+ v.querySelectorAll("[data-fd-fit]").forEach(b=>b.onclick=()=>{feedDraftFit=b.dataset.fdFit;render()});
+ if($("#fdRmImg"))$("#fdRmImg").onclick=()=>{feedDraftImg="";feedDraftFit="natural";feedDraftImgStatus="";render()};
+ if($("#fpost"))$("#fpost").onclick=()=>{
+  if(feedUploading)return;
+  const packed=packMediaBody($("#fp2").value,feedDraftImg,feedDraftFit);
+  if(!packed)return;
+  const bId=+$("#fb").value;
+  const it={i:Date.now(),u:user.name,uid:user.id,t:packed,b:bId,l:0,d:"now",c:[]};
+  feed.unshift(it);
+  feedDraftText="";feedDraftBook=0;feedDraftImg="";feedDraftFit="natural";feedDraftImgStatus="";
+  if(SB)SB.from("posts").insert({user_name:user.name,body:packed,book_id:it.b||null}).select().single().then(x=>{if(x.data)it.i=x.data.id});
+  render();
+ };
  bindCards(v);
 };
 
@@ -2673,7 +3223,9 @@ document.addEventListener("click",async e=>{
  const ch=e.target.closest("[data-chat-n]");if(ch){openChat(ch.dataset.chatU,ch.dataset.chatN);return}
  const rt=e.target.closest("[data-rep-toggle]");if(rt){const b=document.getElementById("repBox-"+rt.dataset.repToggle);if(b)b.style.display=b.style.display==="flex"?"none":"flex";return}
  const rs=e.target.closest("[data-rep-send]");if(rs){if(!user)return openLogin("in");const id=rs.dataset.repSend;const inp=document.getElementById("repIn-"+id);const txt=inp&&inp.value.trim();if(!txt)return;const p=feed.find(x=>x.i==id);if(p){p.c=p.c||[];p.c.push({u:user.name,x:txt});render()}return}
- const dp=e.target.closest("[data-del-post]");if(dp&&isAdmin){const pid=dp.dataset.delPost;const idx=feed.findIndex(x=>String(x.i)===String(pid));if(idx>-1){feed.splice(idx,1);if(SB&&typeof pid==="string"&&pid.includes("-"))await SB.from("posts").delete().eq("id",pid);render()}return}
+ const zm=e.target.closest("[data-zoom-img]");if(zm){openPhotoLightbox(zm.dataset.zoomImg);return}
+ const ep=e.target.closest("[data-edit-post]");if(ep){openEditPostModal(ep.dataset.editPost);return}
+ const dp=e.target.closest("[data-del-post]");if(dp){const pid=dp.dataset.delPost;const idx=feed.findIndex(x=>String(x.i)===String(pid));if(idx>-1){const p=feed[idx];const canOwn=!!(user&&((p.uid&&p.uid===user.id)||p.u===user.name));if(isAdmin||canOwn){feed.splice(idx,1);if(SB&&typeof pid==="string"&&pid.includes("-"))await SB.from("posts").delete().eq("id",pid);render()}}return}
  const k=e.target.closest("[data-lk]");if(k){const p=feed.find(x=>x.i==k.dataset.lk);if(p){p.l++;if(SB&&typeof p.i==="string")SB.rpc("bump_like",{pid:p.i});render()}}
 });
 
@@ -2732,6 +3284,7 @@ function homeView(v){
 
  <div style="display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none;align-items:center">
   <button data-go="books" class="gold" style="padding:6px 14px;font-size:.84rem;white-space:nowrap">📚 ${tr("books")}</button>
+  <button type="button" id="homeGenresToggle" class="genre-menu-btn">🏷️ ${tr("allg")} ▾</button>
   <button data-go="authors" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">✍️ ${tr("authors")}</button>
   <button data-go="events" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">📅 ${tr("events")}</button>
   <button data-go="critics" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">🎙️ ${tr("critics")}</button>
@@ -2739,8 +3292,15 @@ function homeView(v){
   <button data-go="feed" style="padding:6px 13px;font-size:.84rem;white-space:nowrap;background:var(--surface)">💬 ${tr("feed")}</button>
   ${LK.map(k=>`<button data-l="${k}" style="padding:5px 11px;font-size:.8rem;white-space:nowrap;background:var(--surface2)">${LN[k]}</button>`).join("")}
  </div>
- <div class="chips" style="margin-top:6px">
-  ${GK.map(k=>`<button data-g="${k}" style="padding:5px 11px;font-size:.8rem">${gn(k)}</button>`).join("")}
+ <div class="genre-menu-panel" id="homeGenresPanel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+   <strong style="font-size:.9rem">🏷️ ${tr("popint")}</strong>
+   <button type="button" id="homeGenresClose" style="padding:2px 9px;font-size:.78rem">✕</button>
+  </div>
+  <div class="genre-menu-grid">
+   <button type="button" class="genre-menu-item" data-g="">📚 ${tr("allg")}</button>
+   ${GK.map(k=>`<button type="button" class="genre-menu-item" data-g="${k}"><span>${GENRE_ICONS[k]||"📘"}</span><span>${gn(k)}</span></button>`).join("")}
+  </div>
  </div>
 
  ${SET.hideTop10?"":`<h2 class="sec">${tr("top10")}</h2>
@@ -2808,6 +3368,11 @@ function homeView(v){
 
  bindCards(v);
  v.querySelectorAll("[data-f]").forEach(x=>x.onclick=()=>{fi=+x.dataset.f;render()});
+ const gBtn=$("#homeGenresToggle"),gPan=$("#homeGenresPanel"),gCls=$("#homeGenresClose");
+ if(gBtn&&gPan){
+  gBtn.onclick=()=>{const o=gPan.classList.toggle("open");gBtn.classList.toggle("open",o);gBtn.textContent=`🏷️ ${tr("allg")} ${o?"▴":"▾"}`};
+  if(gCls)gCls.onclick=()=>{gPan.classList.remove("open");gBtn.classList.remove("open");gBtn.textContent=`🏷️ ${tr("allg")} ▾`};
+ }
  v.querySelectorAll("[data-g]").forEach(x=>x.onclick=()=>{gen=x.dataset.g;lang="";term="";tab="books";render()});
  v.querySelectorAll("[data-l]").forEach(x=>x.onclick=()=>{lang=x.dataset.l;gen="";term="";tab="books";render()});
 }
