@@ -294,17 +294,16 @@ footer#ft{background:var(--hero-dark);color:#CBD5E1;padding:28px 18px;text-align
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
-/* Smooth initial load skeleton (prevents flashing starter books before Supabase loads) */
-.boot-skel{display:grid;gap:16px;margin-top:16px}
-.boot-skel-hero{display:grid;grid-template-columns:2.1fr 1fr;gap:16px;min-height:340px}
-.boot-skel-box{border-radius:18px;background:linear-gradient(110deg,var(--surface) 25%,var(--surface2) 45%,var(--surface) 65%);background-size:200% 100%;animation:skelShimmer 1.35s ease-in-out infinite;border:1px solid var(--line)}
-.boot-skel-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(164px,1fr));gap:14px}
-.boot-skel-card{aspect-ratio:2/3;border-radius:14px;background:linear-gradient(110deg,var(--surface) 25%,var(--surface2) 45%,var(--surface) 65%);background-size:200% 100%;animation:skelShimmer 1.35s ease-in-out infinite;border:1px solid var(--line)}
-@keyframes skelShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-@media (max-width:860px){.boot-skel-hero{grid-template-columns:1fr;min-height:220px}}
+/* Full-screen boot veil prevents any flash of default layout/colors before live Supabase settings & data load */
+#boot-veil{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--hero-dark);color:#F2F3F7;transition:opacity .2s ease}
+#boot-veil.hide{opacity:0;pointer-events:none}
+.bv-logo{font-family:'Noto Serif Ethiopic','Newsreader',serif;font-weight:800;font-size:1.6rem;letter-spacing:.02em;color:#F0B43C}
+.bv-spin{width:30px;height:30px;border-radius:50%;border:3px solid rgba(255,255,255,.18);border-top-color:#F0B43C;animation:bvSpin .75s linear infinite}
+@keyframes bvSpin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
+<div id="boot-veil" aria-label="Loading Adefrs"><div class="bv-logo">Adefrs — አደፍርስ</div><div class="bv-spin"></div></div>
 <header>
   <button id="menuBtn" aria-label="Menu">☰</button>
   <div class="logo" id="logo"></div>
@@ -2883,7 +2882,7 @@ async function afterAuth(ses){
   else{user=null;ME=null;isAdmin=false;isStaff=false;isPremium=false;isMember=false;mine={};myVote=null;try{localStorage.removeItem("adafrus_user")}catch(e){}}
   await loadShared();
   if(user)await recordMemberJoin(user)}catch(e){window.lastErr=String(e&&e.message||e);try{loadLocal()}catch(_){}}
- applyHashRoute();bootHashReady=true;render()}
+ applyHashRoute();bootHashReady=true;render();hideBootVeil()}
 function applyHashRoute(){
  const h=location.hash||"";
  if(h.startsWith("#book/")){
@@ -2913,47 +2912,34 @@ window.addEventListener("hashchange",applyHashRoute);
 
 async function init(){
  books.forEach(b=>{b.r0=b.r0||[...(b.r||[0,0])]});
- if(!SB){loadLocal();isAdmin=location.hash==="#owner";applyHashRoute();bootHashReady=true;render();return}
+ if(!SB){loadLocal();isAdmin=location.hash==="#owner";applyHashRoute();bootHashReady=true;render();hideBootVeil();return}
  DB=mkDB();
+ let initDone=false;
  SB.auth.onAuthStateChange(async(ev,ses)=>{
+  if(!initDone)return;
   if(ev==="SIGNED_IN"||ev==="TOKEN_REFRESHED"||ev==="SIGNED_OUT"){
    if($("#login")&&$("#login").open)$("#login").close();
    await afterAuth(ses);
   }
  });
- const r=await SB.auth.getSession();await afterAuth(r.data.session)}
+ const r=await SB.auth.getSession();await afterAuth(r.data.session);initDone=true}
 VIEWS.awards=v=>{const nom=books.filter(b=>!b.up&&(SB||aw[b.id]!==undefined)),c=b=>aw[b.id]||0,tot=nom.reduce((a,b)=>a+c(b),0)||1;
  v.innerHTML=`<h2 class="sec">${tr("awards")} 2026</h2><p>${tr("awtx")}</p>${nom.map(b=>`<div class="panel" style="margin-top:10px;display:flex;gap:12px;align-items:center"><div style="width:60px;flex:none">${cover(b)}</div><div style="flex:1"><b>${esc(bt(b))}</b><div class="note">${esc(ba(b))}</div>${myVote?`<div class="vbar"><i style="width:${Math.round(c(b)/tot*100)}%"></i></div><small>${Math.round(c(b)/tot*100)}%</small>`:""}</div>${myVote?(myVote===b.id?"✓":""):`<button class="gold" data-vt="${b.id}">${tr("vote")}</button>`}</div>`).join("")}${myVote?`<p>${tr("voted")}</p>`:""}`;
  v.querySelectorAll("[data-vt]").forEach(x=>x.onclick=async()=>{if(!user)return openLogin("in");const id=+x.dataset.vt;if(SB){const r=await SB.from("votes").insert({year:2026,book_id:id});if(r.error)return}myVote=id;aw[id]=(aw[id]||0)+1;render()})};
 function dbg(){if(location.hash!=="#debug")return;let d=$("#dbg");if(!d){d=document.createElement("div");d.id="dbg";d.style.cssText="position:fixed;top:0;left:0;right:0;background:#000;color:#0f0;font:12px monospace;padding:6px;z-index:99;white-space:pre-wrap";document.body.appendChild(d)}d.textContent="SB:"+!!SB+" | user:"+(user?user.email:"none")+" | admin:"+isAdmin+" | prem:"+isPremium+" | books:"+books.length+" | err:"+(window.lastErr||"none")}
-function hasCachedLiveSnapshot(){
- try{
-  const m=JSON.parse(localStorage.getItem("adafrus_kv")||"{}");
-  return !!((m["lib/books"]&&Array.isArray(m["lib/books"].list)&&m["lib/books"].list.length)||m["lib/settings"]||m["lib/drops"]);
- }catch(e){return false}
+function hideBootVeil(){
+ const v=document.getElementById("boot-veil");
+ if(v&&!v.classList.contains("hide")){
+  v.classList.add("hide");
+  setTimeout(()=>{if(v.parentNode)v.remove()},240);
+ }
 }
-function renderBootSkeleton(){
- document.documentElement.lang=LC[li];$("#lg").value=LC[li];document.title=tr("logo");
- $("#logo").textContent=(SET.name||tr("logo")).replace(/አደፍሪስ/g,"አደፍርስ").replace(/Adefris/g,"Adefrs");
- chrome();nav();
- $("#loginBtn").textContent=user?"✏️":tr("login");
- $("#tabs").innerHTML=tabsL().map(k=>`<button data-t="${k}" class="${k===tab?"on":""}">${tr(k)}</button>`).join("");
- $("#view").innerHTML=`<div class="boot-skel" aria-busy="true">
-  <div class="boot-skel-hero">
-   <div class="boot-skel-box"></div>
-   <div class="boot-skel-box"></div>
-  </div>
-  <div class="boot-skel-row">${'<div class="boot-skel-card"></div>'.repeat(6)}</div>
- </div>`;
-}
-if(hasCachedLiveSnapshot()){
+if(!SB){
  loadLocal();
  render();
-}else if(SB){
- renderBootSkeleton();
- setTimeout(()=>{if(!bootHashReady){bootHashReady=true;render()}},4500);
+ hideBootVeil();
 }else{
- render();
+ setTimeout(()=>{if(!bootHashReady){loadLocal();bootHashReady=true;render();hideBootVeil()}},3500);
 }
 init();
 </script>
