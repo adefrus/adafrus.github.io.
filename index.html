@@ -3,6 +3,15 @@
 <head>
 <meta charset="utf-8">
 <title>Adefrs — አደፍርስ</title>
+<meta name="description" content="አደፍርስ (Adefrs) — የኢትዮጵያ መጻሕፍት፣ ደራሲያን፣ ግምገማዎችና የንባብ ማህበረሰብ። Discover, rate, and review Ethiopian books, authors, and literary events.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Adefrs — አደፍርስ | የኢትዮጵያ መጻሕፍት ማህበረሰብ">
+<meta property="og:description" content="የኢትዮጵያ መጻሕፍትን ያግኙ፣ ደረጃ ይስጡ፣ ግምገማ ያንብቡ፣ ከደራሲያን ጋር ይገናኙ። Discover & review Ethiopian books and authors.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Adefrs — አደፍርስ">
+<meta name="twitter:description" content="የኢትዮጵያ መጻሕፍት፣ ደራሲያን፣ ግምገማዎችና የንባብ ማህበረሰብ።">
+<meta name="theme-color" content="#101626">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101626'/%3E%3Crect x='3' y='3' width='58' height='58' rx='11' fill='none' stroke='%23F0B43C' stroke-width='3'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='34' font-family='serif' font-weight='bold' fill='%23F0B43C'%3E%E1%8A%A0%3C/text%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2067,11 +2076,12 @@ async function adminView(v){
   </div>
   <h3 style="margin-top:8px;font-size:1rem">Social Media Links</h3>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px">
+   <input id="soc_TikTok" placeholder="TikTok URL" value="${esc((SET.socials&&SET.socials.TikTok)||"")}">
    <input id="soc_Facebook" placeholder="Facebook URL" value="${esc((SET.socials&&SET.socials.Facebook)||"")}">
-   <input id="soc_Instagram" placeholder="Instagram URL" value="${esc((SET.socials&&SET.socials.Instagram)||"")}">
-   <input id="soc_X" placeholder="X URL" value="${esc((SET.socials&&SET.socials.X)||"")}">
-   <input id="soc_YouTube" placeholder="YouTube URL" value="${esc((SET.socials&&SET.socials.YouTube)||"")}">
    <input id="soc_Telegram" placeholder="Telegram URL" value="${esc((SET.socials&&SET.socials.Telegram)||"")}">
+   <input id="soc_Instagram" placeholder="Instagram URL" value="${esc((SET.socials&&SET.socials.Instagram)||"")}">
+   <input id="soc_YouTube" placeholder="YouTube URL" value="${esc((SET.socials&&SET.socials.YouTube)||"")}">
+   <input id="soc_X" placeholder="X URL" value="${esc((SET.socials&&SET.socials.X)||"")}">
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
    <button class="primary" id="ss">${tr("save")}</button>
@@ -2115,24 +2125,22 @@ create policy "Users manage own profile & requests" on kv
     or path like 'submissions/%'
   );
 
-create policy "Admins and Team manage lib/*" on kv
+create or replace function public.is_adefrs_editor()
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (select 1 from public.admins where user_id = auth.uid())
+    or lower(coalesce(auth.jwt()->>'email','')) in ('amanuelytz@gmail.com','amanuelwhitez@gmail.com')
+    or exists (
+      select 1 from public.kv t, jsonb_array_elements(case when jsonb_typeof(t.data->'list')='array' then t.data->'list' else '[]'::jsonb end) m
+      where t.path = 'lib/team'
+        and lower(trim(both '@' from coalesce(m->>'email',''))) = lower(coalesce(auth.jwt()->>'email',''))
+    );
+$$;
+grant execute on function public.is_adefrs_editor() to authenticated;
+
+create policy "Admins and Team manage lib/*" on public.kv
   for all to authenticated
-  using (
-    exists (select 1 from admins where user_id = auth.uid())
-    or exists (
-      select 1 from kv t, jsonb_array_elements(t.data->'list') m
-      where t.path = 'lib/team'
-        and lower(trim(both '@' from coalesce(m->>'email',''))) = lower(coalesce(auth.jwt()->>'email',''))
-    )
-  )
-  with check (
-    exists (select 1 from admins where user_id = auth.uid())
-    or exists (
-      select 1 from kv t, jsonb_array_elements(t.data->'list') m
-      where t.path = 'lib/team'
-        and lower(trim(both '@' from coalesce(m->>'email',''))) = lower(coalesce(auth.jwt()->>'email',''))
-    )
-  );</textarea>
+  using (public.is_adefrs_editor())
+  with check (public.is_adefrs_editor());</textarea>
   <div><button class="gold" id="copyRlsSqlBtn">📋 Copy Supabase SQL</button></div>
  </div>`;
 
@@ -2297,7 +2305,7 @@ create policy "Admins and Team manage lib/*" on kv
  if($("#sSpotOp"))$("#sSpotOp").oninput=e=>{SET.spotBgOpacity=Number(e.target.value)/100;if($("#sSpotOpVal"))$("#sSpotOpVal").textContent=e.target.value;applySet()};
  $("#ss").onclick=async()=> {
   const socials={};
-  ["Facebook","Instagram","X","YouTube","Telegram"].forEach(s=>{const val=$("#soc_"+s).value.trim();if(val)socials[s]=val});
+  ["TikTok","Facebook","Telegram","Instagram","YouTube","X"].forEach(s=>{const val=$("#soc_"+s).value.trim();if(val)socials[s]=val});
   const palettes={
    light:{bg:$("#l_bg").value,surface:$("#l_sf").value,hero:$("#l_hr").value,gold:$("#l_gd").value},
    dark:{bg:$("#d_bg").value,surface:$("#d_sf").value,hero:$("#d_hr").value,gold:$("#d_gd").value}
@@ -2351,7 +2359,7 @@ function chrome(){
  $("#proBtn").textContent="✍️ "+tr("studio");$("#listBtn").textContent=tr("list");$("#hq").placeholder=tr("search");
  const L=["help","siteidx","studio","events","premium","member","terms","privacy","adchoice"];
  const soc=SET.socials||{};
- $("#ft").innerHTML=`<b>${tr("followus")}</b><div class="fl">${["Facebook","Instagram","X","YouTube","Telegram"].map(x=>soc[x]?`<a href="${esc(soc[x])}" target="_blank" rel="noopener" style="color:#CBD5E1;text-decoration:none;padding:4px 10px;font-weight:600">${x}</a>`:`<button data-i="${x}">${x}</button>`).join("")}</div><b>${tr("getapp")}</b><div class="fl"><button data-i="Google Play">Google Play</button><button data-i="App Store">App Store</button></div><div class="fl">${L.map(k=>`<button data-i="${k}">${tr(k)}</button>`).join("")}</div><div style="font-size:.85rem">© Adefrs — አደፍርስ</div>`;
+ $("#ft").innerHTML=`<b>${tr("followus")}</b><div class="fl">${["TikTok","Facebook","Telegram","Instagram","YouTube","X"].map(x=>soc[x]?`<a href="${esc(soc[x])}" target="_blank" rel="noopener" style="color:#CBD5E1;text-decoration:none;padding:4px 10px;font-weight:600">${x}</a>`:`<button data-i="${x}">${x}</button>`).join("")}</div><b>${tr("getapp")}</b><div class="fl"><button data-i="Google Play">Google Play</button><button data-i="App Store">App Store</button></div><div class="fl">${L.map(k=>`<button data-i="${k}">${tr(k)}</button>`).join("")}</div><div style="font-size:.85rem">© Adefrs — አደፍርስ</div>`;
  $("#ft").querySelectorAll("[data-i]").forEach(x=>x.onclick=()=>{const k=x.dataset.i;if(["studio","events","premium","member"].includes(k)){tab=k;render();scrollTo(0,0);return}$("#bkc").innerHTML=`<h2>${esc(x.textContent)}</h2><p>${tr("soonmsg")}</p><button id="cl">${tr("close")}</button>`;$("#cl").onclick=()=>$("#bk").close();if(!$("#bk").open)$("#bk").showModal()})}
 
 const bcard=(b,bd)=>{
